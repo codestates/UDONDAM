@@ -3,7 +3,7 @@
 ***
 ### 지역 기반 익명 커뮤니티, 우동담
 
-<img width="300" alt="로고-우동담-Light-배경x" src="https://user-images.githubusercontent.com/87490361/143162013-233e8e02-84dc-400e-b4ad-cedd5a20e917.png">
+<img width="300" alt="로고-우동담-Light-배경o" src="https://user-images.githubusercontent.com/87490361/143793771-ab32461e-2a76-4f2b-b96f-55241c2a9d98.png">
 
 ***
 ## About

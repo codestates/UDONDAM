@@ -1,0 +1,36 @@
+const https = require('https');
+const express = require('express');
+const fs = require('fs');
+const cors = require('cors');
+const cookieParser = require('cookie-parser')
+const PORT = 80;
+const app = express();
+
+app.use(cors());
+app.use(express.json());
+app.use(express.urlencoded({extended:true}));
+app.use(cookieParser())
+
+app.get('/', (req, res)=> {
+    res.status(200).send("get 응답")
+})
+
+let server ;
+if (fs.existsSync("./key.pem") && fs.existsSync("./cert.pem")) {
+    server = https
+    .createServer(
+        {
+        key: fs.readFileSync(__dirname + `/` + 'key.pem', 'utf-8'),
+        cert: fs.readFileSync(__dirname + `/` + 'cert.pem', 'utf-8'),
+        },
+        app
+    )
+    .listen(PORT, ()=> {
+        console.log(`https://localhost:${PORT} 로 실행`)
+    });
+    }
+else {
+server = app.listen(PORT, ()=> {
+    console.log(`http://localhost:${PORT} 로 실행`)
+})
+}

@@ -14,15 +14,17 @@ import Timeline from './pages/Timeline';
 
 import './styles/App.css';
 
-const App:React.FC = ()=> {
+function App() {
+
   return (
     <>
     <Nav />{/* 조건부렌더링이용:게스트/로그인 구분, 나오면 안되는창 구분 */}
+    <div id='container'>
     <Switch>
       <Route exact path="/">
         <Intro />
       </Route>
-      <Route path="/Login">
+      <Route path="/login">
         <Login />
       </Route>
       <Route path="/Area">
@@ -50,6 +52,7 @@ const App:React.FC = ()=> {
         <Timeline />
       </Route>
     </Switch>
+    </div>
     </>
   );
 }

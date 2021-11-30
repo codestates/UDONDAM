@@ -1,0 +1,7 @@
+.App {
+  text-align: center;
+}
+body{
+  display: grid;
+  justify-content: center;
+}

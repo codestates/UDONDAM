@@ -1,19 +1,30 @@
 const https = require('https');
-const express = require('express');
 const fs = require('fs');
+const express = require('express');
 const cors = require('cors');
 const cookieParser = require('cookie-parser')
 const PORT = 80;
 const app = express();
+const userRouter = require('./roters/user');
+const postRouter = require('./roters/post');
+const commentRouter = require('./roters/comment');
+const likeRouter = require('./roters/like');
+const authRouter = require('./roters/auth');
 
 app.use(cors());
 app.use(express.json());
 app.use(express.urlencoded({extended:true}));
-app.use(cookieParser())
+app.use(cookieParser());
 
 app.get('/', (req, res)=> {
     res.status(200).send("get 응답")
 })
+
+app.use('/user', userRouter);
+app.use('/post', postRouter);
+app.use('/comment', commentRouter);
+app.use('/like', likeRouter);
+app.use('/', authRouter);
 
 let server ;
 if (fs.existsSync("./key.pem") && fs.existsSync("./cert.pem")) {

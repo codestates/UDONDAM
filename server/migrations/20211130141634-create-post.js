@@ -12,25 +12,53 @@ module.exports = {
         allowNull: false,
         type: Sequelize.STRING
       },
-      userId: {
-        allowNull: false,
-        type: Sequelize.INTEGER
-      },
       public: {
         allowNull: false,
         type: Sequelize.BOOLEAN
       },
-      createdAt: {
-        allowNull: false,
-        type: Sequelize.DATE
-      },
-      updatedAt: {
+      createAt: {
         allowNull: false,
         type: Sequelize.DATE
       }
+    })
+    .then(() => {
+      queryInterface.addColumn('post', 'userId', {
+        type: Sequelize.INTEGER,
+        allowNull: false,
+        onDelete: 'CASCADE',
+        references: {model: 'user', key:'id'}
+      })
+    })
+    .then(() => {
+      queryInterface.addColumn('post_tag', 'postId', {
+        type: Sequelize.INTEGER,
+        allowNull: true,
+        onDelete: 'CASCADE',
+        references: {model: 'post', key:'id'}
+      })
+    })
+    .then(() => {
+      queryInterface.addColumn('comment', 'postId', {
+        type: Sequelize.INTEGER,
+        allowNull: true,
+        onDelete: 'CASCADE',
+        references: {model: 'post', key:'id'}
+      })
+    })
+    .then(() => {
+      queryInterface.addColumn('like', 'postId', {
+        type: Sequelize.INTEGER,
+        allowNull: true,
+        onDelete: 'CASCADE',
+        references: {model: 'post', key:'id'}
+      })
     });
   },
   down: async (queryInterface, Sequelize) => {
+    let sql ='SET FOREIGN_KEY_CHECKS = 0';
+    await queryInterface.sequelize.query(sql, {
+        type: Sequelize.QueryTypes.RAW,
+    })
     await queryInterface.dropTable('post');
   }
 };

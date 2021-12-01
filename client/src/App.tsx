@@ -12,6 +12,7 @@ import Search from './pages/search/Search';
 import Signup from './pages/Signup';
 import Timeline from './pages/timeLine/TimeLine';
 
+
 import './styles/App.css';
 
 function App() {

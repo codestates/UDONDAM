@@ -1,8 +1,13 @@
 import { combineReducers } from 'redux';
-//import UserInfoReducer from './UserInfo';
+import UserInfoReducer from './UserInfo';
+import IsLoginReducer from './IsLogin';
+import ValidationReducer from './Validation';
+
 
 const rootReducer = combineReducers({
-    //UserInfoReducer
+    UserInfoReducer,
+    IsLoginReducer,
+    ValidationReducer
   });  
   
   export default rootReducer;

@@ -1,11 +1,13 @@
 import { combineReducers } from 'redux';
 import UserInfoReducer from './UserInfo';
 import IsLoginReducer from './IsLogin';
+import ValidationReducer from './Validation';
 
 
 const rootReducer = combineReducers({
     UserInfoReducer,
-    IsLoginReducer
+    IsLoginReducer,
+    ValidationReducer
   });  
   
   export default rootReducer;

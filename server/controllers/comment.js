@@ -1,6 +1,7 @@
 
+
 module.exports = {
-    commentUser: (req, res) => {
+    commentUser: async (req, res) => {
         res.status(200).send("commentUser");
     },
     commentCreate: (req, res) => {

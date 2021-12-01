@@ -3,7 +3,7 @@ const fs = require('fs');
 const express = require('express');
 const cors = require('cors');
 const cookieParser = require('cookie-parser')
-const PORT = 80;
+const PORT = 8080;
 const app = express();
 const userRouter = require('./roters/user');
 const postRouter = require('./roters/post');
@@ -11,7 +11,11 @@ const commentRouter = require('./roters/comment');
 const likeRouter = require('./roters/like');
 const authRouter = require('./roters/auth');
 
-app.use(cors());
+app.use(cors({
+    origin:'http://localhost:3000',
+    credentials: true,
+    methods: ['GET', 'POST', 'PATCH', 'DELETE' ,'OPTIONS']
+}));
 app.use(express.json());
 app.use(express.urlencoded({extended:true}));
 app.use(cookieParser());

@@ -10,16 +10,20 @@ const postRouter = require('./roters/post');
 const commentRouter = require('./roters/comment');
 const likeRouter = require('./roters/like');
 const authRouter = require('./roters/auth');
-const models = require("./models/index.js");
+// const models = require("./models/index.js");
 
-models.sequelize.sync().then( () => {
-    console.log(" DB 연결 성공");
-}).catch(err => {
-    console.log("연결 실패");
-    console.log(err);
-})
+// models.sequelize.sync().then( () => {
+//     console.log(" DB 연결 성공");
+// }).catch(err => {
+//     console.log("연결 실패");
+//     console.log(err);
+// })
 
-app.use(cors());
+app.use(cors({
+    origin: [true],
+    credentials: true,
+    methods: ['GET', 'POST', 'PATCH', 'DELETE' ,'OPTIONS']
+}));
 app.use(express.json());
 app.use(express.urlencoded({extended:true}));
 app.use(cookieParser());

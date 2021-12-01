@@ -47,25 +47,25 @@ module.exports = {
         allowNull: false,
         type: Sequelize.DATE
       }
-      // .then(() => {
-      //   queryInterface.addColumn('comment', 'userId', {
-      //     type: Sequelize.INTEGER,
-      //     allowNull: true,
-      //     //onUpdate: 'CASCADE',
-      //     onDelete: 'CASCADE',
-      //     references: {model: 'user', key:'id'}
-      //   })
-      // }
-      // )
-      // .then(() => {
-      //   queryInterface.addColumn('like', 'userId', {
-      //     type: Sequelize.INTEGER,
-      //     allowNull: true,
-      //     //onUpdate: 'CASCADE',
-      //     onDelete: 'CASCADE',
-      //     references: {model: 'user', key:'id'}
-      //   })
-      // })
+      .then(() => {
+        queryInterface.addColumn('comment', 'userId', {
+          type: Sequelize.INTEGER,
+          allowNull: false,
+          //onUpdate: 'CASCADE',
+          onDelete: 'CASCADE',
+          references: {model: 'user', key:'id'}
+        })
+      }
+      )
+      .then(() => {
+        queryInterface.addColumn('likes', 'userId', {
+          type: Sequelize.INTEGER,
+          allowNull: false,
+          //onUpdate: 'CASCADE',
+          onDelete: 'CASCADE',
+          references: {model: 'user', key:'id'}
+        })
+      })
     });
   },
   down: async (queryInterface, Sequelize) => {

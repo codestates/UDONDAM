@@ -19,6 +19,8 @@ module.exports = (sequelize, DataTypes) => {
   }, {
     sequelize,
     modelName: 'post_tag',
+    freezeTableName: true,
+    timestamps:false
   });
   return post_tag;
 };

@@ -32,7 +32,7 @@ module.exports = {
     .then(() => {
       queryInterface.addColumn('post_tag', 'postId', {
         type: Sequelize.INTEGER,
-        allowNull: true,
+        allowNull: false,
         onDelete: 'CASCADE',
         references: {model: 'post', key:'id'}
       })
@@ -40,15 +40,15 @@ module.exports = {
     .then(() => {
       queryInterface.addColumn('comment', 'postId', {
         type: Sequelize.INTEGER,
-        allowNull: true,
+        allowNull: false,
         onDelete: 'CASCADE',
         references: {model: 'post', key:'id'}
       })
     })
     .then(() => {
-      queryInterface.addColumn('like', 'postId', {
+      queryInterface.addColumn('likes', 'postId', {
         type: Sequelize.INTEGER,
-        allowNull: true,
+        allowNull: false,
         onDelete: 'CASCADE',
         references: {model: 'post', key:'id'}
       })

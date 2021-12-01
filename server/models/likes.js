@@ -10,17 +10,7 @@ module.exports = (sequelize, DataTypes) => {
      * The `models/index` file will call this method automatically.
      */
     static associate(models) {
-      // define association here
-      models.like.belongsTo(models.user, {
-        foreignKey: 'userId',
-        sourceKey: 'id',
-        onDelete: 'CASCADE',
-      });
-      models.likes.belongsTo(models.post, {
-        foreignKey: 'postId',
-        sourceKey: 'id',
-        onDelete: 'CASCADE',
-      });
+
     }
   };
   likes.init({
@@ -29,6 +19,10 @@ module.exports = (sequelize, DataTypes) => {
   }, {
     sequelize,
     modelName: 'like',
+    timestamps: true,
+    freezeTableName: true,
+    createdAt: 'createAt',
+    updatedAt: false
   });
   return likes;
 };

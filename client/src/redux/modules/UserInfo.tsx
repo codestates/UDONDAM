@@ -9,8 +9,9 @@ export interface userInfoState {
     manager: boolean,
     socialType: string
   };
+
   //스테이트 기본값
-export const initialState: userInfoState = {
+export const userInfoInitialState: userInfoState = {
     nickname: '',
     area: '',
     area2: '',
@@ -18,18 +19,21 @@ export const initialState: userInfoState = {
     socialType: ''
 };
 
+
 //액션 정의
   //액션 타입 정의
   //액션은 '앱이름/reducer이름/Acction_type' 형태
 const USERINFO = 'UDONDAM/UserInfo/USERINFO';
+
   //액션 생성자 정의 및 export
 export const UserInfoHandler = createAction(USERINFO)<userInfoState>();
 
 const actions = {UserInfoHandler}; 
 
 export type UserInfoAction = ActionType<typeof actions>
+export type IsLoginAction = ActionType<typeof actions>
 
-const UserInfoReducer = createReducer<userInfoState, UserInfoAction>(initialState, {
+const UserInfoReducer = createReducer<userInfoState, UserInfoAction>(userInfoInitialState, {
   [USERINFO]: (state, action) => {
     return Object.assign({}, state, {
       nickname: action.payload.nickname,
@@ -40,5 +44,5 @@ const UserInfoReducer = createReducer<userInfoState, UserInfoAction>(initialStat
     });
   }
 });
-
+//export default로 export 한다
 export default UserInfoReducer

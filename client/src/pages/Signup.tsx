@@ -20,6 +20,8 @@ export interface checkState {
     passText:boolean
 };
 
+
+
 function Signup() {
 
     const dispatch = useDispatch()
@@ -29,15 +31,17 @@ function Signup() {
         password:'',
         passwordCheck:'',
         mailNumber: null
-    })
+    }); 
     const [passCheck, setPassCheck] = useState<checkState>({
         passEmail:false,
         passPassword:false,
         passNumber:false,
         passText:false
-    })
-    
-    const [errorMessage, setErrorMessage] = useState<string>('')
+    }); //다 통과되야 회원가입가능(유효성검사와 체크여부)
+    const [emailErrorMessage, setEmailErrorMessage] = useState<string>(''); 
+    const [passwordErrorMessage, setPasswordErrorMessage] = useState<string>(''); 
+    const [passwordCheckErrorMessage, setPasswordCheckErrorMessage] = useState<string>(''); 
+    const [numberErrorMessage, setNumberErrorMessage] = useState<string>(''); 
     const inputHandler = (key:string)=>(e:React.ChangeEvent<HTMLInputElement>) => {
         setSignupInfo({...signupInfo, [key]:e.target.value})
     }
@@ -50,14 +54,14 @@ function Signup() {
             <div>
                 <div className='signup_title'>회원가입</div>
                 <div className='signup_input_box'>
-                    <input type="text" placeholder='이메일' onChange={inputHandler('email')}/>
-                    <input type="password" placeholder='비밀번호' onChange={inputHandler('password')}/>
-                    <input type="password" placeholder='비밀번호 확인' onChange={inputHandler('passwordCheck')}/>
+                    <input type="text" placeholder='이메일' onChange={inputHandler('email')}/>{emailErrorMessage}
+                    <input type="password" placeholder='비밀번호' onChange={inputHandler('password')}/>{passwordErrorMessage}
+                    <input type="password" placeholder='비밀번호 확인' onChange={inputHandler('passwordCheck')}/>{passwordCheckErrorMessage}
                 </div>
                 <div className='email_check_box'>
                     <input type="number" placeholder='인증번호 입력' />
-                    {errorMessage}
-                    <button>전송 요청</button>
+                    {numberErrorMessage}
+                    <button>전송 요청</button>{/*누르면 타이머로 바뀜 */}
                     <button>확인</button>
                 </div>
                 <div className='signup_text'></div>

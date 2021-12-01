@@ -1,5 +1,5 @@
 import React from 'react'
-    //지역인증
+    //유효성검사
 const Validation: React.FC = () => {
     return(
             <div>Validation</div>

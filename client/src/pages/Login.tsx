@@ -51,8 +51,8 @@ function Login(){
             <div className='logo'>logo</div>
             <form className='submit_box'>
                 <div>
-                <input type="text" onChange={inputHandler('email')} placeholder='이메일' />
-                <input type="password" onChange={inputHandler('password')} placeholder='비밀번호' />
+                <input type="text" onChange={inputHandler('email')} placeholder='이메일' /> <br />
+                <input type="password" onChange={inputHandler('password')} placeholder='비밀번호' /> <br />
                 {errorMessage}
                 </div>
                 <button className='login_button' onClick={submitHandler}>로그인</button>

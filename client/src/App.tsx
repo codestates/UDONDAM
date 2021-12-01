@@ -10,7 +10,7 @@ import Nav from './pages/Nav';
 import Postcontent from './pages/Postcontent';
 import Search from './pages/Search';
 import Signup from './pages/Signup';
-import Timeline from './pages/Timeline';
+import Timeline from './pages/timeLine/TimeLine'
 
 import './styles/App.css';
 

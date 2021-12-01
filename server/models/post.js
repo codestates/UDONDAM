@@ -16,12 +16,14 @@ module.exports = (sequelize, DataTypes) => {
         sourceKey: 'id',
         onDelete: 'CASCADE',
       });
-      models.post.hasMany(models.likes,{
+      models.post.belongsToMany(models.user,{
+        through: 'likes',
         foreignKey: 'postId',
         sourceKey: 'id',
         onDelete: 'CASCADE'
       });
-      models.post.hasMany(models.comment,{
+      models.post.belongsToMany(models.user,{
+        through: 'comment',
         foreignKey: 'postId',
         sourceKey: 'id',
         onDelete: 'CASCADE'
@@ -41,6 +43,11 @@ module.exports = (sequelize, DataTypes) => {
   }, {
     sequelize,
     modelName: 'post',
+    timestamps: true,
+    freezeTableName: true,
+    createdAt: 'createAt',
+    updatedAt: false
+    
   });
   return post;
 };

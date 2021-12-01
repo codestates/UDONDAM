@@ -11,18 +11,23 @@ module.exports = {
       content: {
         allowNull: false,
         type: Sequelize.STRING
-      },
-      createdAt: {
-        allowNull: false,
-        type: Sequelize.DATE
-      },
-      updatedAt: {
-        allowNull: false,
-        type: Sequelize.DATE
       }
-    });
+    })
+    .then(() => {
+      queryInterface.addColumn('post_tag', 'tagId', {
+        type: Sequelize.INTEGER,
+        allowNull: false,
+        //onUpdate: 'CASCADE',
+        onDelete: 'CASCADE',
+        references: {model: 'tag', key:'id'}
+      })
+    })
   },
   down: async (queryInterface, Sequelize) => {
+        let sql ='SET FOREIGN_KEY_CHECKS = 0';
+    await queryInterface.sequelize.query(sql, {
+        type: Sequelize.QueryTypes.RAW,
+      })
     await queryInterface.dropTable('tag');
   }
 };

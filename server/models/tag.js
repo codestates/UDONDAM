@@ -24,6 +24,9 @@ module.exports = (sequelize, DataTypes) => {
   }, {
     sequelize,
     modelName: 'tag',
+    freezeTableName: true,
+    timestamps: false,
+
   });
   return tag;
 };

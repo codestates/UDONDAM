@@ -6,3 +6,8 @@ package-lock.json
 .env.production.local
 cert.pem
 key.pem
+
+20211130050139-create-post-tag.js
+20211130050150-create-like.js
+20211130141634-create-post.js
+20211130153231-create-tag.js

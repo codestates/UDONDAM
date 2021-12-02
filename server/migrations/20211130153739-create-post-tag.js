@@ -11,6 +11,10 @@ module.exports = {
     });
   },
   down: async (queryInterface, Sequelize) => {
+        let sql ='SET FOREIGN_KEY_CHECKS = 0';
+    await queryInterface.sequelize.query(sql, {
+        type: Sequelize.QueryTypes.RAW,
+    })
     await queryInterface.dropTable('post_tag');
   }
 };

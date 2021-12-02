@@ -1,7 +1,6 @@
-import React, { MouseEvent } from 'react'
+import React, { useState } from 'react'
 import { Link } from 'react-router-dom'
 import { useHistory } from 'react-router'
-import { useState } from 'react'
 import axios from 'axios'
 import { RootStateOrAny, useDispatch, useSelector } from 'react-redux'
 import { LoginHandler } from '../redux/modules/IsLogin'
@@ -24,7 +23,7 @@ function Login(){
         setLoginInfo({...loginInfo, [key]:e.target.value})
     }
     
-    const submitHandler = async (e:MouseEvent<HTMLButtonElement>) =>{
+    const submitHandler = async (e:React.MouseEvent<HTMLButtonElement>) =>{
         if(loginInfo.email === '' || loginInfo.password === ''){
             setErrorMessage('void')
         }

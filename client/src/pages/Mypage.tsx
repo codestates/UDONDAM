@@ -1,8 +1,7 @@
-import React from 'react'
-import { useState } from 'react'
-import { useSelector } from 'react-redux';
-import { RootStateOrAny } from 'react-redux';
+import React, { useState } from 'react'
+import { useSelector, RootStateOrAny } from 'react-redux';
 import { UserInfoHandler } from '../redux/modules/UserInfo';
+import LoginModal from '../components/Login/LoginModal';
     //마이페이지
 
 export interface onOffState {
@@ -17,6 +16,10 @@ export interface userDataState {
     password: string,
     passwordCheck: string
 };
+
+export interface IProps {
+    offModal:()=>void;
+}
 
 function Mypage () {
     const userInfo = useSelector((state: RootStateOrAny) => state.UserInfoReducer);
@@ -39,10 +42,14 @@ function Mypage () {
         console.log(onOff)
     }
 
+    const offModal = (key:string)=>{
+        setOnOff({...onOff, [key]:!onOff.onModal})
+    }
 
 
     return(
             <div>
+                {onOff.onModal ? <LoginModal/>: null}
                 <div>logo</div>
                 <div className='mypage_request_box'>
                     <button onClick={onOffHandler('onRequest')}>문의하기</button>

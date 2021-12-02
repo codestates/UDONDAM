@@ -1,6 +1,5 @@
-import React from 'react'
+import React, { useState } from 'react'
 import { useHistory } from 'react-router'
-import { useState } from 'react'
 import axios from 'axios'
 import { RootStateOrAny, useDispatch, useSelector } from 'react-redux'
 import { emailCheckHandler, passwordCheckHandler, passwordSameCheckHandler, numberCheckHandler } from '../redux/modules/Validation'

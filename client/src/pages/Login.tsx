@@ -4,6 +4,7 @@ import { useHistory } from 'react-router'
 import axios from 'axios'
 import { RootStateOrAny, useDispatch, useSelector } from 'react-redux'
 import { LoginHandler } from '../redux/modules/IsLogin'
+import { UserInfoHandler } from '../redux/modules/UserInfo';
 import SearchPassword from '../components/Login/SearchPassword'
 import GuestLoginModal from '../components/Login/GuestLoginModal'
 
@@ -45,8 +46,17 @@ function Login(){
         const body = {email:loginInfo.email, password:loginInfo.password }
         try {
             const loginInfoPost = await axios.post(`${process.env.REACT_APP_API_URL}/login`, body, {withCredentials: true})
-            dispatch(LoginHandler(true))
+            //타입정리!!!
+            // const userInfo:any = {email: loginInfoPost,
+            //     nickname:loginInfoPost ,
+            //     area:loginInfoPost ,
+            //     area2:loginInfoPost ,
+            //     manager:loginInfoPost ,
+            //     socialType:loginInfoPost }
+            // dispatch(LoginHandler(true))
+            // dispatch(UserInfoHandler(userInfo))
             //history.push('/Timeline')
+            console.log('로그인완료')
         } catch (error) {
             console.log(error)
         }

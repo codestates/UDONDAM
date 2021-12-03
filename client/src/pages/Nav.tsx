@@ -7,7 +7,7 @@ function Nav () {
             <div >
                 <img className='logo_nav' src="로고-우동담-Dark-글자만-배경o.png" alt="logo" />
                 <div className='nav_link_box'>
-                    <Link to='./Search' >검색</Link>
+                    <Link to='./Interest' >게시글관리</Link>
                     &nbsp;&nbsp;
                     <Link to='./Login' >로그인</Link>
                     &nbsp;&nbsp;

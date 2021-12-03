@@ -1,5 +1,6 @@
 import React, { useState } from 'react'
 import { useDispatch, useSelector } from "react-redux";
+import { UserInfoHandler } from '../../redux/modules/UserInfo'
 import { useHistory } from 'react-router-dom';
 import axios from 'axios';
 import styled from 'styled-components';
@@ -101,8 +102,20 @@ function MypageModal (props:any) {
       setPassword(e.target.value)
     }
 
-    const userDeleteHandler = function(){
-
+    const userDeleteHandler = async function(e:React.MouseEvent<HTMLButtonElement>){
+      e.preventDefault()
+      try {
+        const passwordCheckResp = await axios.post(`${process.env.REACT_APP_API_URL}/passwordcheck`, { password }, {withCredentials: true })
+        if (!passwordCheckResp) {
+          console.log('비밀번호를 확인해주세요')
+          return;
+        }else{
+          const userDeleteResult = await axios.delete(`${process.env.REACT_APP_API_URL}/`, { withCredentials: true })
+          setPassword('')
+        }
+      } catch (error) {
+        console.log(error)
+      }
     }
     
     return (
@@ -121,6 +134,7 @@ function MypageModal (props:any) {
                   <div className='modal_text long'>회원탈퇴와 동시에 모든 유저정보가 삭제되며 복구할 수 없습니다</div>
                   <div className='password_submit'>
                   <div className='modal_text_password'>비밀번호 확인</div>
+                  {errMessage}
                   <div className='submit_container'>
                    <input className='input_password' type='password'  value={password} onChange={inputPasswordHandler}></input>
                    <button onClick={userDeleteHandler}>회원탈퇴</button>

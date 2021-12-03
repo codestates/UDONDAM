@@ -111,7 +111,7 @@ function GuestLoginModal (props:any) {
                   <div className='modal_text'>회원가입 없이 서비스를 체험하세요!</div>
                   <div className='submit_container'>
                    <button>확인</button>
-                   <button>취소</button>
+                   <button onClick={openModalHandler}>취소</button>
                   </div>
                 </ModalView>
               </ModalBackdrop>

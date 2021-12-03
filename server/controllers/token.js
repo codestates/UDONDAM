@@ -1,24 +1,35 @@
 require('dotenv').config()
 const { sign } = require('jsonwebtoken');
 const DOMAIN = process.env.DOMAIN || 'localhost'
-//dddiary-imply.s3-website.ap-northeast-2.amazonaws.com
+
 module.exports = {
     generateAccessToken: (data) => {
-
-    let Access = sign(data, process.env.ACCESS_SECRET, { expiresIn:'2d'})
-    
-    return Access
-    
-    },
+        return sign(data, process.env.ACCESS_SECRET, { expiresIn: "1d" });
+      },
     sendAccessToken: (res, token, userData) => {
-
-    res.status(200).cookie("jwt", token,{
-        domain: DOMAIN,
-        path: '/',
-        secure: false,
-        httpOnly: true,
-        sameSite: 'none'
+        userData = userData || {data: null};
+        
+        res.status(200).cookie("jwt", token,{
+          domain: DOMAIN,
+          path: '/',
+          secure: false,
+          httpOnly: true,
+          sameSite: 'none'
     }).json(userData);
     return ;
+    },
+    isAuthorized: (req) => {
+        const authorization = req.headers["authorization"];
+        if (!authorization) {
+          return null;
+        }
+        const token = authorization.split(" ")[1];
+        try {
+          return verify(token, process.env.ACCESS_SECRET);
+        }
+        catch (err) {
+          // return null if invalid token
+          return null;
+        }
     }
 };

@@ -2,7 +2,7 @@
 name: Error Handling 템플릿
 about: Suggest an idea for this project
 title: ''
-labels: ''
+labels: error.log
 assignees: ''
 
 ---

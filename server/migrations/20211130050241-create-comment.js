@@ -20,14 +20,6 @@ module.exports = {
       createAt: {
         allowNull: false,
         type: Sequelize.DATE
-      },
-      postId: {
-        allowNull: true,
-        type: Sequelize.INTEGER
-      },
-      userId: {
-        allowNull: true,
-        type: Sequelize.INTEGER
       }
     });
   },

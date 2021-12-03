@@ -1,4 +1,4 @@
-const {user} = require("./models/index.js");
+//const {user} = require("./models/index.js");
 module.exports = {
     userInfo : (req, res) => {
         res.status(200).send("userInfo")

@@ -11,6 +11,7 @@ import Postcontent from './pages/Postcontent';
 import Search from './pages/search/Search';
 import Signup from './pages/Signup';
 import Timeline from './pages/timeLine/TimeLine';
+import Footer from './pages/Footer';
 
 
 import './styles/App.css';
@@ -53,6 +54,7 @@ function App() {
         <Timeline />
       </Route>
     </Switch>
+    <Footer />
     </div>
     </>
   );

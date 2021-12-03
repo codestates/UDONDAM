@@ -126,14 +126,16 @@ function Signup() {
         };
     };
     const submitHandler = async () => {
-        if (Validation.validEmail === false || Validation.validNumber === false || Validation.validPassword === false || Validation.validPasswordCheck !== false) {
+        if (Validation.validEmail === false || Validation.validNumber === false || Validation.validPassword === false || Validation.validPasswordCheck === false) {
             console.log('다안됐음')
             return;
         } else {
             const body = { email: signupInfo.email, password: signupInfo.password }
             try {
                 const SignupInfoPost = await axios.post(`${process.env.REACT_APP_API_URL}/signup`, body, { withCredentials: true })
+                console.log(SignupInfoPost)
                 //history.push('/')
+                console.log('됐음')
             } catch (error) {
                 console.log(error)
             }

@@ -16,6 +16,7 @@ function Intro() {
 
     return (
         <div>
+            <img className='logo_page' src="로고-우동담-Dark-모양만-배경o.png" alt="logo" />
             <div>내 동네를 설정하고 이야기를 나눠보세요!</div>
             
             <button onClick={introHandler}>로그인/회원가입</button>

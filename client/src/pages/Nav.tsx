@@ -5,6 +5,7 @@ function Nav () {
 
     return(
             <div >
+                <img className='logo_nav' src="로고-우동담-Dark-글자만-배경o.png" alt="logo" />
                 <div className='nav_link_box'>
                     <Link to='./Search' >검색</Link>
                     &nbsp;&nbsp;

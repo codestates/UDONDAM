@@ -2,7 +2,7 @@ import React from 'react';
 import { Route, Switch } from 'react-router-dom';
 import Intro from './pages/Intro';
 import Login from './pages/Login';
-import Area from './pages/Area';
+import Area from './pages/area/Area';
 import Content from './pages/Content';
 import Interest from './pages/Interest';
 import Mypage from './pages/Mypage';
@@ -29,8 +29,7 @@ function App() {
       <Route path="/login">
         <Login />
       </Route>
-      <Route path="/Area">
-        <Area />
+      <Route path="/Area" component={Area}>
       </Route>
       <Route path="/Content">
         <Content />

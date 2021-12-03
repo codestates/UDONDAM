@@ -15,12 +15,21 @@ const FixedScroll = styled.div`
     top : 0;
     left : 0;
 `;
+const TagContainerDiv = styled.div`
+    position: fixed;
+    width: 20vw;
+    height: 50vh;
+`;
 
 const LogoImg = styled.img`
-  box-sizing: border-box;
-    width: 30vw;
+    box-sizing: border-box;
+    width: 10vw;
+    height: 10vh;
     color:white;
     background-color: black;
+    display: flex;
+    justify-content: center;
+    align-items: center;
 `;
 
 //지역에 관한 필터링
@@ -53,7 +62,7 @@ function Search() {
         '서울특별시','부산광역시'
     ])
     const [tag, setTag] = useState<any>([
-        '여행', '게임', '소문', '유머', '산책', '자랑', '놀라운', '직장', '학교', '운동', '애완동물', '만화', '고민', '비밀', '음악', '흥미', '사고', '독서', '식사', '취미', '도움', '나눔', '연애', '만남', '자소서'])
+        '여행', '게임', '소문', '유머', '산책', '자랑', '놀라운', '직장', '학교', '운동', '반려동물', '만화', '고민', '비밀', '음악', '흥미', '사고', '독서', '식사', '취미', '도움', '나눔', '연애', '만남', '자소서'])
     const [tagData, setTagData] = useState<any>([
         // 여기도 수정될 예정 
         // 예 ) 유저정보.area, ...유저정보.area2
@@ -136,6 +145,10 @@ function Search() {
             if(notGiftTag.indexOf(event.target.textContent) === -1){
                 setNotGiftTag([...notGiftTag,event.target.textContent])
                 event.target.style.backgroundColor = 'red'
+                if(giftTag.indexOf(event.target.textContent) !== -1){
+                    giftTag.splice(giftTag.indexOf(event.target.textContent),1)
+                    setGiftTag(giftTag)
+                }
                 setTagHandle()
                 let dummyTag = tagData.slice()
                 dummyTag.map((el:any,idx:any)=> {
@@ -180,6 +193,9 @@ function Search() {
     const selectTagReSet = () => {
         setGiftTag([])
         setNotGiftTag([])
+        setNotTagSeletView('')
+        setTagSeletView('')
+        setTagData(notTagData)
     }
 
     const notTagHandle = () => {
@@ -199,6 +215,9 @@ function Search() {
         })
         if(a){
             setErrorTag('잘했다')
+            console.log(navigator.geolocation.getCurrentPosition(function(pos) {
+                console.log(pos)
+            }))
         }
         else{
             setErrorTag('지역은 필수')
@@ -219,7 +238,6 @@ function Search() {
         handleSearchButton()
         setTagHandle()
     }, [notGiftTag])
-
 
 
 
@@ -281,7 +299,7 @@ function Search() {
                 {tagSeletView}
             </div>
             
-            <div>
+            <TagContainerDiv>
                 {searchText === '' ? tagData.map((el:any) => {
                     if(giftTag.indexOf(el) === -1){
                         return <button style={unSelectButtonStyle} onClick = {giftTagHandle}>{el}</button>
@@ -301,7 +319,7 @@ function Search() {
                 })
                 }
                 
-            </div>
+            </TagContainerDiv>
         </div>
 
         :
@@ -323,10 +341,15 @@ function Search() {
             <div>
                 {notTagSeletView}
             </div>
-            <div>
+            <TagContainerDiv>
                 {searchText === '' ? notTagData.map((el:any) => {
                     if(notGiftTag.indexOf(el) === -1){
-                        return <button style={unSelectButtonStyle} onClick = {giftTagHandle}>{el}</button>
+                        if(giftTag.indexOf(el) === -1){
+                            return <button style={unSelectButtonStyle} onClick = {giftTagHandle}>{el}</button>
+                        }
+                        else{
+                            return <button style={selectButtonStyle} onClick = {giftTagHandle}>{el}</button>
+                        }
                     }else{
                         return <button style={notTagRed} onClick = {giftTagHandle}>{el}</button>
                     }
@@ -343,7 +366,7 @@ function Search() {
                 })
                 }
                 
-            </div>
+            </TagContainerDiv>
         </div>
         }
         

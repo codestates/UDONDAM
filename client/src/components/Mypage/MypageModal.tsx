@@ -3,9 +3,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { useHistory } from 'react-router-dom';
 import axios from 'axios';
 import styled from 'styled-components';
-import { onOffState} from '../../pages/Mypage';
 import { IProps } from '../../pages/Mypage';
-    //지역인증
 
     export const ModalContainer = styled.div`
     display:grid;
@@ -35,13 +33,13 @@ import { IProps } from '../../pages/Mypage';
   }))`
   
   position:absolute;
-  top:50%;
+  top:100%;
   left:50%;
   transform: translate(-50%, -50%);
   background-color: white;
   padding:40px;
-  width: 10em;
-  height: 10em;
+  width: 20em;
+  height: 20em;
   border-radius: 10px;
   text-align: center;
   border: solid 1px black;
@@ -50,7 +48,7 @@ import { IProps } from '../../pages/Mypage';
     position:relative;
     color:red;
     bottom:3rem;
-    left:6rem;
+    left:9rem;
   }
   
   & .modal_text{
@@ -87,15 +85,25 @@ import { IProps } from '../../pages/Mypage';
 
 
 
-function LoginModal () {
+function MypageModal (props:any) {
     const dispatch = useDispatch();
     const history = useHistory();
+    const closeModal = props.closeModal
     const [isOpen, setIsOpen] = useState(true);
-
+    const [password, setPassword] = useState('');
+    const [errMessage, setErrMessage] = useState('');
     const openModalHandler = () => {
-      setIsOpen(!isOpen)
-      
+      setIsOpen(false)
+      closeModal()
     };
+
+    const inputPasswordHandler = function(e:React.ChangeEvent<HTMLInputElement>){
+      setPassword(e.target.value)
+    }
+
+    const userDeleteHandler = function(){
+
+    }
     
     return (
         <>
@@ -106,16 +114,16 @@ function LoginModal () {
                 <ModalView onClick={(e) => e.stopPropagation()}>
     
                   <div>
-                    <span className='modal_title'>회원탈퇴 확인</span>
-                    <span className="close-btn" >&times;</span>
+                    <span className='modal_title' >회원탈퇴 확인</span>
+                    <span className="close-btn" onClick={openModalHandler}>&times;</span>
                   </div>
                   <div className='modal_text'>정말로 회원 탈퇴 하시겠습니까?</div>
                   <div className='modal_text long'>회원탈퇴와 동시에 모든 유저정보가 삭제되며 복구할 수 없습니다</div>
                   <div className='password_submit'>
                   <div className='modal_text_password'>비밀번호 확인</div>
                   <div className='submit_container'>
-                   <input className='input_password' type='password' ></input>
-                   <button >회원탈퇴</button>
+                   <input className='input_password' type='password'  value={password} onChange={inputPasswordHandler}></input>
+                   <button onClick={userDeleteHandler}>회원탈퇴</button>
                   </div>
                    
                   </div>
@@ -127,4 +135,4 @@ function LoginModal () {
       );
 }
 
-export default LoginModal
+export default MypageModal

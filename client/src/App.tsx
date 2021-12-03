@@ -2,7 +2,7 @@ import React from 'react';
 import { Route, Switch } from 'react-router-dom';
 import Intro from './pages/Intro';
 import Login from './pages/Login';
-import Area from './pages/Area';
+import Area from './pages/area/Area';
 import Content from './pages/Content';
 import Interest from './pages/Interest';
 import Mypage from './pages/Mypage';
@@ -11,6 +11,7 @@ import Postcontent from './pages/Postcontent';
 import Search from './pages/search/Search';
 import Signup from './pages/Signup';
 import Timeline from './pages/timeLine/TimeLine';
+import Footer from './pages/Footer';
 
 
 import './styles/App.css';
@@ -28,8 +29,7 @@ function App() {
       <Route path="/login">
         <Login />
       </Route>
-      <Route path="/Area">
-        <Area />
+      <Route path="/Area" component={Area}>
       </Route>
       <Route path="/Content">
         <Content />
@@ -53,6 +53,7 @@ function App() {
         <Timeline />
       </Route>
     </Switch>
+    <Footer />
     </div>
     </>
   );

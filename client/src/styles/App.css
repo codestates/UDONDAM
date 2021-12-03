@@ -11,6 +11,14 @@ body{
   box-sizing: border-box;
 }
 
+.logo_page{
+  width: 10rem;
+}
+
+.logo_nav{
+  width: 10rem;
+}
+
 #container{
   position: relative;
   top: 2rem;

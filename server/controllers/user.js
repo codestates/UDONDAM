@@ -1,23 +1,94 @@
-const {user} = require("./models/index.js");
+const {user} = require('../models/index');
+
 module.exports = {
-    userInfo : (req, res) => {
-        res.status(200).send("userInfo")
-    },
-    userPatch : (req, res) => {
-        res.status(200).send("userPatch")
-    },
-    areaPatch : (req, res) => {
-        res.status(200).send("areaPatch")
-    },
-    userDelete : async (req, res) => {
-        if(req.userId) {
-            await user.destroy({
-                where: {id: userId}
-            })
-            return res.status(200).clearCookie("jwt").json({"message" : "delete!"});
+    userInfo : async (req, res) => { 
+        req.userId = req.userId || 1
+            const userInfo = await user.findOne({
+            attributes: ['email', 'nickname'],
+            where: { id: req.userId }
+        })
+        if(!userInfo) {
+            return res.status(500).json({ "message": "Server Error"});
         }
-        else {
-            return res.status(401).json({"message" : "token doesn't exist"})
+        return res.status(200).json(userInfo);
+    },
+
+    userPatch : async (req, res) => {
+        req.userId = req.userId || 1
+        const {nickname, password} = req.body;
+        if(nickname && password) {
+            await user.update({
+                nickname: nickname,
+                password: password
+            },
+            {
+                where: {id: req.userId}
+            })
+            return res.status(200).json({"message": "user patched!"})
+        } 
+        else if(nickname) {
+            await user.update({
+                nickname: nickname
+            },
+            {
+                where: {id: req.userId}
+            })
+            return res.status(200).json({"message": "nickname patched!"})
+        }
+        else if(password) {
+            await user.update({
+                password: password
+            },
+            {
+                where: {id: req.userId}
+            })
+            return res.status(200).json({"message": "password patched!"})
+        }
+    },
+
+    areaPatch : async (req, res) => {
+        req.userId = req.userId || 1
+        const {area, area2} = req.body;
+        if(area && area2) {
+            await user.update({
+                area: area,
+                area2: area2
+            },
+            {
+                where: {id: req.userId}
+            })
+            return res.status(200).json({"message": "patched!"})
+        } 
+        else if(area) {
+            await user.update({
+                area: area
+            },
+            {
+                where: {id: req.userId}
+            })
+            return res.status(200).json({"message": "area patched!"})
+        }
+        else if(area2) {
+            await user.update({
+                area2: area2
+            },
+            {
+                where: {id: req.userId}
+            })
+            return res.status(200).json({"message": "area2 patched!"})
+        }
+    },
+    
+    userDelete : async (req, res) => {
+            req.userId = req.userId || 1        
+        try{
+            await user.destroy({
+            where: {id: req.userId}
+        })
+            return res.status(200).clearCookie('jwt').json({"message" : 'delete!'})   
+        } catch(err) {
+            console.log(err);
+            return res.status(500).json({"message" : "Server Error"});
         }
     },
 }

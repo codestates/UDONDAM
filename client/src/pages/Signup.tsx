@@ -126,19 +126,26 @@ function Signup() {
         };
     };
     const submitHandler = async () => {
-        if (Validation.validEmail === false || Validation.validNumber === false || Validation.validPassword === false || Validation.validPasswordCheck !== false) {
+        if (Validation.validEmail === false || Validation.validNumber === false || Validation.validPassword === false || Validation.validPasswordCheck === false) {
             console.log('다안됐음')
             return;
         } else {
             const body = { email: signupInfo.email, password: signupInfo.password }
             try {
                 const SignupInfoPost = await axios.post(`${process.env.REACT_APP_API_URL}/signup`, body, { withCredentials: true })
+                console.log(SignupInfoPost)
                 //history.push('/')
+                console.log('됐음')
             } catch (error) {
                 console.log(error)
             }
         }
 
+    }
+
+    const emailSameCheck = async function () {
+        //이메일 중복검사하는 api
+        const emailSameCheck = await axios.post(`${process.env.REACT_APP_API_URL}/emailCheck`, signupInfo.email, { withCredentials: true })
     }
 
     console.log(Validation)
@@ -148,6 +155,7 @@ function Signup() {
         <div>
             <div className='signup_title'>회원가입</div>
             <div className='signup_input_box'>
+                <button className='email_same_check' onClick={emailSameCheck}>중복확인</button>
                 <input type="text" placeholder='이메일' onChange={inputHandler('email')} /><br />{emailErrorMessage}<br />
                 <input type="password" placeholder='비밀번호' onChange={inputHandler('password')} /><br />{passwordErrorMessage}<br />
                 <input type="password" placeholder='비밀번호 확인' onChange={inputHandler('passwordCheck')} /><br />{passwordCheckErrorMessage}<br />

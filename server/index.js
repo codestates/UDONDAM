@@ -3,21 +3,21 @@ const fs = require('fs');
 const express = require('express');
 const cors = require('cors');
 const cookieParser = require('cookie-parser')
-const PORT = 8080;
+const PORT = 80;
 const app = express();
 const userRouter = require('./roters/user');
 const postRouter = require('./roters/post');
 const commentRouter = require('./roters/comment');
 const likeRouter = require('./roters/like');
 const authRouter = require('./roters/auth');
-const models = require("./models/index.js");
+// const models = require("./models/index.js");
 
-models.sequelize.sync().then( () => {
-    console.log(" DB 연결 성공");
-}).catch(err => {
-    console.log("연결 실패");
-    console.log(err);
-})
+// models.sequelize.sync().then( () => {
+//     console.log(" DB 연결 성공");
+// }).catch(err => {
+//     console.log("연결 실패");
+//     console.log(err);
+// })
 
 app.use(cors({
     origin:'http://localhost:3000',

@@ -16,7 +16,7 @@ module.exports = {
     .then(() => {
       queryInterface.addColumn('post_tag', 'tagId', {
         type: Sequelize.INTEGER,
-        allowNull: true,
+        allowNull: false,
         onDelete: 'CASCADE',
         references: {model: 'tag', key:'id'}
       })

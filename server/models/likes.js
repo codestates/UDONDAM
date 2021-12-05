@@ -18,7 +18,8 @@ module.exports = (sequelize, DataTypes) => {
     postId: DataTypes.INTEGER
   }, {
     sequelize,
-    modelName: 'like',
+    tableName: 'likes',
+    modelName: 'likes',
     timestamps: true,
     freezeTableName: true,
     createdAt: 'createAt',

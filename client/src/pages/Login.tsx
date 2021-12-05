@@ -21,10 +21,15 @@ export interface modalOnOffState {
     guestModal:boolean,
     seaerchPasswordModal:boolean
 }
+
+
    
 function Login(){
     const dispatch = useDispatch()
     const history = useHistory()
+    if(useSelector((state: RootStateOrAny)=>state.IsLoginReducer.isLogin) === true){
+        history.push('/Timeline')
+    }
     const [loginInfo, setLoginInfo] = useState<loginInfoState>({
         email: '',
         password:''
@@ -33,6 +38,17 @@ function Login(){
         guestModal:false,
         seaerchPasswordModal:false
     })
+
+    const [userInfo, setUserInfo] = useState({
+        email:'',
+        userId: 0,
+        nickname: '',
+        area: '',
+        area2: '',
+        manager: false, 
+        socialType: ''
+    })
+
     const [errorMessage, setErrorMessage] = useState<string>('')
     const inputHandler = (key:string)=>(e:React.ChangeEvent<HTMLInputElement>) => {
         setLoginInfo({...loginInfo, [key]:e.target.value})
@@ -46,25 +62,29 @@ function Login(){
         const body = {email:loginInfo.email, password:loginInfo.password }
         try {
             const loginInfoPost = await axios.post(`${process.env.REACT_APP_API_URL}/login`, body, {withCredentials: true})
-            //타입정리!!!
-            // const userInfo:any = {email: loginInfoPost,
-            //     nickname:loginInfoPost ,
-            //     area:loginInfoPost ,
-            //     area2:loginInfoPost ,
-            //     manager:loginInfoPost ,
-            //     socialType:loginInfoPost }
-            // dispatch(LoginHandler(true))
-            // dispatch(UserInfoHandler(userInfo))
-            //history.push('/Timeline')
-            console.log('로그인완료')
-        } catch (error) {
-            console.log(error)
+            setUserInfo(
+            {
+                email: loginInfo.email,
+                userId: loginInfoPost.data.userId,
+                nickname: loginInfoPost.data.nickname,
+                area: loginInfoPost.data.area || null,
+                area2: loginInfoPost.data.area2 || null,
+                manager: loginInfoPost.data.manager, 
+                socialType: loginInfoPost.data.socialType
+            })
+            history.push('/Timeline')
+        } catch (error:any) {
+            if(error.response.status === 401){
+                console.log('이메일이나 비밀번호가 맞지 않습니다')
+            }
+            return ;
         }
-      
-        
+        dispatch(LoginHandler(true))
+        dispatch(UserInfoHandler(userInfo))
     }
     const loginState = useSelector((state: RootStateOrAny)=>state.IsLoginReducer);
-    console.log(modalOnOff)
+    const loginUserInfo = useSelector((state: RootStateOrAny)=>state.UserInfoReducer);
+    console.log(loginState,loginUserInfo)
 
     
 

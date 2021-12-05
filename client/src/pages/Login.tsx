@@ -22,6 +22,16 @@ export interface modalOnOffState {
     seaerchPasswordModal:boolean
 }
 
+export interface userInfoState {
+    email:string,
+        userId: number,
+        nickname: string,
+        area: string,
+        area2: string,
+        manager: boolean, 
+        socialType: string,
+}
+
 
    
 function Login(){
@@ -39,7 +49,7 @@ function Login(){
         seaerchPasswordModal:false
     })
 
-    const [userInfo, setUserInfo] = useState({
+    const [userInfo, setUserInfo] = useState<userInfoState>({
         email:'',
         userId: 0,
         nickname: '',
@@ -60,10 +70,12 @@ function Login(){
         }
         e.preventDefault();
         const body = {email:loginInfo.email, password:loginInfo.password }
+        let loginInfoData
         try {
             const loginInfoPost = await axios.post(`${process.env.REACT_APP_API_URL}/login`, body, {withCredentials: true})
-            setUserInfo(
-            {
+            console.log(loginInfoPost)
+            console.log(loginInfo.email)
+            loginInfoData = {
                 email: loginInfo.email,
                 userId: loginInfoPost.data.userId,
                 nickname: loginInfoPost.data.nickname,
@@ -71,7 +83,18 @@ function Login(){
                 area2: loginInfoPost.data.area2 || null,
                 manager: loginInfoPost.data.manager, 
                 socialType: loginInfoPost.data.socialType
-            })
+            };
+            
+            dispatch(UserInfoHandler({
+                email: loginInfoData.email,
+                userId: loginInfoData.userId,
+                nickname: loginInfoData.nickname,
+                area: loginInfoData.area || null,
+                area2: loginInfoData.area2 || null,
+                manager: loginInfoData.manager, 
+                socialType: loginInfoData.socialType
+            }))
+            dispatch(LoginHandler(true))
             history.push('/Timeline')
         } catch (error:any) {
             if(error.response.status === 401){
@@ -79,8 +102,9 @@ function Login(){
             }
             return ;
         }
-        dispatch(LoginHandler(true))
-        dispatch(UserInfoHandler(userInfo))
+        
+        
+        
     }
     const loginState = useSelector((state: RootStateOrAny)=>state.IsLoginReducer);
     const loginUserInfo = useSelector((state: RootStateOrAny)=>state.UserInfoReducer);

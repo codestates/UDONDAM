@@ -3,6 +3,7 @@ import { createAction, ActionType, createReducer  } from 'typesafe-actions';
 //스테이트 정의
   //스테이트 타입
 export interface userInfoState {
+    userId:number,
     email: string,
     nickname: string,
     area: string,
@@ -13,6 +14,7 @@ export interface userInfoState {
 
   //스테이트 기본값
 export const userInfoInitialState: userInfoState = {
+    userId:0,
     email: '',
     nickname: '',
     area: '',
@@ -38,6 +40,7 @@ export type IsLoginAction = ActionType<typeof actions>
 const UserInfoReducer = createReducer<userInfoState, UserInfoAction>(userInfoInitialState, {
   [USERINFO]: (state, action) => {
     return Object.assign({}, state, {
+      userId: action.payload.userId,
       email: action.payload.email,
       nickname: action.payload.nickname,
       area: action.payload.area,

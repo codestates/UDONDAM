@@ -118,8 +118,8 @@ function Mypage() {
             password: '',
             passwordCheck: ''
         });
-        onOffHandler('onChange')
-        //setOnOff({ ...onOff, ['onChange']: !onOff.onChange })
+        
+        setOnOff({ ...onOff, ['onChange']: !onOff.onChange })
     }
     console.log(onOff)
 

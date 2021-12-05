@@ -30,10 +30,12 @@ export interface checkState {
 
 function Signup() {
     //Validation 테스트 아니면 기본 false로 바꾸기
-    const Validation = useSelector((state: RootStateOrAny) => state.ValidationReducer);
-    console.log(Validation)
     const dispatch = useDispatch()
     const history = useHistory()
+    if(useSelector((state: RootStateOrAny)=>state.IsLoginReducer.isLogin) === true){
+        history.push('/Timeline')
+    }
+    const Validation = useSelector((state: RootStateOrAny) => state.ValidationReducer);
     const [signupInfo, setSignupInfo] = useState<signupInfoState>({
         email: '',
         password: '',

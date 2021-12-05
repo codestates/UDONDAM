@@ -12,10 +12,10 @@ export interface validationState  {
 
   //스테이트 기본값
 export const validationInitialState: validationState = {
-  validEmail:true,
-  validPassword:true,
-  validPasswordCheck:true,
-  validNumber:true
+  validEmail:false,
+  validPassword:false,
+  validPasswordCheck:false,
+  validNumber:false
 };
 
 

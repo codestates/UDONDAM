@@ -120,6 +120,7 @@ module.exports = {
                 email: email
             }
         });
+        console.log('emailCheck:',emailCheck)
         if (emailCheck) {
             res.status(409).json({ "message": "Email already exists"});
             return;
@@ -128,8 +129,29 @@ module.exports = {
             res.status(200).json({ "message": "ok!"})
         }
     },
-    passwordCheck: (req, res) => {
-        res.status(200).send('비밀번호 체크');
+    passwordCheck: async (req, res) => {
+        const userInfo = isAuthorized(req);
+        if (!userInfo) {
+            res.status(401).json({ "message": "Invali token"})
+            return ;
+        }
+        
+        const { email, password } = req.body;
+        const checkPassword = await db.users.findOne({
+            where: { email: email, password: password}
+        })
+        
+        if(!checkPassword) {
+            res.status(401).json({ "message": "Invalid password"});
+            return ;
+        }
+        else if(checkPassword) {
+            res.status(200).json({ "message": "Check the password ok"});
+            return ;
+        }
+        else {
+            res.status(500).json({ "message": "Server Error"})
+        }
     },
     tempp: (req, res) => {
         res.status(200).send('임시비밀번호 발송');

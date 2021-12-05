@@ -6,13 +6,17 @@ import { emailCheckHandler, passwordCheckHandler, passwordSameCheckHandler, numb
 
 
 //import EmailCheck from '../components/Signup/EmailCheck' //이메일 인증 분리
-//회원가입
+
+//이메일 중복확인
+//메일인증 전송 
+//숫자 맞으면 허가
+//다 되면 통과
 
 export interface signupInfoState {
     email: string,
     password: string,
     passwordCheck: string,
-    mailNumber: any
+    mailNumber: string
 };
 
 export interface checkState {
@@ -25,6 +29,7 @@ export interface checkState {
 
 
 function Signup() {
+    //Validation 테스트 아니면 기본 false로 바꾸기
     const Validation = useSelector((state: RootStateOrAny) => state.ValidationReducer);
     console.log(Validation)
     const dispatch = useDispatch()
@@ -33,14 +38,12 @@ function Signup() {
         email: '',
         password: '',
         passwordCheck: '',
-        mailNumber: null
+        mailNumber: ''
     });
-    const [passCheck, setPassCheck] = useState<checkState>({
-        passEmail: false,
-        passPassword: false,
-        passNumber: false,
-        passText: false
-    }); //다 통과되야 회원가입가능(유효성검사와 체크여부)
+    const [passEmail, setPassEmail] = useState(false);
+    const [number, setNumber] = useState('')
+
+    //다 통과되야 회원가입가능(유효성검사와 체크여부)
     const [emailErrorMessage, setEmailErrorMessage] = useState<string>('');
     const [passwordErrorMessage, setPasswordErrorMessage] = useState<string>('');
     const [passwordCheckErrorMessage, setPasswordCheckErrorMessage] = useState<string>('');
@@ -126,7 +129,7 @@ function Signup() {
         };
     };
     const submitHandler = async () => {
-        if (Validation.validEmail === false || Validation.validNumber === false || Validation.validPassword === false || Validation.validPasswordCheck === false) {
+        if (Validation.validEmail === false || Validation.validNumber === false || Validation.validPassword === false || Validation.validPasswordCheck === false || passEmail === false) {
             console.log('다안됐음')
             return;
         } else {
@@ -134,37 +137,77 @@ function Signup() {
             try {
                 const SignupInfoPost = await axios.post(`${process.env.REACT_APP_API_URL}/signup`, body, { withCredentials: true })
                 console.log(SignupInfoPost)
-                //history.push('/')
+                history.push('/')
                 console.log('됐음')
             } catch (error) {
                 console.log(error)
             }
         }
 
-    }
+    };
 
     const emailSameCheck = async function () {
-        //이메일 중복검사하는 api
-        const emailSameCheck = await axios.post(`${process.env.REACT_APP_API_URL}/emailCheck`, signupInfo.email, { withCredentials: true })
-    }
+        if (Validation.validEmail === false) {
+            console.log('이메일 형식이 잘못되었습니다.')
+            setEmailErrorMessage('이메일 형식이 잘못되었습니다.');
+        } else {
+            try {
+                const emailSameCheck = await axios.post(`${process.env.REACT_APP_API_URL}/emailCheck`, { email: signupInfo.email }, { withCredentials: true })
+                setPassEmail(true);
+                setEmailErrorMessage('사용 할 수 있는 이메일입니다')
+                console.log('체크완료')
+            } catch (error: any) {
+                if (error.response.data.message === 'Email already exists') {
+                    setPassEmail(false);
+                    setEmailErrorMessage('이미 있는 이메일입니다')
+                    console.log('이미 있는 이메일입니다')
+                }
+            }
+        }
+    };
 
-    console.log(Validation)
+    
+
+    const emailNumberCheck =  (key:string) => async() => {
+        
+        
+        if(key === 'post'){
+            const emailNumberCheck = await axios.post(`${process.env.REACT_APP_API_URL}/email`, { email: signupInfo.email }, { withCredentials: true }) 
+            const emailNumber = emailNumberCheck.data.verificationCode //여기에 숫자저장
+            setNumber(emailNumber);
+        } else if (key === 'check') {
+            if(signupInfo.mailNumber !== number){
+                console.log('인증번호가 다릅니다')
+                setNumberErrorMessage('인증번호가 다릅니다')
+            } else if(signupInfo.mailNumber === number){
+                setPassEmail(true)
+                dispatch(numberCheckHandler(true))
+                setNumberErrorMessage('인증성공')
+                console.log('인증성공')
+            } else {
+                setNumberErrorMessage('기타오류')
+                console.log('기타오류')
+            }
+        }
+    };
+
+    console.log(Validation, passEmail)
     console.log(emailErrorMessage, passwordErrorMessage, passwordCheckErrorMessage, numberErrorMessage)
 
     return (
         <div>
             <div className='signup_title'>회원가입</div>
             <div className='signup_input_box'>
-                <button className='email_same_check' onClick={emailSameCheck}>중복확인</button>
-                <input type="text" placeholder='이메일' onChange={inputHandler('email')} /><br />{emailErrorMessage}<br />
+                <input type="text" placeholder='이메일' onChange={inputHandler('email')} /><br />
+                <button className='email_same_check' onClick={emailSameCheck}>중복확인</button><br />{emailErrorMessage}<br />
                 <input type="password" placeholder='비밀번호' onChange={inputHandler('password')} /><br />{passwordErrorMessage}<br />
                 <input type="password" placeholder='비밀번호 확인' onChange={inputHandler('passwordCheck')} /><br />{passwordCheckErrorMessage}<br />
             </div>
             <div className='email_check_box'>
                 <input type="text" placeholder='인증번호 입력' onChange={inputHandler('mailNumber')} />
                 <br />{numberErrorMessage}<br />
-                <button>전송 요청</button>{/*누르면 타이머로 바뀜 */}
-                <button>확인</button>
+                <button onClick={emailNumberCheck('post')}>전송 요청</button>{/*누르면 타이머로 바뀜 */}
+                <button onClick={emailNumberCheck('check')}>확인</button>
             </div>
             <br />
             <div className='signup_text'></div>

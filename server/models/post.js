@@ -16,18 +16,30 @@ module.exports = (sequelize, DataTypes) => {
         sourceKey: 'id',
         onDelete: 'CASCADE',
       });
-      models.post.belongsToMany(models.user,{
-        through: 'likes',
+      models.post.hasMany(models.comment, {
         foreignKey: 'postId',
         sourceKey: 'id',
+        //onUpdate: 'cascade',
         onDelete: 'CASCADE'
       });
-      models.post.belongsToMany(models.user,{
-        through: 'comment',
+      models.post.hasMany(models.likes, {
         foreignKey: 'postId',
         sourceKey: 'id',
+        //onUpdate: 'cascade',
         onDelete: 'CASCADE'
       });
+      // models.post.belongsToMany(models.user,{
+      //   through: 'likes',
+      //   foreignKey: 'postId',
+      //   sourceKey: 'id',
+      //   onDelete: 'CASCADE'
+      // });
+      // models.post.belongsToMany(models.user,{
+      //   through: 'comment',
+      //   foreignKey: 'postId',
+      //   sourceKey: 'id',
+      //   onDelete: 'CASCADE'
+      // });
       models.post.belongsToMany(models.tag, {
         through: 'post_tag',
         sourceKey: 'id',

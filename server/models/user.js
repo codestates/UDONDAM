@@ -18,7 +18,7 @@ module.exports = (sequelize, DataTypes) => {
         //onUpdate: 'CASCADE'
       });
       models.user.belongsToMany(models.post, {
-        through: 'like',
+        through: 'likes',
         sourceKey: 'id',
         foreignKey: 'userId',
         onDelete: 'CASCADE',

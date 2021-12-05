@@ -8,7 +8,7 @@ const app = express();
 const userRouter = require('./roters/user');
 const postRouter = require('./roters/post');
 const commentRouter = require('./roters/comment');
-const likeRouter = require('./roters/like');
+const likesRouter = require('./roters/likes');
 const authRouter = require('./roters/auth');
 // const models = require("./models/index.js");
 
@@ -35,7 +35,7 @@ app.get('/', (req, res)=> {
 app.use('/user', userRouter);
 app.use('/post', postRouter);
 app.use('/comment', commentRouter);
-app.use('/like', likeRouter);
+app.use('/likes', likesRouter);
 app.use('/', authRouter);
 
 let server ;

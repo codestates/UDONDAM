@@ -120,6 +120,7 @@ module.exports = {
                 email: email
             }
         });
+        console.log('emailCheck:',emailCheck)
         if (emailCheck) {
             res.status(409).json({ "message": "Email already exists"});
             return;

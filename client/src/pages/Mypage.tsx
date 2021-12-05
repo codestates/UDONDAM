@@ -27,13 +27,18 @@ function Mypage() {
     const dispatch = useDispatch()
     //리덕스 관련
     const userInfo = useSelector((state: RootStateOrAny) => state.UserInfoReducer);
-
+    console.log(userInfo)
     //스테이트 설정
     const [userData, setUserData] = useState<userDataState>({
-        email: '',
-        nickname: '',
+        email: userInfo.email || '',
+        nickname: userInfo.nickname ||'',
         password: '',
         passwordCheck: ''
+    })
+
+    const [userDataSave, setUserDataSave] = useState({
+        email: userInfo.email || '',
+        nickname: userInfo.nickname ||''
     })
     const [onOff, setOnOff] = useState<onOffState>({
         onModal: false,
@@ -44,6 +49,7 @@ function Mypage() {
 
     //스테이트 핸들링
     const onOffHandler = (key: string) =>()=> {
+        console.log('핸들러 작동')
         if (key === 'onRequest') {
             setOnOff({ ...onOff, [key]: !onOff.onRequest })
         } else if (key === 'onModal') {
@@ -105,6 +111,18 @@ function Mypage() {
         }
     }
 
+    const CancleHandler = function () {
+        setUserData({
+            email: userDataSave.email,
+            nickname: userDataSave.nickname,
+            password: '',
+            passwordCheck: ''
+        });
+        onOffHandler('onChange')
+        //setOnOff({ ...onOff, ['onChange']: !onOff.onChange })
+    }
+    console.log(onOff)
+
     return (
         <div>
             {onOff.onModal ? <MypageModal closeModal={closeModal} /> : null}
@@ -117,7 +135,8 @@ function Mypage() {
                         <button>신고처리현황</button>
                     </div> : null}
             </div>
-            <button onClick={onOffHandler('onChange')}>회원정보수정</button>
+            {!onOff.onChange ? <button onClick={onOffHandler('onChange')}>회원정보수정</button> : null}
+            
             {onOff.onChange ?
                 <div className='mypage_userinfo_box_true'>
                     <div>닉네임 변경</div>
@@ -130,7 +149,7 @@ function Mypage() {
                     {errorMessage}
                     <div className='mypage_button_box_true'>
                         <button onClick={changeComplete}>수정확인</button>
-                        <button>취소</button>
+                        <button onClick={CancleHandler}>취소</button>
                     </div>
                 </div> :
                 <div className='mypage_userinfo_box_false'>

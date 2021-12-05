@@ -10,8 +10,18 @@ module.exports = (sequelize, DataTypes) => {
      * The `models/index` file will call this method automatically.
      */
     static associate(models) {
-
+      models.likes.belongsTo(models.user, {
+        foreignKey: 'userId',
+        sourceKey: 'id',
+        onDelete: 'CASCADE',
+      });
+      models.likes.belongsTo(models.post, {
+        foreignKey: 'postId',
+        sourceKey: 'id',
+        onDelete: 'CASCADE',
+      });
     }
+    
   };
   likes.init({
     userId: DataTypes.INTEGER,

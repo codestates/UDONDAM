@@ -48,25 +48,25 @@ module.exports = {
         type: Sequelize.DATE
       }
     })
-    .then(() => {
-      queryInterface.addColumn('comment', 'userId', {
-        type: Sequelize.INTEGER,
-        allowNull: false,
-        //onUpdate: 'CASCADE',
-        onDelete: 'CASCADE',
-        references: {model: 'user', key:'id'}
-      })
-    }
-    )
-    .then(() => {
-      queryInterface.addColumn('likes', 'userId', {
-        type: Sequelize.INTEGER,
-        allowNull: false,
-        //onUpdate: 'CASCADE',
-        onDelete: 'CASCADE',
-        references: {model: 'user', key:'id'}
-      })
-    })
+    // .then(() => {
+    //   queryInterface.addColumn('comment', 'userId', {
+    //     type: Sequelize.INTEGER,
+    //     allowNull: false,
+    //     //onUpdate: 'CASCADE',
+    //     onDelete: 'CASCADE',
+    //     references: {model: 'user', key:'id'}
+    //   })
+    // }
+    // )
+    // .then(() => {
+    //   queryInterface.addColumn('likes', 'userId', {
+    //     type: Sequelize.INTEGER,
+    //     allowNull: false,
+    //     //onUpdate: 'CASCADE',
+    //     onDelete: 'CASCADE',
+    //     references: {model: 'user', key:'id'}
+    //   })
+    // })
   },
   down: async (queryInterface, Sequelize) => {
     let sql ='SET FOREIGN_KEY_CHECKS = 0';

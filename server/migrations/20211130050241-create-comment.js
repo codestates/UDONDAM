@@ -21,7 +21,23 @@ module.exports = {
         allowNull: false,
         type: Sequelize.DATE
       }
-    });
+    })
+    .then(() => {
+      queryInterface.addColumn('comment', 'userId', {
+        type: Sequelize.INTEGER,
+        allowNull: false,
+        onDelete: 'CASCADE',
+        references: {model: 'user', key:'id'}
+      })
+    })
+    .then(() => {
+      queryInterface.addColumn('comment', 'postId', {
+        type: Sequelize.INTEGER,
+        allowNull: false,
+        onDelete: 'CASCADE',
+        references: {model: 'post', key:'id'}
+      })
+    })
   },
   down: async (queryInterface, Sequelize) => {
     let sql ='SET FOREIGN_KEY_CHECKS = 0';

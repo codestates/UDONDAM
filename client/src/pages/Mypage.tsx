@@ -81,22 +81,42 @@ function Mypage() {
         }
     }
 
-    const changeComplete = ()=> async (password: string, passwordCheck: string) => {
-        const checkeResult = changeCheck(password, passwordCheck);
+    const changeComplete = async ()=> {
+       
+        console.log('작동')
+        const checkeResult = changeCheck(userData.password, userData.passwordCheck);
         if(checkeResult !== true){
             setErrorMessage('수정된 비밀번호와 비밀번호 확인이 같아야 합니다')
                     return;
         }else if(checkeResult === true){
+            //비밀번호 수정인지 아닌지 구분
+            //aaa@naver.com의 닉네임 수정을 하면 aaa의 닉네임이 바뀜
             try {
                 const body = {nickname:userData.nickname,password:userData.password}
-                const passwordCheckResp = await axios.post(`${process.env.REACT_APP_API_URL}/passwordcheck`, {password:userData.password}, { withCredentials: true })
-                const userDataChange = await axios.patch(`${process.env.REACT_APP_API_URL}`, body, { withCredentials: true })
-                const getUserData = await axios.get(`${process.env.REACT_APP_API_URL}`, { withCredentials: true })
-                onOffHandler('onChange')
+                //const passwordCheckResp = await axios.post(`${process.env.REACT_APP_API_URL}/passwordcheck`, {password:userData.password}, { withCredentials: true })
+                const userDataChange = await axios.patch(`${process.env.REACT_APP_API_URL}/user`, body, { withCredentials: true })
+                const getUserData = await axios.get(`${process.env.REACT_APP_API_URL}/user`, { withCredentials: true })
+                console.log(userDataChange)
+                console.log(getUserData)
+                dispatch(UserInfoHandler({
+                    email: userInfo.email,
+                    userId: userInfo.userId,
+                    //닉네임만 바꿈. 리덕스는 읽기 체계라 다 바꿔야함
+                    nickname: getUserData.data.nickname,
+                    area: userInfo.area,
+                    area2: userInfo.area2,
+                    manager: userInfo.manager, 
+                    socialType: userInfo.socialType
+                }))
+                setOnOff({ ...onOff, ['onChange']: !onOff.onChange })
             } catch (error) {
                 console.log(error)
             }
         }
+    }
+
+    const test = function() {
+        console.log('작동')
     }
 
     const logoutHandler = async function () {
@@ -111,7 +131,7 @@ function Mypage() {
         }
     }
 
-    const CancleHandler = function () {
+    const cancleHandler = function () {
         setUserData({
             email: userDataSave.email,
             nickname: userDataSave.nickname,
@@ -149,7 +169,7 @@ function Mypage() {
                     {errorMessage}
                     <div className='mypage_button_box_true'>
                         <button onClick={changeComplete}>수정확인</button>
-                        <button onClick={CancleHandler}>취소</button>
+                        <button onClick={cancleHandler}>취소</button>
                     </div>
                 </div> :
                 <div className='mypage_userinfo_box_false'>

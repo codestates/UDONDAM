@@ -22,17 +22,6 @@ export interface modalOnOffState {
     seaerchPasswordModal:boolean
 }
 
-export interface userInfoState {
-    email:string,
-        userId: number,
-        nickname: string,
-        area: string,
-        area2: string,
-        manager: boolean, 
-        socialType: string,
-}
-
-
    
 function Login(){
     const dispatch = useDispatch()
@@ -49,16 +38,6 @@ function Login(){
         seaerchPasswordModal:false
     })
 
-    const [userInfo, setUserInfo] = useState<userInfoState>({
-        email:'',
-        userId: 0,
-        nickname: '',
-        area: '',
-        area2: '',
-        manager: false, 
-        socialType: ''
-    })
-
     const [errorMessage, setErrorMessage] = useState<string>('')
     const inputHandler = (key:string)=>(e:React.ChangeEvent<HTMLInputElement>) => {
         setLoginInfo({...loginInfo, [key]:e.target.value})
@@ -70,12 +49,11 @@ function Login(){
         }
         e.preventDefault();
         const body = {email:loginInfo.email, password:loginInfo.password }
-        let loginInfoData
+        
         try {
             const loginInfoPost = await axios.post(`${process.env.REACT_APP_API_URL}/login`, body, {withCredentials: true})
-            console.log(loginInfoPost)
-            console.log(loginInfo.email)
-            loginInfoData = {
+            
+            dispatch(UserInfoHandler({
                 email: loginInfo.email,
                 userId: loginInfoPost.data.userId,
                 nickname: loginInfoPost.data.nickname,
@@ -83,23 +61,15 @@ function Login(){
                 area2: loginInfoPost.data.area2 || null,
                 manager: loginInfoPost.data.manager, 
                 socialType: loginInfoPost.data.socialType
-            };
-            
-            dispatch(UserInfoHandler({
-                email: loginInfoData.email,
-                userId: loginInfoData.userId,
-                nickname: loginInfoData.nickname,
-                area: loginInfoData.area || null,
-                area2: loginInfoData.area2 || null,
-                manager: loginInfoData.manager, 
-                socialType: loginInfoData.socialType
             }))
             dispatch(LoginHandler(true))
             history.push('/Timeline')
+
         } catch (error:any) {
             if(error.response.status === 401){
                 console.log('이메일이나 비밀번호가 맞지 않습니다')
             }
+            console.log(error)
             return ;
         }
         

@@ -2,7 +2,7 @@
 name: Dev-Log 탬플릿
 about: Describe this issue template's purpose here.
 title: ''
-labels: ''
+labels: dev-log
 assignees: ''
 
 ---

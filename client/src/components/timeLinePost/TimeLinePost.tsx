@@ -7,6 +7,7 @@ import { library } from "@fortawesome/fontawesome-svg-core";
 import { Link } from 'react-router-dom'
 import { faCommentDots } from "@fortawesome/free-solid-svg-icons";
 import { faThumbsUp } from "@fortawesome/free-solid-svg-icons";
+import { NONAME } from "dns";
 
 library.add(faCommentDots);
 
@@ -29,19 +30,28 @@ const WhyUser = styled.div`
 
 function TimeLinePost({postData,userData}: any) {
 
-
+    const likeTrue = {
+        color: "blue"
+    }
+    const boxBorder = {
+        border: '1px solid black',
+        textDecoration: 'none',
+        margin: '1rem'
+    }
 
     return (
         <div>
             
 
-            {postData.map((el: { nickname: any,createAt: any ,content:any, tag:any, id:any, commentCount:any, likeCount:any, userId:any}) => {
+            {postData.map((el: { nickname: any,createAt: any ,content:any, tag:any, id:any, commentCount:any, likeCount:any, userId:any, likeCheck:any}) => {
                 return (
-                <Link to={{
+                    <div style={boxBorder}>
+                <Link style={{textDecoration: 'none'}} to={{
                     pathname: `./Content`,
                     state: {
                     id: el.id,
                     }
+                    
                 }}>
                 <div>
                     {userData.id === el.userId ? <WhyUser>{el.nickname}</WhyUser> : <div>{el.nickname}</div>}
@@ -58,14 +68,22 @@ function TimeLinePost({postData,userData}: any) {
                         <FontAwesomeIcon icon={faCommentDots} data-fa-transform="flip-v"></FontAwesomeIcon>
                         {el.commentCount}
                     </span>
+                    {el.likeCheck ? 
+                    <span style={likeTrue}>
+                        <FontAwesomeIcon icon={faThumbsUp}></FontAwesomeIcon>
+                        {el.likeCount}
+                    </span>
+                    :
                     <span>
                         <FontAwesomeIcon icon={faThumbsUp}></FontAwesomeIcon>
                         {el.likeCount}
                     </span>
+                    }
 
                 </div>
                 </div>
                 </Link>
+                </div>
                 )
             }) }
         </div>

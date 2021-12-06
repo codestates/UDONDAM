@@ -48,7 +48,7 @@ const TimeLine = () => {
          tag: ['서울' , '운동'],
          commentCount: 10,
          likeCount: 5 ,
-         likeCheck: false,
+         likeCheck: true,
          createAt: '2020-10-15 10:10',
          public: false
         },
@@ -67,11 +67,11 @@ const TimeLine = () => {
 
     return (
         <div>
-                <div>{userData.name}님 안녕하세요</div>
-                <Container>
-                    <CharacterImg src = '로고-우동담-Dark-글자만-배경x.png'/>
-                </Container>
-                <TimeLinePost postData = {postData} userData = {userData}/>
+            <div>{userData.name}님 안녕하세요</div>
+            <Container>
+                <CharacterImg src = '로고-우동담-Dark-글자만-배경o.png'/>
+            </Container>
+            <TimeLinePost postData = {postData} userData = {userData}/>
         </div>
     )
 }

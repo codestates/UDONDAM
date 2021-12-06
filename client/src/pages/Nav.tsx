@@ -15,7 +15,9 @@ function Nav () {
                     &nbsp;&nbsp;
                     <Link to='./Mypage' >마이페이지</Link>
                 </div>
+                
             </div>
+            
     )
 }
 

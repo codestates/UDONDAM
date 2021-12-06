@@ -49,7 +49,7 @@ module.exports = {
         }
     },
     likesCreate: async (req, res) => {
-        const { email, postId } = req.query;
+        const { email, postId } = req.body;
         let userInfo = await user.findOne({
             where: {
                 email: email

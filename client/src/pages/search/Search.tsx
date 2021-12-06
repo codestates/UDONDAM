@@ -317,9 +317,20 @@ function Search() {
             <TagContainerDiv>
                 {searchText === '' ? tagData.map((el:any) => {
                     if(giftTag.indexOf(el) === -1){
-                        return <button style={unSelectButtonStyle} onClick = {giftTagHandle}>{el}</button>
+                        if(el === '인증해주세요'){
+                            return
+                        }
+                        else{
+                            return <button style={unSelectButtonStyle} onClick = {giftTagHandle}>{el}</button>
+                        }
                     }else{
-                        return <button style={selectButtonStyle} onClick = {giftTagHandle}>{el}</button>
+                        if(el === '인증해주세요'){
+                            return
+                        }
+                        else
+                        {
+                            return <button style={selectButtonStyle} onClick = {giftTagHandle}>{el}</button>
+                        }
                     }
                 })
                 :
@@ -360,21 +371,41 @@ function Search() {
                 {searchText === '' ? notTagData.map((el:any) => {
                     if(notGiftTag.indexOf(el) === -1){
                         if(giftTag.indexOf(el) === -1){
-                            return <button style={unSelectButtonStyle} onClick = {giftTagHandle}>{el}</button>
+                            if(el === '인증해주세요'){
+                                return
+                            }else{
+                                return <button style={unSelectButtonStyle} onClick = {giftTagHandle}>{el}</button>
+                            }
                         }
                         else{
+                            if(el === '인증해주세요'){
+                                return
+                            }else{
                             return <button style={selectButtonStyle} onClick = {giftTagHandle}>{el}</button>
+                            }
                         }
                     }else{
+                        if(el === '인증해주세요'){
+                            return
+                        }else{
                         return <button style={notTagRed} onClick = {giftTagHandle}>{el}</button>
+                        }
                     }
                 })
                 :
                 filterTag.map((el:any) => {
                     if(notGiftTag.indexOf(el) === -1){
+                        if(el === '인증해주세요'){
+                            return
+                        }else{
                         return <button style={unSelectButtonStyle} onClick = {giftTagHandle}>{el}</button>
+                        }
                     }else{
-                        return <button style={notTagRed} onClick = {giftTagHandle}>{el}</button>
+                        if(el === '인증해주세요'){
+                            return
+                        }else{
+                            return <button style={notTagRed} onClick = {giftTagHandle}>{el}</button>
+                        }
                     }
                     // console.log(el)
                     // return <button onClick = {giftTagHandle}>{el}</button>

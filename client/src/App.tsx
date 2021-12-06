@@ -31,8 +31,7 @@ function App() {
       </Route>
       <Route path="/Area" component={Area}>
       </Route>
-      <Route path="/Content">
-        <Content />
+      <Route path="/Content" component={Content}>
       </Route>
       <Route path="/Interest">
         <Interest />

@@ -4,7 +4,7 @@ import {useState, useRef} from 'react';
 import styled from "styled-components";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { library } from "@fortawesome/fontawesome-svg-core";
-
+import { Link } from 'react-router-dom'
 import { faCommentDots } from "@fortawesome/free-solid-svg-icons";
 import { faThumbsUp } from "@fortawesome/free-solid-svg-icons";
 
@@ -33,8 +33,16 @@ function TimeLinePost({postData,userData}: any) {
 
     return (
         <div>
+            
+
             {postData.map((el: { nickname: any,createAt: any ,content:any, tag:any, id:any, commentCount:any, likeCount:any, userId:any}) => {
                 return (
+                <Link to={{
+                    pathname: `./Content`,
+                    state: {
+                    id: el.id,
+                    }
+                }}>
                 <div>
                     {userData.id === el.userId ? <WhyUser>{el.nickname}</WhyUser> : <div>{el.nickname}</div>}
                     <div>{el.createAt}
@@ -56,7 +64,9 @@ function TimeLinePost({postData,userData}: any) {
                     </span>
 
                 </div>
-                </div>)
+                </div>
+                </Link>
+                )
             }) }
         </div>
     )

@@ -5,6 +5,7 @@ import { useDispatch } from "react-redux";
 import styled from "styled-components";
 import '@fortawesome/fontawesome-free/js/all.js'
 import TimeLinePost from '../../components/timeLinePost/TimeLinePost'
+import { Link } from 'react-router-dom'
 
 //   '로고-우동담-Dark-글자만-배경o.png'
 const TimeLine = () => {
@@ -17,14 +18,14 @@ const TimeLine = () => {
      "nav nav nav"
      ". center ."
      "foot foot foot";
-`;
-const CharacterImg = styled.img`
-  box-sizing: border-box;
-    width: 30vw;
-    display: grid;
-    color:white;
+    `;
 
-`;
+    const CharacterImg = styled.img`
+    box-sizing: border-box;
+        width: 30vw;
+        display: grid;
+        color:white;
+    `;
 
     const [userData, setUserData] = useState<any>({name : 'gang', id : 1});
     const [postData, setPostData] = useState<any>([
@@ -62,16 +63,15 @@ const CharacterImg = styled.img`
          createAt: '2020-10-20 11:10',
          public: true
          }
-        ])
+    ])
 
     return (
         <div>
-            <div>{userData.name}님 안녕하세요</div>
-            <Container>
-                <CharacterImg src = '로고-우동담-Dark-글자만-배경x.png'/>
-            </Container>
-            <TimeLinePost postData = {postData} userData = {userData}/>
-
+                <div>{userData.name}님 안녕하세요</div>
+                <Container>
+                    <CharacterImg src = '로고-우동담-Dark-글자만-배경x.png'/>
+                </Container>
+                <TimeLinePost postData = {postData} userData = {userData}/>
         </div>
     )
 }

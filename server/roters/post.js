@@ -6,6 +6,6 @@ router.get('/', postController.postTag);
 router.get('/user', postController.postUser);
 router.get('/:postId', postController.postPick);
 router.post('/', postController.postCreate);
-router.delete('/', postController.postDelete);
+router.delete('/:postId', postController.postDelete);
 
 module.exports = router

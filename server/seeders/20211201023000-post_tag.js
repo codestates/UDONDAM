@@ -32,7 +32,27 @@ module.exports = {
         id: 6,
         postId: 3,
         tagId: 8
-      }
+      },
+      {
+        id: 7,
+        postId: 4,
+        tagId: 1
+      },
+      {
+        id: 8,
+        postId: 4,
+        tagId: 8
+      },
+      {
+        id: 9,
+        postId: 5,
+        tagId: 3
+      },
+      {
+        id: 10,
+        postId: 5,
+        tagId: 7
+      },
       ], {});
   },
 

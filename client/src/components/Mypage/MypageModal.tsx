@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch, useSelector, RootStateOrAny } from "react-redux";
 import { UserInfoHandler } from '../../redux/modules/UserInfo'
 import { useHistory } from 'react-router-dom';
 import axios from 'axios';
@@ -89,6 +89,7 @@ import { IProps } from '../../pages/Mypage';
 function MypageModal (props:any) {
     const dispatch = useDispatch();
     const history = useHistory();
+    const userInfo = useSelector((state: RootStateOrAny) => state.UserInfoReducer);
     const closeModal = props.closeModal
     const [isOpen, setIsOpen] = useState(true);
     const [password, setPassword] = useState('');
@@ -104,16 +105,18 @@ function MypageModal (props:any) {
 
     const userDeleteHandler = async function(e:React.MouseEvent<HTMLButtonElement>){
       e.preventDefault()
+      //비밀번호 체크에서 authorize 안되서 오류남
       try {
-        const passwordCheckResp = await axios.post(`${process.env.REACT_APP_API_URL}/passwordcheck`, { password }, {withCredentials: true })
-        if (!passwordCheckResp) {
-          console.log('비밀번호를 확인해주세요')
-          return;
-        }else{
+        const passwordCheckResp = await axios.post(`${process.env.REACT_APP_API_URL}/passwordcheck`, { email:userInfo.email,password:password }, {withCredentials: true })
+        
           const userDeleteResult = await axios.delete(`${process.env.REACT_APP_API_URL}/`, { withCredentials: true })
           setPassword('')
+        
+      } catch (error: any) {
+        console.log(error.response)
+        if(error.response.status === 401){
+          console.log('비밀번호를 확인해주세요')
         }
-      } catch (error) {
         console.log(error)
       }
     }

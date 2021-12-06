@@ -35,8 +35,7 @@ module.exports = {
         if(posts.length === 0) {
             return res.status(200).send(posts);
         }
-        let resPosts = [];
-        posts.map((post)=> {
+        const resPosts =  posts.map((post)=> {
             const {id, content, createAt, public, userId, user, tags, likes, comments} = post;
             const tag = [];
             for (let el of tags) {
@@ -48,7 +47,7 @@ module.exports = {
                     likeCheck = true;
                 }
             }
-            resPosts.push({
+            return {
                 id: id,
                 userId: userId,
                 nickname: user.nickname,
@@ -59,7 +58,7 @@ module.exports = {
                 likeCheck: likeCheck,
                 createAt: createAt,
                 public: public
-            });
+            };
         });
                 return res.status(200).send(resPosts);
     },
@@ -80,7 +79,8 @@ module.exports = {
                     model: comment,
                     attributes: ['id']
                 }
-            ]
+            ],
+            order: [['createAt','DESC']]
         });
         if(posts.length === 0) {
             return res.status(200).json(posts);
@@ -98,16 +98,18 @@ module.exports = {
         })
         res.status(200).send(resPosts);
     },
+
     postPick : async (req,res) => {
         req.params.postId = req.params.postId || 1;
-        const re = await post.findOne({
+        const postPick = await post.findOne({
             where:{
                 id: req.params.postId
             },
             include:[
                 {
                     model: user,
-                    attributes: ['nickname']
+                    attributes: ['nickname'],
+                    required: true
                 },
                 {
                     model: tag,
@@ -116,34 +118,56 @@ module.exports = {
                 },
                 {
                     model: comment,
-                    required: true
+                    include:[
+                        {
+                            model: user,
+                            attributes:['nickname'],
+                            required:true
+                        }
+                    ]
                 }
             ]
         });
         try{
-        const {id, userId, public, content, createAt, user, tags, comments} = re
+        const {id, userId, public, content, createAt, user, tags, comments} = postPick
         let tag = [];
         for(let el of tags) {
             tag.push(el.content)
         }
-        
-        let arr = [];
+        let commentArr = [];
+        if(comments.length !== 0) {
             comments.map((el)=>{
-            if(el.dataValues.commentId === null) {
-                el.dataValues.comment = [];
-                arr.push(el.dataValues);
+                const {id, content, userId, postId, commentId, createAt, user} = el.dataValues
+            if(commentId === null) {
+                commentArr.push({
+                    id: id,
+                    content: content,
+                    nickname: user.nickname,
+                    userId: userId,
+                    postId: postId,
+                    commentId: commentId,
+                    createAt:createAt,
+                    comment: []
+                });
             }
             else {
-                for(let as of arr) {
-                    if(as.id === el.dataValues.commentId) {
-                        as.comment.push(el.dataValues)
+                for(let comment of commentArr) {
+                    if(comment.id === commentId) {
+                        comment.comment.push({
+                            id: id,
+                            content: content,
+                            nickname: user.nickname,
+                            userId: userId,
+                            postId: postId,
+                            commentId: commentId,
+                            createAt:createAt
+                        })
                     }
                 }
             }
         })
-        
-        console.log(arr)
-        let b = {
+        }
+        const resPost = {
             id: id,
             userId: userId,
             nickname: user.nickname,
@@ -151,18 +175,59 @@ module.exports = {
             public: public,
             createAt: createAt,
             tag: tag,
-            comment:arr
+            comment: commentArr
         }
-        res.status(200).send(b);
+        return res.status(200).send(resPost);
         } catch(err) {
             console.log(err);
-            res.status(400).send("asd")
+            res.status(500).send("Server Error")
         }
     },
-    postCreate : (req, res) => {
-        res.status(200).send("postPost");
+
+    postCreate : async (req, res) => {
+        req.userId = req.userId || 1;
+        const {content, public} = req.body;
+
+        try{
+            let Post = await post.create({
+                content: content, public: public, userId: req.userId
+            })
+            const tagArr = await tag.findAll({
+                attributes:['id','content'],
+                raw: true,
+                where: {
+                    content: req.body.tag
+                }
+            })
+            for(let el of tagArr) {
+                await post_tag.create({
+                    postId: Post.id, tagId: el.id
+                })
+            }
+            return res.status(200).json({"message" : "create!"});
+            
+        } catch(err) {
+            console.log(err);
+            return res.status(500).send("Server Error")
+        }
+        
     },
-    postDelete : (req, res) => {
-        res.status(200).send("postDelete");
+    postDelete : async (req, res) => {
+        req.userId = req.userId || 1,
+        req.params.postId = req.params.postId || 14;
+        try{
+            const postDelete = await post.destroy({
+            where: {
+                id: req.params.postId, userId:req.userId
+            }
+        })
+        if(postDelete === 1) {
+            return res.status(200).json({"message": "delete!"});
+        }
+            return res.status(400).json({"message": "post dosen't exist"})
+        } catch(err) {
+            console.log(err);
+            return res.status(500).send("Server Error")
+        }
     }
 }

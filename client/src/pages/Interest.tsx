@@ -56,7 +56,29 @@ function Interest() {
                 commentCount: 5,
                 likeCount: 2,
                 likeCheck: false,
-                createAt: '2020-10-20 11:10',
+                createAt: '2020-10-20 12:10',
+                public: true
+            },
+            {
+                id: 11,
+                nickname: "kim",
+                content: "이거...",
+                tag: ['서울', '독서'],
+                commentCount: 5,
+                likeCount: 2,
+                likeCheck: false,
+                createAt: '2020-10-21 11:10',
+                public: true
+            },
+            {
+                id: 21,
+                nickname: "kim",
+                content: "왜...",
+                tag: ['서울', '독서'],
+                commentCount: 5,
+                likeCount: 2,
+                likeCheck: false,
+                createAt: '2021-01-20 11:55',
                 public: true
             }
         ]
@@ -66,16 +88,13 @@ function Interest() {
     };
 
     const formChange = (origin: Array<any>) => {
-        let memo;
         let yearArray: Array<any> = [];
+        let sortedArray: Array<any> = [];
         const splitNum = function (createAt: string) {
 
             const splited:Array<any> = createAt.split('-');
             
             if (yearArray[yearArray.length - 1] !== `${splited[0]}-${splited[1]}`) {
-                
-                //const splitedYear = {year : ''}
-                //let key:string = `${splited[0]}-${splited[1]}`
                 yearArray.push(`${splited[0]}-${splited[1]}`)
             }
 
@@ -91,36 +110,38 @@ function Interest() {
         });
         
         const arrayToObject = function(input:Array<string>) {
+            
             let result:any = []
+            let object:any = {}
             const toObject = input.map((el:string)=>{
-                return result[`${el}`] = []
+                object[`${el}`] = []
+                result.push(object)
+                object = {} // 내용 초기화
+                return result
             })
-            yearArray = result ;
+            sortedArray = result ;
         }
 
         const insertYearArray = function(yearlist:Array<any>, value:Array<any>) {
-            const result = value.map((el)=>{
-                if(!yearlist[el.createAtYearMonth]){
-                    return yearlist[el.createAtYearMonth] = [el]
-                } else {
-                    return yearlist[el.createAtYearMonth].push([el])
+        
+            let count = 0
+            const createobject = value.map((el)=>{
+                for(let i = 0; i <= yearlist.length-1; i++){
+                    if(yearlist[i][el.createAtYearMonth]){
+                        yearlist[i][el.createAtYearMonth].push(el)
+                    }
                 }
-                
-
             })
-            return result
+            const result = yearlist.map((el)=>{
+                return el = [el]
+            })
+            console.log(result)
+            
+            return setResult(result)
         }
         arrayToObject(yearArray)
-        insertYearArray(yearArray, changedArray)
-        setResult(/*changedArray*/yearArray)
-        console.log(yearArray)
+        insertYearArray(sortedArray, changedArray)
     }
-
-
-    const handleClick = (post: any) => {
-        //누르면 포스트 아이디와 맞는 게시물로 이동
-    }
-
 
 
 
@@ -146,7 +167,6 @@ function Interest() {
     }
 
 
-
     return (
         <div>
             <div className='interest_nav_container'>
@@ -155,9 +175,9 @@ function Interest() {
                 <span className='my_interest' onClick={targetHandler('my_interest')}>따봉</span>&nbsp;&nbsp;
                 <span className='my_chat' onClick={targetHandler('my_chat')}>1:1</span>
             </div> <br />
-            {targetPage === 'my_post' ? <InterestPost post={result} handleClick={handleClick} /> : null}
-            {targetPage === 'my_comment' ? <InterestPost post={result} handleClick={handleClick} /> : null}
-            {targetPage === 'my_interest' ? <InterestPost post={result} handleClick={handleClick} /> : null}
+            {targetPage === 'my_post' ? <InterestPost post={result}  /> : null}
+            {targetPage === 'my_comment' ? <InterestPost post={result}  /> : null}
+            {targetPage === 'my_interest' ? <InterestPost post={result}  /> : null}
             {targetPage === 'my_chat' ? <CreateMyChat /> : null}
             <div></div>
         </div>

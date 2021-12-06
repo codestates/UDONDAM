@@ -30,7 +30,7 @@ module.exports = {
                 limit: 10
             })
             if(result.length === 0) {
-                return res.status(200).send(posts);
+                return res.status(200).send(result);
             }
             let result2 = [];
 

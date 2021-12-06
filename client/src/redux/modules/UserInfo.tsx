@@ -7,7 +7,7 @@ export interface userInfoState {
     email: string,
     nickname: string,
     area: string,
-    area2?: string,
+    area2: string,
     manager: boolean,
     socialType: string
   };

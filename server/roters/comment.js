@@ -4,6 +4,6 @@ const commentRouter = require('../controllers/comment');
 
 router.get('/', commentRouter.commentUser);
 router.post('/', commentRouter.commentCreate);
-router.delete('/', commentRouter.commentDelete);
+router.delete('/:commentId', commentRouter.commentDelete);
 
 module.exports = router

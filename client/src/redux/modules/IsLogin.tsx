@@ -16,19 +16,17 @@ export const isLoginInitialState: loginState = {
 //액션 정의
   //액션 타입 정의
   //액션은 '앱이름/reducer이름/Acction_type' 형태
-const LOGIN = 'UDONDAM/IsLogin/LOGIN';
-const LOGOUT = 'UDONDAM/IsLogin/LOGOUT';
+const ISLOGIN = 'UDONDAM/IsLogin/ISLOGIN';
   //액션 생성자 정의 및 export
-export const LoginHandler = createAction(LOGIN)<boolean>();
-export const LogOutHandler = createAction(LOGOUT)<boolean>();
+export const IsLoginHandler = createAction(ISLOGIN)<boolean>();
 
-const actions = {LoginHandler,LogOutHandler}; 
+const actions = {IsLoginHandler}; 
 
 export type LoginAction = ActionType<typeof actions>
 
 const IsLoginReducer = createReducer<loginState, LoginAction>(isLoginInitialState, {
   
-  [LOGIN]: (state, action) => {
+  [ISLOGIN]: (state, action) => {
     return Object.assign({},state,{
       isLogin:action.payload
     })

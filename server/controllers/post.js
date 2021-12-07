@@ -4,7 +4,9 @@ module.exports = {
     postTag : async (req, res) => {
         req.userId = req.userId || 1;
         req.query.tag = req.query.tag || '["대전","스포츠"]';
+        req.query.notTag = req.query.notTag || '["대전"]';
         const  queryTag = JSON.parse(req.query.tag);
+        const  queryNotTag = JSON.parse(req.query.notTag);
 
         const posts = await post.findAll({
             include: [
@@ -100,6 +102,7 @@ module.exports = {
     },
 
     postPick : async (req,res) => {
+        req.userId = req.userId || 1
         req.params.postId = req.params.postId || 1;
         const postPick = await post.findOne({
             where:{
@@ -125,14 +128,24 @@ module.exports = {
                             required:true
                         }
                     ]
+                },
+                {
+                    model: likes,
+                    attributes: ['userId']
                 }
             ]
         });
         try{
-        const {id, userId, public, content, createAt, user, tags, comments} = postPick
+        const {id, userId, public, content, createAt, user, tags, comments, likes} = postPick
         let tag = [];
         for(let el of tags) {
             tag.push(el.content)
+        }
+        let likeCheck = false;
+        for(let el of likes) {
+            if(el.userId === req.userId) {
+                likeCheck = true;
+            }
         }
         let commentArr = [];
         if(comments.length !== 0) {
@@ -173,6 +186,9 @@ module.exports = {
             nickname: user.nickname,
             content: content,
             public: public,
+            likeCount: likes.length,
+            commentCount: comments.length,
+            likeCheck: likeCheck,
             createAt: createAt,
             tag: tag,
             comment: commentArr
@@ -224,7 +240,7 @@ module.exports = {
         if(postDelete === 1) {
             return res.status(200).json({"message": "delete!"});
         }
-            return res.status(400).json({"message": "post dosen't exist"})
+            return res.status(400).json({"message": "post doesn't exist"})
         } catch(err) {
             console.log(err);
             return res.status(500).send("Server Error")

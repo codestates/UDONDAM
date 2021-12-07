@@ -13,8 +13,8 @@ const UnSelete = styled.div`
     //지역인증
 function Area({ history }: RouteComponentProps) {
 
-    const {id}:any = history.location.state
-    console.log(id)
+    // const {id}:any = history.location.state
+    // console.log(id)
     
     const [filterTag, setFilterTag] = useState<any>([])
     const [searchText, setSearchText] = useState<any>('')
@@ -60,15 +60,19 @@ function Area({ history }: RouteComponentProps) {
                 console.log('에러발생:', err)
             }
         })
-        
     }
+    console.log(areaSearch)
     const yesMyLocalHandle = () => {
-
+        if(threeLocal){
+            setThreeLocal(!threeLocal)
+        }
         setSecondLocal(!secondLocal)
     }
 
     const noMyLocalHandle = () => {
-
+        if(secondLocal){
+            setSecondLocal(!secondLocal)
+        }
         setThreeLocal(!threeLocal)
     }
 
@@ -92,13 +96,18 @@ function Area({ history }: RouteComponentProps) {
                     firstLocal ?
                     <div>
                         <div>
+                            {}
                             {areaSearch}
                         </div>
+                        {areaSearch === '검색중...' ? null 
+                        :
                         <div>
                             <span>이 위치가 맞습니까?  </span>
                             <button onClick = {yesMyLocalHandle}>예</button>
                             <button onClick = {noMyLocalHandle}>아니오</button>
                         </div>
+                        }
+                        
                     </div>
                     :
                     <UnSelete>

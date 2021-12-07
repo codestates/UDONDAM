@@ -13,14 +13,31 @@ library.add(faCommentDots);
 
     //게시글
 function Content({ history }: RouteComponentProps) {
-    const {id}:any = history.location.state
-    console.log(id)
+    // const {id}:any = history.location.state
     const [commentView, setCommentView] = useState<any>(false);
     const [commentText, setCommentText] = useState<any>('');
     const [giftComment, setGiftComment] = useState<any>([]);
     const [cCommentView, setCCommentView] = useState<any>(0);
     const [cCommentText, setCCommentText] = useState<any>('');
     const [giftCComment, setGiftCComment] = useState<any>([]);
+    const [likeChangeData, setLikeChangeData] = useState<any>(false);
+
+    const likeTrue = {
+        color: "blue",
+        cursor: 'pointer'
+    }
+    const pointerTrue = {
+        cursor: 'pointer'
+    }
+    const boxBorder = {
+        border: '1px solid black'
+    }
+    const boxBorder2 = {
+        border: '1px solid black',
+        marginBottom: '1rem',
+        marginTop: '1rem',
+
+    }
     
     const [postDataDetail, setPostDataDetail] = useState<any>([
         {
@@ -31,7 +48,7 @@ function Content({ history }: RouteComponentProps) {
         tag: ['서울' , '운동' , '식사', '독서'], //태그
         commentCount: 20, //댓글 
         likeCount: 10, //따봉 수
-        likeCheck: false,  //따봉 눌렀는지 체크
+        likeCheck: true,  //따봉 눌렀는지 체크
         createAt: '2020-10-10 09:10',  //생성날짜
         public: true, //채팅창 활성화 비활성화
         comment: [
@@ -75,7 +92,11 @@ function Content({ history }: RouteComponentProps) {
         setCCommentText(event.target.value)
     }
     const commentCommentViewHandle = (data:any) => {
-        setCCommentView(data)
+        if(data === cCommentView){
+            setCCommentView(0)
+        }else{
+            setCCommentView(data)
+        }
     }
 
     const commentViewHandle = () => {
@@ -105,6 +126,25 @@ function Content({ history }: RouteComponentProps) {
 
         setCommentText('')
     }
+    const likeChangeHandle = () => {
+        if(postDataDetail[0].likeCheck){
+            postDataDetail[0].likeCheck = false
+            postDataDetail[0].likeCount = postDataDetail[0].likeCount - 1
+            //대충 액시오스로 서버로 따봉 딜리트 요청 보낸다는것
+            
+        }
+        else{
+            postDataDetail[0].likeCheck = true
+            postDataDetail[0].likeCount++
+            //대충 액시오스로 서버로 따봉 포스트 요청 보낸다는것
+        }
+        setLikeChangeData(!likeChangeData)
+        setPostDataDetail(postDataDetail)
+    }
+   
+
+    
+    console.log(postDataDetail[0].likeCheck)
     console.log(giftComment)
     console.log(giftCComment)
 
@@ -124,14 +164,22 @@ function Content({ history }: RouteComponentProps) {
                 })
                 }
                 <div>
-                    <span onClick={commentViewHandle}>
+                    <span style = {pointerTrue} onClick={commentViewHandle}>
                         <FontAwesomeIcon icon={faCommentDots} data-fa-transform="flip-v"></FontAwesomeIcon>
                         {el.commentCount}
                     </span>
-                    <span>
-                        <FontAwesomeIcon icon={faThumbsUp}></FontAwesomeIcon>
-                        {el.likeCount}
-                    </span>
+                    {postDataDetail.map((el:any) => el.likeCheck ?
+                        <span style={likeTrue} onClick={likeChangeHandle}>
+                            <FontAwesomeIcon icon={faThumbsUp}></FontAwesomeIcon>
+                            {el.likeCount}
+                        </span>
+                        :
+                        <span style = {pointerTrue} onClick={likeChangeHandle}>
+                            <FontAwesomeIcon icon={faThumbsUp}></FontAwesomeIcon>
+                            {el.likeCount}
+                        </span>
+                        )
+                    }
                 </div>
                 </div>
                
@@ -141,7 +189,7 @@ function Content({ history }: RouteComponentProps) {
             {commentView ? postDataDetail[0].comment.map((el:any) => {
                 return (
                 <div>
-                    <div>
+                    <div style={boxBorder}>
                         <div>
                             <span>
                                 {el.nickname}
@@ -149,7 +197,7 @@ function Content({ history }: RouteComponentProps) {
                             <span>
                                 {el.createAt}
                             </span>
-                            <span onClick={() => commentCommentViewHandle(el.id)}>
+                            <span style = {pointerTrue}  onClick={() => commentCommentViewHandle(el.id)}>
                                 댓글
                             </span>
                             <span>
@@ -175,9 +223,11 @@ function Content({ history }: RouteComponentProps) {
                     {el.comment === [] ? null : 
                     el.comment.map((le:any) => {
                         return (
-                            <div>
-                                <FontAwesomeIcon icon={faGreaterThan} data-fa-transform="flip-v"></FontAwesomeIcon>
-                                    <span>
+                            <table>
+                                <FontAwesomeIcon icon={faGreaterThan} data-fa-transform="flip-v"/>
+
+                                <div style={boxBorder2}>
+                                    <div>
                                         <span>
                                             {le.nickname}
                                         </span>
@@ -190,12 +240,12 @@ function Content({ history }: RouteComponentProps) {
                                         <span>
                                             신고
                                         </span>
-                                    </span>
+                                    </div>
                                     <div>
                                         {le.content}
                                     </div>
-                                
-                            </div>
+                                </div>
+                            </table>
                         )
                     })
                     }

@@ -2,13 +2,13 @@ const {comment, post, likes} = require('../models/index')
 
 module.exports = {
     commentUser: async (req, res) => {
-        req.userId = req.userId || 2;
+        req.userId = req.userId || 1;
         try{
         let a = await post.findAll({
                 include:[
                     {
                         model:comment,
-                        attributes:['id'],
+                        attributes:[],
                         where: {
                             userId:req.userId
                         }
@@ -23,17 +23,34 @@ module.exports = {
         if(a.length === 0) {
             return res.status(200).json(a)
         }
-        let b = a.map((el)=> {
-            const {id, content, createAt, likes, comments} = el.dataValues;
-            return ({
+        // let b = a.map((el)=> {
+        //     const {id, content, createAt, likes, comments} = el.dataValues;
+        //     return ({
+        //         id:id,
+        //         content: content,
+        //         createAt: createAt,
+        //         likeCount: likes.length,
+        //         commentCount: comments.length
+        //     })
+        // })
+        let b = [];
+        for(let el of a) {
+            const {id, content, createAt, likes} = el.dataValues;
+            let c = await comment.count({
+                where:{
+                    postId: id
+                }
+            })
+            b.push(
+                {
                 id:id,
                 content: content,
                 createAt: createAt,
                 likeCount: likes.length,
-                commentCount: comments.length
-            })
-        })
-        return res.send(b)
+                commentCount: c
+                })
+        }
+            return res.send(b)
         } catch(err) {
             console.log(err);
             return res.status(500).json({"message": "Server Error"})
@@ -44,15 +61,15 @@ module.exports = {
         const {postId, content, commentId} = req.body;
         try{
             if(postId && content && commentId) {
-                let a = await comment.create({
+                await comment.create({
                     userId: req.userId, postId: postId, content:content, commentId: commentId
                 })
-                return res.json({"message": "created!"})
+                return res.status(201).json({"message": "created!"})
             }
-                let b = await comment.create({
+                await comment.create({
                     userId: req.userId, postId: postId, content: content
                 })
-            return res.json(b)
+                return res.status(201).json({"message": "created!"})
         } catch(err) {
             console.log(err);;
             return res.status(500).json({"message": "Server Error"})
@@ -60,7 +77,20 @@ module.exports = {
     },
     commentDelete: async (req, res) => {
         req.userId = req.userId || 1;
-        req.query.commentId = req.query.commentId || 10;
-        res.status(200).send("commentDelete");
-    },
+        req.params.commentId = req.query.commentId || 8;
+        try {
+            const commentDelete = await comment.destroy({
+                where: {
+                    id: req.params.commentId, userId:req.userId
+                }
+            })
+            if(commentDelete === 0) {
+                return res.status(400).json({"message": "comment doesn't exist"})
+            }
+            return res.status(200).json({"message": "delete!"});
+        } catch(err) {
+            console.log(err);
+            return res.status(500).json({"message": "Server Error"})
+        }
+    }
 }

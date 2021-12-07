@@ -20,8 +20,8 @@ function Interest() {
 
     const InterestList = async function (key: string) {
         //클릭별로 바뀜
-        //const mypost = await axios.get(`${process.env.REACT_APP_API_URL}/${key}`,{withCredentials: true})
-        //console.log(mypost)
+        const mypost = await axios.get(`${process.env.REACT_APP_API_URL}/${key}`,{withCredentials: true})
+        console.log(mypost)
         //setResult(mypost.data)
         //더미데이터
         const post = [
@@ -166,7 +166,7 @@ function Interest() {
         }
     }
 
-
+    //여기에 포스트상세를 넣어서 움직일수 있게 한다? 모바일에선 가능.데스크탑에선?
     return (
         <div>
             <div className='interest_nav_container'>

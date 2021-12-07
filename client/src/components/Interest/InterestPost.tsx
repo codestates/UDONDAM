@@ -14,7 +14,12 @@ export default function InterestPost({ post }: any) {
         console.log(postId)
         try {
             const mypost = await axios.get(`${process.env.REACT_APP_API_URL}/post/${postId}`, { withCredentials: true })
-            console.log(mypost)
+            console.log(mypost.data)
+            if(mypost.status === 200){
+                history.push({
+                    pathname: '/Content'
+                })
+            }
             // history.push({
             //     pathname: '/Content'
             // })

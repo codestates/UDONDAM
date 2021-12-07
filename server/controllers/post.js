@@ -18,9 +18,15 @@ module.exports = {
                 {
                     model: tag,
                     attributes: ['content'],
-                    where: {
-                        content: queryTag
-                    }
+                    // where: {
+                    //     content: queryTag
+                    //     // {
+                    //     //     [Op.and]:{
+                    //     //         [Op.or]:queryTag,
+                    //     //         //[Op.not]:["스포츠"]
+                    //     //     }
+                    //     // }
+                    // },  
                 },
                 {
                     model: likes,
@@ -35,7 +41,7 @@ module.exports = {
             limit: 10
         })
         if(posts.length === 0) {
-            return res.status(200).send(posts);
+            return res.status(200).send(resPosts);
         }
         const resPosts =  posts.map((post)=> {
             const {id, content, createAt, public, userId, user, tags, likes, comments} = post;

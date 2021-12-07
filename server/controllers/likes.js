@@ -13,11 +13,19 @@ module.exports = {
             res.status(401).json({ "message" : "token doesn't exist" });
         }
         else {
+            const tempLikeCount = await post.findAll({
+                attributes: ['id'],
+                include: [{
+                    model: likes,
+                    required: true,
+                    attributes: ['postId'],
+                }]
+            });
             const result = await post.findAll({
                 include: [{
                     model: likes,
-                    group: 'postId',
                     required: true,
+                    attributes: ['postId'],
                     where: {
                         userId: userInfo.id
                     }
@@ -29,25 +37,35 @@ module.exports = {
                 }],
                 order: [['createAt','DESC']],
                 limit: 10
-            })
-            // console.log(result)
-            // if(result.length === 0) {
-                return res.status(200).send("구현 중입니다");
-            // }
-            // let result2 = [];
+            });
+            // let likeCount = await likes.count({ where: {postId: id} });
+            
+            if(result.length === 0){
+                return res.status(200).json(result);
+            }
+            else{
+                let likesCount = [];
+                tempLikeCount.map((count) => {
+                    let { likes } = count;
+                    likesCount.push(likes.length);
+                })
 
-            // result.map((post)=> {
-            //     const { id, content, createAt, likes, comments } = post;
-            //     console.log(likes)
-            //     result2.push({
-            //         id: id,
-            //         content: content,
-            //         createAt: createAt,
-            //         likeCount: likes.length,
-            //         commentCount: comments.length
-            //     });
-            // });
-            // return res.status(200).send(result2);
+                const response = result.map((post, idx) => {
+                    let { id, content, createAt, comments } = post;
+                    
+                    return {
+                        id: id,
+                        content: content,
+                        createAt: createAt,
+                        likeCount: likesCount[idx],
+                        commentCount: comments.length
+                    };
+                });
+                
+                // return res.status(200).json({likesCount: temp});
+                return res.status(200).json(response);
+            }
+            
         }
     },
     likesCreate: async (req, res) => {

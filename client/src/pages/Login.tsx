@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom'
 import { useHistory } from 'react-router'
 import axios from 'axios'
 import { RootStateOrAny, useDispatch, useSelector } from 'react-redux'
-import { LoginHandler } from '../redux/modules/IsLogin'
+import { IsLoginHandler } from '../redux/modules/IsLogin'
 import { UserInfoHandler } from '../redux/modules/UserInfo';
 import SearchPassword from '../components/Login/SearchPassword'
 import GuestLoginModal from '../components/Login/GuestLoginModal'
@@ -62,7 +62,7 @@ function Login(){
                 manager: loginInfoPost.data.manager, 
                 socialType: loginInfoPost.data.socialType
             }))
-            dispatch(LoginHandler(true))
+            dispatch(IsLoginHandler(true))
             history.push('/Timeline')
 
         } catch (error:any) {
@@ -89,6 +89,11 @@ function Login(){
 
     const passwordSearchModalHandler = function() {
         setModalOnOff({...modalOnOff,['seaerchPasswordModal']:!modalOnOff.seaerchPasswordModal})
+    }
+
+    const socialLoginHandler =  (key:string)=> async (e:React.MouseEvent<HTMLSpanElement/*이거 바뀜 */>)=>{
+        const socialLoginResponse = await axios.get(`${process.env.REACT_APP_API_URL}/${key}`, {withCredentials: true})
+        console.log(socialLoginResponse)
     }
 
 
@@ -126,7 +131,11 @@ function Login(){
                         <li onClick={passwordSearchModalHandler}>비밀번호를 잊으셨나요?</li>
                     </ul>
             </div>
-            <div className='social'>소셜로그인 아이콘</div>
+            <div className='social'>
+                <span onClick={socialLoginHandler('google')}>구글</span>&nbsp;&nbsp;
+                <span onClick={socialLoginHandler('naver')}>네이버</span>&nbsp;&nbsp;
+                <span onClick={socialLoginHandler('kakao')}>카카오</span>&nbsp;&nbsp;
+            </div>
         </div>
            
     )

@@ -3,7 +3,7 @@ import { useSelector, RootStateOrAny, useDispatch } from 'react-redux';
 import { UserInfoHandler } from '../redux/modules/UserInfo';
 import { useHistory } from 'react-router';
 import MypageModal from '../components/Mypage/MypageModal';
-import { LoginHandler } from '../redux/modules/IsLogin';
+import { IsLoginHandler } from '../redux/modules/IsLogin';
 import axios from 'axios';
 
 //인터페이스 관련
@@ -115,16 +115,12 @@ function Mypage() {
         }
     }
 
-    const test = function() {
-        console.log('작동')
-    }
-
     const logoutHandler = async function () {
         try {
             const logoutResult = await axios.post(`${process.env.REACT_APP_API_URL}/logout`, { withCredentials: true })
             // const logoutResult = await axios.post('http://localhost:4000/oauth/logout', { accept: "application/json", withCredentials: true })
             // console.log('logoutResult:', logoutResult)
-            dispatch(LoginHandler(false))
+            dispatch(IsLoginHandler(false))
             history.push('/');
         } catch (err) {
             console.log(err)

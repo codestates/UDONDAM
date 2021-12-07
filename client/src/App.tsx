@@ -20,7 +20,7 @@ import './styles/App.css';
 
 function App() {
   const dispatch = useDispatch()
-
+  console.log(navigator.userAgent)
   const isMobile = () => { 
     try { //이건 주먹구구라 일단 이렇게 해둠. 테스트때는 터치가 안먹혀서 터치로 판단못함.
      if(/Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent)){

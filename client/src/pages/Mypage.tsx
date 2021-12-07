@@ -4,6 +4,7 @@ import { UserInfoHandler } from '../redux/modules/UserInfo';
 import { useHistory } from 'react-router';
 import MypageModal from '../components/Mypage/MypageModal';
 import { IsLoginHandler } from '../redux/modules/IsLogin';
+import styled from 'styled-components';
 import axios from 'axios';
 
 //인터페이스 관련
@@ -46,6 +47,7 @@ function Mypage() {
         onChange: false
     })
     const [errorMessage, setErrorMessage] = useState<string>('')
+    const [click, setClick] = useState<boolean>(false)
 
     //스테이트 핸들링
     const onOffHandler = (key: string) =>()=> {
@@ -137,12 +139,26 @@ function Mypage() {
         
         setOnOff({ ...onOff, ['onChange']: !onOff.onChange })
     }
+
+    const test =function():any{
+        setClick(!click)
+    }
+
+    const MypageContainer = styled.div`
+    display:flex;
+    flex-direction: row;
+    `;
+    const MypageContainer2 = styled.div`
+    `;
+
     console.log(onOff)
 
     return (
         <div>
+        <div>
             {onOff.onModal ? <MypageModal closeModal={closeModal} /> : null}
             <div>logo</div>
+            <button onClick={test}>테스트</button>
             <div className='mypage_request_box'>
                 <button onClick={onOffHandler('onRequest')}>문의하기</button>
                 {onOff.onRequest ?
@@ -155,6 +171,8 @@ function Mypage() {
             
             {onOff.onChange ?
                 <div className='mypage_userinfo_box_true'>
+
+
                     <div>닉네임 변경</div>
                     <input type="text" value={userData.nickname} onChange={userDataHandler('nickname')}/>
                     <div>비밀번호 수정</div>
@@ -178,6 +196,51 @@ function Mypage() {
                         <button onClick={onOffHandler('onModal')}>회원탈퇴</button>
                     </div>
                 </div>}
+        </div>
+
+        {click ? 
+
+        <div>
+        {onOff.onModal ? <MypageModal closeModal={closeModal} /> : null}
+        <div>logo</div>
+        <div className='mypage_request_box'>
+            <button onClick={onOffHandler('onRequest')}>문의하기</button>
+            {onOff.onRequest ?
+                <div className='mypage_button_box'>
+                    <button>태그추가 요청</button>
+                    <button>신고처리현황</button>
+                </div> : null}
+        </div>
+        {!onOff.onChange ? <button onClick={onOffHandler('onChange')}>회원정보수정</button> : null}
+        
+        {onOff.onChange ?
+            <div className='mypage_userinfo_box_true'>
+                <div>닉네임 변경</div>
+                <input type="text" value={userData.nickname} onChange={userDataHandler('nickname')}/>
+                <div>비밀번호 수정</div>
+                <input type="text" value={userData.password} onChange={userDataHandler('password')}/>
+                {errorMessage}
+                <div>비밀번호 수정 확인</div>
+                <input type="text" value={userData.passwordCheck} onChange={userDataHandler('passwordCheck')}/>
+                {errorMessage}
+                <div className='mypage_button_box_true'>
+                    <button onClick={changeComplete}>수정확인</button>
+                    <button onClick={cancleHandler}>취소</button>
+                    <button onClick={test}>테스트</button>
+                </div>
+            </div> :
+            <div className='mypage_userinfo_box_false'>
+                <div>이메일</div>
+                <input type="text" value={userData.email} disabled />
+                <div>닉네임</div>
+                <input type="text" value={userData.nickname} disabled />
+                <div className='mypage_button_box_false'>
+                    <button onClick={logoutHandler}>로그아웃</button>
+                    <button onClick={onOffHandler('onModal')}>회원탈퇴</button>
+                </div>
+            </div>}
+    </div> 
+    : null}
         </div>
     )
 }

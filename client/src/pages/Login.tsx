@@ -76,9 +76,9 @@ function Login(){
         
         
     }
-    const loginState = useSelector((state: RootStateOrAny)=>state.IsLoginReducer);
+   
     const loginUserInfo = useSelector((state: RootStateOrAny)=>state.UserInfoReducer);
-    console.log(loginState,loginUserInfo)
+    console.log(loginUserInfo)
 
     
 
@@ -110,6 +110,7 @@ function Login(){
     const closeGuestModal = function () { 
         offGuestModalModal()
     };
+
 
     return(
         <div>

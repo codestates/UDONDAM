@@ -1,5 +1,6 @@
 import React from 'react'
 import { Link } from 'react-router-dom';
+import { useSelector, RootStateOrAny } from 'react-redux';
 import { useHistory } from 'react-router';
 import axios from 'axios';
 import Content from '../../pages/Content';
@@ -15,14 +16,16 @@ export default function InterestPost({ post }: any) {
         try {
             const mypost = await axios.get(`${process.env.REACT_APP_API_URL}/post/${postId}`, { withCredentials: true })
             console.log(mypost.data)
-            if(mypost.status === 200){
+            console.log(useSelector((state: RootStateOrAny)=>state.IsMobileReducer.isMobile))
+            if(useSelector((state: RootStateOrAny)=>state.IsMobileReducer.isMobile)){
+            //모바일인 경우
+                if(mypost.status === 200){
                 history.push({
                     pathname: '/Content'
                 })
             }
-            // history.push({
-            //     pathname: '/Content'
-            // })
+            }
+            
             return ;
         } catch (error:any) {
             if(error.response.status === 500){

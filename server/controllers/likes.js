@@ -3,7 +3,7 @@ const { sequelize } = require("sequelize");
 const { isAuthorized } = require('../controllers/token.js');
 module.exports = {
     likesUser: async (req, res) => {
-        const { email } = req.query;
+        const { email } = req.body;
         let userInfo = await user.findOne({
             where: {
                 email: email

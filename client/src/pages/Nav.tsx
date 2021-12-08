@@ -1,4 +1,4 @@
-import React from 'react'
+import React,{useEffect} from 'react'
 import { Link } from 'react-router-dom'
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import styled from 'styled-components';
@@ -8,30 +8,43 @@ import { faSearchLocation, faListAlt, faPenSquare, faUser } from "@fortawesome/f
     
 function Nav () {
     const NavContainer = styled.div`
+        position: relative;
         background-color:gray;
         display: flex;
         flex-direction: row;
         justify-content: center;
-        padding: 3px;
+        align-items: center;
+        /* padding: 3px; */
         width: 100%;
+        height: 100%;
     `;
+
+const test = function(){
+    //document.querySelector('.nav_link_box')?.classList.add('hide')
+    console.log(document.baseURI)
+    console.log(document.location.href)
+}
+useEffect(()=>{
+  test()  
+},[])
+
 
     return(
                 <NavContainer className='nav_link_box'>
                     <Link to = './Search' >
-                    <FontAwesomeIcon icon={faSearchLocation} size='2x'></FontAwesomeIcon>
+                    <FontAwesomeIcon icon={faSearchLocation} size='3x'></FontAwesomeIcon>
                     </Link>
                     &nbsp;&nbsp;
                     <Link to='../Interest' >
-                    <FontAwesomeIcon icon={faListAlt} size='2x'></FontAwesomeIcon>
+                    <FontAwesomeIcon icon={faListAlt} size='3x'></FontAwesomeIcon>
                     </Link>
                     &nbsp;&nbsp;
                     <Link to='../Postcontent' >
-                    <FontAwesomeIcon icon={faPenSquare} size='2x'></FontAwesomeIcon>
+                    <FontAwesomeIcon icon={faPenSquare} size='3x'></FontAwesomeIcon>
                     </Link>
                     &nbsp;&nbsp;
                     <Link to='../Mypage' >
-                    <FontAwesomeIcon icon={faUser} size='2x'></FontAwesomeIcon>
+                    <FontAwesomeIcon icon={faUser} size='3x'></FontAwesomeIcon>
                     </Link>
                 </NavContainer>
                 

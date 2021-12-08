@@ -154,7 +154,7 @@ function Mypage() {
     console.log(onOff)
 
     return (
-        <div>
+        <div className='container'>
         <div>
             {onOff.onModal ? <MypageModal closeModal={closeModal} /> : null}
             <div>logo</div>

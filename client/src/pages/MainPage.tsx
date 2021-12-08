@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import styled from "styled-components"
 import Interest from "./Interest";
 import TimeLine from "./timeLine/TimeLine";
@@ -24,6 +24,7 @@ function MainPage () {
         contentOn: false
     })
     const [contentPage, setContentPage] = useState<any>(<Interest />)
+    const [triger, setTriger] = useState<boolean>(false)
     const MainPageContainer = styled.div`
         display: flex;
         flex-direction: row;
@@ -31,9 +32,16 @@ function MainPage () {
     const InterestContainer =styled.div``;
     const TimeLineContainer =styled.div``;
     const ContentContainer =styled.div``;
-
-    const interestHandler = function(){
-        //const usesave = useSelector((state: RootStateOrAny)=>state.MainPageReducer).interestBoxOn
+    
+    console.log('interestBoxOn내용:',useSelector((state: RootStateOrAny)=>state.MainPageReducer).interestBoxOn)
+    useEffect(()=>{
+        console.log('useEffect작동')
+        
+    },[triger])
+    
+    
+    const InterestHandler = function(){
+        setTriger(!triger)
         setPageOnOff({...pageOnOff, interestOn:!pageOnOff.interestOn})
         dispatch(MainPageHandler({
             interestBoxOn: true,
@@ -42,6 +50,7 @@ function MainPage () {
             contentBox:null
         }))
     }
+
     const contentPageHandler = function(){
         setContentPage(<TimeLine />)
 
@@ -49,7 +58,7 @@ function MainPage () {
 
     return(
         <div>
-            <button onClick={interestHandler}>관심글테스트</button>
+            <button onClick={InterestHandler}>관심글테스트</button>
         <MainPageContainer>
             
             {useSelector((state: RootStateOrAny)=>state.MainPageReducer).interestBoxOn ? 

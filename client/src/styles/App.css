@@ -1,27 +1,102 @@
 
 .App {
   text-align: center;
-}
-body{
-  display: flex;
-  flex-direction: column;
   
-  align-items: center;
-  min-height: 100vh;
+}
+
+.hide{
+  display: none !important;
+}
+
+html{
+  height: 100%;
+  width: 100%;
+  min-width: 350px;
+  background-color: rgba(0, 0, 0, 0.281);
+  /* display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center; */
+}
+
+body{
+  background-color: rgba(7, 255, 255, 0.151);
+  color: black;
   box-sizing: border-box;
+  height: 100%;
+  width: 100%;
 }
 
 ul{
   list-style: none;
 }
 
+#root{
+  height: 100%;
+  width: 100%;
+  display: grid;
+  
+  grid-template-areas: 
+  "logo"
+  "container"
+  "footer";
+  grid-template-rows: min-content auto 8%; 
+  /* grid-template-columns: 100%; */
+  color: black;
+  justify-content: center;
+  align-items: center;
+  box-sizing: border-box;
+}
 
-
-#logo_nav_container{
+#logo{
+  background-color: rgba(0, 0, 255, 0.164);
+  grid-area: 'logo';
+  display: block;
   display: flex;
+  position: relative;
   flex-direction: column;
   justify-content: center;
   align-items: center;
+  width: 100%;
+}
+
+#container{
+  background-color: rgba(165, 42, 42, 0.336);
+  grid-area: 'container';
+  position: relative;
+  height: 100%;
+  width: 100%;
+  display: block;
+  display: flex;
+  flex-direction: column;
+  /* justify-content: center; */
+  align-items: center;
+  /* top: 2rem; */
+}
+
+.container{
+  position: relative;
+    width: 100%;
+    height: 100%;
+        display: flex;
+        flex-direction: column;
+        /* justify-content: center; */
+        align-items: center;
+        font-size: 1rem;
+}
+
+#footer{
+  background-color: rgba(128, 255, 0, 0.39);
+  position: relative;
+  color: blueviolet;
+  grid-area:"footer";
+  display: block;
+  display: flex;
+  flex-direction: column;
+  /* justify-content: center; */
+  align-items: center;
+  width: 100%;
+  height: 100%;
 }
 
 .logo_page{
@@ -29,17 +104,16 @@ ul{
 }
 
 .logo_nav{
-  width: 10rem;
+  position: relative;
+max-width: 32%;
 }
 
-#container{
-  position: relative;
-  top: 2rem;
-}
-@media (max-width: 700px){
+
+
+
+/* @media (min-width: 800px){
   body{
     color: blue;
-  justify-content: center;
   }
 
   #container{
@@ -48,13 +122,12 @@ ul{
     justify-content: center;
     align-items: center;
     position: relative;
-    /*top: 2rem;*/
   }
 
-}@media ( max-width: 900px){
+} */
+/* @media ( min-width: 1500px){
   body{
     color: red;
-  justify-content: center;
   }
 
   #container{
@@ -63,7 +136,7 @@ ul{
     justify-content: center;
     align-items: center;
     position: relative;
-    /*top: 2rem;*/
   }
 
-}
+} 
+*/

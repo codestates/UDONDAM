@@ -4,7 +4,7 @@ import { Link } from 'react-router-dom'
 function Footer () {
 
     return(
-            <div className='footer'>
+            <div >
                footer내용 들어갈 자리
             </div>
             

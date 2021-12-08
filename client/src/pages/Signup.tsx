@@ -33,7 +33,7 @@ function Signup() {
     const dispatch = useDispatch()
     const history = useHistory()
     if(useSelector((state: RootStateOrAny)=>state.IsLoginReducer.isLogin) === true){
-        history.push('/Timeline')
+        history.push('/Search')
     }
     const Validation = useSelector((state: RootStateOrAny) => state.ValidationReducer);
     const [signupInfo, setSignupInfo] = useState<signupInfoState>({
@@ -175,6 +175,7 @@ function Signup() {
         
         if(key === 'post'){
             const emailNumberCheck = await axios.post(`${process.env.REACT_APP_API_URL}/email`, { email: signupInfo.email }, { withCredentials: true }) 
+            console.log(emailNumberCheck)
             const emailNumber = emailNumberCheck.data.verificationCode //여기에 숫자저장
             setNumber(emailNumber);
         } else if (key === 'check') {
@@ -197,7 +198,7 @@ function Signup() {
     console.log(emailErrorMessage, passwordErrorMessage, passwordCheckErrorMessage, numberErrorMessage)
 
     return (
-        <div>
+        <div className='container'>
             <div className='signup_title'>회원가입</div>
             <div className='signup_input_box'>
                 <input type="text" placeholder='이메일' onChange={inputHandler('email')} /><br />

@@ -33,14 +33,14 @@ import { IProps } from '../../pages/Mypage';
     role: 'dialog'
   }))`
   
-  position:absolute;
-  top:100%;
+  position:relative;
+  top:50%;
   left:50%;
   transform: translate(-50%, -50%);
   background-color: white;
   padding:40px;
   width: 20em;
-  height: 20em;
+  //height: 20em;
   border-radius: 10px;
   text-align: center;
   border: solid 1px black;

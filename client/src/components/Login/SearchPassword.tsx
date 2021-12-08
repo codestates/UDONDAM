@@ -17,7 +17,7 @@ import { IProps } from '../../pages/Login';
   `;
   
   export const ModalBackdrop = styled.div`
-   position:relative;
+   position:absolute;
    top:0;
    left:0;
    z-index: 999;
@@ -34,13 +34,13 @@ import { IProps } from '../../pages/Login';
   }))`
   
   position:relative;
-  top:100%;
+  top:50%;
   left:50%;
   transform: translate(-50%, -50%);
   background-color: white;
   padding:40px;
   width: 20em;
-  height: 20em;
+  //height: 20em;
   border-radius: 10px;
   text-align: center;
   border: solid 1px black;

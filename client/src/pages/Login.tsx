@@ -7,6 +7,7 @@ import { IsLoginHandler } from '../redux/modules/IsLogin'
 import { UserInfoHandler } from '../redux/modules/UserInfo';
 import SearchPassword from '../components/Login/SearchPassword'
 import GuestLoginModal from '../components/Login/GuestLoginModal'
+import './styles/MainStyle.css'
 
 export interface loginInfoState {
         email: string,
@@ -27,7 +28,7 @@ function Login(){
     const dispatch = useDispatch()
     const history = useHistory()
     if(useSelector((state: RootStateOrAny)=>state.IsLoginReducer.isLogin) === true){
-        history.push('/Timeline')
+        history.push('/Search')
     }
     const [loginInfo, setLoginInfo] = useState<loginInfoState>({
         email: '',
@@ -63,7 +64,7 @@ function Login(){
                 socialType: loginInfoPost.data.socialType
             }))
             dispatch(IsLoginHandler(true))
-            history.push('/Timeline')
+            history.push('/Search')
 
         } catch (error:any) {
             if(error.response.status === 401){
@@ -113,7 +114,7 @@ function Login(){
 
 
     return(
-        <div>
+        <div className='container'>
             {modalOnOff.seaerchPasswordModal ? <SearchPassword closeSeaerchPasswordModal={closeSeaerchPasswordModal} /> : null}
             {modalOnOff.guestModal ? <GuestLoginModal closeGuestModal={closeGuestModal} /> : null}
             <img className='logo_page' src="로고-우동담-Dark-모양만-배경o.png" alt="logo" />

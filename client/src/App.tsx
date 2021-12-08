@@ -15,11 +15,13 @@ import Signup from './pages/Signup';
 import Timeline from './pages/timeLine/TimeLine';
 import MainPage from './pages/MainPage';
 import Footer from './pages/Footer';
+import { useHistory } from 'react-router-dom';
 
 
 import './styles/App.css';
 
 function App() {
+  const history = useHistory()
   const dispatch = useDispatch()
   console.log(navigator.userAgent)
   const isMobile = () => { 
@@ -34,18 +36,24 @@ function App() {
        return false; 
       } 
     };
+
+    const introPage = function(){
+      history.push('/')
+    }
+    
     isMobile()
     dispatch(IsMobileHandler(isMobile()))
-  console.log(document.documentElement)
-  console.log(useSelector((state: RootStateOrAny)=>state.IsMobileReducer.isMobile))
+  //console.log(document.documentElement)
+  //console.log(useSelector((state: RootStateOrAny)=>state.IsMobileReducer.isMobile))
   return (
     <>
-    <div id = 'logo_nav_container'>
-    <img className='logo_nav' src="로고-우동담-Dark-글자만-배경o.png" alt="logo" />
-    {!useSelector((state: RootStateOrAny)=>state.IsMobileReducer.isMobile)? <Nav /> : null}
+    <div id = 'logo'>
+    <img className='logo_nav' src="로고-우동담-Dark-글자만-배경o.png" alt="logo" onClick={introPage}/>
+    
     </div>
-    {/* 조건부렌더링이용:게스트/로그인 구분, 나오면 안되는창 구분 */}
     <div id ='container'>
+    {!useSelector((state: RootStateOrAny)=>state.IsMobileReducer.isMobile)? <Nav /> : null}
+    {/* 조건부렌더링이용:게스트/로그인 구분, 나오면 안되는창 구분 */}
     <Switch>
       <Route exact path="/">
         <Intro />
@@ -79,8 +87,11 @@ function App() {
         <Timeline />
       </Route>
     </Switch>
+    
+    </div>
+    <div id='footer'>
     {useSelector((state: RootStateOrAny)=>state.IsMobileReducer.isMobile)? <Nav /> : null}
-    <Footer />
+    {!useSelector((state: RootStateOrAny)=>state.IsMobileReducer.isMobile)? <Footer /> : null}
     </div>
     </>
   );

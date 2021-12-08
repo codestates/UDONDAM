@@ -1,6 +1,7 @@
 import axios from 'axios'
 import React, { useState, useEffect } from 'react'
 import { ArrayTypeNode } from 'typescript'
+import styled from 'styled-components'
 
 import InterestPost from '../components/Interest/InterestPost'
 //게시글관리
@@ -167,20 +168,33 @@ function Interest() {
         }
     }
 
+    const InterestNav = styled.div`
+        font-size: 1.5rem;
+        .${targetPage}{
+            border-bottom: solid 2px black;
+            
+        }
+    `;
+
+    useEffect(()=>{
+        InterestList('post/user')
+    },[])
+
     //여기에 포스트상세를 넣어서 움직일수 있게 한다? 모바일에선 가능.데스크탑에선?
     return (
         <div>
-            <div className='interest_nav_container'>
-                <span className='my_post' onClick={targetHandler('my_post')}>내 작성글</span>&nbsp;&nbsp;
-                <span className='my_comment' onClick={targetHandler('my_comment')}>댓글</span>&nbsp;&nbsp;
-                <span className='my_interest' onClick={targetHandler('my_interest')}>따봉</span>&nbsp;&nbsp;
-                <span className='my_chat' onClick={targetHandler('my_chat')}>1:1</span>
-            </div> <br />
+            <div className='container'>
+            <InterestNav>
+                <span className='my_post border_line_my_post' onClick={targetHandler('my_post')}>내 작성글</span>&nbsp;&nbsp;
+                <span className='my_comment border_line_my_comment' onClick={targetHandler('my_comment')}>댓글</span>&nbsp;&nbsp;
+                <span className='my_interest border_line_my_interest' onClick={targetHandler('my_interest')}>따봉</span>&nbsp;&nbsp;
+                <span className='my_chat border_line_my_chat' onClick={targetHandler('my_chat')}>1:1</span>
+            </InterestNav> <br />
             {targetPage === 'my_post' ? <InterestPost post={result}  /> : null}
             {targetPage === 'my_comment' ? <InterestPost post={result}  /> : null}
             {targetPage === 'my_interest' ? <InterestPost post={result}  /> : null}
             {targetPage === 'my_chat' ? <CreateMyChat /> : null}
-            <div></div>
+            </div>
         </div>
 
     )

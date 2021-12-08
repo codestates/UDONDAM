@@ -1,10 +1,11 @@
-import React from 'react'
+import React,{useEffect} from 'react'
 import { Link } from 'react-router-dom';
 import { useSelector, RootStateOrAny } from 'react-redux';
 import { useHistory } from 'react-router';
 import axios from 'axios';
 import Content from '../../pages/Content';
-import './style.css'
+import styled from 'styled-components';
+//import './style.css'
 //날짜별로 나눠야함
 
 export default function InterestPost({ post }: any) {
@@ -47,13 +48,21 @@ export default function InterestPost({ post }: any) {
             list[i].classList.toggle('hide')
         }
     }
+
+    
+
+
+    const YearMonth = styled.div`
+        background-color: #33272232;
+        padding:2px;
+    `;
     return (
         <div>
             {post.map((el: any) => {
                 for (let key in el[0]) {
                     return (//년-월별 컨테이너
                         <div className={`container_${key}`} key={key}>
-                            <div onClick={onOffHandler(`${key}`)} >{key}</div>
+                            <YearMonth onClick={onOffHandler(`${key}`)} >{key}</YearMonth>
                             <div>{el[0][key].map((value: any) => {
                                 return (//내용물
                                     <div className={`container_value_${key} hide`} key={value.id} id={value.id} onClick={clickHandler}>
@@ -61,7 +70,7 @@ export default function InterestPost({ post }: any) {
                                         <span >{value.content}</span>
                                     </div>
                                 )
-                            })}</div>< br />
+                            })}</div>
                         </div>
                     )
                 }

@@ -1,10 +1,12 @@
 import React from "react";
 import { useRef, useState, useEffect } from "react";
-import { useDispatch } from "react-redux";
 import styled from "styled-components";
 import '@fortawesome/fontawesome-free/js/all.js'
 import { Link } from 'react-router-dom'
 import { Route, Switch } from 'react-router-dom';
+import { RootStateOrAny, useDispatch, useSelector } from 'react-redux'
+import axios from 'axios';
+import { useHistory } from 'react-router'
 
 const AreaSelete = styled.div`
     background-color: darkgray;
@@ -37,6 +39,9 @@ const LogoImg = styled.img`
 
 //지역에 관한 필터링
 function Search() {
+    const loginUserInfo = useSelector((state: RootStateOrAny)=>state.UserInfoReducer)
+    const his = useHistory()
+    console.log(loginUserInfo)
     const selectButtonStyle = {
         background: "blue",
         color: "white",
@@ -206,7 +211,7 @@ function Search() {
         setNotModeTag(!notModeTag)
     }
     
-    const selectTagSearchHandle = () => {
+    const selectTagSearchHandle = async () => {
         let a = false
         giftTag.map((el:any) => {
             if(userAreaData.indexOf(el) === -1){
@@ -219,11 +224,31 @@ function Search() {
         })
         if(a){
             setErrorTag('잘했다')
+            if(notGiftTag.length === 0){
+                
+                await axios.get(`${process.env.REACT_APP_API_URL}/post?tag=${giftTag}`, {withCredentials: true}).then((respone) => {
+                    console.log(respone)
+                })
+                his.push('/Timeline')
+            }else{
+                const y = JSON.stringify(['대전'])
+                const u = JSON.stringify(['스포츠'])
+                await axios.get(`${process.env.REACT_APP_API_URL}/post?tag=${y}&notTag=${u}`, {withCredentials: true}).then((respone) => {
+                    console.log(respone)
+                })
+                his.push('/Timeline')
+            }
         }
         else{
             setErrorTag('지역은 필수')
+
         }
-    }   
+    }  
+    const timeLineAllTagHandle = async () => {
+        await axios.get(`${process.env.REACT_APP_API_URL}/post?tag=${userAreaData}`, {withCredentials: true}).then((respone) => {
+            console.log(respone)
+        })
+    }
     
 
     useEffect(() => {
@@ -306,7 +331,7 @@ function Search() {
                 <div>{errorTag}</div>
             </div>
             <div>
-                <button>
+                <button onClick={timeLineAllTagHandle}>
                     타임라인 전체 보기
                 </button>
             </div>

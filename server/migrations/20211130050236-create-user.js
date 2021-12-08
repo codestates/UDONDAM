@@ -32,12 +32,14 @@ module.exports = {
         type: Sequelize.BOOLEAN
       },
       area: {
-        allowNull: true,
-        type: Sequelize.STRING
+        allowNull: false,
+        type: Sequelize.STRING,
+        defaultValue: '인증해주세요'
       },
       area2: {
-        allowNull: true,
-        type: Sequelize.STRING
+        allowNull: false,
+        type: Sequelize.STRING,
+        defaultValue: '인증해주세요'
       },
       createAt: {
         allowNull: false,

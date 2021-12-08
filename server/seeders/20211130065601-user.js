@@ -9,8 +9,8 @@ module.exports = {
       nickname: '익명',
       password: 'bbb',
       socialType: 'basic',
-      area:null,
-      area2:null,
+      area: '인증해주세요',
+      area2: '인증해주세요',
       manager: false,
       createAt: new Date().toISOString().replace(/T/, ' ').replace(/\..+/, ''),
       updateAt: new Date().toISOString().replace(/T/, ' ').replace(/\..+/, '')
@@ -21,8 +21,8 @@ module.exports = {
       nickname: '익명',
       password: 'bbb',
       socialType: 'basic',
-      area: 'seoul',
-      area2: 'incheon',
+      area: '서울시',
+      area2: '인천시',
       manager: false,
       createAt: new Date().toISOString().replace(/T/, ' ').replace(/\..+/, ''),
       updateAt: new Date().toISOString().replace(/T/, ' ').replace(/\..+/, '')
@@ -33,8 +33,8 @@ module.exports = {
       nickname: '익명',
       password:null,
       socialType: 'google',
-      area: 'daejeon',
-      area2: 'dea-gu',
+      area: '대전시',
+      area2: '대구시',
       manager: false,
       createAt: new Date().toISOString().replace(/T/, ' ').replace(/\..+/, ''),
       updateAt: new Date().toISOString().replace(/T/, ' ').replace(/\..+/, '')
@@ -45,8 +45,8 @@ module.exports = {
       nickname: '익명',
       password:null,
       socialType: 'basic',
-      area: 'daejeon',
-      area2: 'dea-gu',
+      area: '세종시',
+      area2: '천안시',
       manager: true,
       createAt: new Date().toISOString().replace(/T/, ' ').replace(/\..+/, ''),
       updateAt: new Date().toISOString().replace(/T/, ' ').replace(/\..+/, '')

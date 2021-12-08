@@ -35,7 +35,7 @@ function TimeLine({ history }: RouteComponentProps){
 
     return (
         <div>
-            <div>{userData.name}님 안녕하세요</div>
+            <div>{postData.nickname}님 안녕하세요</div>
             <Container>
                 <CharacterImg src = '로고-우동담-Dark-글자만-배경o.png'/>
             </Container>

@@ -56,7 +56,7 @@ function Login(){
             
             dispatch(UserInfoHandler({
                 email: loginInfo.email,
-                userId: loginInfoPost.data.userId,
+                userId: loginInfoPost.data.data.userId,
                 nickname: loginInfoPost.data.nickname,
                 area: loginInfoPost.data.area || null,
                 area2: loginInfoPost.data.area2 || null,

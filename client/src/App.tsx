@@ -19,6 +19,7 @@ import { useHistory } from 'react-router-dom';
 
 
 import './styles/App.css';
+import TimeLine from './pages/timeLine/TimeLine';
 
 function App() {
   const history = useHistory()
@@ -83,8 +84,7 @@ function App() {
       <Route path="/Signup">
         <Signup />
       </Route>
-      <Route path="/Timeline">
-        <Timeline />
+      <Route path="/TimeLine" component={TimeLine}>
       </Route>
     </Switch>
     

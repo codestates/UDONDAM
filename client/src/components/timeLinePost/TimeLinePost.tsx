@@ -29,7 +29,7 @@ const WhyUser = styled.div`
 //    }
 
 function TimeLinePost({postData,userData}: any) {
-
+    console.log(postData)
     const likeTrue = {
         color: "blue"
     }

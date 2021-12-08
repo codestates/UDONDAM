@@ -120,17 +120,17 @@ function Content({ history }: RouteComponentProps) {
         if(postDataDetail[0].likeCheck){
             postDataDetail[0].likeCheck = false
             postDataDetail[0].likeCount = postDataDetail[0].likeCount - 1
-            await axios.delete(`${process.env.REACT_APP_API_URL}/likes/${postDataDetail[0].id}`,{withCredentials: true}).then((respone) => {
+            await axios.delete(`${process.env.REACT_APP_API_URL}/likes/?userId=${loginUserInfo.userId}&postId=${postDataDetail[0].id}`,{withCredentials: true}).then((respone) => {
                 console.log(respone)
             })
             //대충 액시오스로 서버로 따봉 딜리트 요청 보낸다는것
-        }
+        } 
         else{
             postDataDetail[0].likeCheck = true
             postDataDetail[0].likeCount++
             await axios.post(`${process.env.REACT_APP_API_URL}/likes`,{
                 postId : postDataDetail[0].id,
-                email : loginUserInfo.email
+                userId : loginUserInfo.userId
             },{withCredentials: true}).then((respone) => {
                 console.log(respone)
             })

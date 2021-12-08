@@ -1,14 +1,11 @@
-const {post, tag, user, comment, likes, post_tag,sequelize} = require('../models/index');
-const { Op } = require("sequelize");
-const { not } = require('sequelize/dist/lib/operators');
+const {post, tag, user, comment, likes, post_tag} = require('../models/index');
 module.exports = {
     postTag : async (req, res) => {
         req.userId = req.userId || 1;
         req.query.tag = req.query.tag || '["대전","스포츠"]';
-        req.query.notTag = req.query.notTag || '["스포츠"]';
+        req.query.notTag = req.query.notTag || null;
         const  queryTag = JSON.parse(req.query.tag);
-        const  queryNotTag = JSON.parse(req.query.notTag);
-
+        try{
         const posts = await post.findAll({
             include: [
                 {
@@ -18,16 +15,10 @@ module.exports = {
                 },
                 {
                     model: tag,
-                    attributes: ['content'],
-                    // where: {
-                    //     content: queryTag
-                    //     // {
-                    //     //     [Op.and]:{
-                    //     //         [Op.or]:queryTag,
-                    //     //         //[Op.not]:["스포츠"]
-                    //     //     }
-                    //     // }
-                    // },  
+                    attributes: [],
+                    where: {
+                        content: queryTag
+                    },  
                 },
                 {
                     model: likes,
@@ -39,17 +30,16 @@ module.exports = {
                 }
             ],
             order: [['createAt','DESC']],
-            //limit: 10
+            limit: 10
         })
         if(posts.length === 0) {
             return res.status(200).send(resPosts);
         }
+        
+        const arrPostId = [];
         const resPosts =  posts.map((post)=> {
-            const {id, content, createAt, public, userId, user, tags, likes, comments} = post;
-            const tag = [];
-            for (let el of tags) {
-                tag.push(el.content)
-            }
+            const {id, content, createAt, public, userId, user, likes, comments} = post;
+            arrPostId.push(id)
             let likeCheck = false;
             for(let like of likes) {
                 if(like.userId === req.userId) {
@@ -69,16 +59,29 @@ module.exports = {
                 public: public
             };
         });
-        let orPosts = resPosts.filter((el, idx)=>{
-        if(idx < 10) {
-            for(let Tag of queryTag) {
-                for(let postTag of el.tag) {
-                    return Tag === postTag
+        const aa =await post.findAll({
+            attributes:['id'],
+            where:{
+                id:arrPostId
+            },
+            include:[
+                {
+                    model:tag,
+                    attributes:['content'],
                 }
-            }
-        }
+            ],
         })
-        let notPosts = orPosts.filter((el)=> {
+            aa.map((el, idx)=>{
+            const {tags} = el.dataValues
+            let tag = [];
+            for(let el of tags) {
+                tag.push(el.content)
+            }
+            resPosts[idx].tag = tag
+        })
+        if(req.query.notTag) {
+        const  queryNotTag = JSON.parse(req.query.notTag);
+        const notPosts = resPosts.filter((el)=> {
             let check = true;
             for(let notTag of queryNotTag) {
                 for(let postTag of el.tag) {
@@ -89,8 +92,13 @@ module.exports = {
             }
             return check === true;
         })
-        
-                return res.status(200).send(notPosts);
+            return res.status(200).send(notPosts);
+        }
+        return res.status(200).send(resPosts)
+        } catch(err) {
+            console.log(err);
+            return res.status(500).json({"message": "Server Error"})
+        }
     },
 
     postUser : async (req, res) => {

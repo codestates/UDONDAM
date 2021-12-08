@@ -236,8 +236,56 @@ module.exports = {
             res.status(401).json({ "message" : "email check" })
         }
     },
-    google: (req, res) => {
-        res.status(200).send('소셜 구글');
+    google: async (req, res) => {
+        return res.redirect(
+            // 구글 로그인 화면 리다이렉트
+            `https://accounts.google.com/o/oauth2/v2/auth?scope=https://www.googleapis.com/auth/userinfo.email+https://www.googleapis.com/auth/userinfo.profile&access_type=offline&response_type=code&state=state_parameter_passthrough_value&redirect_uri=${process.env.GOOGLE_REDIRECT_URI}&client_id=${process.env.GOOGLE_CLIENT_ID}`
+        );
+    },
+    googlecallback: async (req, res) => {
+        const code = req.query.code; // authorization code
+        try {
+            const result = await axios.post(
+                // authorization code를 이용해서 access token 요청
+                `https://oauth2.googleapis.com/token?code=${code}&client_id=${process.env.GOOGLE_CLIENT_ID}&client_secret=${process.env.GOOGLE_CLIENT_SECRET}&redirect_uri=${process.env.GOOGLE_REDIRECT_URI}&grant_type=authorization_code`
+            );
+            const userInfo = await axios.get(
+                // access token으로 유저정보 요청
+                `https://www.googleapis.com/oauth2/v2/userinfo?access_token=${result.data.access_token}`,
+                {
+                    headers: {
+                        Authorization: `Bearer ${result.data.access_token}`,
+                    },
+                }
+            );
+            const user = await user.findOrCreate({
+                where: {
+                    email: userInfo.data.email,
+                    socialType: 'google',
+                },
+                defaults: {
+                    email: userInfo.data.email,
+                    password: '',
+                    socialType: 'google'
+                },
+            });
+
+            const { id, nickname, area, area2, manager, socialType } = user[0].dataValues;
+            const userData = {
+                userId: id,
+                nickname: nickname,
+                area: area,
+                area2: area2,
+                manager: manager,
+                socialType: socialType
+            }
+            const token = generateAccessToken(userData);
+            sendAccessToken(res, token, userData);
+
+            res.redirect(`${process.env.CLIENT_URI}/temp`);
+        } catch (error) {
+            res.sendStatus(500);
+        }
     },
     naver: (req, res) => {
         res.status(200).send('소셜 네이버');

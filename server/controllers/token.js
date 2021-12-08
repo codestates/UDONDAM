@@ -5,18 +5,18 @@ const DOMAIN = process.env.DOMAIN || 'localhost'
 module.exports = {
     generateAccessToken: (data) => {
         return sign(data, process.env.ACCESS_SECRET, { expiresIn: "4h" });
-        
-      },
+    },
     sendAccessToken: (res, token, userData) => {
-        userData = userData || {data: null};
-        res.status(200).cookie("jwt", token,{
-          domain: DOMAIN,
-          path: '/',
-          secure: false,
-          httpOnly: true,
-          sameSite: 'none'
-    }).json(userData);
-    return ;
+      userData = userData || {data: null};
+      res.status(200).cookie("jwt", token,{
+        sameSite: 'None',
+        domain: DOMAIN,
+        path: '/',
+        secure: true,
+        httpOnly: true,
+        expires: new Date(Date.now() + 1000 * 60 * 60 * 48),
+      }).json({ data: userData });
+      return ;
     },
     deleteRefreshToken: (res) => {
       res.clearCookie("refreshToken");

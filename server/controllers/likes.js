@@ -3,10 +3,10 @@ const { sequelize } = require("sequelize");
 const { isAuthorized } = require('../controllers/token.js');
 module.exports = {
     likesUser: async (req, res) => {
-        const { email } = req.body;
+        const { userId } = req.query;
         let userInfo = await user.findOne({
             where: {
-                email: email
+                id: userId
             }
         })
         if(!userInfo){
@@ -69,28 +69,40 @@ module.exports = {
         }
     },
     likesCreate: async (req, res) => {
-        const { email, postId } = req.body;
+        const { userId, postId } = req.body;
         let userInfo = await user.findOne({
             where: {
-                email: email
+                id: userId
             }
         });
+        let overlapCheck = await likes.findOne({
+            where: {
+                userId: userId,
+                postId: postId
+            }
+        });
+
         if(!userInfo){
             res.status(401).json({ "message" : "token doesn't exist" });
         }
         else {
-            await likes.create({
-                userId: userInfo.id,
-                postId: postId
-            })
-            res.status(200).json({ "message" : "created" });
+            if(!overlapCheck){
+                await likes.create({
+                    userId: userId,
+                    postId: postId
+                })
+                res.status(200).json({ "message" : "created" });
+            }
+            else{
+                res.status(200).json({ "message" : "이미 따봉을 한 상태입니다." });
+            }
         }
     },
     likesDelete: async (req, res) => {
-        const { email, postId } = req.body;
+        const { userId, postId } = req.query;
         let userInfo = await user.findOne({
             where: {
-                email: email
+                id: userId
             }
         });
         if(!userInfo){
@@ -99,7 +111,8 @@ module.exports = {
         else{
             try{
                 await likes.destroy({
-                where: { userId: userInfo.id,
+                where: {
+                    userId: userId,
                     postId : postId }
                 })
                 return res.status(200).json({ "message" : "delete!" });  

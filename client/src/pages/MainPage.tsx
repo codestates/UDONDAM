@@ -51,10 +51,10 @@ function MainPage () {
         }))
     }
 
-    const contentPageHandler = function(){
-        setContentPage(<TimeLine />)
+    // const contentPageHandler = function(){
+    //     setContentPage(<TimeLine />)
 
-    }
+    // }
 
     return(
         <div>
@@ -68,7 +68,7 @@ function MainPage () {
             : null }
             {pageOnOff.timeLineOn ? 
             <TimeLineContainer>
-                <TimeLine />
+                {/* <TimeLine /> */}
             </TimeLineContainer>
             : null }
             {/* {pageOnOff.timeLineOn ? 

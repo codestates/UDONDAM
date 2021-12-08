@@ -79,6 +79,7 @@ function Search() {
         // 여기도 수정될 예정 
         // 예 ) 유저정보.area, ...유저정보.area2
         userAreaData[0],userAreaData[1],...tag])
+    const [giftTimeLineData, setGiftTimeLineData] = useState<any>({})
 
     const [isAreaActive, setIsAreaActive] = useState<any>([false])
 
@@ -228,15 +229,23 @@ function Search() {
                 
                 await axios.get(`${process.env.REACT_APP_API_URL}/post?tag=${giftTag}`, {withCredentials: true}).then((respone) => {
                     console.log(respone)
+                    setGiftTimeLineData(respone)
                 })
                 his.push('/Timeline')
             }else{
+                let j = {}
                 const y = JSON.stringify(['대전'])
                 const u = JSON.stringify(['스포츠'])
                 await axios.get(`${process.env.REACT_APP_API_URL}/post?tag=${y}&notTag=${u}`, {withCredentials: true}).then((respone) => {
                     console.log(respone)
+                    j = respone.data
                 })
-                his.push('/Timeline')
+                his.push({
+                    pathname: `./Timeline`,
+                    state: [
+                    j
+                    ]
+                })
             }
         }
         else{
@@ -245,8 +254,17 @@ function Search() {
         }
     }  
     const timeLineAllTagHandle = async () => {
-        await axios.get(`${process.env.REACT_APP_API_URL}/post?tag=${userAreaData}`, {withCredentials: true}).then((respone) => {
+        const timeLineAllTagHandleData = JSON.stringify(['대전','서울'])
+        let AllTagHandleData = {}
+        await axios.get(`${process.env.REACT_APP_API_URL}/post?tag=${timeLineAllTagHandleData}`, {withCredentials: true}).then((respone) => {
             console.log(respone)
+            AllTagHandleData = respone.data
+        })
+        his.push({
+            pathname: `./Timeline`,
+            state: [
+                AllTagHandleData
+            ]
         })
     }
     

@@ -67,7 +67,7 @@ function Search() {
         // 유저 정보에서 area,area2를 받아서 한 배열로 병합할거임
         // 그럼 지역정보 바꾸고 나서 바로 서버쪽에서 다시 유저정보 줘야겠네
         // 예 ) 유저정보.area, ...유저정보.area2
-        '서울특별시','인증해주세요'
+        "서울",loginUserInfo.area2
     ])
     const [tag, setTag] = useState<any>([
         '여행', '게임', '소문', '유머', '산책', '자랑', '놀라운', '직장', '학교', '운동', '반려동물', '만화', '고민', '비밀', '음악', '흥미', '사고', '독서', '식사', '취미', '도움', '나눔', '연애', '만남', '자소서'])
@@ -250,11 +250,11 @@ function Search() {
         }
         else{
             setErrorTag('지역은 필수')
-
         }
     }  
     const timeLineAllTagHandle = async () => {
-        const timeLineAllTagHandleData = JSON.stringify(['대전','서울'])
+        const timeLineAllTagHandleData = JSON.stringify(["대전","서울"])
+        console.log(timeLineAllTagHandleData)
         let AllTagHandleData = {}
         await axios.get(`${process.env.REACT_APP_API_URL}/post?tag=${timeLineAllTagHandleData}`, {withCredentials: true}).then((respone) => {
             console.log(respone)

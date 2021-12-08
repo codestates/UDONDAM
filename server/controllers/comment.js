@@ -71,7 +71,7 @@ module.exports = {
                 })
                 return res.status(201).json({"message": "created!"})
         } catch(err) {
-            console.log(err);;
+            console.log(err);
             return res.status(500).json({"message": "Server Error"})
         }
     },

@@ -1,10 +1,11 @@
 const {post, tag, user, comment, likes, post_tag,sequelize} = require('../models/index');
 const { Op } = require("sequelize");
+const { not } = require('sequelize/dist/lib/operators');
 module.exports = {
     postTag : async (req, res) => {
         req.userId = req.userId || 1;
         req.query.tag = req.query.tag || '["대전","스포츠"]';
-        req.query.notTag = req.query.notTag || '["대전"]';
+        req.query.notTag = req.query.notTag || '["스포츠"]';
         const  queryTag = JSON.parse(req.query.tag);
         const  queryNotTag = JSON.parse(req.query.notTag);
 
@@ -38,7 +39,7 @@ module.exports = {
                 }
             ],
             order: [['createAt','DESC']],
-            limit: 10
+            //limit: 10
         })
         if(posts.length === 0) {
             return res.status(200).send(resPosts);
@@ -68,7 +69,28 @@ module.exports = {
                 public: public
             };
         });
-                return res.status(200).send(resPosts);
+        let orPosts = resPosts.filter((el, idx)=>{
+        if(idx < 10) {
+            for(let Tag of queryTag) {
+                for(let postTag of el.tag) {
+                    return Tag === postTag
+                }
+            }
+        }
+        })
+        let notPosts = orPosts.filter((el)=> {
+            let check = true;
+            for(let notTag of queryNotTag) {
+                for(let postTag of el.tag) {
+                    if(postTag === notTag) {
+                        check = false;
+                    }
+                }
+            }
+            return check === true;
+        })
+        
+                return res.status(200).send(notPosts);
     },
 
     postUser : async (req, res) => {

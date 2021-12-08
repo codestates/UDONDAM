@@ -53,15 +53,16 @@ function Login(){
         
         try {
             const loginInfoPost = await axios.post(`${process.env.REACT_APP_API_URL}/login`, body, {withCredentials: true})
-            
+            const userInfo = loginInfoPost.data.data
+        
             dispatch(UserInfoHandler({
                 email: loginInfo.email,
-                userId: loginInfoPost.data.data.userId,
-                nickname: loginInfoPost.data.nickname,
-                area: loginInfoPost.data.area || null,
-                area2: loginInfoPost.data.area2 || null,
-                manager: loginInfoPost.data.manager, 
-                socialType: loginInfoPost.data.socialType
+                userId: userInfo.userId,
+                nickname: userInfo.nickname,
+                area: userInfo.area || null,
+                area2: userInfo.area2 || null,
+                manager: userInfo.manager, 
+                socialType: userInfo.socialType
             }))
             dispatch(IsLoginHandler(true))
             history.push('/Search')

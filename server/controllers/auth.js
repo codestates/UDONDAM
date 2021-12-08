@@ -12,7 +12,7 @@ module.exports = {
                 email: email,
                 password: password
             }
-        })
+        });
 
         if(!userInfo) {
             res.status(401).json({"message": "Invalid email or password"})
@@ -132,14 +132,8 @@ module.exports = {
         }
     },
     passwordCheck: async (req, res) => {
-        const userInfo = isAuthorized(req);
-        if (!userInfo) {
-            res.status(401).json({ "message": "Invali token"})
-            return ;
-        }
-        
         const { email, password } = req.body;
-        const checkPassword = await db.users.findOne({
+        const checkPassword = await user.findOne({
             where: { email: email, password: password}
         })
         
@@ -148,7 +142,7 @@ module.exports = {
             return ;
         }
         else if(checkPassword) {
-            res.status(200).json({ "message": "Check the password ok"});
+            res.status(200).json({ "message": "ok!"});
             return ;
         }
         else {

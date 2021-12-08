@@ -8,9 +8,10 @@ import { Link } from 'react-router-dom'
 import { faCommentDots } from "@fortawesome/free-solid-svg-icons";
 import { faThumbsUp } from "@fortawesome/free-solid-svg-icons";
 import { faGreaterThan } from "@fortawesome/free-solid-svg-icons";
+import { RootStateOrAny, useDispatch, useSelector } from 'react-redux'
 import axios from 'axios';
+import { userInfo } from 'os';
 
-let y:any = []
 let contentDataParsing:any = []
 library.add(faCommentDots);
 
@@ -18,9 +19,10 @@ library.add(faCommentDots);
 function Content({ history }: RouteComponentProps) {
     const {ida}:any = history.location.state
  
-
+    const loginUserInfo = useSelector((state: RootStateOrAny)=>state.UserInfoReducer)
+    console.log(loginUserInfo)
     const dataParsingHandle = async () => {
-         await axios.get(`${process.env.REACT_APP_API_URL}post/${ida}`, {withCredentials: true}).then((respone) => {
+         await axios.get(`${process.env.REACT_APP_API_URL}/post/${ida}`, {withCredentials: true}).then((respone) => {
             contentDataParsing.pop()
             contentDataParsing.push(respone.data)
             setLikeChangeData(!likeChangeData)
@@ -41,32 +43,42 @@ function Content({ history }: RouteComponentProps) {
         color: "blue",
         cursor: 'pointer'
     }
+ 
     const pointerTrue = {
         cursor: 'pointer'
     }
     const boxBorder = {
+        marginBottom: '1rem',
         border: '1px solid black'
+
     }
     const boxBorder2 = {
         border: '1px solid black',
         marginBottom: '1rem',
-        marginTop: '1rem',
 
+        display: 'inline-block'
     }
     
     const [postDataDetail, setPostDataDetail] = useState<any>(contentDataParsing)
 
     const commentTextChange = (event:any) => {
-        console.log(event.target.value)
-        setCommentText({value:event.target.value})
+        setCommentText(event.target.value)
 
         setGiftComment([{
             postId : postDataDetail[0].id,
-            content : commentText.value
+            content : event.target.value
         }])
     }
     const cCommentTextChange = (event:any) => {
         setCCommentText(event.target.value)
+
+        setGiftCComment([
+            {
+                postId : postDataDetail[0].id,
+                content : event.target.value,
+                commentId : cCommentView
+            }
+        ])
     }
     const commentCommentViewHandle = (data:any) => {
         if(data === cCommentView){
@@ -83,56 +95,47 @@ function Content({ history }: RouteComponentProps) {
     }
     //대댓글 생성
     const giftCCommentHandle = async () => {
-        setGiftCComment([
-            {
-                postId : postDataDetail[0].id,
-                content : cCommentText,
-                commentId : cCommentView
-            }
-        ])
-        await axios.post(`${process.env.REACT_APP_API_URL}comment`,giftCComment[0],{withCredentials: true}).then((respone) => {
+        await axios.post(`${process.env.REACT_APP_API_URL}/comment`,giftCComment[0],{withCredentials: true}).then((respone) => {
             console.log(respone)
         })
         setCCommentView(null)
+        setLikeChangeData(!likeChangeData)
         setCCommentText('')
+        setGiftComment([])
     }
     //댓글 생성
     
     const giftCommentHandle = async () => {
 
         console.log(giftComment)
-        await axios.post(`${process.env.REACT_APP_API_URL}comment`,giftComment[0],{withCredentials: true}).then((respone) => {
+        await axios.post(`${process.env.REACT_APP_API_URL}/comment`,giftComment[0],{withCredentials: true}).then((respone) => {
             console.log(respone)
         })
-        // let today = new Date();
-        // let hour = today.getHours();
-        // let minutes = today.getMinutes();
-        // let seconds = today.getSeconds();
-        // postDataDetail[0].comment.push(
-        // {
-        //     postId : postDataDetail[0].id,
-        //     content : commentText,
-        //     nickname : '익명',
-        //     createAt : `${hour}:${minutes}:${seconds}`
-        // })
         setCommentText('')
         
         setLikeChangeData(!likeChangeData)
         setGiftComment([])
     }
-    const likeChangeHandle = () => {
+    const likeChangeHandle = async () => {
         if(postDataDetail[0].likeCheck){
             postDataDetail[0].likeCheck = false
             postDataDetail[0].likeCount = postDataDetail[0].likeCount - 1
+            await axios.delete(`${process.env.REACT_APP_API_URL}/likes/${postDataDetail[0].id}`,{withCredentials: true}).then((respone) => {
+                console.log(respone)
+            })
             //대충 액시오스로 서버로 따봉 딜리트 요청 보낸다는것
-            
         }
         else{
             postDataDetail[0].likeCheck = true
             postDataDetail[0].likeCount++
+            await axios.post(`${process.env.REACT_APP_API_URL}/likes`,{
+                postId : postDataDetail[0].id,
+                email : loginUserInfo.email
+            },{withCredentials: true}).then((respone) => {
+                console.log(respone)
+            })
             //대충 액시오스로 서버로 따봉 포스트 요청 보낸다는것
         }
-        
         setPostDataDetail(postDataDetail)
         setLikeChangeData(!likeChangeData)
     }
@@ -147,8 +150,10 @@ function Content({ history }: RouteComponentProps) {
     },[])
     useEffect(() => {
         dataParsingHandle()
-
     },[giftComment])
+    useEffect(() => {
+        dataParsingHandle()
+    },[giftCComment])
 
  
     return(
@@ -228,7 +233,7 @@ function Content({ history }: RouteComponentProps) {
                     el.comment && el.comment.map((le:any) => {
                         return (
                             <div>
-                                <FontAwesomeIcon icon={faGreaterThan} data-fa-transform="flip-v"/>
+                                <FontAwesomeIcon  icon={faGreaterThan} data-fa-transform="flip-v"/>
 
                                 <div style={boxBorder2}>
                                     <div>
@@ -261,7 +266,7 @@ function Content({ history }: RouteComponentProps) {
             {
                 commentView ? 
                 <div>
-                    <input type="text" value={commentText.value} onChange={commentTextChange} placeholder="게시물에 댓글을 달아보세요" />
+                    <input type="text" value={commentText} onChange={commentTextChange} placeholder="게시물에 댓글을 달아보세요" />
                     <button onClick={giftCommentHandle}>확인</button>
                 </div>
                 :

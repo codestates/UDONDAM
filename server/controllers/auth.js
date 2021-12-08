@@ -153,8 +153,88 @@ module.exports = {
             res.status(500).json({ "message": "Server Error"})
         }
     },
-    tempp: (req, res) => {
-        res.status(200).send('임시비밀번호 발송');
+    tempp: async (req, res) => {
+        const { email } = req.body;
+        const emailCheck = await user.findOne({
+            where: {
+                email: email
+            }
+        });
+        if (emailCheck) { // 이메일이 잘 있다면
+            try {
+                // 인증코드 생성 함수
+                const generateRandomCode = (n) => {
+                    let str = "";
+                    for (let i = 0; i < n; i++) {
+                        str += Math.floor(Math.random() * 10);
+                    }
+                    return str;
+                };
+    
+                let transporter = nodemailer.createTransport({
+                    service: "gmail",
+                    host: "smtp.gmail.com",
+                    port: 587,
+                    secure: false,
+                    auth: {
+                        user: process.env.NODEMAILER_USER,
+                        pass: process.env.NODEMAILER_PASS
+                    },
+                });
+    
+                const verificationCode = generateRandomCode(8);
+    
+                const mailOptions = {
+                    from: `[UDONDAM] <${process.env.NODEMAILER_USER}>`,
+                    to: email,
+                    subject: `[UDONDAM] 임시 비밀번호를 확인해주세요`,
+                    html: `<div style="background-color: white;
+                    display: flex; align-items: center; text-align: center;
+                    flex-direction:column; font-size: 20px;">
+                    <div style="background-size: 58px;
+                    background-color: black;
+                    width: 50rem; min-height: 45rem;
+                    border-radius: 15px 15px 15px 15px;
+                    padding: 2rem;">
+                    <img width="300" alt="로고-우동담-dark-배경o" src="https://user-images.githubusercontent.com/87490361/143793727-047f5764-454d-4b9f-94cd-d82d0f959623.png">
+                    <div style="text-align: left; padding:10px 10px 0;">
+                    <h3 style="text-align: left; color:white;">로그인을 하시려면 비밀번호 란에 <b>임시 비밀번호</b>를 입력해주세요.</h3>
+                    <h3 style="color:white;">기존 비밀번호가 아닌 발급드린 임시 비밀번호를 입력하셔야만 로그인이 됩니다.</h3>
+                    <h3 style="color:white;">UDONDAM 임시 비밀번호 : <u>${verificationCode}</u></h3>
+                    </div></div></div>`,
+                };
+    
+                transporter.sendMail(mailOptions, (err, info) => {
+                    if (err) {
+                        console.log(err);
+                    }
+                    // res.send({ data: info });
+                    // console.log(info);
+                });
+
+                await user.update({
+                    email: email,
+                    password: verificationCode,
+                },
+                {
+                    where: {
+                        email: email,
+                    },
+                })
+                .then(() => {
+                    return res.status(200).json({
+                        "message" : "resend password!"
+                    });
+                });
+            }
+            catch (err) {
+                console.log(err);
+                res.sendStatus(500);
+            }
+        }
+        else {
+            res.status(401).json({ "message" : "email check" })
+        }
     },
     google: (req, res) => {
         res.status(200).send('소셜 구글');

@@ -12,11 +12,11 @@ try {
     if (err) {
         return res.status(401).json({ "message": "token doesn't exist" });
     }
-    const usersInfo = await user.findOne({ where: { id: encoded.id } });
+    const usersInfo = await user.findOne({ where: { id: encoded.userId } });
     if (!usersInfo) {
         return res.status(401).json({ "message": "token doesn't exist" });
     }
-    req.userId = encoded.id;
+    req.userId = encoded.userId;
     return next();
     });
 } catch (error) {

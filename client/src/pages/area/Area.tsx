@@ -75,6 +75,13 @@ function Area({ history }: RouteComponentProps) {
         }
         setThreeLocal(!threeLocal)
     }
+    const areaSelectHandle = () => {
+        if(secondLocal){
+            setSecondLocal(!secondLocal)
+        }
+        setThreeLocal(!threeLocal)
+    }
+    
 
     useEffect(() => {
         handleSearchButton()
@@ -147,7 +154,7 @@ function Area({ history }: RouteComponentProps) {
                             지역설정 완료 후 한달간 변경은 불가능 합니다
                         </div>
                         <div>
-                            <button>위치 설정 완료</button>
+                            <button onClick={areaSelectHandle}>위치 설정 완료</button>
                         </div>
                     </div>
                     :

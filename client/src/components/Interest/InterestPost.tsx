@@ -10,20 +10,22 @@ import './style.css'
 export default function InterestPost({ post }: any) {
     //api 넣어야 함
     const history = useHistory()
+    const isMobile = useSelector((state: RootStateOrAny)=>state.IsMobileReducer)
     const clickHandler = async (e: React.MouseEvent<HTMLDivElement>) => {
         const postId = e.currentTarget.id;
         console.log(postId)
         try {
-            const mypost = await axios.get(`${process.env.REACT_APP_API_URL}/post/${postId}`, { withCredentials: true })
-            console.log(mypost.data)
-            console.log(useSelector((state: RootStateOrAny)=>state.IsMobileReducer.isMobile))
-            if(useSelector((state: RootStateOrAny)=>state.IsMobileReducer.isMobile)){
+            //const mypost = await axios.get(`${process.env.REACT_APP_API_URL}/post/${postId}`, { withCredentials: true })
+            //console.log(mypost.data)
+            console.log(isMobile)
+            if(isMobile){
             //모바일인 경우
-                if(mypost.status === 200){
-                history.push({
-                    pathname: '/Content'
-                })
-            }
+                // if(mypost.status === 200){
+                // history.push({
+                //     pathname: '/Content'
+                // })
+            //}
+            console.log('모바일작동')
             }
             
             return ;

@@ -20,8 +20,8 @@ function Interest() {
 
     const InterestList = async function (key: string) {
         //클릭별로 바뀜
-        const mypost = await axios.get(`${process.env.REACT_APP_API_URL}/${key}`,{withCredentials: true})
-        console.log(mypost)
+        //const mypost = await axios.get(`${process.env.REACT_APP_API_URL}/${key}`,{withCredentials: true})
+        //console.log(mypost)
         //setResult(mypost.data)
         //더미데이터
         const post = [
@@ -83,6 +83,7 @@ function Interest() {
             }
         ]
         //setResult(post)
+        //더미데이터
         formChange(post)
         //더미데이터
     };

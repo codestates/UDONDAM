@@ -13,6 +13,7 @@ import Postcontent from './pages/Postcontent';
 import Search from './pages/search/Search';
 import Signup from './pages/Signup';
 import Timeline from './pages/timeLine/TimeLine';
+import MainPage from './pages/MainPage';
 import Footer from './pages/Footer';
 
 
@@ -58,6 +59,9 @@ function App() {
       </Route>
       <Route path="/Interest">
         <Interest />
+      </Route>
+      <Route path="/MainPage">
+        <MainPage />
       </Route>
       <Route path="/Mypage">
         <Mypage />

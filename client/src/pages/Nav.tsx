@@ -16,7 +16,7 @@ function Nav () {
         align-items: center;
         /* padding: 3px; */
         width: 100%;
-        height: 100%;
+        height: max-content;
     `;
 
 const test = function(){

@@ -8,12 +8,26 @@ import { Link } from 'react-router-dom'
 import { faCommentDots } from "@fortawesome/free-solid-svg-icons";
 import { faThumbsUp } from "@fortawesome/free-solid-svg-icons";
 import { faGreaterThan } from "@fortawesome/free-solid-svg-icons";
+import axios from 'axios';
 
+let y:any = []
+let contentDataParsing:any = []
 library.add(faCommentDots);
 
     //게시글
 function Content({ history }: RouteComponentProps) {
-    // const {id}:any = history.location.state
+    const {ida}:any = history.location.state
+ 
+
+    const dataParsingHandle = async () => {
+         await axios.get(`${process.env.REACT_APP_API_URL}post/${ida}`, {withCredentials: true}).then((respone) => {
+            contentDataParsing.pop()
+            contentDataParsing.push(respone.data)
+            setLikeChangeData(!likeChangeData)
+        })
+    }
+
+
     const [commentView, setCommentView] = useState<any>(false);
     const [commentText, setCommentText] = useState<any>('');
     const [giftComment, setGiftComment] = useState<any>([]);
@@ -21,6 +35,7 @@ function Content({ history }: RouteComponentProps) {
     const [cCommentText, setCCommentText] = useState<any>('');
     const [giftCComment, setGiftCComment] = useState<any>([]);
     const [likeChangeData, setLikeChangeData] = useState<any>(false);
+
 
     const likeTrue = {
         color: "blue",
@@ -39,54 +54,16 @@ function Content({ history }: RouteComponentProps) {
 
     }
     
-    const [postDataDetail, setPostDataDetail] = useState<any>([
-        {
-        id: 1, //postId
-        userId: 5, //유저아이디
-        nickname: "oh", //유저 닉네임
-        content: "그.....", //게시글내용
-        tag: ['서울' , '운동' , '식사', '독서'], //태그
-        commentCount: 20, //댓글 
-        likeCount: 10, //따봉 수
-        likeCheck: true,  //따봉 눌렀는지 체크
-        createAt: '2020-10-10 09:10',  //생성날짜
-        public: true, //채팅창 활성화 비활성화
-        comment: [
-                    {id:1,
-                    content: "나는", 
-                    createAt:'2020-10-10 10:20',
-                    nickname:"익명",
-                    comment:[
-                            {
-                                id:1,
-                                content: "나는2", 
-                                createAt:'2020-10-10 10:20',
-                                nickname:"익명",
-                                comment:[]//대댓글이 없으면 빈배
-                            }  //대댓글이 없으면 빈배열
-                            ,
-                            {
-                                id:1,
-                                content: "나는나는3", 
-                                createAt:'2020-10-10 10:20',
-                                nickname:"익명2",
-                                comment:[]//대댓글이 없으면 빈배
-                            }  //대댓글이 없으면 빈배열
-                    
-                    ]  
-                }
-                ,{id:2,
-                    content: "우리는", 
-                    createAt:'2021-12-11 10:25',
-                    nickname:"익명",
-                    comment:[]  
-                }
-                
-            ]
-        }
-    ])
+    const [postDataDetail, setPostDataDetail] = useState<any>(contentDataParsing)
+
     const commentTextChange = (event:any) => {
-        setCommentText(event.target.value)
+        console.log(event.target.value)
+        setCommentText({value:event.target.value})
+
+        setGiftComment([{
+            postId : postDataDetail[0].id,
+            content : commentText.value
+        }])
     }
     const cCommentTextChange = (event:any) => {
         setCCommentText(event.target.value)
@@ -104,27 +81,44 @@ function Content({ history }: RouteComponentProps) {
         setCommentView(!commentView)
 
     }
-    const giftCCommentHandle = () => {
+    //대댓글 생성
+    const giftCCommentHandle = async () => {
         setGiftCComment([
             {
                 postId : postDataDetail[0].id,
                 content : cCommentText,
-                commnetId : cCommentView
+                commentId : cCommentView
             }
         ])
+        await axios.post(`${process.env.REACT_APP_API_URL}comment`,giftCComment[0],{withCredentials: true}).then((respone) => {
+            console.log(respone)
+        })
         setCCommentView(null)
         setCCommentText('')
     }
+    //댓글 생성
+    
+    const giftCommentHandle = async () => {
 
-    const giftCommentHandle = () => {
-        setGiftComment([
-            {
-                postId : postDataDetail[0].id,
-                content : commentText
-            }
-        ])
-
+        console.log(giftComment)
+        await axios.post(`${process.env.REACT_APP_API_URL}comment`,giftComment[0],{withCredentials: true}).then((respone) => {
+            console.log(respone)
+        })
+        // let today = new Date();
+        // let hour = today.getHours();
+        // let minutes = today.getMinutes();
+        // let seconds = today.getSeconds();
+        // postDataDetail[0].comment.push(
+        // {
+        //     postId : postDataDetail[0].id,
+        //     content : commentText,
+        //     nickname : '익명',
+        //     createAt : `${hour}:${minutes}:${seconds}`
+        // })
         setCommentText('')
+        
+        setLikeChangeData(!likeChangeData)
+        setGiftComment([])
     }
     const likeChangeHandle = () => {
         if(postDataDetail[0].likeCheck){
@@ -138,23 +132,33 @@ function Content({ history }: RouteComponentProps) {
             postDataDetail[0].likeCount++
             //대충 액시오스로 서버로 따봉 포스트 요청 보낸다는것
         }
-        setLikeChangeData(!likeChangeData)
+        
         setPostDataDetail(postDataDetail)
+        setLikeChangeData(!likeChangeData)
     }
    
 
     
-    console.log(postDataDetail[0].likeCheck)
-    console.log(giftComment)
-    console.log(giftCComment)
+    // console.log(giftComment)
+    // console.log(giftCComment)
+    console.log(postDataDetail)
+    useEffect(() => {
+        dataParsingHandle()
+    },[])
+    useEffect(() => {
+        dataParsingHandle()
 
+    },[giftComment])
+
+ 
     return(
             <div>
-                {postDataDetail.map((el: { nickname: any,createAt: any ,content:any, tag:any, id:any, commentCount:any, likeCount:any, userId:any, comment:any}) => {
+                {postDataDetail && postDataDetail.map((el: { nickname: any,createAt: any ,content:any, tag:any, id:any, commentCount:any, likeCount:any, userId:any, comment:any}) => {
                 return (
                 <div>
                     <div>{el.nickname}</div>
                     <div>{el.createAt}
+                    {/* {postDataDetail[0].userId}  유저 데이터 가져오면 삭제버튼 유무*/}
                     <span> 삭제 </span>
                     <span> 신고 </span>
                 </div>
@@ -168,7 +172,7 @@ function Content({ history }: RouteComponentProps) {
                         <FontAwesomeIcon icon={faCommentDots} data-fa-transform="flip-v"></FontAwesomeIcon>
                         {el.commentCount}
                     </span>
-                    {postDataDetail.map((el:any) => el.likeCheck ?
+                    {postDataDetail && postDataDetail.map((el:any) => el.likeCheck ?
                         <span style={likeTrue} onClick={likeChangeHandle}>
                             <FontAwesomeIcon icon={faThumbsUp}></FontAwesomeIcon>
                             {el.likeCount}
@@ -221,9 +225,9 @@ function Content({ history }: RouteComponentProps) {
                         null
                     }
                     {el.comment === [] ? null : 
-                    el.comment.map((le:any) => {
+                    el.comment && el.comment.map((le:any) => {
                         return (
-                            <table>
+                            <div>
                                 <FontAwesomeIcon icon={faGreaterThan} data-fa-transform="flip-v"/>
 
                                 <div style={boxBorder2}>
@@ -245,7 +249,7 @@ function Content({ history }: RouteComponentProps) {
                                         {le.content}
                                     </div>
                                 </div>
-                            </table>
+                            </div>
                         )
                     })
                     }
@@ -257,7 +261,7 @@ function Content({ history }: RouteComponentProps) {
             {
                 commentView ? 
                 <div>
-                    <input type="text" value={commentText} onChange={commentTextChange} placeholder="게시물에 댓글을 달아보세요" />
+                    <input type="text" value={commentText.value} onChange={commentTextChange} placeholder="게시물에 댓글을 달아보세요" />
                     <button onClick={giftCommentHandle}>확인</button>
                 </div>
                 :

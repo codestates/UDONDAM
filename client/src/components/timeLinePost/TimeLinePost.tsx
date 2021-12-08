@@ -49,7 +49,7 @@ function TimeLinePost({postData,userData}: any) {
                 <Link style={{textDecoration: 'none'}} to={{
                     pathname: `./Content`,
                     state: {
-                    id: el.id,
+                    ida: el.id,
                     }
                     
                 }}>

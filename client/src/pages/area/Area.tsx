@@ -61,7 +61,7 @@ function Area({ history }: RouteComponentProps) {
             }
         })
     }
-    console.log(areaSearch)
+    console.log(giftTag2)
     const yesMyLocalHandle = () => {
         if(threeLocal){
             setThreeLocal(!threeLocal)

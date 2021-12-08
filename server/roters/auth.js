@@ -13,5 +13,5 @@ router.post('/tempp', authRouter.tempp);
 router.get('/google', authRouter.google);
 router.get('/naver', authRouter.naver);
 router.get('/kakao', authRouter.kakao);
-
+router.get('/kakaocallback', authRouter.kakaoCallback)
 module.exports = router

@@ -2,6 +2,8 @@ const db = require('../models');
 const { user } = require("../models");
 const nodemailer = require('nodemailer');
 const { generateAccessToken, sendAccessToken, deleteRefreshToken, isAuthorized } = require('../controllers/token.js');
+//const axios = require('axios');
+//const qs = require('qs');
 module.exports = {
     login: async (req, res) => {
         const { email, password } = req.body;
@@ -243,6 +245,37 @@ module.exports = {
         res.status(200).send('소셜 네이버');
     },
     kakao: (req, res) => {
-        res.status(200).send('소셜 카카오');
+        const kakao = {
+            clientID: process.env.clientID,
+            clientSecret: process.env.clientSecret,
+            redirectUrl: process.env.redirectUrl
+        }
+            const kakaoAuthURL = `https://kauth.kakao.com/oauth/authorize?client_id=${kakao.clientID}&redirect_uri=${kakao.redirectUri}&response_type=code&scope=profile,account_email`;
+        return  res.redirect(kakaoAuthURL);
+        
     },
+    kakaoCallback: async (req, res) => {
+        console.log('bbb')
+        try{//access토큰을 받기 위한 코드
+            let token = await axios({//token
+                method: 'POST',
+                url: 'https://kauth.kakao.com/oauth/token',
+                headers:{
+                    'content-type':'application/x-www-form-urlencoded'
+                },
+                data: qs.stringify({
+                    grant_type: 'authorization_code',//특정 스트링
+                    client_id:kakao.clientID,
+                    client_secret:kakao.clientSecret,
+                    redirectUri:kakao.redirectUri,
+                    
+                })//객체를 string 으로 변환
+            })
+            console.log('aaa')
+            return res.send('asd')
+        }catch(err){
+            res.json(err.data);
+        }
+        
+    }
 }

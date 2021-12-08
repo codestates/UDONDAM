@@ -10,6 +10,7 @@ const postRouter = require('./roters/post');
 const commentRouter = require('./roters/comment');
 const likesRouter = require('./roters/likes');
 const authRouter = require('./roters/auth');
+// const session = require('express-session')
 // const models = require("./models/index.js");
 
 // models.sequelize.sync().then( () => {
@@ -27,6 +28,12 @@ app.use(cors({
 app.use(express.json());
 app.use(express.urlencoded({extended:true}));
 app.use(cookieParser());
+// app.use(session({
+//     secret:'aaa',
+//     resave:true,
+//     secure:false,
+//     saveUninitialized:false,
+// }))
 
 app.get('/', (req, res)=> {
     res.status(200).send("get 응답")

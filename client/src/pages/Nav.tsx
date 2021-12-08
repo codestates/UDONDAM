@@ -4,6 +4,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import styled from 'styled-components';
 import { library } from "@fortawesome/fontawesome-svg-core";
 import { faSearchLocation, faListAlt, faPenSquare, faUser } from "@fortawesome/free-solid-svg-icons";
+import {StateInitialize} from '../components/utils/StateInitialize';
     //네비게이션바 로그인/게스트 분리할것, 홈,로그인,회원가입창에선 안나옴
     
 function Nav () {
@@ -28,9 +29,15 @@ useEffect(()=>{
   test()  
 },[])
 
+const test2 = function(){
+    StateInitialize()
+
+}
+
 
     return(
                 <NavContainer className='nav_link_box'>
+                     {/* <button onClick={test2}>초기화</button> */}
                     <Link to = './Search' >
                     <FontAwesomeIcon icon={faSearchLocation} size='3x'></FontAwesomeIcon>
                     </Link>

@@ -1,9 +1,11 @@
 import React, { useState } from 'react'
 import { useDispatch, useSelector, RootStateOrAny } from "react-redux";
-import { UserInfoHandler } from '../../redux/modules/UserInfo'
+import { UserInfoHandler } from '../../redux/modules/UserInfo';
+import { IsLoginHandler } from '../../redux/modules/IsLogin';
 import { useHistory } from 'react-router-dom';
 import axios from 'axios';
 import styled from 'styled-components';
+import { StateInitialize } from '../utils/StateInitialize';
 import { IProps } from '../../pages/Mypage';
 
     export const ModalContainer = styled.div`
@@ -108,16 +110,26 @@ function MypageModal (props:any) {
       //비밀번호 체크에서 authorize 안되서 오류남
       try {
         const passwordCheckResp = await axios.post(`${process.env.REACT_APP_API_URL}/passwordcheck`, { email:userInfo.email,password:password }, {withCredentials: true })
+        const userDeleteResult = await axios.delete(`${process.env.REACT_APP_API_URL}/user`, { withCredentials: true })
         
-          const userDeleteResult = await axios.delete(`${process.env.REACT_APP_API_URL}/`, { withCredentials: true })
-          setPassword('')
-        
+        setPassword('')
+        //StateInitialize()
+        dispatch(UserInfoHandler({
+          userId:0,
+          email: '',
+          nickname: '',
+          area: '',
+          area2: '',
+          manager: false,
+          socialType: ''
+      }))
+      dispatch(IsLoginHandler(false))
+      history.push('/');
       } catch (error: any) {
         console.log(error.response)
-        if(error.response.status === 401){
-          console.log('비밀번호를 확인해주세요')
-        }
-        console.log(error)
+        // if(error.response.status === 401){
+        //   console.log('비밀번호를 확인해주세요')
+        // }
       }
     }
     

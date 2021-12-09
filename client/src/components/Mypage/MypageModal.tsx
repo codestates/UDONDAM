@@ -5,7 +5,6 @@ import { IsLoginHandler } from '../../redux/modules/IsLogin';
 import { useHistory } from 'react-router-dom';
 import axios from 'axios';
 import styled from 'styled-components';
-import { StateInitialize } from '../utils/StateInitialize';
 import { IProps } from '../../pages/Mypage';
 
     export const ModalContainer = styled.div`
@@ -113,7 +112,6 @@ function MypageModal (props:any) {
         const userDeleteResult = await axios.delete(`${process.env.REACT_APP_API_URL}/user`, { withCredentials: true })
         
         setPassword('')
-        //StateInitialize()
         dispatch(UserInfoHandler({
           userId:0,
           email: '',

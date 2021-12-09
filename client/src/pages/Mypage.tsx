@@ -110,7 +110,14 @@ function Mypage() {
                     manager: userInfo.manager, 
                     socialType: userInfo.socialType
                 }))
+                setUserData({
+                    email: userInfo.email,
+                    nickname: getUserData.data.nickname,
+                    password: '',
+                    passwordCheck: ''
+                });
                 setOnOff({ ...onOff, ['onChange']: !onOff.onChange })
+
             } catch (error:any) {
 
                 console.log(error.response)
@@ -121,10 +128,9 @@ function Mypage() {
     const logoutHandler = async function () {
         try {
             const logoutResult = await axios.post(`${process.env.REACT_APP_API_URL}/logout`, { withCredentials: true })
-            // const logoutResult = await axios.post('http://localhost:4000/oauth/logout', { accept: "application/json", withCredentials: true })
-            // console.log('logoutResult:', logoutResult)
+           
+            console.log('logoutResult:', logoutResult)  
             
-            //dispatch(InitUserInfo({}))
             dispatch(UserInfoHandler({
                 userId:0,
                 email: '',
@@ -135,6 +141,7 @@ function Mypage() {
                 socialType: ''
             }))
             dispatch(IsLoginHandler(false))
+
             history.push('/');
         } catch (err) {
             console.log(err)

@@ -41,7 +41,7 @@ export type UserInfoAction = ActionType<typeof actions>
 const UserInfoReducer = createReducer<userInfoState, UserInfoAction>(userInfoInitialState, {
   [USERINFO]: (state, action) => {
     return Object.assign({}, state, {
-      userId: userInfoInitialState.userId,
+      userId: action.payload.userId,
       email: action.payload.email,
       nickname: action.payload.nickname,
       area: action.payload.area,

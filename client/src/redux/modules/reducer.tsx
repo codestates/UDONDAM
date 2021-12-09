@@ -4,6 +4,7 @@ import IsLoginReducer from './IsLogin';
 import ValidationReducer from './Validation';
 import IsMobileReducer from './IsMobile';
 import MainPageReducer from './MainPageHandle';
+import IsGuestReducer from './IsGuest';
 
 
 const rootReducer = combineReducers({
@@ -11,7 +12,8 @@ const rootReducer = combineReducers({
     IsLoginReducer,
     ValidationReducer,
     IsMobileReducer,
-    MainPageReducer
+    MainPageReducer,
+    IsGuestReducer
   });  
   
   export default rootReducer;

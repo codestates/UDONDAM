@@ -4,6 +4,7 @@ import { useHistory } from 'react-router-dom';
 import axios from 'axios';
 import styled from 'styled-components';
 import { IProps } from '../../pages/Login';
+import { IsGuestHandler } from '../../redux/modules/IsGuest';
 
     export const ModalContainer = styled.div`
     display:grid;
@@ -96,6 +97,13 @@ function GuestLoginModal (props:any) {
       closeGuestModal()
     };
 
+    const guestLogin = () => {
+      dispatch(IsGuestHandler(true))
+      setIsOpen(false)
+      closeGuestModal()
+      history.push('/Search')
+    }
+
     
     return (
         <>
@@ -110,7 +118,7 @@ function GuestLoginModal (props:any) {
                   </div>
                   <div className='modal_text'>회원가입 없이 서비스를 체험하세요!</div>
                   <div className='submit_container'>
-                   <button>확인</button>
+                   <button onClick={guestLogin}>확인</button>
                    <button onClick={openModalHandler}>취소</button>
                   </div>
                 </ModalView>

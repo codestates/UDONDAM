@@ -18,6 +18,21 @@ function Nav () {
         /* padding: 3px; */
         width: 100%;
         height: max-content;
+
+        @media(min-width: 700px){
+            grid-area: 'logo';
+        position: relative;
+        background-color:gray;
+        display: flex;
+        flex-direction: row;
+        justify-content: center;
+        align-items: center;
+        /* padding: 3px; */
+        width: max-content;
+        height: max-content;
+        /* left: 35.5%;
+        bottom: 6.9%; */
+        }
     `;
 
 const test = function(){

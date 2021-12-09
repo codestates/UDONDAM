@@ -1,0 +1,25 @@
+#mypage_container{
+    flex: none; 
+    height: 100%;
+    width: 100%;
+}
+
+.mypage_request_box{
+    height: 10%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+
+}
+
+.mypage_request_button{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: flex-end;
+    width: 95%;
+}
+
+.mypage_button{
+    width: max-content;
+}

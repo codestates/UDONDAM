@@ -258,18 +258,24 @@ function Search() {
             setErrorTag('지역은 필수')
         }
     }  
-
+    
     const timeLineAllTagHandle = async () => {
-        let timeLineAllTagHandleData = ['대전','서울']
+        let timeLineAllTagHandleData = JSON.stringify(['대전','서울'])
+        console.log(JSON.stringify(['대전','서울']))
+        console.log(timeLineAllTagHandleData)
+        
         let AllTagHandleData = {}
-        timeLineAllTagHandleData = qs.stringify(timeLineAllTagHandleData)
+        //timeLineAllTagHandleData = qs.stringify(timeLineAllTagHandleData)
         // /post?tag=${qs.stringify(timeLineAllTagHandleData)}
-        axios.defaults.paramsSerializer = params => {
-            return qs.stringify(params)
-        }
-        const params = {tag: timeLineAllTagHandleData}
-        await axios.get(`${process.env.REACT_APP_API_URL}/post`,{params}
-        ).then((respone) => {
+        //axios.defaults.paramsSerializer = params => {
+        //    return qs.stringify(params)
+        //}
+        //const params = {tag: timeLineAllTagHandleData}
+        //await axios.get(`${process.env.REACT_APP_API_URL}/post`,{params}
+        // await axios.get(`${process.env.REACT_APP_API_URL}/post`,
+        // )
+        await axios.get(`${process.env.REACT_APP_API_URL}/post?tag=${timeLineAllTagHandleData}`, {withCredentials: true})
+        .then((respone) => {
             console.log(respone)
             AllTagHandleData = respone.data
         })

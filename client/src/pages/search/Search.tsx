@@ -7,6 +7,9 @@ import { Route, Switch } from 'react-router-dom';
 import { RootStateOrAny, useDispatch, useSelector } from 'react-redux'
 import axios from 'axios';
 import { useHistory } from 'react-router'
+import jQuery from 'jquery'
+
+const qs = require('qs');
 
 const AreaSelete = styled.div`
     background-color: darkgray;
@@ -41,6 +44,7 @@ const LogoImg = styled.img`
 function Search() {
     const loginUserInfo = useSelector((state: RootStateOrAny)=>state.UserInfoReducer)
     const his = useHistory()
+    const timeLineAllTagHandleData = []
     console.log(loginUserInfo)
     const selectButtonStyle = {
         background: "blue",
@@ -98,6 +102,8 @@ function Search() {
     const [notModeTag, setNotModeTag] = useState<any>(true)
 
     const [errorTag, setErrorTag] = useState<any>()
+
+    let giftJson = ''
 
     const areaSeleteClick = (event:any) => {
         if(isAreaActive){
@@ -252,16 +258,23 @@ function Search() {
             setErrorTag('지역은 필수')
         }
     }  
+
     const timeLineAllTagHandle = async () => {
-        const timeLineAllTagHandleData = JSON.stringify(["대전","서울"])
-        console.log(timeLineAllTagHandleData)
+        let timeLineAllTagHandleData = ['대전','서울']
         let AllTagHandleData = {}
-        await axios.get(`${process.env.REACT_APP_API_URL}/post?tag=${timeLineAllTagHandleData}`, {withCredentials: true}).then((respone) => {
+        timeLineAllTagHandleData = qs.stringify(timeLineAllTagHandleData)
+        // /post?tag=${qs.stringify(timeLineAllTagHandleData)}
+        axios.defaults.paramsSerializer = params => {
+            return qs.stringify(params)
+        }
+        const params = {tag: timeLineAllTagHandleData}
+        await axios.get(`${process.env.REACT_APP_API_URL}/post`,{params}
+        ).then((respone) => {
             console.log(respone)
             AllTagHandleData = respone.data
         })
         his.push({
-            pathname: `./Timeline`,
+            pathname: './Timeline',
             state: [
                 AllTagHandleData
             ]

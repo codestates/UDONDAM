@@ -6,7 +6,8 @@ module.exports = {
         req.userId = req.userId || 1;
         req.query.tag = req.query.tag || '["대전","서울"]';
         req.query.notTag = req.query.notTag || null;
-        const  queryTag = JSON.parse(req.query.tag);
+        let page = Number(req.query.page);
+        let size = Number(req.query.size)
         try{
         const posts = await post.findAll({
             include: [
@@ -19,7 +20,7 @@ module.exports = {
                     model: tag,
                     attributes: [],
                     where: {
-                        content: queryTag
+                        content: req.query.tag
                     },  
                 },
                 {
@@ -32,7 +33,7 @@ module.exports = {
                 }
             ],
             order: [['createAt','DESC']],
-            limit: [req.query.page, req.query.size]
+            limit: [page, size]
         })
         if(posts.length === 0) {
             return res.status(200).send(resPosts);

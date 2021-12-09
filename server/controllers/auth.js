@@ -303,7 +303,9 @@ module.exports = {
         // }
         // res.send(req.query)
         try{
-        console.log(req.query)
+        for(let el of req.query.tag) {
+            console.log(el)
+        }
         return res.send(req.query)
         } catch(err) {
             console.log(err)

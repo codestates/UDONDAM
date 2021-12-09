@@ -227,7 +227,6 @@ function Search() {
             if(userAreaData.indexOf(el) !== -1){
                 return a = true
             }
-           
         })
         if(a){
             setErrorTag('잘했다')
@@ -281,11 +280,12 @@ function Search() {
     const timeLineAllTagHandle = async () => {
         let timeLineAllTagHandleData : any = ['대전','서울']
         let AllTagHandleData = {}
-        let aaa = decodeURI('tag=%25EB%258C%2580%25EC%25A0%2584%2C%25EC%2584%259C%25EC%259A%25B8 ')
+
+        // let aaa = decodeURI('http://localhost:8080/post?tag%5B%5D=%EB%8C%80%EC%A0%84&tag%5B%5D=%EC%84%9C%EC%9A%B8')
         // console.log(decodeURI('http://localhost:8080/post?tag%5B%5D=%EB%8C%80%EC%A0%84&tag%5B%5D=%EC%84%9C%EC%9A%B8'))
         
         // aaa = aaa.replace(/\[]/g,'')
-        console.log(aaa)
+        // console.log(aaa)
         // timeLineAllTagHandleData = qs.stringify(timeLineAllTagHandleData)
         // /post?tag=${qs.stringify(timeLineAllTagHandleData)}
         // let params:any = {tag: timeLineAllTagHandleData}
@@ -298,46 +298,52 @@ function Search() {
 
         // http://localhost:8080/post?tag=['대전','서울']
         // http://localhost:8080/post?tag='대전'?tag='서울'
-        // let aa = `http://localhost:8080/post?tag=['대전','서울']`
 
-        // await axios.get(`${process.env.REACT_APP_API_URL}/post?tag=${JSON.stringify('asdf')}`
-        // ).then((respone) => {
-        //     console.log(respone)
-        //     AllTagHandleData = respone.data
-        // })
-
-
-        // await axios(
-        // {
-        //     url: `${process.env.REACT_APP_API_URL}/post`,
-        //     method: 'get',
-        //     params: {
-        //         tag: timeLineAllTagHandleData
-        //     },
-        //     paramsSerializer: params => {
-        //                 return qs.stringify(params, {arrayFormat: 'brackets'})
-        //             }
-        //     }
-        // )
+        // let aa = "";
+        // for(let el of timeLineAllTagHandleData) {
+        //     aa= aa + `tag=${el}&`
+        // }
+        // let url = encodeURI(`${process.env.REACT_APP_API_URL}/kakao?${aa.slice(0,aa.length-1)}`)
+        // console.log('aaaaa',url)
+   
+        // await axios.get(url)
         // .then((respone) => {
         //     console.log(respone)
         //     AllTagHandleData = respone.data
         // })
 
-        // http://localhost:8080/post?tag='대전'?tag='서울'
 
-        await axios.get(`${process.env.REACT_APP_API_URL}/post`,{
+        await axios(
+        {
+            url: `${process.env.REACT_APP_API_URL}/post`,
+            method: 'get',
             params: {
                 tag: timeLineAllTagHandleData
             },
             paramsSerializer: params => {
-              return jQuery.param(params)
+                    return qs.stringify(params, {arrayFormat: 'brackets'})
+                }
             }
-        }
-        ).then((respone) => {
+        )
+        .then((respone) => {
             console.log(respone)
             AllTagHandleData = respone.data
         })
+
+        // http://localhost:8080/post?tag='대전'?tag='서울'
+
+        // await axios.get(`${process.env.REACT_APP_API_URL}/post`,{
+        //     params: {
+        //         tag: timeLineAllTagHandleData
+        //     },
+        //     paramsSerializer: params => {
+        //       return jQuery.param(params)
+        //     }
+        // }
+        // ).then((respone) => {
+        //     console.log(respone)
+        //     AllTagHandleData = respone.data
+        // })
         
         // his.push({
         //     pathname: './Timeline',

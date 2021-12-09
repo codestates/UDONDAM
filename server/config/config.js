@@ -6,7 +6,8 @@ module.exports = {
     database: process.env.DATABASE_NAME || "UDONDAM",
     host: process.env.DATABASE_HOST || "127.0.0.1",
     port: process.env.DATABASE_PORT || "3306",
-    dialect: "mysql"
+    dialect: "mysql",
+    timezone: "+09:00"
   },
   test: {
     username: "root",

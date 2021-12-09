@@ -33,6 +33,8 @@ module.exports = {
         }
     },
     logout: async (req, res) => {
+        console.log("@@@@@@@@@@@@@@@")
+        console.log(req.cookies)
         try {
             res.clearCookie('jwt');
             res.status(200).json({"message": "logout!"});
@@ -286,15 +288,27 @@ module.exports = {
     naver: (req, res) => {
         res.status(200).send('소셜 네이버');
     },
-    kakao: (req, res) => {
-        const kakao = {
-            clientID: process.env.clientID,
-            clientSecret: process.env.clientSecret,
-            redirectUrl: process.env.redirectUrl
+    kakao: async (req, res) => {
+        // const kakao = {
+        //     clientID: process.env.clientID,
+        //     clientSecret: process.env.clientSecret,
+        //     redirectUrl: process.env.redirectUrl
+        // }
+        //     const kakaoAuthURL = `https://kauth.kakao.com/oauth/authorize?client_id=${kakao.clientID}&redirect_uri=${kakao.redirectUri}&response_type=code&scope=profile,account_email`;
+        // return  res.redirect(kakaoAuthURL);
+        // console.log(req.query)
+        // for(let el of req.query.tag) {
+        //     console.log(el)
+        //     console.log(typeof el)
+        // }
+        // res.send(req.query)
+        try{
+        console.log(req.query)
+        return res.send(req.query)
+        } catch(err) {
+            console.log(err)
+            return res.send('ssss')
         }
-            const kakaoAuthURL = `https://kauth.kakao.com/oauth/authorize?client_id=${kakao.clientID}&redirect_uri=${kakao.redirectUri}&response_type=code&scope=profile,account_email`;
-        return  res.redirect(kakaoAuthURL);
-        
     },
     kakaoCallback: async (req, res) => {
         console.log('bbb')

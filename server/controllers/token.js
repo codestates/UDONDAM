@@ -9,7 +9,7 @@ module.exports = {
     sendAccessToken: (res, token, userData) => {
       userData = userData || {data: null};
       res.status(200).cookie("jwt", token,{
-        sameSite: 'None',
+        sameSite: 'none',
         domain: DOMAIN,
         path: '/',
         secure: true,

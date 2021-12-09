@@ -1,8 +1,10 @@
 const {post, tag, user, comment, likes, post_tag} = require('../models/index');
 module.exports = {
     postTag : async (req, res) => {
+        req.query.page = req.query.page || 0;
+        req.query.size = req.query.size || 5;
         req.userId = req.userId || 1;
-        req.query.tag = req.query.tag || '["대전","스포츠"]';
+        req.query.tag = req.query.tag || '["대전","서울"]';
         req.query.notTag = req.query.notTag || null;
         const  queryTag = JSON.parse(req.query.tag);
         try{
@@ -30,7 +32,7 @@ module.exports = {
                 }
             ],
             order: [['createAt','DESC']],
-            limit: 10
+            limit: [req.query.page, req.query.size]
         })
         if(posts.length === 0) {
             return res.status(200).send(resPosts);

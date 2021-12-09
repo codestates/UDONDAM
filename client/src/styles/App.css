@@ -40,7 +40,7 @@ ul{
   "logo"
   "container"
   "footer";
-  grid-template-rows: min-content auto 8%; 
+  grid-template-rows: min-content auto max-content; 
   /* grid-template-columns: 100%; */
   color: black;
   justify-content: center;
@@ -66,7 +66,7 @@ ul{
   position: relative;
   height: 100%;
   width: 100%;
-  display: block;
+  /* display: block; */
   display: flex;
   flex-direction: column;
   /* justify-content: center; */
@@ -93,10 +93,10 @@ ul{
   display: block;
   display: flex;
   flex-direction: column;
-  /* justify-content: center; */
+  justify-content: center;
   align-items: center;
   width: 100%;
-  height: 100%;
+  height: max-content;
 }
 
 .logo_page{

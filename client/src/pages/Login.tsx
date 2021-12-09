@@ -54,7 +54,7 @@ function Login(){
         try {
             const loginInfoPost = await axios.post(`${process.env.REACT_APP_API_URL}/login`, body, {withCredentials: true})
             const userInfo = loginInfoPost.data.data
-        
+            console.log(userInfo)
             dispatch(UserInfoHandler({
                 email: loginInfo.email,
                 userId: userInfo.userId,

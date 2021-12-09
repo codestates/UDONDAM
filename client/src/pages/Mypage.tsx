@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
 import { useSelector, RootStateOrAny, useDispatch } from 'react-redux';
-import { UserInfoHandler } from '../redux/modules/UserInfo';
+import { UserInfoHandler, InitUserInfo } from '../redux/modules/UserInfo';
 import { useHistory } from 'react-router';
 import MypageModal from '../components/Mypage/MypageModal';
 import { IsLoginHandler } from '../redux/modules/IsLogin';
@@ -110,7 +110,14 @@ function Mypage() {
                     manager: userInfo.manager, 
                     socialType: userInfo.socialType
                 }))
+                setUserData({
+                    email: userInfo.email,
+                    nickname: getUserData.data.nickname,
+                    password: '',
+                    passwordCheck: ''
+                });
                 setOnOff({ ...onOff, ['onChange']: !onOff.onChange })
+
             } catch (error:any) {
 
                 console.log(error.response)
@@ -121,9 +128,20 @@ function Mypage() {
     const logoutHandler = async function () {
         try {
             const logoutResult = await axios.post(`${process.env.REACT_APP_API_URL}/logout`, { withCredentials: true })
-            // const logoutResult = await axios.post('http://localhost:4000/oauth/logout', { accept: "application/json", withCredentials: true })
-            // console.log('logoutResult:', logoutResult)
+           
+            console.log('logoutResult:', logoutResult)  
+            
+            dispatch(UserInfoHandler({
+                userId:0,
+                email: '',
+                nickname: '',
+                area: '',
+                area2: '',
+                manager: false,
+                socialType: ''
+            }))
             dispatch(IsLoginHandler(false))
+
             history.push('/');
         } catch (err) {
             console.log(err)
@@ -153,6 +171,8 @@ function Mypage() {
     `;
 
     console.log(onOff)
+
+    console.log(useSelector((state: RootStateOrAny) => state.UserInfoReducer))
 
     return (
         <div className='container'>

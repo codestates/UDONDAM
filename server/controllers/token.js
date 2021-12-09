@@ -18,9 +18,6 @@ module.exports = {
       }).json({ data: userData });
       return ;
     },
-    deleteRefreshToken: (res) => {
-      res.clearCookie("refreshToken");
-    },
     isAuthorized: (req) => {
         const authorization = req.headers["authorization"];
         if (!authorization) {

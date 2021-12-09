@@ -3,6 +3,7 @@ const router = express.Router();
 const postController = require('../controllers/post')
 const auth = require('../middleware/verifyToken')
 
+
 //router.use(auth)
 router.get('/', postController.postTag);
 router.get('/user', postController.postUser);

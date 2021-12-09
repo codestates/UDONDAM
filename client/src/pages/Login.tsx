@@ -7,7 +7,7 @@ import { IsLoginHandler } from '../redux/modules/IsLogin'
 import { UserInfoHandler } from '../redux/modules/UserInfo';
 import SearchPassword from '../components/Login/SearchPassword'
 import GuestLoginModal from '../components/Login/GuestLoginModal'
-import './styles/MainStyle.css'
+import './styles/IntroStyle.css'
 
 export interface loginInfoState {
         email: string,
@@ -54,10 +54,10 @@ function Login(){
         try {
             const loginInfoPost = await axios.post(`${process.env.REACT_APP_API_URL}/login`, body, {withCredentials: true})
             const userInfo = loginInfoPost.data.data
-            console.log(userInfo)
+            console.log(userInfo.userId)
             dispatch(UserInfoHandler({
-                email: loginInfo.email,
                 userId: userInfo.userId,
+                email: loginInfo.email,
                 nickname: userInfo.nickname,
                 area: userInfo.area || null,
                 area2: userInfo.area2 || null,
@@ -116,28 +116,35 @@ function Login(){
 
     return(
         <div className='container'>
+            <div className='login_container'>
             {modalOnOff.seaerchPasswordModal ? <SearchPassword closeSeaerchPasswordModal={closeSeaerchPasswordModal} /> : null}
             {modalOnOff.guestModal ? <GuestLoginModal closeGuestModal={closeGuestModal} /> : null}
+            <div className='logo_page_div'>
             <img className='logo_page' src="로고-우동담-Dark-모양만-배경o.png" alt="logo" />
+            </div>
             <form className='submit_box'>
-                <div>
+                <div className='submit_box_input'>
                 <input type="text" onChange={inputHandler('email')} placeholder='이메일' /> <br />
                 <input type="password" onChange={inputHandler('password')} placeholder='비밀번호' /> <br />
-                {errorMessage}
+                {errorMessage !== '' ? <div>{errorMessage}</div> : <br />}
                 </div>
-                <button className='login_button' onClick={submitHandler}>로그인</button>
-                <button className='guest_button' onClick={guestModalHandler}>게스트로그인</button>
+                <div className='login_button_box'>
+                <button className='login_button' onClick={submitHandler}>로그인</button>&nbsp;&nbsp;&nbsp;&nbsp;
+                <button className='login_button' onClick={guestModalHandler}>게스트로그인</button>
+                </div>
+                
             </form>
             <div className='userguide_box'>
                     <ul>
-                        <li><Link to='/Signup'>회원가입</Link> </li>
-                        <li onClick={passwordSearchModalHandler}>비밀번호를 잊으셨나요?</li>
+                        <li className='login_li'><Link to='/Signup'>회원가입</Link> </li>
+                        <li className='login_li' onClick={passwordSearchModalHandler}>비밀번호를 잊으셨나요?</li>
                     </ul>
             </div>
             <div className='social'>
-                <span onClick={socialLoginHandler('google')}>구글</span>&nbsp;&nbsp;
-                <span onClick={socialLoginHandler('naver')}>네이버</span>&nbsp;&nbsp;
-                <span onClick={socialLoginHandler('kakao')}>카카오</span>&nbsp;&nbsp;
+                <div onClick={socialLoginHandler('google')}>구글</div>
+                <div onClick={socialLoginHandler('naver')}>네이버</div>
+                <div onClick={socialLoginHandler('kakao')}>카카오</div>
+            </div>
             </div>
         </div>
            

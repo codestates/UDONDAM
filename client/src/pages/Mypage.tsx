@@ -6,6 +6,9 @@ import MypageModal from '../components/Mypage/MypageModal';
 import { IsLoginHandler } from '../redux/modules/IsLogin';
 import styled from 'styled-components';
 import axios from 'axios';
+import './styles/MypageStyle.css'
+
+//로그인하시고 이용해주세요
 
 //인터페이스 관련
 export interface onOffState {
@@ -32,14 +35,14 @@ function Mypage() {
     //스테이트 설정
     const [userData, setUserData] = useState<userDataState>({
         email: userInfo.email || '',
-        nickname: userInfo.nickname ||'',
+        nickname: userInfo.nickname || '',
         password: '',
         passwordCheck: ''
     })
 
     const [userDataSave, setUserDataSave] = useState({
         email: userInfo.email || '',
-        nickname: userInfo.nickname ||''
+        nickname: userInfo.nickname || ''
     })
     const [onOff, setOnOff] = useState<onOffState>({
         onModal: false,
@@ -47,10 +50,9 @@ function Mypage() {
         onChange: false
     })
     const [errorMessage, setErrorMessage] = useState<string>('')
-    const [click, setClick] = useState<boolean>(false)
 
     //스테이트 핸들링
-    const onOffHandler = (key: string) =>()=> {
+    const onOffHandler = (key: string) => () => {
         console.log('핸들러 작동')
         if (key === 'onRequest') {
             setOnOff({ ...onOff, [key]: !onOff.onRequest })
@@ -61,40 +63,40 @@ function Mypage() {
         };
         console.log(onOff)
     };
-    const userDataHandler = (key:string) => (e: React.ChangeEvent<HTMLInputElement>) => {
-        setUserData({...userData, [key]: e.target.value })
+    const userDataHandler = (key: string) => (e: React.ChangeEvent<HTMLInputElement>) => {
+        setUserData({ ...userData, [key]: e.target.value })
     };
 
     //스테이트 프롭스 전달 관련
-    const offModal = () => { 
+    const offModal = () => {
         setOnOff({ ...onOff, onModal: false })
     }
-    const closeModal = function () { 
+    const closeModal = function () {
         offModal()
     }
 
     //동작
     //비밀번호 체크
-    const changeCheck = function(password: string, passwordCheck: string){
-        if(password === passwordCheck){
+    const changeCheck = function (password: string, passwordCheck: string) {
+        if (password === passwordCheck) {
             return true
-        }else if(password !== passwordCheck){
+        } else if (password !== passwordCheck) {
             return false
         }
     }
 
-    const changeComplete = async ()=> {
-       
+    const changeComplete = async () => {
+
         console.log('작동')
         const checkeResult = changeCheck(userData.password, userData.passwordCheck);
-        if(checkeResult !== true){
+        if (checkeResult !== true) {
             setErrorMessage('수정된 비밀번호와 비밀번호 확인이 같아야 합니다')
-                    return;
-        }else if(checkeResult === true){
+            return;
+        } else if (checkeResult === true) {
             //비밀번호 수정인지 아닌지 구분
             //aaa@naver.com의 닉네임 수정을 하면 aaa의 닉네임이 바뀜
             try {
-                const body = {nickname:userData.nickname,password:userData.password}
+                const body = { nickname: userData.nickname, password: userData.password }
                 //const passwordCheckResp = await axios.post(`${process.env.REACT_APP_API_URL}/passwordcheck`, {password:userData.password}, { withCredentials: true })
                 const userDataChange = await axios.patch(`${process.env.REACT_APP_API_URL}/user`, body, { withCredentials: true })
                 const getUserData = await axios.get(`${process.env.REACT_APP_API_URL}/user`, { withCredentials: true })
@@ -107,7 +109,7 @@ function Mypage() {
                     nickname: getUserData.data.nickname,
                     area: userInfo.area,
                     area2: userInfo.area2,
-                    manager: userInfo.manager, 
+                    manager: userInfo.manager,
                     socialType: userInfo.socialType
                 }))
                 setUserData({
@@ -118,7 +120,7 @@ function Mypage() {
                 });
                 setOnOff({ ...onOff, ['onChange']: !onOff.onChange })
 
-            } catch (error:any) {
+            } catch (error: any) {
 
                 console.log(error.response)
             }
@@ -128,11 +130,11 @@ function Mypage() {
     const logoutHandler = async function () {
         try {
             const logoutResult = await axios.post(`${process.env.REACT_APP_API_URL}/logout`, { withCredentials: true })
-           
-            console.log('logoutResult:', logoutResult)  
-            
+
+            console.log('logoutResult:', logoutResult)
+
             dispatch(UserInfoHandler({
-                userId:0,
+                userId: 0,
                 email: '',
                 nickname: '',
                 area: '',
@@ -155,14 +157,11 @@ function Mypage() {
             password: '',
             passwordCheck: ''
         });
-        
+
         setOnOff({ ...onOff, ['onChange']: !onOff.onChange })
     }
 
-    const test =function():any{
-        setClick(!click)
-    }
-
+   
     const MypageContainer = styled.div`
     display:flex;
     flex-direction: row;
@@ -176,92 +175,52 @@ function Mypage() {
 
     return (
         <div className='container'>
-        <div>
-            {onOff.onModal ? <MypageModal closeModal={closeModal} /> : null}
-            <div>logo</div>
-            <button onClick={test}>테스트</button>
-            <div className='mypage_request_box'>
-                <button onClick={onOffHandler('onRequest')}>문의하기</button>
-                {onOff.onRequest ?
-                    <div className='mypage_button_box'>
-                        <button>태그추가 요청</button>
-                        <button>신고처리현황</button>
-                    </div> : null}
-            </div>
-            {!onOff.onChange ? <button onClick={onOffHandler('onChange')}>회원정보수정</button> : null}
-            
-            {onOff.onChange ?
-                <div className='mypage_userinfo_box_true'>
-
-
-                    <div>닉네임 변경</div>
-                    <input type="text" value={userData.nickname} onChange={userDataHandler('nickname')}/>
-                    <div>비밀번호 수정</div>
-                    <input type="text" value={userData.password} onChange={userDataHandler('password')}/>
-                    {errorMessage}
-                    <div>비밀번호 수정 확인</div>
-                    <input type="text" value={userData.passwordCheck} onChange={userDataHandler('passwordCheck')}/>
-                    {errorMessage}
-                    <div className='mypage_button_box_true'>
-                        <button onClick={changeComplete}>수정확인</button>
-                        <button onClick={cancleHandler}>취소</button>
+            <div id='mypage_container'>
+                
+                    {onOff.onModal ? <MypageModal closeModal={closeModal} /> : null}
+                    <div className='mypage_request_box'>
+                        <div className='mypage_request_button'>
+                        <button className='mypage_button' onClick={onOffHandler('onRequest')}>문의하기</button>
+                        </div>
+                        {onOff.onRequest ?
+                            <div className='mypage_button_box'>
+                                <button>태그추가 요청</button>
+                                <button>신고처리현황</button>
+                            </div> : <div><br /></div>}
                     </div>
-                </div> :
-                <div className='mypage_userinfo_box_false'>
-                    <div>이메일</div>
-                    <input type="text" value={userData.email} disabled />
-                    <div>닉네임</div>
-                    <input type="text" value={userData.nickname} disabled />
-                    <div className='mypage_button_box_false'>
-                        <button onClick={logoutHandler}>로그아웃</button>
-                        <button onClick={onOffHandler('onModal')}>회원탈퇴</button>
-                    </div>
-                </div>}
-        </div>
+                    {!onOff.onChange ? <button onClick={onOffHandler('onChange')}>회원정보수정</button> : null}
 
-        {click ? 
+                    {onOff.onChange ?
+                        <div className='mypage_userinfo_box_true'>
 
-        <div>
-        {onOff.onModal ? <MypageModal closeModal={closeModal} /> : null}
-        <div>logo</div>
-        <div className='mypage_request_box'>
-            <button onClick={onOffHandler('onRequest')}>문의하기</button>
-            {onOff.onRequest ?
-                <div className='mypage_button_box'>
-                    <button>태그추가 요청</button>
-                    <button>신고처리현황</button>
-                </div> : null}
-        </div>
-        {!onOff.onChange ? <button onClick={onOffHandler('onChange')}>회원정보수정</button> : null}
+
+                            <div>닉네임 변경</div>
+                            <input type="text" value={userData.nickname} onChange={userDataHandler('nickname')} />
+                            <div>비밀번호 수정</div>
+                            <input type="text" value={userData.password} onChange={userDataHandler('password')} />
+                            {errorMessage}
+                            <div>비밀번호 수정 확인</div>
+                            <input type="text" value={userData.passwordCheck} onChange={userDataHandler('passwordCheck')} />
+                            {errorMessage}
+                            <div className='mypage_button_box_true'>
+                                <button onClick={changeComplete}>수정확인</button>
+                                <button onClick={cancleHandler}>취소</button>
+                            </div>
+                        </div> :
+                        <div className='mypage_userinfo_box_false'>
+                            <div>이메일</div>
+                            <input type="text" value={userData.email} disabled />
+                            <div>닉네임</div>
+                            <input type="text" value={userData.nickname} disabled />
+                            <div className='mypage_button_box_false'>
+                                <button onClick={logoutHandler}>로그아웃</button>
+                                <button onClick={onOffHandler('onModal')}>회원탈퇴</button>
+                            </div>
+                        </div>}
+                
+
         
-        {onOff.onChange ?
-            <div className='mypage_userinfo_box_true'>
-                <div>닉네임 변경</div>
-                <input type="text" value={userData.nickname} onChange={userDataHandler('nickname')}/>
-                <div>비밀번호 수정</div>
-                <input type="text" value={userData.password} onChange={userDataHandler('password')}/>
-                {errorMessage}
-                <div>비밀번호 수정 확인</div>
-                <input type="text" value={userData.passwordCheck} onChange={userDataHandler('passwordCheck')}/>
-                {errorMessage}
-                <div className='mypage_button_box_true'>
-                    <button onClick={changeComplete}>수정확인</button>
-                    <button onClick={cancleHandler}>취소</button>
-                    <button onClick={test}>테스트</button>
-                </div>
-            </div> :
-            <div className='mypage_userinfo_box_false'>
-                <div>이메일</div>
-                <input type="text" value={userData.email} disabled />
-                <div>닉네임</div>
-                <input type="text" value={userData.nickname} disabled />
-                <div className='mypage_button_box_false'>
-                    <button onClick={logoutHandler}>로그아웃</button>
-                    <button onClick={onOffHandler('onModal')}>회원탈퇴</button>
-                </div>
-            </div>}
-    </div> 
-    : null}
+            </div>
         </div>
     )
 }

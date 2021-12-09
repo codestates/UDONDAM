@@ -5,6 +5,7 @@ import axios from 'axios'
 import { RootStateOrAny, useDispatch, useSelector } from 'react-redux'
 import { IsLoginHandler } from '../redux/modules/IsLogin'
 import { UserInfoHandler } from '../redux/modules/UserInfo';
+import { IsGuestHandler } from '../redux/modules/IsGuest'
 import SearchPassword from '../components/Login/SearchPassword'
 import GuestLoginModal from '../components/Login/GuestLoginModal'
 import './styles/IntroStyle.css'
@@ -65,6 +66,7 @@ function Login(){
                 socialType: userInfo.socialType
             }))
             dispatch(IsLoginHandler(true))
+            dispatch(IsGuestHandler(true))
             history.push('/Search')
 
         } catch (error:any) {

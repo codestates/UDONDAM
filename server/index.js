@@ -5,11 +5,11 @@ const cors = require('cors');
 const cookieParser = require('cookie-parser')
 const PORT = 8080;
 const app = express();
-const userRouter = require('./roters/user');
-const postRouter = require('./roters/post');
-const commentRouter = require('./roters/comment');
-const likesRouter = require('./roters/likes');
-const authRouter = require('./roters/auth');
+const userRouter = require('./routers/user');
+const postRouter = require('./routers/post');
+const commentRouter = require('./routers/comment');
+const likesRouter = require('./routers/likes');
+const authRouter = require('./routers/auth');
 // const session = require('express-session')
 // const models = require("./models/index.js");
 

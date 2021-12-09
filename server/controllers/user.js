@@ -15,6 +15,9 @@ module.exports = {
 
     userPatch : async (req, res) => {
         req.userId = req.userId || 1
+        console.log("(((((((((((((((((")
+        console.log(req.cookies)
+        console.log(req.body)
         const {nickname, password} = req.body;
         if(nickname && password) {
             await user.update({
@@ -47,6 +50,9 @@ module.exports = {
     },
 
     areaPatch : async (req, res) => {
+        console.log("(((((((((((((((((")
+        console.log(req.cookies)
+        console.log(req.body)
         req.userId = req.userId || 1
         const {area, area2} = req.body;
         if(area && area2) {
@@ -80,12 +86,15 @@ module.exports = {
     },
     
     userDelete : async (req, res) => {
+        console.log("(((((((((((((((((")
+        console.log(req.cookies)
             req.userId = req.userId || 1        
         try{
             await user.destroy({
             where: {id: req.userId}
         })
-            return res.status(200).clearCookie('jwt').json({"message" : 'delete!'})   
+            res.status(200).clearCookie('jwt').json({"message" : 'delete!'})  
+            return;
         } catch(err) {
             console.log(err);
             return res.status(500).json({"message" : "Server Error"});

@@ -15,7 +15,7 @@ module.exports = {
         secure: true,
         httpOnly: true,
         expires: new Date(Date.now() + 1000 * 60 * 60 * 48),
-      }).json({ data: userData });
+      }).json(userData);
       return ;
     },
     deleteRefreshToken: (res) => {

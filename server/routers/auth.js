@@ -4,11 +4,11 @@ const authRouter = require('../controllers/auth')
 const auth = require('../middleware/verifyToken')
 
 router.post('/login', authRouter.login);
-router.post('/logout',authRouter.logout);
 router.post('/signup', authRouter.signup);
+router.post('/logout',  authRouter.logout);
 router.post('/email', authRouter.email);
 router.post('/emailcheck', authRouter.emailCheck);
-router.post('/passwordcheck', authRouter.passwordCheck);
+router.post('/passwordcheck', auth, authRouter.passwordCheck);
 router.post('/tempp', authRouter.tempp);
 router.get('/google', authRouter.google);
 router.get('/googlecallback',authRouter.googlecallback);

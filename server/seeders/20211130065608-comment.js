@@ -2,7 +2,6 @@
 
 module.exports = {
   up: async (queryInterface, Sequelize) => {
-    let postId;
     await queryInterface.bulkInsert('comment', [
       {
         id: 1,

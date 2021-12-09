@@ -4,6 +4,8 @@ require('dotenv').config();
 
 const isAuth = (req, res, next) => {
 const token = req.cookies['jwt'];
+    console.log('111111111111111111111')
+    console.log(token)
 if (!token) {
     return res.status(401).json({ "message": "token doesn't exist" });
 }
@@ -12,11 +14,11 @@ try {
     if (err) {
         return res.status(401).json({ "message": "token doesn't exist" });
     }
-    const usersInfo = await user.findOne({ where: { id: encoded.id } });
+    const usersInfo = await user.findOne({ where: { id: encoded.userId } });
     if (!usersInfo) {
         return res.status(401).json({ "message": "token doesn't exist" });
     }
-    req.userId = encoded.id;
+    req.userId = encoded.userId;
     return next();
     });
 } catch (error) {

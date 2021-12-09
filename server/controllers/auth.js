@@ -1,5 +1,5 @@
 const db = require('../models');
-const { user } = require("../models");
+const { user } = require("../models/index");
 const nodemailer = require('nodemailer');
 const { generateAccessToken, sendAccessToken, deleteRefreshToken, isAuthorized } = require('../controllers/token.js');
 //const axios = require('axios');
@@ -13,7 +13,6 @@ module.exports = {
                 password: password
             }
         })
-
         if(!userInfo) {
             res.status(401).json({"message": "Invalid email or password"})
             return ;
@@ -33,15 +32,21 @@ module.exports = {
         }
     },
     logout: async (req, res) => {
-        try {
-            res.clearCookie('jwt');
-            res.status(200).json({"message": "logout!"});
-            return;
-        }
-        catch (err) {
-            console.log(err);
-            return res.status(401).json({ "message": "Unauthorized"});
-        }
+        let token = req.body
+        console.log('22222@@@@@@@@@@@@@@@')
+        console.log(token)
+        console.log(req.cookies)
+
+        // try {
+        //     console.log(token)
+        //     res.status(200).clearCookie("jwt").json({"message": "logout!"});
+        //     return;
+        // }
+        // catch (err) {
+        //     console.log(err);
+        //     return res.status(401).json({ "message": "Unauthorized"});
+        // }
+        return res.json("aaaaaa")
     },
     signup: async (req, res) => {
         const { email, password } = req.body;
@@ -132,15 +137,10 @@ module.exports = {
         }
     },
     passwordCheck: async (req, res) => {
-        const userInfo = isAuthorized(req);
-        if (!userInfo) {
-            res.status(401).json({ "message": "Invali token"})
-            return ;
-        }
-        
-        const { email, password } = req.body;
-        const checkPassword = await db.users.findOne({
-            where: { email: email, password: password}
+        req.userId = req.userId || 1        
+        const {password } = req.body;
+        const checkPassword = await user.findOne({
+            where: { id: req.userId, password: password}
         })
         
         if(!checkPassword) {

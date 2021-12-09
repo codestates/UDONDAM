@@ -9,7 +9,7 @@ module.exports = {
       nickname: '익명',
       password: 'bbb',
       socialType: 'basic',
-      area: '인증해주세요',
+      area: '대전',
       area2: '인증해주세요',
       manager: false,
       createAt: new Date().toISOString().replace(/T/, ' ').replace(/\..+/, ''),

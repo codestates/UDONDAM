@@ -45,6 +45,7 @@ const LogoImg = styled.img`
 function Search() {
     const loginUserInfo = useSelector((state: RootStateOrAny)=>state.UserInfoReducer)
     const his = useHistory()
+    let AllTagHandleData = {}
     const timeLineAllTagHandleData = []
     console.log(loginUserInfo)
     const selectButtonStyle = {
@@ -68,14 +69,16 @@ function Search() {
         width: '10vw',
         height: '7vh'
     }
+
     const [userAreaData, setUserAreaData] = useState<any>([
         // 유저 정보에서 area,area2를 받아서 한 배열로 병합할거임
         // 그럼 지역정보 바꾸고 나서 바로 서버쪽에서 다시 유저정보 줘야겠네
         // 예 ) 유저정보.area, ...유저정보.area2
-        "서울",loginUserInfo.area2
+        loginUserInfo.area,loginUserInfo.area2
     ])
+    console.log(userAreaData)
     const [tag, setTag] = useState<any>([
-        '여행', '게임', '소문', '유머', '산책', '자랑', '놀라운', '직장', '학교', '운동', '반려동물', '만화', '고민', '비밀', '음악', '흥미', '사고', '독서', '식사', '취미', '도움', '나눔', '연애', '만남', '자소서'])
+        '여행', '게임', '소문', '유머', '산책', '자랑', '놀라운', '직장', '학교', '운동', '반려동물', '만화', '고민', '비밀', '음악', '흥미', '사고', '독서', '식사', '취미', '도움', '나눔', '연애', '만남', '자소서', '스포츠', '잡담', '알림', '질문'])
     const [tagData, setTagData] = useState<any>([
         // 여기도 수정될 예정 
         // 예 ) 유저정보.area, ...유저정보.area2
@@ -127,17 +130,26 @@ function Search() {
 
     const handleSearchButton = () => {
         if(notModeTag){
-            const a = tagData.filter((el:any) => 
-                !el.indexOf(searchText)
-            )
-            setFilterTag(a)
+            
+                const a = tagData.filter((el:any) => {
+                    if(el !== null){
+                       return !el.indexOf(searchText)
+                    }
+                    else{
+                        return
+                    }
+                })
+                setFilterTag(a)
+            
         }
         else
         {
+            if(tagData.length !== 0){
             const a = notTagData.filter((el:any) => 
                 !el.indexOf(searchText)
             )
             setFilterTag(a)
+            }
         }
         // if(filterTag[0] === []){
         //     setFilterTag(['해당 태그는 없습니다.'])
@@ -232,25 +244,56 @@ function Search() {
             setErrorTag('잘했다')
             if(notGiftTag.length === 0){
                 
-                await axios.get(`${process.env.REACT_APP_API_URL}/post?tag=${giftTag}`, {withCredentials: true}).then((respone) => {
-                    console.log(respone)
-                    setGiftTimeLineData(respone)
-                })
-                his.push('/Timeline')
+                await axios(
+                    {
+                        url: `${process.env.REACT_APP_API_URL}/post`,
+                        method: 'get',
+                        params: {
+                            tag: giftTag,
+                            size: 10,
+                            page: 0
+                        },
+                        paramsSerializer: params => {
+                                return qs.stringify(params, {arrayFormat: 'brackets'})
+                            }
+                        }
+                    )
+                    .then((respone) => {
+                        console.log(respone)
+                        AllTagHandleData = respone.data
+                    })
+                    his.push({
+                        pathname: './Timeline',
+                        state: [
+                            AllTagHandleData
+                        ]
+                    })
             }else{
-                let j = {}
-                const y = JSON.stringify(['대전'])
-                const u = JSON.stringify(['스포츠'])
-                await axios.get(`${process.env.REACT_APP_API_URL}/post?tag=${y}&notTag=${u}`, {withCredentials: true}).then((respone) => {
-                    console.log(respone)
-                    j = respone.data
-                })
-                his.push({
-                    pathname: `./Timeline`,
-                    state: [
-                    j
-                    ]
-                })
+                await axios(
+                    {
+                        url: `${process.env.REACT_APP_API_URL}/post`,
+                        method: 'get',
+                        params: {
+                            tag: giftTag,
+                            notTag: notGiftTag,
+                            size: 10,
+                            page: 0
+                        },
+                        paramsSerializer: params => {
+                                return qs.stringify(params, {arrayFormat: 'brackets'})
+                            }
+                        }
+                    )
+                    .then((respone) => {
+                        console.log(respone)
+                        AllTagHandleData = respone.data
+                    })
+                    his.push({
+                        pathname: './Timeline',
+                        state: [
+                            AllTagHandleData
+                        ]
+                    })
             }
         }
         else{
@@ -278,8 +321,7 @@ function Search() {
 
 
     const timeLineAllTagHandle = async () => {
-        let timeLineAllTagHandleData : any = ['대전','서울']
-        let AllTagHandleData = {}
+
 
         // let aaa = decodeURI('http://localhost:8080/post?tag%5B%5D=%EB%8C%80%EC%A0%84&tag%5B%5D=%EC%84%9C%EC%9A%B8')
         // console.log(decodeURI('http://localhost:8080/post?tag%5B%5D=%EB%8C%80%EC%A0%84&tag%5B%5D=%EC%84%9C%EC%9A%B8'))
@@ -318,8 +360,8 @@ function Search() {
             url: `${process.env.REACT_APP_API_URL}/post`,
             method: 'get',
             params: {
-                tag: timeLineAllTagHandleData,
-                size: 20,
+                tag: userAreaData,
+                size: 10,
                 page: 0
             },
             paramsSerializer: params => {
@@ -394,14 +436,14 @@ function Search() {
                             return <div>인증해주세요<Link to={{
                                 pathname: `./Area`,
                                 state: {
-                                id: idx,
+                                ida: idx,
                             }
                         }}>인증</Link></div>
                         }else{
                             return <div>{el}<Link to={{
                                     pathname: `./Area`,
                                     state: {
-                                    id: idx,
+                                    ida: idx,
                                 }
                             }}>인증</Link></div>
                         }

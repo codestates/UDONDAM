@@ -26,7 +26,6 @@ function Intro() {
     const hideLogo = function(){
         document.querySelector('.logo_nav')?.classList.toggle('hide')
         document.querySelector('#nav_bar')?.classList.toggle('hide')
-        
       }
 
     useEffect(()=>{

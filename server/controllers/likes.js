@@ -36,7 +36,7 @@ module.exports = {
                     required: true
                 }],
                 order: [['createAt','DESC']],
-                limit: 10
+                // limit: 10
             });
             // let likeCount = await likes.count({ where: {postId: id} });
             

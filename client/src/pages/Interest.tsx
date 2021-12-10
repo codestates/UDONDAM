@@ -2,7 +2,7 @@ import axios from 'axios'
 import React, { useState, useEffect } from 'react'
 import { ArrayTypeNode } from 'typescript'
 import styled from 'styled-components'
-
+import './styles/Interest.css'
 import InterestPost from '../components/Interest/InterestPost'
 //게시글관리
 function Interest() {
@@ -21,71 +21,81 @@ function Interest() {
 
     const InterestList = async function (key: string) {
         //클릭별로 바뀜
-        //const mypost = await axios.get(`${process.env.REACT_APP_API_URL}/${key}`,{withCredentials: true})
-        //console.log(mypost)
+        if(key === 'my_interest'){
+            const mypost = await axios.get(`${process.env.REACT_APP_API_URL}/${key}`,{withCredentials: true})
+            console.log(mypost)
+            formChange(mypost.data)
+            return mypost
+        }else{
+            const mypost = await axios.get(`${process.env.REACT_APP_API_URL}/${key}`,{withCredentials: true})
+            console.log(mypost)
+            formChange(mypost.data)
+            return mypost
+        }
+        
+        
         //setResult(mypost.data)
         //더미데이터
-        const post = [
-            {
-                id: 1, //postId
-                nickname: "oh", //유저 닉네
-                content: "그.....", //게시글내
-                tag: ['서울', '운동', '식사', '독서'], //태그
-                commentCount: 20, //댓글 
-                likeCount: 10, //따봉 수
-                likeCheck: false,  //따봉 눌렀는지 체
-                createAt: '2019-10-10 09:10',  //생성날
-                public: true  // 1 대 1 채팅 활성화, 비활성화
-            },
-            {
-                id: 2,
-                nickname: "gang",
-                content: "나...",
-                userId: 1,
-                tag: ['서울', '운동'],
-                commentCount: 10,
-                likeCount: 5,
-                likeCheck: false,
-                createAt: '2020-10-15 10:10',
-                public: false
-            },
-            {
-                id: 5,
-                nickname: "kim",
-                content: "잘...",
-                tag: ['서울', '독서'],
-                commentCount: 5,
-                likeCount: 2,
-                likeCheck: false,
-                createAt: '2020-10-20 12:10',
-                public: true
-            },
-            {
-                id: 11,
-                nickname: "kim",
-                content: "이거...",
-                tag: ['서울', '독서'],
-                commentCount: 5,
-                likeCount: 2,
-                likeCheck: false,
-                createAt: '2020-10-21 11:10',
-                public: true
-            },
-            {
-                id: 21,
-                nickname: "kim",
-                content: "왜...",
-                tag: ['서울', '독서'],
-                commentCount: 5,
-                likeCount: 2,
-                likeCheck: false,
-                createAt: '2021-01-20 11:55',
-                public: true
-            }
-        ]
+        // const post = [
+        //     {
+        //         id: 1, //postId
+        //         nickname: "oh", //유저 닉네
+        //         content: "그.....", //게시글내
+        //         tag: ['서울', '운동', '식사', '독서'], //태그
+        //         commentCount: 20, //댓글 
+        //         likeCount: 10, //따봉 수
+        //         likeCheck: false,  //따봉 눌렀는지 체
+        //         createAt: '2019-10-10 09:10',  //생성날
+        //         public: true  // 1 대 1 채팅 활성화, 비활성화
+        //     },
+        //     {
+        //         id: 2,
+        //         nickname: "gang",
+        //         content: "나...",
+        //         userId: 1,
+        //         tag: ['서울', '운동'],
+        //         commentCount: 10,
+        //         likeCount: 5,
+        //         likeCheck: false,
+        //         createAt: '2020-10-15 10:10',
+        //         public: false
+        //     },
+        //     {
+        //         id: 5,
+        //         nickname: "kim",
+        //         content: "잘...",
+        //         tag: ['서울', '독서'],
+        //         commentCount: 5,
+        //         likeCount: 2,
+        //         likeCheck: false,
+        //         createAt: '2020-10-20 12:10',
+        //         public: true
+        //     },
+        //     {
+        //         id: 11,
+        //         nickname: "kim",
+        //         content: "이거...",
+        //         tag: ['서울', '독서'],
+        //         commentCount: 5,
+        //         likeCount: 2,
+        //         likeCheck: false,
+        //         createAt: '2020-10-21 11:10',
+        //         public: true
+        //     },
+        //     {
+        //         id: 21,
+        //         nickname: "kim",
+        //         content: "왜...",
+        //         tag: ['서울', '독서'],
+        //         commentCount: 5,
+        //         likeCount: 2,
+        //         likeCheck: false,
+        //         createAt: '2021-01-20 11:55',
+        //         public: true
+        //     }
+        // ]
         //setResult(post)
         //더미데이터
-        formChange(post)
         //더미데이터
     };
 
@@ -103,10 +113,18 @@ function Interest() {
             return `${splited[0]}-${splited[1]}`
         };
         const changedArray = origin.map((el) => {
+            function chancgeCreateAt (createAt:string) {
+                const yearMonthDay:string = createAt.split('T')[0]
+                const splitedTime = createAt.split('T')[1].split(':')
+                const hourMinuts:string = `${splitedTime[0]}:${splitedTime[1]}`
+                const createAtForm:string = yearMonthDay +' ' + hourMinuts
+                
+                return createAtForm
+            }
             return {
                 id: el.id,
                 createAtYearMonth: splitNum(el.createAt),
-                createAt: el.createAt,
+                createAt: chancgeCreateAt(el.createAt),
                 content: el.content
             }
         });
@@ -162,17 +180,18 @@ function Interest() {
         } else if (key === 'my_comment') {
             InterestList('comment')
         } else if (key === 'my_interest') {
-            InterestList('like')
+            InterestList('likes')
         } else if (key === 'my_chat') {
             CreateMyChat()
         }
     }
 
     const InterestNav = styled.div`
-        font-size: 1.5rem;
-        .${targetPage}{
+        font-size: 1rem;
+        
+        .interest_nav_box_${targetPage}{
             border-bottom: solid 2px black;
-            
+           
         }
     `;
 
@@ -182,20 +201,28 @@ function Interest() {
 
     //여기에 포스트상세를 넣어서 움직일수 있게 한다? 모바일에선 가능.데스크탑에선?
     return (
-        <div>
             <div className='container'>
-            <InterestNav>
-                <span className='my_post border_line_my_post' onClick={targetHandler('my_post')}>내 작성글</span>&nbsp;&nbsp;
-                <span className='my_comment border_line_my_comment' onClick={targetHandler('my_comment')}>댓글</span>&nbsp;&nbsp;
-                <span className='my_interest border_line_my_interest' onClick={targetHandler('my_interest')}>따봉</span>&nbsp;&nbsp;
-                <span className='my_chat border_line_my_chat' onClick={targetHandler('my_chat')}>1:1</span>
+                <div className='interest_cotainer' >
+            <InterestNav className='interest_nav_cotainer'>
+                <div className='interest_nav_box interest_nav_box_my_post ' onClick={targetHandler('my_post')}>
+                <span className='my_post border_line_my_post' >내 작성글</span>
+                </div>
+                <div className='interest_nav_box interest_nav_box_my_comment ' onClick={targetHandler('my_comment')}>
+                <span className='my_comment border_line_my_comment' >댓글</span>
+                </div>
+                <div className='interest_nav_box interest_nav_box_my_interest' onClick={targetHandler('my_interest')}>
+                <span className='my_interest border_line_my_interest' >따봉</span>
+                </div>
+                <div className='interest_nav_box interest_nav_box_my_chat' onClick={targetHandler('my_chat')}>
+                <span className='my_chat border_line_my_chat' >1:1쪽지</span>
+                </div>
             </InterestNav> <br />
             {targetPage === 'my_post' ? <InterestPost post={result}  /> : null}
             {targetPage === 'my_comment' ? <InterestPost post={result}  /> : null}
             {targetPage === 'my_interest' ? <InterestPost post={result}  /> : null}
             {targetPage === 'my_chat' ? <CreateMyChat /> : null}
             </div>
-        </div>
+            </div>
 
     )
 }

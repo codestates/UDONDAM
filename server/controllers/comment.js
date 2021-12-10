@@ -76,14 +76,19 @@ module.exports = {
         }
     },
     commentDelete: async (req, res) => {
-        req.userId = req.userId || 1;
-        req.params.commentId = req.query.commentId || 8;
+        req.userId = req.userId || 2;
+        req.params.commentId = req.query.commentId || 5;
         try {
-            const commentDelete = await comment.destroy({
-                where: {
-                    id: req.params.commentId, userId:req.userId
+            const commentDelete = await comment.update(
+                {
+                    content: '삭제 된 댓글 입니다'
+                },
+                {
+                    where:{
+                        id: req.params.commentId, userId:req.userId
+                    }
                 }
-            })
+            )
             if(commentDelete === 0) {
                 return res.status(400).json({"message": "comment doesn't exist"})
             }

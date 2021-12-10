@@ -21,7 +21,7 @@ const authRouter = require('./routers/auth');
 // })
 
 app.use(cors({
-    origin:'http://localhost:3000',
+    origin:['http://localhost:3000','https://udondam.com'],
     credentials: true,
     methods: ['GET', 'POST', 'PATCH', 'DELETE' ,'OPTIONS']
 }));

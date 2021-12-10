@@ -66,7 +66,7 @@ function Login(){
                 socialType: userInfo.socialType
             }))
             dispatch(IsLoginHandler(true))
-            dispatch(IsGuestHandler(true))
+            dispatch(IsGuestHandler(false))
             history.push('/Search')
 
         } catch (error:any) {

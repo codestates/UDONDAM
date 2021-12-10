@@ -1,4 +1,4 @@
-import React from 'react';
+import React,{useState} from 'react';
 import { Route, Switch } from 'react-router-dom';
 import { useDispatch, useSelector, RootStateOrAny } from 'react-redux';
 import { IsMobileHandler } from './redux/modules/IsMobile';
@@ -18,14 +18,16 @@ import Footer from './pages/Footer';
 import { useHistory } from 'react-router-dom';
 import TimeLine from './pages/timeLine/TimeLine';
 import './styles/App.css';
+import { contains } from 'jquery';
 
 function App() {
   const history = useHistory()
   const dispatch = useDispatch()
-  console.log(navigator.userAgent)
+  const [triger, setTriger] = useState<boolean>(false)
+
   const isMobile = () => { 
     try { //이건 주먹구구라 일단 이렇게 해둠. 테스트때는 터치가 안먹혀서 터치로 판단못함.
-     if(/Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent)){
+     if(/Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent) || window.innerWidth < 640){
     return true;
     }
       document.createEvent("TouchEvent"); //이건 실제 핸드폰만 됨. 터치이벤트 발생시켜서 터치 먹히면 핸드폰이라 판단
@@ -40,9 +42,19 @@ function App() {
       history.push('/')
     }
 
-   
-    
     isMobile()
+    
+    //   window.addEventListener('resize',function(){
+    //     if(window.innerWidth < 640){
+    //       setTriger(true)
+    //       isMobile()
+    //     } else {
+    //       setTriger(false)
+    //     }
+    
+    // });
+    
+   
     dispatch(IsMobileHandler(isMobile()))
   //console.log(document.documentElement)
   //console.log(useSelector((state: RootStateOrAny)=>state.IsMobileReducer.isMobile))
@@ -50,9 +62,10 @@ function App() {
     <>
     <div id = 'logo'>
     <img className='logo_nav' src="로고-우동담-Dark-글자만-배경o.png" alt="logo" onClick={introPage}/>
+    {!useSelector((state: RootStateOrAny)=>state.IsMobileReducer.isMobile)? <div id='nav_bar'><Nav /></div> : null}
     </div>
     <div id ='container'>
-    {!useSelector((state: RootStateOrAny)=>state.IsMobileReducer.isMobile)? <div id='nav_bar'><Nav /></div> : null}
+    {/* {!useSelector((state: RootStateOrAny)=>state.IsMobileReducer.isMobile)? <div id='nav_bar'><Nav /></div> : null} */}
     {/* 조건부렌더링이용:게스트/로그인 구분, 나오면 안되는창 구분 */}
     <Switch>
       <Route exact path="/">

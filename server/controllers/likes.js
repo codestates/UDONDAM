@@ -3,10 +3,12 @@ const { sequelize } = require("sequelize");
 const { isAuthorized } = require('../controllers/token.js');
 module.exports = {
     likesUser: async (req, res) => {
-        const { userId } = req.query;
+        req.userId = req.userId || 1;
+        //const { userId } = req.query;
         let userInfo = await user.findOne({
             where: {
-                id: userId
+                //id: userId
+                id: req.userId
             }
         })
         if(!userInfo){

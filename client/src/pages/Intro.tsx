@@ -14,7 +14,7 @@ function Intro() {
 
     const introHandler = function () {
         history.push('/Login')
-        hideLogo()
+        
     }
 
     const test = function(){
@@ -24,9 +24,10 @@ function Intro() {
     }
 
     const hideLogo = function(){
-        document.querySelector('.logo_nav')?.classList.toggle('hide')
-        document.querySelector('#nav_bar')?.classList.toggle('hide')
-        
+        if(document.querySelector('.logo_nav')?.classList.contains('hide')===false){
+            document.querySelector('.logo_nav')?.classList.toggle('hide')
+            document.querySelector('#nav_bar')?.classList.toggle('hide')
+        }
       }
 
     useEffect(()=>{

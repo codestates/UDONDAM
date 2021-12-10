@@ -5,7 +5,7 @@
 }
 
 .mypage_request_box{
-    height: 10%;
+    height: 15%;
     display: flex;
     flex-direction: column;
     justify-content: center;
@@ -20,6 +20,57 @@
     width: 95%;
 }
 
+.mypage_request_button_detail{
+    width: 30%;
+}
+
 .mypage_button{
     width: max-content;
+}
+
+.change_button_box{
+    width: 95%;
+    height: 10%;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    align-items: flex-end;
+}
+
+.mypage_userinfo_box{
+    width: auto;
+    height: 40%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    
+}
+
+.mypage_input_box{
+    padding: 0.5%;
+}
+
+.mypage_request_button_box{
+    width: 95%;
+    height: 20%;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+}
+
+.mypage_button_box{
+    width: 45%;
+    height: 30%;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: flex-end;
+}
+
+.mypage_userinfo_input{
+    height: 30%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
 }

@@ -27,7 +27,7 @@ const TagContainerDiv = styled.div`
     position: relative;
     
     width: 20vw;
-    height: 50vh;
+    //height: 50vh;
 `;
 
 const LogoImg = styled.img`

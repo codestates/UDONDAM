@@ -9,6 +9,7 @@ import { IsGuestHandler } from '../../redux/modules/IsGuest';
     export const ModalContainer = styled.div`
     display:grid;
     justify-items: center;
+    width:100%
     //justify-content:center;
     //align-items:center;
     //align-self:center;

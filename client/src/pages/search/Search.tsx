@@ -318,7 +318,9 @@ function Search() {
             url: `${process.env.REACT_APP_API_URL}/post`,
             method: 'get',
             params: {
-                tag: timeLineAllTagHandleData
+                tag: timeLineAllTagHandleData,
+                size: 20,
+                page: 0
             },
             paramsSerializer: params => {
                     return qs.stringify(params, {arrayFormat: 'brackets'})
@@ -345,12 +347,12 @@ function Search() {
         //     AllTagHandleData = respone.data
         // })
         
-        // his.push({
-        //     pathname: './Timeline',
-        //     state: [
-        //         AllTagHandleData
-        //     ]
-        // })
+        his.push({
+            pathname: './Timeline',
+            state: [
+                AllTagHandleData
+            ]
+        })
     }
     
 

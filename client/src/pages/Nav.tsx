@@ -51,7 +51,7 @@ function Nav () {
             width:80%;
             
             /* align-content:space-between; */
-        } */
+        //} */
         width: ${useSelector((state: RootStateOrAny)=>state.IsMobileReducer.isMobile) === true ?
             'auto':'max-content'
         }

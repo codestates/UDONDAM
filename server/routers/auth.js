@@ -4,7 +4,7 @@ const authRouter = require('../controllers/auth')
 const auth = require('../middleware/verifyToken')
 
 router.post('/login', authRouter.login);
-router.post('/logout',authRouter.logout);
+router.get('/logout',authRouter.logout);
 router.post('/signup', authRouter.signup);
 router.post('/email', authRouter.email);
 router.post('/emailcheck', authRouter.emailCheck);

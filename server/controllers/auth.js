@@ -1,9 +1,10 @@
-const db = require('../models');
 const { user } = require("../models");
 const nodemailer = require('nodemailer');
 const { generateAccessToken, sendAccessToken, deleteRefreshToken, isAuthorized } = require('../controllers/token.js');
-//const axios = require('axios');
+const axios = require('axios');
 //const qs = require('qs');
+const {post, tag} = require('../models');
+const e = require('express');
 module.exports = {
     login: async (req, res) => {
         const { email, password } = req.body;
@@ -289,50 +290,63 @@ module.exports = {
         res.status(200).send('소셜 네이버');
     },
     kakao: async (req, res) => {
-        // const kakao = {
-        //     clientID: process.env.clientID,
-        //     clientSecret: process.env.clientSecret,
-        //     redirectUrl: process.env.redirectUrl
-        // }
-        //     const kakaoAuthURL = `https://kauth.kakao.com/oauth/authorize?client_id=${kakao.clientID}&redirect_uri=${kakao.redirectUri}&response_type=code&scope=profile,account_email`;
-        // return  res.redirect(kakaoAuthURL);
-        // console.log(req.query)
-        // for(let el of req.query.tag) {
-        //     console.log(el)
-        //     console.log(typeof el)
-        // }
-        // res.send(req.query)
-        try{
-        for(let el of req.query.tag) {
-            console.log(el)
-        }
-        return res.send(req.query)
-        } catch(err) {
-            console.log(err)
-            return res.send('ssss')
-        }
+            const kakaoAuthURL = `https://kauth.kakao.com/oauth/authorize?client_id=${process.env.KAKAO_ID}&redirect_uri=${process.env.KAKAO_redirectUrl}&response_type=code`;
+        return  res.redirect(kakaoAuthURL);
     },
     kakaoCallback: async (req, res) => {
         console.log('bbb')
-        try{//access토큰을 받기 위한 코드
-            let token = await axios({//token
-                method: 'POST',
-                url: 'https://kauth.kakao.com/oauth/token',
-                headers:{
-                    'content-type':'application/x-www-form-urlencoded'
-                },
-                data: qs.stringify({
-                    grant_type: 'authorization_code',//특정 스트링
-                    client_id:kakao.clientID,
-                    client_secret:kakao.clientSecret,
-                    redirectUri:kakao.redirectUri,
-                    
-                })//객체를 string 으로 변환
-            })
-            console.log('aaa')
-            return res.send('asd')
-        }catch(err){
-            res.json(err.data);
+        const code = req.query.code;
+        console.log(code)
+        try {
+        const result = await axios.post(
+            // authorization code를 이용해서 access token 요청
+            `https://kauth.kakao.com/oauth/token?grant_type=authorization_code&client_id=${process.env.KAKAO_ID}&redirect_uri=${process.env.KAKAO_redirectUrl}&code=${code}`
+        );
+        const userInfo = await axios.get(
+            // access token로 유저정보 요청
+            'https://kapi.kakao.com/v2/user/me',
+            {
+            headers: {
+                Authorization: `Bearer ${result.data.access_token}`,
+            },
+            }
+        );
+          //받아온 유저정보로 findOrCreate
+        const user = await User.findOrCreate({
+            where: {
+        email: userInfo.data.kakao_account.email,
+        socialType: 'kakao',
+            },
+            defaults: {
+                email: userInfo.data.kakao_account.email,
+                nickname: userInfo.data.properties.nickname,
+                password: '',
+                socialType: 'kakao',
+                isAdmin: false,
+                image: userInfo.data.kakao_account.profile.profile_image_url,
+            },
+        });
+        const token = generateAccessToken({
+            id: user[0].dataValues.id,
+            email: user[0].dataValues.email,
+            nickname: user[0].dataValues.nickname,
+            socialType: user[0].dataValues.socialType,
+            isAdmin: user[0].dataValues.isAdmin,
+            image: user[0].dataValues.image,
+        });
+    
+        res.cookie('jwt', token, {
+            sameSite: 'Strict',
+            secure: true,
+            httpOnly: true,
+            expires: new Date(Date.now() + 1000 * 60 * 60 * 48),
+            // domain: process.env.NODE_ENV === 'production' && 'keyplus.kr',
+        });
+    
+        res.redirect(`${process.env.CLIENT_URI}/temp`);
+        } catch (error) {
+        console.error(error);
+        res.sendStatus(500);
         }
         
     }

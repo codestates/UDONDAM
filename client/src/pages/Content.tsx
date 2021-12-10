@@ -11,6 +11,7 @@ import { faGreaterThan } from "@fortawesome/free-solid-svg-icons";
 import { RootStateOrAny, useDispatch, useSelector } from 'react-redux'
 import axios from 'axios';
 import { userInfo } from 'os';
+const qs = require('qs');
 
 let contentDataParsing:any = []
 library.add(faCommentDots);
@@ -86,6 +87,24 @@ function Content({ history }: RouteComponentProps) {
         }else{
             setCCommentView(data)
         }
+    }
+
+    const CommentDeleteHandle = async (data:any) => {
+        await axios(
+            {
+                url: `${process.env.REACT_APP_API_URL}/comment/`,
+                method: 'delete',
+                params: {
+                    commentId: data
+                },
+                paramsSerializer: params => {
+                        return qs.stringify(params, {arrayFormat: 'brackets'})
+                    }
+                }
+            )
+            .then((respone) => {
+                console.log(respone)
+            })
     }
 
     const commentViewHandle = () => {
@@ -209,7 +228,7 @@ function Content({ history }: RouteComponentProps) {
                             <span style = {pointerTrue}  onClick={() => commentCommentViewHandle(el.id)}>
                                 댓글
                             </span>
-                            <span>
+                            <span onClick={() => CommentDeleteHandle(el.id)}>
                                 삭제
                             </span>
                             <span>

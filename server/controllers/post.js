@@ -1,15 +1,66 @@
+const e = require('express');
 const {post, tag, user, comment, likes, post_tag} = require('../models/index');
 module.exports = {
     postTag : async (req, res) => {
         req.query.page = req.query.page || 0;
         req.query.size = req.query.size || 5;
         req.userId = req.userId || 1;
-        req.query.tag = req.query.tag || '["대전","서울"]';
+        req.query.tag = req.query.tag || ["부산광역시","서울특별시",'대구광역시'];
         req.query.notTag = req.query.notTag || null;
         let page = Number(req.query.page);
         let size = Number(req.query.size)
         try{
+            let  resultPostId;
+        const postId = await post.findAll({
+            attributes:['id'],
+            include:[
+                {
+                    model: tag,
+                    attributes:[],
+                    where:{
+                        content: req.query.tag
+                    }
+                }
+            ]
+        })
+        if(postId.length === 0) {
+            return res.status(200).json(postId)
+        }
+        const tagId = postId.map((el)=>{
+            return el.dataValues.id
+        })
+        if(req.query.notTag) {
+        const notPostId = await post.findAll({
+            attributes:['id'],
+            include:[
+                {
+                    model: tag,
+                    attributes:[],
+                    where:{
+                        content: req.query.notTag
+                    }
+                }
+            ]
+        })
+        const notTagId = notPostId.map((el)=>{
+            return el.dataValues.id
+        })             
+        resultPostId = tagId.filter((el) => {
+            let check = notTagId.findIndex((ele)=> el === ele)
+            return check === -1
+        })
+        }
+        else{
+            resultPostId= tagId;
+        }
+        if(resultPostId.length === 0) {
+            console.log('asd')
+            return res.status(200).json(resultPostId)
+        }
         const posts = await post.findAll({
+            where:{
+                id:resultPostId
+            },
             include: [
                 {
                     model: user,
@@ -18,10 +69,8 @@ module.exports = {
                 },
                 {
                     model: tag,
-                    attributes: [],
-                    where: {
-                        content: req.query.tag
-                    },  
+                    attributes:['content'],
+                    required:true
                 },
                 {
                     model: likes,
@@ -35,14 +84,12 @@ module.exports = {
             order: [['createAt','DESC']],
             limit: [page, size]
         })
-        if(posts.length === 0) {
-            return res.status(200).send(resPosts);
-        }
-        
-        const arrPostId = [];
         const resPosts =  posts.map((post)=> {
-            const {id, content, createAt, public, userId, user, likes, comments} = post;
-            arrPostId.push(id)
+            const {id, content, createAt, public, userId, user, likes, tags, comments} = post;
+            let tag = [];
+            for(let el of tags) {
+                tag.push(el.content)
+            }
             let likeCheck = false;
             for(let like of likes) {
                 if(like.userId === req.userId) {
@@ -62,41 +109,6 @@ module.exports = {
                 public: public
             };
         });
-        const aa =await post.findAll({
-            attributes:['id'],
-            where:{
-                id:arrPostId
-            },
-            include:[
-                {
-                    model:tag,
-                    attributes:['content'],
-                }
-            ],
-        })
-            aa.map((el, idx)=>{
-            const {tags} = el.dataValues
-            let tag = [];
-            for(let el of tags) {
-                tag.push(el.content)
-            }
-            resPosts[idx].tag = tag
-        })
-        if(req.query.notTag) {
-        const  queryNotTag = JSON.parse(req.query.notTag);
-        const notPosts = resPosts.filter((el)=> {
-            let check = true;
-            for(let notTag of queryNotTag) {
-                for(let postTag of el.tag) {
-                    if(postTag === notTag) {
-                        check = false;
-                    }
-                }
-            }
-            return check === true;
-        })
-            return res.status(200).send(notPosts);
-        }
         return res.status(200).send(resPosts)
         } catch(err) {
             console.log(err);

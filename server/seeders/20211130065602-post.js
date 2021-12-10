@@ -1,5 +1,11 @@
 'use strict';
-
+let post_tag = {
+  1:['부산광역시','여행'],
+  2:['부산광역시','게임'],
+  3:['동두천시','유머'],
+  4:['서울특별시','여행'],
+  5:['대구광역시','자랑'],
+}
 module.exports = {
   up: async (queryInterface, Sequelize) => {
     await queryInterface.bulkInsert('post', [

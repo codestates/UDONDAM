@@ -11,7 +11,7 @@ module.exports = {
       {
         id: 2,
         postId: 1,
-        tagId: 8
+        tagId: 162
       },
       {
         id: 3,
@@ -21,17 +21,17 @@ module.exports = {
       {
         id: 4,
         postId: 2,
-        tagId: 5
+        tagId: 163
       },
       {
         id: 5,
         postId: 3,
-        tagId: 2
+        tagId: 15
       },
       {
         id: 6,
         postId: 3,
-        tagId: 8
+        tagId: 165
       },
       {
         id: 7,
@@ -41,7 +41,7 @@ module.exports = {
       {
         id: 8,
         postId: 4,
-        tagId: 8
+        tagId: 162
       },
       {
         id: 9,
@@ -51,7 +51,7 @@ module.exports = {
       {
         id: 10,
         postId: 5,
-        tagId: 7
+        tagId: 167
       },
       ], {});
   },

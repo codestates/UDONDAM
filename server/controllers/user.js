@@ -1,4 +1,5 @@
 const {user} = require('../models/index');
+const{ generateAccessToken, sendAccessToken} = require('./token');
 
 module.exports = {
     userInfo : async (req, res) => { 
@@ -55,33 +56,56 @@ module.exports = {
         console.log(req.body)
         req.userId = req.userId || 1
         const {area, area2} = req.body;
-        if(area && area2) {
-            await user.update({
-                area: area,
-                area2: area2
+        try{
+        if(area) {
+            const patchCheck = await user.update({
+                area : area
             },
             {
-                where: {id: req.userId}
+                where: {
+                    id: req.userId
+                }
             })
-            return res.status(200).json({"message": "patched!"})
-        } 
-        else if(area) {
-            await user.update({
-                area: area
-            },
-            {
-                where: {id: req.userId}
+            if(!patchCheck) {
+                return res.status(400).json({"message": "area2 checked!"})
+            }
+            const userInfo = await user.findOne({
+                attributes:[['id','userId'], 'area', 'area2', 'email', 'nickname', 'manager', 'socialType'],
+                where:{
+                    id: req.userId
+                },
+                raw:true
             })
-            return res.status(200).json({"message": "area patched!"})
+            res.clearCookie('jwt');
+            const patchToken = generateAccessToken(userInfo);
+            sendAccessToken(res, patchToken, userInfo);
         }
         else if(area2) {
-            await user.update({
-                area2: area2
+            const patchCheck = await user.update({
+                area2 : area2
             },
             {
-                where: {id: req.userId}
+                where: {
+                    id: req.userId
+                }
             })
-            return res.status(200).json({"message": "area2 patched!"})
+            if(!patchCheck) {
+                return res.status(400).json({"message": "area2 checked!"})
+            }
+            const userInfo = await user.findOne({
+                attributes:[['id','userId'], 'area', 'area2', 'email', 'nickname', 'manager', 'socialType'],
+                where:{
+                    id: req.userId
+                },
+                raw:true
+            })
+            res.clearCookie('jwt');
+            const patchToken = generateAccessToken(userInfo);
+            sendAccessToken(res, patchToken, userInfo);
+        }
+        } catch(err) {
+            console.log(err);
+            return res.status(500).json({"message": "Server Error"})
         }
     },
     

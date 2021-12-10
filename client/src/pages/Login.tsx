@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import { Link } from 'react-router-dom'
 import { useHistory } from 'react-router'
 import axios from 'axios'
@@ -30,6 +30,10 @@ function Login(){
     const history = useHistory()
     if(useSelector((state: RootStateOrAny)=>state.IsLoginReducer.isLogin) === true){
         history.push('/Search')
+        if(document.querySelector('.logo_nav')?.classList.contains('hide')===true){
+            document.querySelector('.logo_nav')?.classList.toggle('hide')
+            document.querySelector('#nav_bar')?.classList.toggle('hide')
+        }
     }
     const [loginInfo, setLoginInfo] = useState<loginInfoState>({
         email: '',
@@ -67,6 +71,7 @@ function Login(){
             }))
             dispatch(IsLoginHandler(true))
             dispatch(IsGuestHandler(false))
+            hideLogo()
             history.push('/Search')
 
         } catch (error:any) {
@@ -115,12 +120,22 @@ function Login(){
         offGuestModalModal()
     };
 
+    const hideLogo = function(){
+        if(document.querySelector('.logo_nav')?.classList.contains('hide')===true){
+            document.querySelector('.logo_nav')?.classList.toggle('hide')
+            document.querySelector('#nav_bar')?.classList.toggle('hide')
+        }
+        
+      }
+      useEffect(()=>{
+        //hideLogo()
+      },[])
 
     return(
         <div className='container'>
-            <div className='login_container'>
             {modalOnOff.seaerchPasswordModal ? <SearchPassword closeSeaerchPasswordModal={closeSeaerchPasswordModal} /> : null}
             {modalOnOff.guestModal ? <GuestLoginModal closeGuestModal={closeGuestModal} /> : null}
+            <div className='login_container'>
             <div className='logo_page_div'>
             <img className='logo_page' src="로고-우동담-Dark-모양만-배경o.png" alt="logo" />
             </div>

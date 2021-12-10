@@ -4,7 +4,9 @@ import { useRef, useState, useEffect } from "react";
 import styled from "styled-components";
 import axios from 'axios';
 import 'dotenv/config'
-
+import { RootStateOrAny, useDispatch, useSelector } from 'react-redux'
+import { useHistory } from 'react-router'
+import { UserInfoHandler } from '../../redux/modules/UserInfo';
 
 
 const UnSelete = styled.div`
@@ -12,10 +14,12 @@ const UnSelete = styled.div`
 `;
     //지역인증
 function Area({ history }: RouteComponentProps) {
+    const dispatch = useDispatch()
+    const his = useHistory()
+    const {ida}:any = history.location.state
+    console.log(ida)
+    const loginUserInfo = useSelector((state: RootStateOrAny)=>state.UserInfoReducer)
 
-    // const {id}:any = history.location.state
-    // console.log(id)
-    
     const [filterTag, setFilterTag] = useState<any>([])
     const [searchText, setSearchText] = useState<any>('')
     const [giftTag2, setGiftTag2] = useState<any>([])
@@ -75,12 +79,47 @@ function Area({ history }: RouteComponentProps) {
         }
         setThreeLocal(!threeLocal)
     }
-    const areaSelectHandle = () => {
-        if(secondLocal){
-            setSecondLocal(!secondLocal)
+    const areaSelectHandle = async () => {
+        if(ida === 0){
+            await axios.patch(`${process.env.REACT_APP_API_URL}/user/area`, {
+                area : areaSearch
+            },{withCredentials: true}).then((respone:any) => {
+                console.log(respone)
+                dispatch(UserInfoHandler({
+                    userId: respone.userId,
+                    email: respone.email,
+                    nickname: respone.nickname,
+                    area: respone.area || null,
+                    area2: respone.area2 || null,
+                    manager: respone.manager, 
+                    socialType: respone.socialType
+                }))
+            })
+            his.push({
+                pathname: `./Search`,
+            })
+        }else{
+            await axios.patch(`${process.env.REACT_APP_API_URL}/user/area`, {
+                area2 : areaSearch
+            },{withCredentials: true}).then((respone:any) => {
+                console.log(respone)
+                dispatch(UserInfoHandler({
+                    userId: respone.userId,
+                    email: respone.email,
+                    nickname: respone.nickname,
+                    area: respone.area || null,
+                    area2: respone.area2 || null,
+                    manager: respone.manager, 
+                    socialType: respone.socialType
+                }))
+            })
+            his.push({
+                pathname: `./Search`,
+            })
         }
-        setThreeLocal(!threeLocal)
+
     }
+    
     
 
     useEffect(() => {
@@ -103,7 +142,7 @@ function Area({ history }: RouteComponentProps) {
                     firstLocal ?
                     <div>
                         <div>
-                            {}
+                            
                             {areaSearch}
                         </div>
                         {areaSearch === '검색중...' ? null 

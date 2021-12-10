@@ -135,7 +135,7 @@ function Mypage() {
 
     const logoutHandler = async function () {
         try {
-            const logoutResult = await axios.post(`${process.env.REACT_APP_API_URL}/logout`, { withCredentials: true })
+            const logoutResult = await axios.get(`${process.env.REACT_APP_API_URL}/logout`, { withCredentials: true })
 
             console.log('logoutResult:', logoutResult)
 
@@ -185,40 +185,54 @@ function Mypage() {
                 
                     {onOff.onModal ? <MypageModal closeModal={closeModal} /> : null}
                     <div className='mypage_request_box'>
+                        <div>
                         <div className='mypage_request_button'>
                         <button className='mypage_button' onClick={onOffHandler('onRequest')}>문의하기</button>
                         </div>
                         {onOff.onRequest ?
-                            <div className='mypage_button_box'>
-                                <button>태그추가 요청</button>
-                                <button>신고처리현황</button>
-                            </div> : <div><br /></div>}
+                            <div className='mypage_request_button_box'>
+                                <button className='mypage_request_button_detail'>태그추가 요청</button>
+                                <button className='mypage_request_button_detail'>신고처리현황</button>
+                            </div> : <div><br /><br /></div>}
+                            </div>
                     </div>
+                    <div className='change_button_box'>
                     {!onOff.onChange ? <button onClick={onOffHandler('onChange')}>회원정보수정</button> : null}
-
+                    </div>
                     {onOff.onChange ?
-                        <div className='mypage_userinfo_box_true'>
+                        <div className='mypage_userinfo_box mypage_userinfo_box_true'>
 
-
+                            <div className='mypage_input_box'>
                             <div>닉네임 변경</div>
                             <input type="text" value={userData.nickname} onChange={userDataHandler('nickname')} />
+                            </div>
+                            <div className='mypage_input_box'>
                             <div>비밀번호 수정</div>
                             <input type="text" value={userData.password} onChange={userDataHandler('password')} />
                             {errorMessage}
+                            </div>
+                            <div className='mypage_input_box'>
                             <div>비밀번호 수정 확인</div>
                             <input type="text" value={userData.passwordCheck} onChange={userDataHandler('passwordCheck')} />
                             {errorMessage}
-                            <div className='mypage_button_box_true'>
+                            </div>
+                            <div className='mypage_button_box mypage_button_box_true'>
                                 <button onClick={changeComplete}>수정확인</button>
                                 <button onClick={cancleHandler}>취소</button>
                             </div>
                         </div> :
-                        <div className='mypage_userinfo_box_false'>
-                            <div>이메일</div>
-                            <input type="text" value={userData.email} disabled />
-                            <div>닉네임</div>
-                            <input type="text" value={userData.nickname} disabled />
-                            <div className='mypage_button_box_false'>
+                        <div className='mypage_userinfo_box mypage_userinfo_box_false'>
+                            <div className='mypage_userinfo_input'>
+                            <div className='mypage_input_box'>
+                                <div>이메일</div>
+                                <input type="text" value={userData.email} disabled />
+                            </div>
+                            <div className='mypage_input_box'>
+                                <div>닉네임</div>
+                                <input type="text" value={userData.nickname} disabled />
+                            </div>
+                            </div>
+                            <div className='mypage_button_box mypage_button_box_false'>
                                 <button onClick={logoutHandler}>로그아웃</button>
                                 <button onClick={onOffHandler('onModal')}>회원탈퇴</button>
                             </div>

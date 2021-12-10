@@ -29,6 +29,12 @@ export interface IProps {
 function Mypage() {
     const history = useHistory()
     const dispatch = useDispatch()
+    if(useSelector((state: RootStateOrAny) => state.IsGuestReducer.isGuest === true)){
+        // 모달창으로 로그인하라 안내
+        console.log('로그인하시고 이용해주세요')
+        history.push('/Search')
+    }
+    
     //리덕스 관련
     const userInfo = useSelector((state: RootStateOrAny) => state.UserInfoReducer);
     console.log(userInfo)

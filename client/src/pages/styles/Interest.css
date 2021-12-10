@@ -1,0 +1,19 @@
+.interest_cotainer{
+    height: 90%;
+    width: 90%;
+}
+
+.interest_nav_cotainer{
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+}
+
+.interest_nav_box{
+    width: 25%;
+    /* border-bottom: solid 2px black; */
+    display: flex;
+    flex-direction:row;
+    justify-content:center;
+}

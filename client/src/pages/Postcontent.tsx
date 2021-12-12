@@ -31,13 +31,12 @@ import { UserInfoHandler } from '../redux/modules/UserInfo';
     font-size: 2em;
     `
 
-
+let arr:any = []
 const Postcontent: React.FC = () => {
     const dispatch = useDispatch()
     const his = useHistory()
     const loginUserInfo = useSelector((state: RootStateOrAny)=>state.UserInfoReducer)
     let a = ''
-    let arr = []
 
     const [contentText, setContentText] = useState<any>('')
     const [contentGiftTag, setContentGiftTag] = useState<any>([])
@@ -71,19 +70,45 @@ const Postcontent: React.FC = () => {
     const giftTagHandle2 = (event:any) => {
         a = event.target.textContent
         setSearchText('')
+        setTagHandle()
     }
     const setTagHandle = () => {
-        contentGiftTag.map((el:any) => {
-            return a = a + `#${el} `})
-        if(contentGiftTag.indexOf(a) === -1){
-            arr = [...contentViewTag,a]
+        if(arr.indexOf(a) === -1 && a !== ''){
+            arr.push(a)
         }
+        console.log(arr)
+        setContentGiftTag(arr)
+        // arr.map((el:any) => {
+        //     return a = a + `#${el} `})
+        
     }
+    const giftTagDeleteHandle = (data:any) => {
+        arr.splice(arr.indexOf(data),1)
+        a = ''
+        setContentGiftTag(arr)
+        setSearchText(' ')
+        setTagHandle()
+    }
+    const compleatContentHandle = async () => {
+        await axios.post(`${process.env.REACT_APP_API_URL}/post`,{
+            comment: contentText,
+            public: false,
+            tag: contentGiftTag
+
+        },{withCredentials: true}).then((respone) => {
+            console.log(respone)
+        })
+        his.push({
+            pathname: `./Search`,
+        })
+    }
+
 
     useEffect(() => {
         handleSearchButton()
         setTagHandle()
     }, [searchText])
+
 
 
     return(
@@ -95,12 +120,12 @@ const Postcontent: React.FC = () => {
                     <TextArea onChange={contentTextChange} value={contentText}></TextArea>
                 </div>
                 <div>
-                    {contentViewTag.map((el:any) => {
-                        return <button>{el}</button>
+                    {contentGiftTag.map((el:any) => {
+                        return <button onClick={() => giftTagDeleteHandle(el)}>{`# ${el}`}</button>
                     })}
                 </div>
                 <div>
-                    <button>태그 추가</button>                
+                    <button>태그 검색</button>                
                 </div>
                 <div>
                     <input type="text" value={searchText} onChange={searchTextChange2} placeholder="태그를 검색하세요" onKeyPress= {searchHandleKeyPress2} />
@@ -111,6 +136,9 @@ const Postcontent: React.FC = () => {
                             return <button onClick = {giftTagHandle2}>{el}</button>
                         })
                         }
+                </div>
+                <div>
+                    <button onClick={compleatContentHandle}>작성 완료</button>
                 </div>
             </div>
     )

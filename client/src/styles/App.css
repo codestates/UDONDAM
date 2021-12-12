@@ -1,8 +1,9 @@
+
 html{
-  height: 100%;
-  width: 100%;
-  min-width: 350px;
+  height: 100vh;
+  width: 100vw;
   background-color: rgba(0, 0, 0, 0.281) ;
+  min-width: 639px;
   display: flex;
   flex-direction: column;
   justify-content: flex-start;
@@ -30,8 +31,8 @@ ul{
   "logo"
   "container"
   "footer";
-  grid-template-rows: min-content auto max-content; 
-  /* grid-template-columns: 100%; */
+  grid-template-rows: max-content auto max-content; 
+  grid-template-columns:100%;
   color: black;
   justify-content: center;
   align-items: center;
@@ -39,16 +40,46 @@ ul{
 }
 
 #logo{
-  background-color: rgba(0, 0, 255, 0.164);
+  background-color: rgba(0, 0, 255, 0.315);
   grid-area: 'logo';
   display: block;
-  display: flex;
+  display: grid;
   position: relative;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
+  grid-template-areas: "logo_left logo_center logo_right";
+  grid-template-columns: 30% 40% 30%;
   width: 100%;
   height: max-content;
+  /* height: max-content; */
+}
+
+.logo_nav_left{
+  grid-area: 'logo_left';
+  width: 100%;
+ }
+ .logo_nav_center{
+  grid-area: 'logo_center';
+  max-height: 100%;
+  max-width: 100%;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+ }
+ .logo_nav_right{
+  grid-area: 'logo_right';
+ }
+
+ .logo_nav_center_logo{
+  position: relative;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100%;
+  width: 100%;
+  /* max-height: 100%; */
+  /* max-width: 100%; */
 }
 
 
@@ -99,9 +130,14 @@ ul{
 
 .logo_nav{
   position: relative;
-  max-height: 50%;
-  max-width: 32%;
-  /* max-width: 50%; */
+  height: 100%;
+  width: 100%;
+  /* min-width: none; */
+  /* min-height: 3%; */
+  /* height: 3%; */
+  min-width: 8vw;
+  max-width: 30vw;
+  max-height: 15vh;
 }
 
 
@@ -117,17 +153,78 @@ ul{
   width: 100%;
 }
 
+#nav_bar_desktop{
+  width: 100%;
+}
+
+@media screen and (max-width:640px) {
+  html{
+    min-width: 0;
+   
+  }
+}
+
 /*이하 데스크탑 화면(640px이상)*/
-@media (min-width: 639px){
+@media (min-width: 641px){
+  html{
+    min-width: 640px;
+  }
+
+  #logo{
+    max-height: 100%;
+    max-width: 100%;
+  }
+
+  html{
+  min-width: 640px;
+  }
  
   #nav_bar{
     width: 40%;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+  }
+
+  #nav_bar_desktop{
+    /* width: 40%; */
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .logo_nav_container{
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: flex-end;
+  }
+
+  .logo_nav_center_logo{
+    position: relative;
+    display: flex;
+    max-height: 100%;
+    max-width: 100%;
   }
   
 
   .logo_nav{
     position: relative;
-  max-width: 32%;
+    height: 100%;
+  width: 100%;
+  /* min-width: none; */
+  /* min-height: 3%; */
+  /* height: 3%; */
+  
+  /* max-width: 15vw; */
+  max-height: 6vh;
+    /* height: 100%;
+    width: 100%; */
+    /* max-height: 100%; */
+    /* max-width: 100%; */
+ 
   }
 
   .container{

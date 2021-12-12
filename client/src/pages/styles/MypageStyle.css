@@ -39,6 +39,7 @@
 
 .mypage_userinfo_box{
     width: auto;
+    max-width: 100%;
     height: 40%;
     display: flex;
     flex-direction: column;
@@ -51,6 +52,9 @@
     padding: 0.5%;
 }
 
+.mypage_request_box_container{
+    height: 50%;
+}
 .mypage_request_button_box{
     width: 95%;
     height: 20%;

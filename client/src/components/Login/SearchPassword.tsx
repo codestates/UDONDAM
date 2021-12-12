@@ -9,6 +9,7 @@ import { IProps } from '../../pages/Login';
     export const ModalContainer = styled.div`
     display:grid;
     justify-items: center;
+    width:100%;
     //justify-content:center;
     //align-items:center;
     //align-self:center;
@@ -18,6 +19,7 @@ import { IProps } from '../../pages/Login';
   
   export const ModalBackdrop = styled.div`
    position:absolute;
+   position:fixed;
    top:0;
    left:0;
    z-index: 999;

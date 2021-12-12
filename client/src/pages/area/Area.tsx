@@ -119,6 +119,47 @@ function Area({ history }: RouteComponentProps) {
         }
 
     }
+
+    const selectAreaSelectHandle = async () => {
+        if(ida === 0){
+            await axios.patch(`${process.env.REACT_APP_API_URL}/user/area`, {
+                area : giftTag2[0]
+            },{withCredentials: true}).then((respone:any) => {
+                console.log(respone)
+                dispatch(UserInfoHandler({
+                    userId: respone.userId,
+                    email: respone.email,
+                    nickname: respone.nickname,
+                    area: respone.area || null,
+                    area2: respone.area2 || null,
+                    manager: respone.manager, 
+                    socialType: respone.socialType
+                }))
+            })
+            his.push({
+                pathname: `./Search`,
+            })
+        }else{
+            await axios.patch(`${process.env.REACT_APP_API_URL}/user/area`, {
+                area2 : giftTag2[0]
+            },{withCredentials: true}).then((respone:any) => {
+                console.log(respone)
+                dispatch(UserInfoHandler({
+                    userId: respone.userId,
+                    email: respone.email,
+                    nickname: respone.nickname,
+                    area: respone.area || null,
+                    area2: respone.area2 || null,
+                    manager: respone.manager, 
+                    socialType: respone.socialType
+                }))
+            })
+            his.push({
+                pathname: `./Search`,
+            })
+        }
+
+    }
     
     
 
@@ -202,7 +243,7 @@ function Area({ history }: RouteComponentProps) {
                             지역설정 완료 후 한달간 변경은 불가능 합니다
                         </div>
                         <div>
-                            <button>위치 설정 완료</button>
+                            <button onClick={selectAreaSelectHandle}>위치 설정 완료</button>
                         </div>
                     </UnSelete>
                 }
@@ -213,7 +254,7 @@ function Area({ history }: RouteComponentProps) {
                             지역설정 완료 후 한달간 변경은 불가능 합니다
                         </div>
                         <div>
-                            <button>위치 설정 완료</button>
+                            <button onClick={selectAreaSelectHandle}>위치 설정 완료</button>
                         </div>
                     </div>
                     :

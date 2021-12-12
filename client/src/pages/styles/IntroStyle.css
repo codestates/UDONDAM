@@ -50,10 +50,10 @@
 }
 
 .userguide_box{
-    /* display: flex; */
-    /* flex-direction: column; */
-    /* align-items: center; */
-    flex: none;
+    display: flex; 
+    flex-direction: column;
+    align-items: center;
+    /* flex: none; */
     
 }
 .login_container{
@@ -70,7 +70,7 @@
 }
 .login_button{
     width: 40%;
-    height: 100%;
+    max-width: 200px;
 
 }
 .submit_box_input{
@@ -79,18 +79,56 @@
 
 .social{
     display: flex;
-    flex-direction: row;
-    /* justify-content: center; */
-    justify-content: space-between;
+    flex-direction: column;
+    justify-content: center;
     align-items: center;
-    height: 10%;
+    /* width: 60%; */
+    height: 23%;
 }
+
+.social_container{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    /* width: 50%; */
+}
+
+.social_button_container{
+    width: 30%;
+    height: min-content;
+}
+
+.social_button{
+/* max-width: 225px; */
+/* max-height: 55px; */
+}
+
+
+.social_google{
+    width: 100%;
+    height: auto;
+}
+
+.social_naver{
+    width: 100%;
+    height: auto;
+}
+.social_kakao{
+    width: 100%;
+    height: auto;
+}
+
 .logo_page_div{
     display: flex;
     flex-direction: column;
     justify-content: center;
+    align-items: center;
     height: 50%;
 }
+
+
+
 ul{
 }
 .login_li{

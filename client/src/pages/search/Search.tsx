@@ -74,7 +74,7 @@ function Search() {
         // 유저 정보에서 area,area2를 받아서 한 배열로 병합할거임
         // 그럼 지역정보 바꾸고 나서 바로 서버쪽에서 다시 유저정보 줘야겠네
         // 예 ) 유저정보.area, ...유저정보.area2
-        loginUserInfo.area,loginUserInfo.area2
+        '서울','대전'
     ])
     console.log(userAreaData)
     const [tag, setTag] = useState<any>([

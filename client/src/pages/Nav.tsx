@@ -27,7 +27,10 @@ function Nav () {
             justify-content: space-between;
             align-items: center;
             height: max-content;
-            width:80%;
+            width: ${useSelector((state: RootStateOrAny)=>state.IsMobileReducer.isMobile) === true ?
+            '80%':'100%'
+        };
+            /* width:80%; */
             
             /* align-content:space-between; */
         }

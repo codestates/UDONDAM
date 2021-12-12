@@ -1,4 +1,4 @@
-import React,{useState} from 'react';
+import React,{useState, useEffect} from 'react';
 import { Route, Switch } from 'react-router-dom';
 import { useDispatch, useSelector, RootStateOrAny } from 'react-redux';
 import { IsMobileHandler } from './redux/modules/IsMobile';
@@ -27,42 +27,46 @@ function App() {
 
   const isMobile = () => { 
     try { //이건 주먹구구라 일단 이렇게 해둠. 테스트때는 터치가 안먹혀서 터치로 판단못함.
-     if(/Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent) || window.innerWidth < 640){
+     if(/Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent)/* || window.innerWidth < 640*/){
     return true;
     }
       document.createEvent("TouchEvent"); //이건 실제 핸드폰만 됨. 터치이벤트 발생시켜서 터치 먹히면 핸드폰이라 판단
       return true; 
     } 
     catch (e) {
+      
        return false; 
       } 
     };
 
     const introPage = function(){
-      history.push('/')
+      history.push('/Search')
     }
 
     isMobile()
-    
-    //   window.addEventListener('resize',function(){
-    //     if(window.innerWidth < 640){
-    //       setTriger(true)
-    //       isMobile()
-    //     } else {
-    //       setTriger(false)
-    //     }
-    
-    // });
-    
-   
+    const isDeskTop = !useSelector((state: RootStateOrAny)=>state.IsMobileReducer.isMobile);
+    // useEffect(()=>{
+    //   if(isDeskTop === true){
+    //     document.body.style.minWidth='639px'
+    //   }
+    // },[])
+
     dispatch(IsMobileHandler(isMobile()))
   //console.log(document.documentElement)
   //console.log(useSelector((state: RootStateOrAny)=>state.IsMobileReducer.isMobile))
   return (
     <>
     <div id = 'logo'>
+      <div className='logo_nav_left'></div>
+      <div className='logo_nav_center'>
+        <div className='logo_nav_center_logo'>
     <img className='logo_nav' src="로고-우동담-Dark-글자만-배경o.png" alt="logo" onClick={introPage}/>
-    {!useSelector((state: RootStateOrAny)=>state.IsMobileReducer.isMobile)? <div id='nav_bar'><Nav /></div> : null}
+        </div>
+      </div>
+    <div className='logo_nav_right'>
+      {!useSelector((state: RootStateOrAny)=>state.IsMobileReducer.isMobile)? <div id={isMobile() === false ? 'nav_bar_desktop' : 'nav_bar'}><Nav /></div> : null}
+    </div>
+    
     </div>
     <div id ='container'>
     {/* {!useSelector((state: RootStateOrAny)=>state.IsMobileReducer.isMobile)? <div id='nav_bar'><Nav /></div> : null} */}
@@ -102,7 +106,7 @@ function App() {
     
     </div>
     <div id='footer'>
-    {useSelector((state: RootStateOrAny)=>state.IsMobileReducer.isMobile)? <div id='nav_bar'><Nav /></div> : null}
+    {useSelector((state: RootStateOrAny)=>state.IsMobileReducer.isMobile)? <div id={isMobile() === false ? 'nav_bar_desktop' : 'nav_bar'}><Nav /></div> : null}
     {!useSelector((state: RootStateOrAny)=>state.IsMobileReducer.isMobile)? <Footer /> : null}
     </div>
     </>

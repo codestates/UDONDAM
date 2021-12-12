@@ -38,6 +38,7 @@ function Content({ history }: RouteComponentProps) {
     const [cCommentText, setCCommentText] = useState<any>('');
     const [giftCComment, setGiftCComment] = useState<any>([]);
     const [likeChangeData, setLikeChangeData] = useState<any>(false);
+    const [testChangeData, setTestChangeData] = useState<any>(false);
 
 
     const likeTrue = {
@@ -90,13 +91,11 @@ function Content({ history }: RouteComponentProps) {
     }
 
     const CommentDeleteHandle = async (data:any) => {
+
         await axios(
             {
-                url: `${process.env.REACT_APP_API_URL}/comment/`,
+                url: `${process.env.REACT_APP_API_URL}/comment/${data}`,
                 method: 'delete',
-                params: {
-                    commentId: data
-                },
                 paramsSerializer: params => {
                         return qs.stringify(params, {arrayFormat: 'brackets'})
                     }
@@ -105,6 +104,7 @@ function Content({ history }: RouteComponentProps) {
             .then((respone) => {
                 console.log(respone)
             })
+        setTestChangeData(!testChangeData)
     }
 
     const commentViewHandle = () => {
@@ -173,6 +173,9 @@ function Content({ history }: RouteComponentProps) {
     useEffect(() => {
         dataParsingHandle()
     },[giftCComment])
+    useEffect(() => {
+        dataParsingHandle()
+    },[testChangeData])
 
  
     return(
@@ -218,26 +221,38 @@ function Content({ history }: RouteComponentProps) {
                 return (
                 <div>
                     <div style={boxBorder}>
-                        <div>
-                            <span>
-                                {el.nickname}
-                            </span>
-                            <span>
-                                {el.createAt}
-                            </span>
-                            <span style = {pointerTrue}  onClick={() => commentCommentViewHandle(el.id)}>
-                                댓글
-                            </span>
-                            <span onClick={() => CommentDeleteHandle(el.id)}>
-                                삭제
-                            </span>
-                            <span>
-                                신고
-                            </span>
-                        </div>
-                        <div>
-                            {el.content}
-                        </div>
+                        {el.content === '삭제 된 댓글 입니다' ?
+                            <div>
+                                <div>
+                                    {el.content}
+                                </div>
+                            </div>
+                            :
+                            <div>
+                                <div>
+                                    <span>
+                                        {el.nickname}
+                                    </span>
+                                    <span>
+                                        {el.createAt}
+                                    </span>
+                                    <span style = {pointerTrue}  onClick={() => commentCommentViewHandle(el.id)}>
+                                        댓글
+                                    </span>
+                                    <span onClick={() => CommentDeleteHandle(el.id)}>
+                                        삭제
+                                    </span>
+                                    <span>
+                                        신고
+                                    </span>
+                                </div>
+                                <div>
+                                    {el.content}
+                                </div>
+                            </div>
+                
+                        }
+                        
                     </div>
                     {
                         cCommentView === el.id ? 
@@ -255,23 +270,36 @@ function Content({ history }: RouteComponentProps) {
                                 <FontAwesomeIcon  icon={faGreaterThan} data-fa-transform="flip-v"/>
 
                                 <div style={boxBorder2}>
+                                {le.content === '삭제 된 댓글 입니다' ?
                                     <div>
-                                        <span>
-                                            {le.nickname}
-                                        </span>
-                                        <span>
-                                            {le.createAt}
-                                        </span>
-                                        <span>
-                                            삭제
-                                        </span>
-                                        <span>
-                                            신고
-                                        </span>
+                                        <div>
+                                            {le.content}
+                                        </div>
                                     </div>
+                                    :
                                     <div>
-                                        {le.content}
+                                        <div>
+                                            <span>
+                                                {le.nickname}
+                                            </span>
+                                            <span>
+                                                {le.createAt}
+                                            </span>
+                                            <span style = {pointerTrue}  onClick={() => commentCommentViewHandle(le.id)}>
+                                                댓글
+                                            </span>
+                                            <span onClick={() => CommentDeleteHandle(le.id)}>
+                                                삭제
+                                            </span>
+                                            <span>
+                                                신고
+                                            </span>
+                                        </div>
+                                        <div>
+                                            {le.content}
+                                        </div>
                                     </div>
+                                }
                                 </div>
                             </div>
                         )

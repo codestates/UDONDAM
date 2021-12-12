@@ -29,11 +29,15 @@ function Login(){
     const dispatch = useDispatch()
     const history = useHistory()
     if(useSelector((state: RootStateOrAny)=>state.IsLoginReducer.isLogin) === true){
-        history.push('/Search')
+        console.log('로그인 트루')
         if(document.querySelector('.logo_nav')?.classList.contains('hide')===true){
+            console.log('.맨처음 로그인 하이드 작동')
             document.querySelector('.logo_nav')?.classList.toggle('hide')
             document.querySelector('#nav_bar')?.classList.toggle('hide')
+            
         }
+        history.push('/Search')
+        
     }
     const [loginInfo, setLoginInfo] = useState<loginInfoState>({
         email: '',
@@ -72,6 +76,7 @@ function Login(){
             dispatch(IsLoginHandler(true))
             dispatch(IsGuestHandler(false))
             hideLogo()
+            document.querySelector('#nav_bar_desktop')?.classList.remove('hide')
             history.push('/Search')
 
         } catch (error:any) {
@@ -120,15 +125,25 @@ function Login(){
         offGuestModalModal()
     };
 
+    const hideLogoFirsf = function(){
+        if(document.querySelector('.logo_nav')?.classList.contains('hide')===false){
+            document.querySelector('.logo_nav')?.classList.toggle('hide')
+            document.querySelector('#nav_bar')?.classList.toggle('hide')
+            document.querySelector('#nav_bar_desktop')?.classList.add('hide')
+        }
+      }
+
     const hideLogo = function(){
+        console.log('로그인 하이드 작동')
         if(document.querySelector('.logo_nav')?.classList.contains('hide')===true){
             document.querySelector('.logo_nav')?.classList.toggle('hide')
             document.querySelector('#nav_bar')?.classList.toggle('hide')
+            
         }
         
       }
       useEffect(()=>{
-        //hideLogo()
+        hideLogoFirsf()
       },[])
 
     return(
@@ -158,9 +173,17 @@ function Login(){
                     </ul>
             </div>
             <div className='social'>
-                <div onClick={socialLoginHandler('google')}>구글</div>
-                <div onClick={socialLoginHandler('naver')}>네이버</div>
-                <div onClick={socialLoginHandler('kakao')}>카카오</div>
+                <div className='social_container'>
+                <div className='social_button_container social_google_container' onClick={socialLoginHandler('google')}>
+                    <img className='social_button social_google' src='btn_google_signin_light_normal_web.png' alt='social' />
+                    </div>
+                <div className='social_button_container social_naver_container' onClick={socialLoginHandler('naver')}>
+                <img className='social_button social_naver' src='btnW_완성형.png' alt='social' />
+                    </div>
+                <div className='social_button_container social_kakao_container' onClick={socialLoginHandler('kakao')}>
+                <img className='social_button social_kakao' src='kakao_login_large_narrow.png' alt='social' />
+                    </div>
+                    </div>
             </div>
             </div>
         </div>

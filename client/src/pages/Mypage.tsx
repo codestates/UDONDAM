@@ -185,7 +185,7 @@ function Mypage() {
                 
                     {onOff.onModal ? <MypageModal closeModal={closeModal} /> : null}
                     <div className='mypage_request_box'>
-                        <div>
+                        <div className='mypage_request_box_container'>
                         <div className='mypage_request_button'>
                         <button className='mypage_button' onClick={onOffHandler('onRequest')}>문의하기</button>
                         </div>
@@ -193,7 +193,10 @@ function Mypage() {
                             <div className='mypage_request_button_box'>
                                 <button className='mypage_request_button_detail'>태그추가 요청</button>
                                 <button className='mypage_request_button_detail'>신고처리현황</button>
-                            </div> : <div><br /><br /></div>}
+                            </div> : <div className='mypage_request_button_box'>
+                                <button className='mypage_request_button_detail hide'>태그추가 요청</button>
+                                <button className='mypage_request_button_detail hide'>신고처리현황</button>
+                            </div> }
                             </div>
                     </div>
                     <div className='change_button_box'>

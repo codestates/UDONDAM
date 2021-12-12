@@ -17,17 +17,30 @@ function Intro() {
         
     }
 
+    if(useSelector((state: RootStateOrAny)=>state.IsLoginReducer.isLogin) === true){
+        history.push('/Search')
+    }
+
     const test = function(){
         //document.querySelector('.nav_link_box')?.classList.add('hide')
         console.log(document.baseURI)
         console.log(document.location.href)
     }
 
+    const isLogin = useSelector((state: RootStateOrAny)=>state.IsLoginReducer.isLogin)
+
     const hideLogo = function(){
-        if(document.querySelector('.logo_nav')?.classList.contains('hide')===false){
+        if(isLogin ===false){
+            console.log('isLogin:',isLogin)
+            console.log('인트로 하이드 작동')
+            if(document.querySelector('.logo_nav')?.classList.contains('hide')===false ){
             document.querySelector('.logo_nav')?.classList.toggle('hide')
             document.querySelector('#nav_bar')?.classList.toggle('hide')
+            document.querySelector('#nav_bar_desktop')?.classList.toggle('hide')
+            
         }
+        }
+        
       }
 
     useEffect(()=>{

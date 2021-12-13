@@ -76,7 +76,7 @@ module.exports = {
         }
     },
     commentDelete: async (req, res) => {
-        req.userId = req.userId || 2;
+        req.userId = req.userId || 1;
         req.params.commentId = req.params.commentId || 5;
         try {
             const commentDelete = await comment.update(

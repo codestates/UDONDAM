@@ -31,8 +31,16 @@ module.exports = {
             sendAccessToken(res, token, userData);
         }
     },
+    guest: async (req, res) => {
+        const userData = {
+            nickname: '게스트',
+            manager: false,
+            socialType: 'basic'
+        }
+        const token = generateAccessToken(userData);
+        sendAccessToken(res, token, userData);
+    },
     logout: async (req, res) => {
-        console.log("@@@@@@@@@@@@@@@")
         console.log(req.cookies)
         try {
             res.clearCookie('jwt');
@@ -240,7 +248,8 @@ module.exports = {
         );
     },
     googlecallback: async (req, res) => {
-        const code = req.query.code; // authorization code
+        // authorization code
+        const code = req.query.code;
         try {
             const result = await axios.post(
                 // authorization code를 이용해서 access token 요청
@@ -279,7 +288,7 @@ module.exports = {
             const token = generateAccessToken(userData);
             sendAccessToken(res, token, userData);
 
-            res.redirect(`${process.env.CLIENT_URI}/temp`);
+            res.redirect(`https://udondam.com/`);
         } catch (error) {
             res.sendStatus(500);
         }

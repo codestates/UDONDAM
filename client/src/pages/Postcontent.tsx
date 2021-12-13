@@ -48,7 +48,7 @@ const Postcontent: React.FC = () => {
     
 
     const [tag, setTag] = useState<any>([
-        '여행', '게임', '소문', '유머', '산책', '자랑', '놀라운', '직장', '학교', '운동', '반려동물', '만화', '고민', '비밀', '음악', '흥미', '사고', '독서', '식사', '취미', '도움', '나눔', '연애', '만남', '자소서', '스포츠', '잡담', '알림', '질문'])
+        '여행', '게임', '소문', '유머', '산책', '자랑', '놀라운', '직장', '학교', '운동', '반려동물', '만화', '고민', '비밀', '음악', '흥미', '사고', '독서', '식사', '취미', '도움', '나눔', '연애', '만남', '자소서', '스포츠', '잡담', '알림', '질문', loginUserInfo.area, loginUserInfo.area2])
 
     const contentTextChange = (event:any) => {
         setContentText(event.target.value)
@@ -113,32 +113,35 @@ const Postcontent: React.FC = () => {
 
     return(
             <div>
-                <Container>
-                    <CharacterImg src = '로고-우동담-Dark-글자만-배경o.png'/>
-                </Container>
                 <div>
-                    <TextArea onChange={contentTextChange} value={contentText}></TextArea>
-                </div>
-                <div>
-                    {contentGiftTag.map((el:any) => {
-                        return <button onClick={() => giftTagDeleteHandle(el)}>{`# ${el}`}</button>
-                    })}
-                </div>
-                <div>
-                    <button>태그 검색</button>                
-                </div>
-                <div>
-                    <input type="text" value={searchText} onChange={searchTextChange2} placeholder="태그를 검색하세요" onKeyPress= {searchHandleKeyPress2} />
-                </div>
-                <div>
-                    {searchText === '' ? null
-                        :filterTag.map((el:any) => {
-                            return <button onClick = {giftTagHandle2}>{el}</button>
-                        })
-                        }
-                </div>
-                <div>
-                    <button onClick={compleatContentHandle}>작성 완료</button>
+                    <Container>
+                        <CharacterImg src = '로고-우동담-Dark-글자만-배경o.png'/>
+                    </Container>
+                    <div>
+                        <TextArea onChange={contentTextChange} value={contentText}></TextArea>
+                    </div>
+                    <div>
+                        {contentGiftTag.map((el:any) => {
+                            return <button onClick={() => giftTagDeleteHandle(el)}>{`# ${el}`}</button>
+                        })}
+                    </div>
+                    <div>
+                        <div> - 태그 검색 -</div>                
+                    </div>
+                    <div>
+                        <input type="text" value={searchText} onChange={searchTextChange2} placeholder="태그를 검색하세요" onKeyPress= {searchHandleKeyPress2} />
+                    </div>
+                    <div>
+                        {searchText === '' ? null
+                            :filterTag.map((el:any) => {
+                                return <button onClick = {giftTagHandle2}>{el}</button>
+                            })
+                            }
+                    </div>
+                    <div>
+                        <button onClick={compleatContentHandle}>작성 완료</button>
+                    </div>
+                    
                 </div>
             </div>
     )

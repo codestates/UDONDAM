@@ -54,7 +54,7 @@ export default function InterestPost({ post }: any) {
 
 
     const YearMonth = styled.div`
-        background-color: #33272232;
+        background-color: #6b686544;
         padding:2px;
     `;
     return (

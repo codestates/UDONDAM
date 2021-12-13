@@ -51,10 +51,12 @@ function Intro() {
     return (
         <div className='container'>
             <div id='intro_container'>
+                <div className='intro_img_place'>
                 <div className='intro_img_div'>
             <img className='logo_page intro_img' src="로고-우동담-Dark-모양만-배경o.png" alt="logo" /><br />
                 </div>
-            <div className='intro_text'>내 동네를 설정하고 이야기를 나눠보세요!</div><br />
+                </div>
+            <div className='intro_text'>내 동네를 설정하고 <br />이야기를 나눠보세요!</div><br />
             <div id='intro_button_div'>
             <button className='intro_button' onClick={introHandler}>로그인/회원가입</button>
             </div>

@@ -10,6 +10,8 @@ import { IProps } from '../../pages/Mypage';
     export const ModalContainer = styled.div`
     display:grid;
     justify-items: center;
+    width:100%;
+    color:black;
     //justify-content:center;
     //align-items:center;
     //align-self:center;

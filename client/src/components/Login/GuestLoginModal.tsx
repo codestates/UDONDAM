@@ -5,11 +5,13 @@ import axios from 'axios';
 import styled from 'styled-components';
 import { IProps } from '../../pages/Login';
 import { IsGuestHandler } from '../../redux/modules/IsGuest';
+import { UserInfoHandler } from '../../redux/modules/UserInfo';
 
     export const ModalContainer = styled.div`
     display:grid;
     justify-items: center;
-    width:100%
+    width:100%;
+    color:black;
     //justify-content:center;
     //align-items:center;
     //align-self:center;
@@ -99,11 +101,34 @@ function GuestLoginModal (props:any) {
       closeGuestModal()
     };
 
-    const guestLogin = () => {
-      dispatch(IsGuestHandler(true))
+    const guestLogin = async() => {
+      try {
+        dispatch(IsGuestHandler(true))
       setIsOpen(false)
-      closeGuestModal()
+      if(document.querySelector('.logo_nav')?.classList.contains('hide')===true){
+            console.log('.맨처음 로그인 하이드 작동')
+            document.querySelector('.logo_nav')?.classList.remove('hide')
+            document.querySelector('#nav_bar')?.classList.remove('hide')
+            document.querySelector('#nav_bar_desktop')?.classList.remove('hide')
+        }
+        const guestLogin = await axios.post(`${process.env.REACT_APP_API_URL}/guest`, {withCredentials: true })
+        console.log(guestLogin)
+        const guestInfo = guestLogin.data
+        dispatch(UserInfoHandler({
+          userId: guestInfo.userId || null,
+          email: guestInfo.email || null,
+          nickname: guestInfo.nickname || null,
+          area: guestInfo.area || null,
+          area2: guestInfo.area2 || null,
+          manager: guestInfo.manager || null, 
+          socialType: guestInfo.socialType || null
+      }))
+        closeGuestModal()
       history.push('/Search')
+      } catch (error:any) {
+        console.log(error.response)
+      }
+      
     }
 
     

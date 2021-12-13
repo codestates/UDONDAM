@@ -45,11 +45,14 @@ function App() {
 
     isMobile()
     const isDeskTop = !useSelector((state: RootStateOrAny)=>state.IsMobileReducer.isMobile);
-    // useEffect(()=>{
-    //   if(isDeskTop === true){
-    //     document.body.style.minWidth='639px'
-    //   }
-    // },[])
+    useEffect(()=>{
+      if(isDeskTop === false){
+        document.body.style.minWidth='0';
+        // console.log(document.querySelector('.social')?.classList)
+       
+        
+      }
+    },[])
 
     dispatch(IsMobileHandler(isMobile()))
   //console.log(document.documentElement)

@@ -10,6 +10,7 @@ import { IProps } from '../../pages/Login';
     display:grid;
     justify-items: center;
     width:100%;
+    color:black;
     //justify-content:center;
     //align-items:center;
     //align-self:center;

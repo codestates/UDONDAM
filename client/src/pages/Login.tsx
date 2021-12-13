@@ -1,14 +1,14 @@
-import React, { useState, useEffect } from 'react'
-import { Link } from 'react-router-dom'
-import { useHistory } from 'react-router'
-import axios from 'axios'
-import { RootStateOrAny, useDispatch, useSelector } from 'react-redux'
-import { IsLoginHandler } from '../redux/modules/IsLogin'
+import React, { useState, useEffect } from 'react';
+import { Link } from 'react-router-dom';
+import { useHistory } from 'react-router';
+import axios from 'axios';
+import { RootStateOrAny, useDispatch, useSelector } from 'react-redux';
+import { IsLoginHandler } from '../redux/modules/IsLogin';
 import { UserInfoHandler } from '../redux/modules/UserInfo';
-import { IsGuestHandler } from '../redux/modules/IsGuest'
-import SearchPassword from '../components/Login/SearchPassword'
-import GuestLoginModal from '../components/Login/GuestLoginModal'
-import './styles/IntroStyle.css'
+import { IsGuestHandler } from '../redux/modules/IsGuest';
+import SearchPassword from '../components/Login/SearchPassword';
+import GuestLoginModal from '../components/Login/GuestLoginModal';
+import './styles/IntroStyle.css';
 
 export interface loginInfoState {
         email: string,
@@ -28,6 +28,7 @@ export interface modalOnOffState {
 function Login(){
     const dispatch = useDispatch()
     const history = useHistory()
+    dispatch(IsGuestHandler(false))
     if(useSelector((state: RootStateOrAny)=>state.IsLoginReducer.isLogin) === true){
         console.log('로그인 트루')
         if(document.querySelector('.logo_nav')?.classList.contains('hide')===true){
@@ -142,6 +143,10 @@ function Login(){
         }
         
       }
+
+    const inSignUp = function() {
+        history.push('/Signup')
+    }
       useEffect(()=>{
         hideLogoFirsf()
       },[])
@@ -151,8 +156,10 @@ function Login(){
             {modalOnOff.seaerchPasswordModal ? <SearchPassword closeSeaerchPasswordModal={closeSeaerchPasswordModal} /> : null}
             {modalOnOff.guestModal ? <GuestLoginModal closeGuestModal={closeGuestModal} /> : null}
             <div className='login_container'>
+            <div className='login_img_place'>
             <div className='logo_page_div'>
             <img className='logo_page' src="로고-우동담-Dark-모양만-배경o.png" alt="logo" />
+            </div>
             </div>
             <form className='submit_box'>
                 <div className='submit_box_input'>
@@ -168,7 +175,7 @@ function Login(){
             </form>
             <div className='userguide_box'>
                     <ul>
-                        <li className='login_li'><Link to='/Signup'>회원가입</Link> </li>
+                        <li className='login_li' onClick={inSignUp}>회원가입</li>
                         <li className='login_li' onClick={passwordSearchModalHandler}>비밀번호를 잊으셨나요?</li>
                     </ul>
             </div>

@@ -2,12 +2,25 @@
 html{
   height: 100vh;
   width: 100vw;
-  background-color: rgba(0, 0, 0, 0.281) ;
-  min-width: 639px;
+  background-color: rgb(0, 0, 0) ;
+  min-width: 515px;
   display: flex;
   flex-direction: column;
   justify-content: flex-start;
   align-items: center;
+  
+}
+
+#container::-webkit-scrollbar{
+  width: 8px;
+  background-color: rgba(0, 0, 0, 0.033);
+}
+#container::-webkit-scrollbar-thumb{
+  background-color: rgba(209, 203, 203, 0.233);
+  border-radius: 10px;
+}
+#container::-webkit-scrollbar-track{
+  background-color: rgba(0, 0, 0, 0.033);
 }
 
 body{
@@ -16,6 +29,8 @@ body{
   box-sizing: border-box;
   height: 100%;
   width: 100%;
+  min-width: 515px;
+  max-width: 940px;
 }
 
 ul{
@@ -40,13 +55,13 @@ ul{
 }
 
 #logo{
-  background-color: rgba(0, 0, 255, 0.315);
+  background-color: rgb(0, 0, 0);
   grid-area: 'logo';
   display: block;
   display: grid;
   position: relative;
   grid-template-areas: "logo_left logo_center logo_right";
-  grid-template-columns: 30% 40% 30%;
+  grid-template-columns: 35% 30% 35%;
   width: 100%;
   height: max-content;
   /* height: max-content; */
@@ -69,6 +84,10 @@ ul{
  }
  .logo_nav_right{
   grid-area: 'logo_right';
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
  }
 
  .logo_nav_center_logo{
@@ -84,7 +103,8 @@ ul{
 
 
 #container{
-  background-color: rgba(165, 42, 42, 0.336);
+  background-color: rgb(92, 81, 81);
+  color: white;
   grid-area: 'container';
   position: relative;
   height: 100%;
@@ -94,6 +114,15 @@ ul{
   /* justify-content: center; */
   align-items: center;
   overflow: auto;
+  padding-top: 5px;
+}
+
+.container{
+  background-color: black;
+}
+
+li:link{
+  text-decoration: none;
 }
 
 .container{
@@ -123,7 +152,10 @@ ul{
 }
 
 .logo_page{
-  width: 15rem;
+  object-fit: fill;
+  width: 100%;
+  height: 100%;
+  /* width: 15rem; */
   flex: none;
   /* bottom: 10rem; */
 }
@@ -132,12 +164,11 @@ ul{
   position: relative;
   height: 100%;
   width: 100%;
-  /* min-width: none; */
-  /* min-height: 3%; */
-  /* height: 3%; */
-  min-width: 8vw;
-  max-width: 30vw;
-  max-height: 15vh;
+  min-width: 8%;
+  /* max-width: 30vw; */
+  /* max-height: 15vh; */
+  max-width: 200px;
+  max-height: 100%;
 }
 
 
@@ -155,13 +186,17 @@ ul{
 
 #nav_bar_desktop{
   width: 100%;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
 }
 
-@media screen and (max-width:640px) {
+@media screen {
   html{
     min-width: 0;
-   
   }
+  
 }
 
 /*이하 데스크탑 화면(640px이상)*/
@@ -188,11 +223,11 @@ ul{
   }
 
   #nav_bar_desktop{
-    /* width: 40%; */
+    width: 80%;
     display: flex;
     flex-direction: row;
     align-items: center;
-    justify-content: center;
+    justify-content: space-between;
   }
 
   .logo_nav_container{
@@ -227,9 +262,19 @@ ul{
  
   }
 
+  /* .social{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    
+    height: 22%;
+} */
+
   .container{
-    color: blue;
+    color: white;
   }
+
 
 
 }
@@ -262,6 +307,6 @@ ul{
     align-items: center;
     position: relative;
   }
-
-} 
+  641   600 width이 서로 간섭하며 바뀜
+}   
 */

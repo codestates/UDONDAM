@@ -13,6 +13,7 @@ const UnSelete = styled.div`
     display: none;
 `;
     //지역인증
+let falseArr:any = ''
 function Area({ history }: RouteComponentProps) {
     const dispatch = useDispatch()
     const his = useHistory()
@@ -56,12 +57,46 @@ function Area({ history }: RouteComponentProps) {
             
             await axios
             .get(`https://maps.googleapis.com/maps/api/geocode/json?latlng=${a},${b}&language=ko&key=${process.env.REACT_APP_API_KEY}`)
-            .then((respone) => {
-               setAreaSearch(respone.data.results[5].address_components[0].long_name)
+            .then((respone1) => {
+                console.log(respone1.data)
+               return respone1.data.results[4].address_components.map((el:any) => {
+               if(localTagData.indexOf(el.long_name) !== -1){
+                    return setAreaSearch(el.long_name)
+               }else if(localTagData.indexOf(el.short_name) !== -1){
+                   return setAreaSearch(el.short_name)
+               }
             })
+            
+            })
+            // .then((res) => {
+            //     if(falseArr ==='대한민국' || '경기도' || '강원도' || '충청북도' || '충청남도' || '경상북도' || '전라북도' || '경상남도' || '전라남도'){
+            //         setAreaSearch('지역 감지가 잘 되지 않고 있습니다. 잠시만 기다려주세요.')
+            //         setTimeout(() => axios.get(`https://maps.googleapis.com/maps/api/geocode/json?latlng=${a},${b}&language=ko&key=${process.env.REACT_APP_API_KEY}`)
+            //         .then((respone2) => {
+            //             console.log(respone2.data.results[5].address_components[0].long_name)
+            //             falseArr = respone2.data.results[5].address_components[0].long_name
+            //             console.log(falseArr)
+            //            setAreaSearch(respone2.data.results[5].address_components[0].long_name)
+            //            if(falseArr ==='대한민국' || '경기도' || '강원도' || '충청북도' || '충청남도' || '경상북도' || '전라북도' || '경상남도' || '전라남도'){
+            //             setAreaSearch('자신의 지역이 나타나지 않은 경우 직접 지역을 선택해 주세요. 조금만 더 기다려 주세요.')
+            //             setTimeout(() => axios.get(`https://maps.googleapis.com/maps/api/geocode/json?latlng=${a},${b}&language=ko&key=${process.env.REACT_APP_API_KEY}`)
+            //             .then((respone3) => {
+            //                 console.log(respone3.data.results[4].address_components[2].long_name)
+            //                 setAreaSearch(respone3.data.results[4].address_components[2].long_name)
+            //                 if(areaSearch ==='대한민국' || '경기도' || '강원도' || '충청북도' || '충청남도' || '경상북도' || '전라북도' || '경상남도' || '전라남도'){
+            //                     setAreaSearch('죄송합니다. 직접 지역을 선택해주세요')
+            //                 }
+            //             })
+            //            ,5000)
+            //         }
+            //         })
+            //        ,5000)
+            //     }
+            // })
+           
             try {}
             catch (err) {
-                console.log('에러발생:', err)
+                setAreaSearch('죄송합니다. 직접 지역을 선택해주세요')
             }
         })
     }
@@ -190,7 +225,10 @@ function Area({ history }: RouteComponentProps) {
                         :
                         <div>
                             <span>이 위치가 맞습니까?  </span>
-                            <button onClick = {yesMyLocalHandle}>예</button>
+                            {areaSearch === '죄송합니다. 직접 지역을 선택해주세요' ? null 
+                            :
+                                <button onClick = {yesMyLocalHandle}>예</button>
+                            }
                             <button onClick = {noMyLocalHandle}>아니오</button>
                         </div>
                         }

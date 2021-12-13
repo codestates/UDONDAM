@@ -2,13 +2,11 @@ const { user } = require("../models");
 const nodemailer = require('nodemailer');
 const { generateAccessToken, sendAccessToken, deleteRefreshToken, isAuthorized } = require('../controllers/token.js');
 const axios = require('axios');
-//const qs = require('qs');
-const {post, tag} = require('../models');
-const e = require('express');
+const DOMAIN = process.env.DOMAIN || 'localhost'
 module.exports = {
     login: async (req, res) => {
         const { email, password } = req.body;
-        let userInfo = await user.findOne({
+        let userInfo = await kakaoUser.findOne({
             where: {
                 email: email,
                 password: password
@@ -48,7 +46,7 @@ module.exports = {
     },
     signup: async (req, res) => {
         const { email, password } = req.body;
-        await user.create({
+        await kakaoUser.create({
             email: email, password:password
         });
         res.status(201).json({ "message": "signUp!"});
@@ -120,7 +118,7 @@ module.exports = {
 
     emailCheck: async (req, res) => {
         const { email } = req.body;
-        const emailCheck = await user.findOne({
+        const emailCheck = await kakaoUser.findOne({
             where: {
                 email: email
             }
@@ -136,7 +134,7 @@ module.exports = {
     },
     passwordCheck: async (req, res) => {
         const { email, password } = req.body;
-        const checkPassword = await user.findOne({
+        const checkPassword = await kakaoUser.findOne({
             where: { email: email, password: password}
         })
         
@@ -154,7 +152,7 @@ module.exports = {
     },
     tempp: async (req, res) => {
         const { email } = req.body;
-        const emailCheck = await user.findOne({
+        const emailCheck = await kakaoUser.findOne({
             where: {
                 email: email
             }
@@ -211,7 +209,7 @@ module.exports = {
                     // console.log(info);
                 });
 
-                await user.update({
+                await kakaoUser.update({
                     email: email,
                     password: verificationCode,
                 },
@@ -294,9 +292,7 @@ module.exports = {
         return  res.redirect(kakaoAuthURL);
     },
     kakaoCallback: async (req, res) => {
-        console.log('bbb')
         const code = req.query.code;
-        console.log(code)
         try {
         const result = await axios.post(
             // authorization code를 이용해서 access token 요청
@@ -311,43 +307,41 @@ module.exports = {
             },
             }
         );
-          //받아온 유저정보로 findOrCreate
-        const user = await User.findOrCreate({
+        const email = userInfo.data.kakao_account.email || `${userInfo.data.kakao_account.profile.nickname}@kakao.com`
+        console.log(email)
+        const kakaoUser = await user.findOrCreate({
             where: {
-        email: userInfo.data.kakao_account.email,
-        socialType: 'kakao',
+                email: email, socialType: 'kakao'
             },
             defaults: {
-                email: userInfo.data.kakao_account.email,
-                nickname: userInfo.data.properties.nickname,
+                email: email,
+                nickname: '익명',
                 password: '',
                 socialType: 'kakao',
-                isAdmin: false,
-                image: userInfo.data.kakao_account.profile.profile_image_url,
+                manager: false,
             },
         });
-        const token = generateAccessToken({
-            id: user[0].dataValues.id,
-            email: user[0].dataValues.email,
-            nickname: user[0].dataValues.nickname,
-            socialType: user[0].dataValues.socialType,
-            isAdmin: user[0].dataValues.isAdmin,
-            image: user[0].dataValues.image,
+
+        const userData = generateAccessToken({
+            userId: kakaoUser[0].dataValues.id,
+            nickname: kakaoUser[0].dataValues.nickname,
+            area: kakaoUser[0].dataValues.area,
+            area2: kakaoUser[0].dataValues.area2,
+            socialType: kakaoUser[0].dataValues.socialType,
+            manager: kakaoUser[0].dataValues.manager
         });
-    
-        res.cookie('jwt', token, {
-            sameSite: 'Strict',
+        res.cookie('jwt', userData, {
+            sameSite: 'none',
+            domain: DOMAIN,
+            path: '/',
             secure: true,
             httpOnly: true,
             expires: new Date(Date.now() + 1000 * 60 * 60 * 48),
-            // domain: process.env.NODE_ENV === 'production' && 'keyplus.kr',
         });
-    
-        res.redirect(`${process.env.CLIENT_URI}/temp`);
+        return res.redirect(`${process.env.CLIENT_URI}/search`);
         } catch (error) {
         console.error(error);
         res.sendStatus(500);
         }
-        
     }
 }

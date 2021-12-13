@@ -107,9 +107,14 @@ function Login(){
     }
 
     const socialLoginHandler =  (key:string)=> async (e:React.MouseEvent<HTMLSpanElement/*이거 바뀜 */>)=>{
-        // const socialLoginResponse = await axios.get(`${process.env.REACT_APP_API_URL}/${key}`, {withCredentials: true})
-        // console.log(socialLoginResponse)
-        window.location.href =`http://localhost:8080/kakao`
+        if(key === 'kakao'){
+            window.location.href =`http://localhost:8080/kakao`
+        }else{
+            const socialLoginResponse = await axios.get(`${process.env.REACT_APP_API_URL}/${key}`, {withCredentials: true})
+        console.log(socialLoginResponse)
+        }
+        
+        
     }
 
 

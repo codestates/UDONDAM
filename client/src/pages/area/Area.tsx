@@ -119,15 +119,15 @@ function Area({ history }: RouteComponentProps) {
             await axios.patch(`${process.env.REACT_APP_API_URL}/user/area`, {
                 area : areaSearch
             },{withCredentials: true}).then((respone:any) => {
-                console.log(respone)
+                console.log(respone.data.email)
                 dispatch(UserInfoHandler({
-                    userId: respone.userId,
-                    email: respone.email,
-                    nickname: respone.nickname,
-                    area: respone.area || null,
-                    area2: respone.area2 || null,
-                    manager: respone.manager, 
-                    socialType: respone.socialType
+                    userId: respone.data.data.userId,
+                    email: respone.data.data.email,
+                    nickname: respone.data.data.nickname,
+                    area: respone.data.data.area || null,
+                    area2: respone.data.data.area2 || null,
+                    manager: respone.data.data.manager, 
+                    socialType: respone.data.data.socialType
                 }))
             })
             his.push({
@@ -137,15 +137,15 @@ function Area({ history }: RouteComponentProps) {
             await axios.patch(`${process.env.REACT_APP_API_URL}/user/area`, {
                 area2 : areaSearch
             },{withCredentials: true}).then((respone:any) => {
-                console.log(respone)
+                console.log(respone.data.email)
                 dispatch(UserInfoHandler({
-                    userId: respone.userId,
-                    email: respone.email,
-                    nickname: respone.nickname,
-                    area: respone.area || null,
-                    area2: respone.area2 || null,
-                    manager: respone.manager, 
-                    socialType: respone.socialType
+                    userId: respone.data.data.userId,
+                    email: respone.data.data.email,
+                    nickname: respone.data.data.nickname,
+                    area: respone.data.data.area || null,
+                    area2: respone.data.data.area2 || null,
+                    manager: respone.data.data.manager, 
+                    socialType: respone.data.data.socialType
                 }))
             })
             his.push({
@@ -162,13 +162,13 @@ function Area({ history }: RouteComponentProps) {
             },{withCredentials: true}).then((respone:any) => {
                 console.log(respone)
                 dispatch(UserInfoHandler({
-                    userId: respone.userId,
-                    email: respone.email,
-                    nickname: respone.nickname,
-                    area: respone.area || null,
-                    area2: respone.area2 || null,
-                    manager: respone.manager, 
-                    socialType: respone.socialType
+                    userId: respone.data.data.userId,
+                    email: respone.data.data.email,
+                    nickname: respone.data.data.nickname,
+                    area: respone.data.data.area || null,
+                    area2: respone.data.data.area2 || null,
+                    manager: respone.data.data.manager, 
+                    socialType: respone.data.data.socialType
                 }))
             })
             his.push({
@@ -180,13 +180,13 @@ function Area({ history }: RouteComponentProps) {
             },{withCredentials: true}).then((respone:any) => {
                 console.log(respone)
                 dispatch(UserInfoHandler({
-                    userId: respone.userId,
-                    email: respone.email,
-                    nickname: respone.nickname,
-                    area: respone.area || null,
-                    area2: respone.area2 || null,
-                    manager: respone.manager, 
-                    socialType: respone.socialType
+                    userId: respone.data.data.userId,
+                    email: respone.data.data.email,
+                    nickname: respone.data.data.nickname,
+                    area: respone.data.data.area || null,
+                    area2: respone.data.data.area2 || null,
+                    manager: respone.data.data.manager, 
+                    socialType: respone.data.data.socialType
                 }))
             })
             his.push({

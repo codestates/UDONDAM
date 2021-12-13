@@ -90,11 +90,11 @@ const Postcontent: React.FC = () => {
         setTagHandle()
     }
     const compleatContentHandle = async () => {
+        console.log(contentText, contentGiftTag)
         await axios.post(`${process.env.REACT_APP_API_URL}/post`,{
-            comment: contentText,
+            content: contentText,
             public: false,
             tag: contentGiftTag
-
         },{withCredentials: true}).then((respone) => {
             console.log(respone)
         })

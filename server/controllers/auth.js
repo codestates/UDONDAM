@@ -6,7 +6,7 @@ const DOMAIN = process.env.DOMAIN || 'localhost'
 module.exports = {
     login: async (req, res) => {
         const { email, password } = req.body;
-        let userInfo = await kakaoUser.findOne({
+        let userInfo = await user.findOne({
             where: {
                 email: email,
                 password: password

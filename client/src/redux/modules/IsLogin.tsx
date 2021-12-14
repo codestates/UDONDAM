@@ -27,6 +27,7 @@ export type LoginAction = ActionType<typeof actions>
 const IsLoginReducer = createReducer<loginState, LoginAction>(isLoginInitialState, {
   
   [ISLOGIN]: (state, action) => {
+    console.log(action)
     return Object.assign({},state,{
       isLogin:action.payload
     })

@@ -27,15 +27,15 @@ const actions = {commentIdDataHandler};
 
 export type commentIdDataAction = ActionType<typeof actions>
 
-const commentIdDataReducer = createReducer<commentIdDataState, commentIdDataAction>(commentIdDataInitialState, {
+const CommentIdDataReducer = createReducer<commentIdDataState, commentIdDataAction>(commentIdDataInitialState, {
   
 
   [COMMENTID]: (state, action) => {
-    console.log(action)
+    console.log(action.payload)
     return Object.assign({},state,{
         commentIdData:action.payload
     })
   }
 });
 //export default로 export 한다
-export default commentIdDataReducer
+export default CommentIdDataReducer

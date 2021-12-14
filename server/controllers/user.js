@@ -17,8 +17,7 @@ module.exports = {
     userPatch : async (req, res) => {
         req.userId = req.userId || 1
         console.log("(((((((((((((((((")
-        console.log(req.cookies)
-        console.log(req.body)
+        console.log(req.body.password);
         const {nickname, password} = req.body;
         if(nickname && password) {
             await user.update({

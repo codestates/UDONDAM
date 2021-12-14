@@ -4,6 +4,11 @@ const { generateAccessToken, sendAccessToken, deleteRefreshToken, isAuthorized }
 const axios = require('axios');
 const { response } = require("express");
 const DOMAIN = process.env.DOMAIN || 'localhost'
+const KAKAOID = process.env.EC2_KAKAO_ID || process.env.KAKAO_ID;
+const KAKAOSECRET = process.env.EC2_KAKAO_SECRET || process.env.KAKAO_SECRET ;
+const KAKAOURL = process.env.EC2_KAKAO_REDIRECTURL || process.env.KAKAO_REDIRECTURL;
+const CLIENTURI = process.env.EC2_CLINET_URI || process.env.CLIENT_URI;
+
 module.exports = {
     login: async (req, res) => {
         const { email, password } = req.body;
@@ -307,21 +312,75 @@ module.exports = {
         }
     },
     naver: (req, res) => {
-        res.redirect('http:lcalhost:8080/kakaocallback');
+        return res.redirect(
+            `https://nid.naver.com/oauth2.0/authorize?response_type=code&client_id=${process.env.NAVER_ID}&state=STATE_STRING&redirect_uri=${process.env.NAVER_REDIRECT}`
+        );
     },
-    naverCallback: (req, res) => {
-    return res.status(200).send('aaa')
+    naverCallback: async (req, res) => {
+        const code = req.query.code;
+        const state = req.query.state;
+        try {
+        const result = await axios.post(
+            // authorization code를 이용해서 access token 요청
+            `https://nid.naver.com/oauth2.0/token?grant_type=authorization_code&client_id=${process.env.NAVER_ID}&client_secret=${process.env.NAVER_SECRET}&code=${code}&state=${state}`
+        );
+        const userInfo = await axios.get(
+            // access token로 유저정보 요청
+            'https://openapi.naver.com/v1/nid/me',
+            {
+            headers: {
+                Authorization: `Bearer ${result.data.access_token}`,
+            },
+            }
+        );
+          //받아온 유저정보로 findOrCreate
+        const naverUser = await user.findOrCreate({
+            where: {
+            email: userInfo.data.response.email,
+            socialType: 'naver',
+            },
+            defaults: {
+            email: userInfo.data.response.email, 
+            nickname: '익명',
+            password: '',
+            socialType: 'naver',
+            manager: false,
+            }
+        });
+        const userData = generateAccessToken({
+            id: naverUser[0].dataValues.id,
+            email: naverUser[0].dataValues.email,
+            nickname: naverUser[0].dataValues.nickname,
+            socialType: naverUser[0].dataValues.socialType,
+            manager: naverUser[0].dataValues.isAdmin,
+        });
+    
+        res.cookie('jwt', userData, {
+            sameSite: 'none',
+            domain: DOMAIN,
+            path: '/',
+            secure: true,
+            httpOnly: true,
+            expires: new Date(Date.now() + 1000 * 60 * 60 * 48),
+        });
+        res.redirect(`${process.env.CLIENT_URI}/search`);
+        } catch (error) {
+        console.error(error);
+        res.sendStatus(500);
+        }
     },
+
     kakao: async (req, res) => {
-            const kakaoAuthURL = `https://kauth.kakao.com/oauth/authorize?client_id=${process.env.KAKAO_ID}&redirect_uri=${process.env.KAKAO_redirectUrl}&response_type=code`;
+            const kakaoAuthURL = `https://kauth.kakao.com/oauth/authorize?client_id=${KAKAOID}&redirect_uri=${KAKAOURL}&response_type=code`;
         return  res.redirect(kakaoAuthURL);
     },
+
     kakaoCallback: async (req, res) => {
         const code = req.query.code;
         try {
         const result = await axios.post(
             // authorization code를 이용해서 access token 요청
-            `https://kauth.kakao.com/oauth/token?grant_type=authorization_code&client_id=${process.env.KAKAO_ID}&redirect_uri=${process.env.KAKAO_redirectUrl}&code=${code}`
+            `https://kauth.kakao.com/oauth/token?grant_type=authorization_code&client_id=${KAKAOID}&redirect_uri=${KAKAOURL}&code=${code}`
         );
         const userInfo = await axios.get(
             // access token로 유저정보 요청
@@ -363,7 +422,7 @@ module.exports = {
             httpOnly: true,
             expires: new Date(Date.now() + 1000 * 60 * 60 * 48),
         });
-        return res.redirect(`${process.env.CLIENT_URI}/search`);
+        return res.redirect(`${CLIENTURI}/search`);
         } catch (error) {
         console.error(error);
         res.sendStatus(500);

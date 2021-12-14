@@ -4,6 +4,7 @@ require('dotenv').config();
 
 const isAuth = (req, res, next) => {
 const token = req.cookies['jwt'];
+console.log('aaaaaaaaa',req.cookies)
 if (!token) {
     return res.status(401).json({ "message": "token doesn't exist" });
 }

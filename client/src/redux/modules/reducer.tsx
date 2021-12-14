@@ -5,6 +5,7 @@ import ValidationReducer from './Validation';
 import IsMobileReducer from './IsMobile';
 import MainPageReducer from './MainPageHandle';
 import IsGuestReducer from './IsGuest';
+import CommentIdData from './CommentIdData';
 
 
 const rootReducer = combineReducers({
@@ -13,7 +14,8 @@ const rootReducer = combineReducers({
     ValidationReducer,
     IsMobileReducer,
     MainPageReducer,
-    IsGuestReducer
+    IsGuestReducer,
+    CommentIdData
   });  
   
   export default rootReducer;

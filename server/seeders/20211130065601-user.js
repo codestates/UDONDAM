@@ -5,18 +5,6 @@ module.exports = {
     await queryInterface.bulkInsert('user', [
     {
       id: 1,
-      email: 'guest' ,
-      nickname: 'guest',
-      password: 'guest',
-      socialType: 'basic',
-      area: '인증해주세요',
-      area2: '인증해주세요',
-      manager: false,
-      createAt: new Date().toISOString().replace(/T/, ' ').replace(/\..+/, ''),
-      updateAt: new Date().toISOString().replace(/T/, ' ').replace(/\..+/, '')
-    },
-    {
-      id: 2,
       email: 'aaa' ,
       nickname: '익명',
       password: 'bbb',
@@ -28,7 +16,7 @@ module.exports = {
       updateAt: new Date().toISOString().replace(/T/, ' ').replace(/\..+/, '')
     },
     {
-      id: 3,
+      id: 2,
       email: 'aaa@naver.com' ,
       nickname: '익명',
       password: 'bbb',
@@ -40,7 +28,7 @@ module.exports = {
       updateAt: new Date().toISOString().replace(/T/, ' ').replace(/\..+/, '')
     },
     {
-      id: 4,
+      id: 3,
       email: 'aaa@google.com' ,
       nickname: '익명',
       password:null,
@@ -52,7 +40,7 @@ module.exports = {
       updateAt: new Date().toISOString().replace(/T/, ' ').replace(/\..+/, '')
     },
     {
-      id: 5,
+      id: 4,
       email: 'aaa@google.com' ,
       nickname: '익명',
       password:null,
@@ -63,6 +51,18 @@ module.exports = {
       createAt: new Date().toISOString().replace(/T/, ' ').replace(/\..+/, ''),
       updateAt: new Date().toISOString().replace(/T/, ' ').replace(/\..+/, '')
     },
+    {
+      id: 5,
+      email: 'guest' ,
+      nickname: 'guest',
+      password: 'guest',
+      socialType: 'basic',
+      area: '인증해주세요',
+      area2: '인증해주세요',
+      manager: false,
+      createAt: new Date().toISOString().replace(/T/, ' ').replace(/\..+/, ''),
+      updateAt: new Date().toISOString().replace(/T/, ' ').replace(/\..+/, '')
+    }
     ], {});
   },
 

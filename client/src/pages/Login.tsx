@@ -9,6 +9,8 @@ import { IsGuestHandler } from '../redux/modules/IsGuest';
 import SearchPassword from '../components/Login/SearchPassword';
 import GuestLoginModal from '../components/Login/GuestLoginModal';
 import './styles/IntroStyle.css';
+const NAVER = process.env.NAVER || 'http://localhost:8080/naver';
+const KAKAO = process.env.KAKAO || 'http://localhost:8080/kakao';
 
 export interface loginInfoState {
     email: string,
@@ -108,17 +110,12 @@ function Login() {
 
     const socialLoginHandler = (key: string) => async (e: React.MouseEvent<HTMLSpanElement/*이거 바뀜 */>) => {
         if (key === 'kakao') {
-            console.log('kakao');
-            window.location.href = `${process.env.REACT_APP_API_URL}/kakao`
+          window.location.href = KAKAO
+          //window.location.href = `${process.env.REACT_APP_API_URL}/kakao`
         } else if(key === 'google'){
-
-            console.log('kakao')
             window.location.href = `${process.env.REACT_APP_API_URL}/google`
-
-        } else {
-            console.log(key)
-            const socialLoginResponse = await axios.get(`${process.env.REACT_APP_API_URL}/${key}`, { withCredentials: true })
-            console.log(socialLoginResponse)
+        } else if(key === 'naver') {
+            window.location.href = NAVER
         }
 
 

@@ -109,10 +109,12 @@ function Login() {
     const socialLoginHandler = (key: string) => async (e: React.MouseEvent<HTMLSpanElement/*이거 바뀜 */>) => {
         if (key === 'kakao') {
             console.log('kakao');
-            window.location.href = `http://localhost:8080/kakao`
+            window.location.href = `${process.env.REACT_APP_API_URL}/kakao`
         } else if(key === 'google'){
-            console.log('google')
-            window.location.href = `http://localhost:8080/google`
+
+            console.log('kakao')
+            window.location.href = `${process.env.REACT_APP_API_URL}/google`
+
         } else {
             console.log(key)
             const socialLoginResponse = await axios.get(`${process.env.REACT_APP_API_URL}/${key}`, { withCredentials: true })

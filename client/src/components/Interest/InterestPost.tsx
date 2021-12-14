@@ -27,10 +27,13 @@ export default function InterestPost({ post }: any) {
                     state:{ida: postId}
                 })
                 }
-                console.log('모바일작동')
+                return console.log('모바일작동')
             }
-
-            return;
+            history.push({
+                pathname: '/Content',
+                state:{ida: postId}
+            })
+            return console.log('데스크탑 작동')
         } catch (error: any) {
             if (error.response.status === 500) {
                 return console.log('서버이상')

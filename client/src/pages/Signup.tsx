@@ -1,10 +1,12 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { useHistory } from 'react-router'
 import axios from 'axios'
 import { RootStateOrAny, useDispatch, useSelector } from 'react-redux'
 import { emailCheckHandler, passwordCheckHandler, passwordSameCheckHandler, numberCheckHandler } from '../redux/modules/Validation'
 import EmailTimer from '../components/Signup/EmailTimer'
 import './styles/SignUpStyle.css'
+import { setInterval } from 'timers'
+import { JsxElement } from 'typescript'
 
 //import EmailCheck from '../components/Signup/EmailCheck' //이메일 인증 분리
 
@@ -44,7 +46,11 @@ function Signup() {
         mailNumber: ''
     });
     const [passEmail, setPassEmail] = useState(false);
-    const [number, setNumber] = useState('')
+    const [number, setNumber] = useState('');
+    const [timerOnOff, setTimerOnOff] = useState<JSX.Element>(
+        <>인증요청</>
+    )
+    
 
     //다 통과되야 회원가입가능(유효성검사와 체크여부)
     const [emailErrorMessage, setEmailErrorMessage] = useState<string>('');
@@ -169,16 +175,22 @@ function Signup() {
         }
     };
 
-
+    
 
     const emailNumberCheck = (key: string) => async () => {
 
 
         if (key === 'post') {
-            const emailNumberCheck = await axios.post(`${process.env.REACT_APP_API_URL}/email`, { email: signupInfo.email }, { withCredentials: true })
+            if(Validation.validEmail === false){
+                setTimerOnOff(<EmailTimer />)
+                setNumberErrorMessage('이메일을 확인해주세요')
+            } else{
+                const emailNumberCheck = await axios.post(`${process.env.REACT_APP_API_URL}/email`, { email: signupInfo.email }, { withCredentials: true })
             console.log(emailNumberCheck)
             const emailNumber = emailNumberCheck.data.verificationCode //여기에 숫자저장
             setNumber(emailNumber);
+            }
+            
         } else if (key === 'check') {
             if (signupInfo.mailNumber !== number) {
                 console.log('인증번호가 다릅니다')
@@ -194,9 +206,7 @@ function Signup() {
         }
     };
 
-    const buttonTimer = function() {
 
-    }
 
     return (
         <div className='container'>
@@ -237,7 +247,9 @@ function Signup() {
                         </div>
                     </div>
                     <div className='signup_button_box'>
-                        <button onClick={emailNumberCheck('post')}>전송 요청</button>{/*누르면 타이머로 바뀜 */}
+                        <button className='timer_button' onClick={emailNumberCheck('post')}>
+                        {timerOnOff}
+                            </button>{/*누르면 타이머로 바뀜 */}
                         <button onClick={emailNumberCheck('check')}>확인</button>
                     </div>
                 </div>

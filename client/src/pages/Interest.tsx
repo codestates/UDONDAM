@@ -190,7 +190,7 @@ function Interest() {
         font-size: 1rem;
         
         .interest_nav_box_${targetPage}{
-            border-bottom: solid 2px black;
+            border-bottom: solid 2px gray;
            
         }
     `;

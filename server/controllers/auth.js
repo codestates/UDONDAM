@@ -132,7 +132,7 @@ module.exports = {
 
     emailCheck: async (req, res) => {
         const { email } = req.body;
-        const emailCheck = await kakaoUser.findOne({
+        const emailCheck = await user.findOne({
             where: {
                 email: email
             }

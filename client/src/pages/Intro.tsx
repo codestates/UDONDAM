@@ -53,7 +53,7 @@ function Intro() {
             <div id='intro_container'>
                 <div className='intro_img_place'>
                 <div className='intro_img_div'>
-            <img className='logo_page intro_img' src="로고-우동담-Dark-모양만-배경o.png" alt="logo" /><br />
+            <img className='logo_page intro_img' src="로고-우동담-Dark-배경x.png" alt="logo" /><br />
                 </div>
                 </div>
             <div className='intro_text'>내 동네를 설정하고 <br />이야기를 나눠보세요!</div><br />

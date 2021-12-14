@@ -3,6 +3,7 @@ import { useHistory } from 'react-router'
 import axios from 'axios'
 import { RootStateOrAny, useDispatch, useSelector } from 'react-redux'
 import { emailCheckHandler, passwordCheckHandler, passwordSameCheckHandler, numberCheckHandler } from '../redux/modules/Validation'
+import EmailTimer from '../components/Signup/EmailTimer'
 import './styles/SignUpStyle.css'
 
 //import EmailCheck from '../components/Signup/EmailCheck' //이메일 인증 분리
@@ -192,6 +193,10 @@ function Signup() {
             }
         }
     };
+
+    const buttonTimer = function() {
+
+    }
 
     return (
         <div className='container'>

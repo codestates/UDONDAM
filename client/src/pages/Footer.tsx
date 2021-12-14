@@ -4,7 +4,10 @@ import { Link } from 'react-router-dom'
 function Footer () {
 
     return(
-            <div >
+            <div className='grid_footer_container'>
+                <div></div>
+                <div></div>
+                <div></div>
                footer내용 들어갈 자리
             </div>
             

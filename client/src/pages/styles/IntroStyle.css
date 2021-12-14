@@ -148,7 +148,10 @@ max-width: 250px;
     height: 63%;
 }
 
-
+.submit_box_input{
+    display: flex;
+    flex-direction: column;
+}
 
 
 .logo_page_div{

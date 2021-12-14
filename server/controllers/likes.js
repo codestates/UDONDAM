@@ -107,20 +107,32 @@ module.exports = {
                 id: userId
             }
         });
+        let overlapCheck = await likes.findOne({
+            where: {
+                userId: userId,
+                postId: postId
+            }
+        });
+
         if(!userInfo){
             res.status(401).json({ "message" : "token doesn't exist" });
         }  
         else{
-            try{
-                await likes.destroy({
-                where: {
-                    userId: userId,
-                    postId : postId }
-                })
-                return res.status(200).json({ "message" : "delete!" });  
-            } catch(err) {
-                console.log(err);
-                return res.status(500).json({ "message" : "Server Error" });
+            if(!overlapCheck){
+                return res.status(200).json({ "message" : "이미 따봉을 취소한 상태입니다." });
+            }
+            else {
+                try{
+                    await likes.destroy({
+                    where: {
+                        userId: userId,
+                        postId : postId }
+                    })
+                    return res.status(200).json({ "message" : "delete!" });  
+                } catch(err) {
+                    console.log(err);
+                    return res.status(500).json({ "message" : "Server Error" });
+                }
             }
         }
     },

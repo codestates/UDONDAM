@@ -72,6 +72,8 @@
     flex-direction: column;
 }
 
+
+
 /*회원가입 버튼*/
 .grid_submit{
     grid-area: 'submit';

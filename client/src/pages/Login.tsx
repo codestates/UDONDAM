@@ -111,7 +111,7 @@ function Login() {
             console.log('kakao');
             window.location.href = `http://localhost:8080/kakao`
         } else if(key === 'google'){
-            console.log('kakao')
+            console.log('google')
             window.location.href = `http://localhost:8080/google`
         } else {
             console.log(key)

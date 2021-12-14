@@ -1,0 +1,52 @@
+.grid_footer_container{
+    height: 100%;
+    width: 100%;
+    padding-left: 5px;
+    padding-right: 5px;
+    display: grid;
+    grid-template-areas: "about copyright member";
+    grid-template-columns: 30% 40% 30%;
+    background-color: blanchedalmond;
+}
+/* 어바웃 */
+.grid_footer_about_place{
+    grid-area: 'about';
+}
+.grid_footer_about_box{
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+/* 카피라이트 */
+
+.grid_footer_copyright_place{
+    grid-area: 'copyright';
+}
+.grid_footer_copyright_box{
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+/* 멤버 */
+.grid_footer_member_place{
+    grid-area: 'member';
+    padding-left: 5%;
+}
+
+
+
+
+.grid_footer_member{
+    display: flex;
+    flex-direction: row;
+}
+
+/* 공용 */
+/* 폰트 */
+.footer_text{
+    font-size: 0.8rem;
+}

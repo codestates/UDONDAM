@@ -294,7 +294,10 @@ module.exports = {
         }
     },
     naver: (req, res) => {
-        res.status(200).send('소셜 네이버');
+        res.redirect('http:lcalhost:8080/kakaocallback');
+    },
+    naverCallback: (req, res) => {
+    return res.status(200).send('aaa')
     },
     kakao: async (req, res) => {
             const kakaoAuthURL = `https://kauth.kakao.com/oauth/authorize?client_id=${process.env.KAKAO_ID}&redirect_uri=${process.env.KAKAO_redirectUrl}&response_type=code`;

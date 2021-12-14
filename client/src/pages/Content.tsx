@@ -11,6 +11,9 @@ import { faGreaterThan } from "@fortawesome/free-solid-svg-icons";
 import { RootStateOrAny, useDispatch, useSelector } from 'react-redux'
 import axios from 'axios';
 import { userInfo } from 'os';
+import CommentDeleteModal from '../components/Content/CommentDeleteModal'
+import { commentIdDataHandler } from '../redux/modules/CommentIdData';
+
 const qs = require('qs');
 
 let contentDataParsing:any = []
@@ -19,8 +22,9 @@ library.add(faCommentDots);
     //게시글
 function Content({ history }: RouteComponentProps) {
     const {ida}:any = history.location.state
- 
+    const dispatch = useDispatch()
     const loginUserInfo = useSelector((state: RootStateOrAny)=>state.UserInfoReducer)
+    const commentIdData = useSelector((state: RootStateOrAny)=>state.commentIdDataReducer)
     console.log(loginUserInfo)
     const dataParsingHandle = async () => {
          await axios.get(`${process.env.REACT_APP_API_URL}/post/${ida}`, {withCredentials: true}).then((respone) => {
@@ -39,6 +43,7 @@ function Content({ history }: RouteComponentProps) {
     const [giftCComment, setGiftCComment] = useState<any>([]);
     const [likeChangeData, setLikeChangeData] = useState<any>(false);
     const [testChangeData, setTestChangeData] = useState<any>(false);
+    const [changeCommentModal, setChangeCommentModal] = useState<any>(true);
 
 
     const likeTrue = {
@@ -91,7 +96,7 @@ function Content({ history }: RouteComponentProps) {
     }
 
     const CommentDeleteHandle = async (data:any) => {
-
+        console.log(data)
         await axios(
             {
                 url: `${process.env.REACT_APP_API_URL}/comment/${data}`,
@@ -105,7 +110,15 @@ function Content({ history }: RouteComponentProps) {
                 console.log(respone)
             })
         setTestChangeData(!testChangeData)
+        setChangeCommentModal(true)
     }
+
+    const CommentDeleteModalHandle = (data:any) => {
+        dispatch(commentIdDataHandler(data))
+        setChangeCommentModal(!changeCommentModal)
+        // commentIdData
+    }
+
 
     const commentViewHandle = () => {
 
@@ -163,7 +176,7 @@ function Content({ history }: RouteComponentProps) {
     
     // console.log(giftComment)
     // console.log(giftCComment)
-    console.log(postDataDetail)
+
     useEffect(() => {
         dataParsingHandle()
     },[])
@@ -177,11 +190,13 @@ function Content({ history }: RouteComponentProps) {
         dataParsingHandle()
     },[testChangeData])
 
- 
+    console.log(postDataDetail)
     return(
             <div>
+
                 {postDataDetail && postDataDetail.map((el: { nickname: any,createAt: any ,content:any, tag:any, id:any, commentCount:any, likeCount:any, userId:any, comment:any}) => {
                 return (
+
                 <div>
                     <div>{el.nickname}</div>
                     <div>{el.createAt}
@@ -220,6 +235,7 @@ function Content({ history }: RouteComponentProps) {
             {commentView ? postDataDetail[0].comment.map((el:any) => {
                 return (
                 <div>
+                    
                     <div style={boxBorder}>
                         {el.content === '삭제 된 댓글 입니다' ?
                             <div>
@@ -238,9 +254,11 @@ function Content({ history }: RouteComponentProps) {
                                     </span>
                                     <span style = {pointerTrue}  onClick={() => commentCommentViewHandle(el.id)}>
                                         댓글
+                                        
                                     </span>
-                                    <span onClick={() => CommentDeleteHandle(el.id)}>
+                                    <span onClick={() => CommentDeleteModalHandle(el.id)}>
                                         삭제
+                                        {changeCommentModal ? null:<CommentDeleteModal CommentDeleteHandle = {CommentDeleteHandle} CommentDeleteModalHandle = {CommentDeleteModalHandle}></CommentDeleteModal>}
                                     </span>
                                     <span>
                                         신고
@@ -285,11 +303,10 @@ function Content({ history }: RouteComponentProps) {
                                             <span>
                                                 {le.createAt}
                                             </span>
-                                            <span style = {pointerTrue}  onClick={() => commentCommentViewHandle(le.id)}>
-                                                댓글
-                                            </span>
-                                            <span onClick={() => CommentDeleteHandle(le.id)}>
+                                            
+                                            <span  onClick={() => CommentDeleteModalHandle(le.id)}>
                                                 삭제
+                                                {changeCommentModal ? null:<CommentDeleteModal CommentDeleteHandle = {CommentDeleteHandle} CommentDeleteModalHandle = {CommentDeleteModalHandle}></CommentDeleteModal>}
                                             </span>
                                             <span>
                                                 신고

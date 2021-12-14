@@ -13,6 +13,8 @@ import axios from 'axios';
 import { userInfo } from 'os';
 import CommentDeleteModal from '../components/Content/CommentDeleteModal'
 import { commentIdDataHandler } from '../redux/modules/CommentIdData';
+import { useHistory } from 'react-router'
+import PostDeleteModal from '../components/Content/PostDeleteModal';
 
 const qs = require('qs');
 
@@ -22,6 +24,7 @@ library.add(faCommentDots);
     //게시글
 function Content({ history }: RouteComponentProps) {
     const {ida}:any = history.location.state
+    const his = useHistory()
     const dispatch = useDispatch()
     const loginUserInfo = useSelector((state: RootStateOrAny)=>state.UserInfoReducer)
     const commentIdData = useSelector((state: RootStateOrAny)=>state.commentIdDataReducer)
@@ -44,11 +47,14 @@ function Content({ history }: RouteComponentProps) {
     const [likeChangeData, setLikeChangeData] = useState<any>(false);
     const [testChangeData, setTestChangeData] = useState<any>(false);
     const [changeCommentModal, setChangeCommentModal] = useState<any>(true);
-
+    const [changePostModal, setChangePostModal] = useState<any>(true);
 
     const likeTrue = {
         color: "blue",
         cursor: 'pointer'
+    }
+    const Writer = {
+        color: "blue",
     }
  
     const pointerTrue = {
@@ -95,6 +101,7 @@ function Content({ history }: RouteComponentProps) {
         }
     }
 
+    //댓글 삭제
     const CommentDeleteHandle = async (data:any) => {
         console.log(data)
         await axios(
@@ -113,10 +120,17 @@ function Content({ history }: RouteComponentProps) {
         setChangeCommentModal(true)
     }
 
+    //댓글 삭제 모달창 유무
     const CommentDeleteModalHandle = (data:any) => {
         dispatch(commentIdDataHandler(data))
         setChangeCommentModal(!changeCommentModal)
         // commentIdData
+    }
+
+    //게시글 삭제 모달창 유무
+    const PostDeleteModalHandle = (data:any) => {
+        dispatch(commentIdDataHandler(data))
+        setChangePostModal(!changePostModal)
     }
 
 
@@ -125,6 +139,7 @@ function Content({ history }: RouteComponentProps) {
         setCommentView(!commentView)
 
     }
+
     //대댓글 생성
     const giftCCommentHandle = async () => {
         await axios.post(`${process.env.REACT_APP_API_URL}/comment`,giftCComment[0],{withCredentials: true}).then((respone) => {
@@ -135,8 +150,8 @@ function Content({ history }: RouteComponentProps) {
         setCCommentText('')
         setGiftComment([])
     }
+
     //댓글 생성
-    
     const giftCommentHandle = async () => {
 
         console.log(giftComment)
@@ -148,6 +163,20 @@ function Content({ history }: RouteComponentProps) {
         setLikeChangeData(!likeChangeData)
         setGiftComment([])
     }
+
+     //게시글 삭제
+     const postDeleteHandle = async (data:any) => {
+
+
+        await axios.delete(`${process.env.REACT_APP_API_URL}/post/${data}`,{withCredentials: true}).then((respone) => {
+            console.log(respone)
+        })
+        his.push({
+            pathname: `./Search`,
+        })
+    }
+    
+
     const likeChangeHandle = async () => {
         if(postDataDetail[0].likeCheck){
             postDataDetail[0].likeCheck = false
@@ -201,7 +230,9 @@ function Content({ history }: RouteComponentProps) {
                     <div>{el.nickname}</div>
                     <div>{el.createAt}
                     {/* {postDataDetail[0].userId}  유저 데이터 가져오면 삭제버튼 유무*/}
-                    <span> 삭제 </span>
+                    <span onClick={() =>PostDeleteModalHandle(el.id)}> 삭제  </span>
+                    {changePostModal ? null:<PostDeleteModal postDeleteHandle = {postDeleteHandle} PostDeleteModalHandle = {PostDeleteModalHandle}></PostDeleteModal>}
+                   
                     <span> 신고 </span>
                 </div>
                 <div>{el.content}</div>
@@ -256,6 +287,7 @@ function Content({ history }: RouteComponentProps) {
                                         댓글
                                         
                                     </span>
+
                                     <span onClick={() => CommentDeleteModalHandle(el.id)}>
                                         삭제
                                         {changeCommentModal ? null:<CommentDeleteModal CommentDeleteHandle = {CommentDeleteHandle} CommentDeleteModalHandle = {CommentDeleteModalHandle}></CommentDeleteModal>}
@@ -295,27 +327,29 @@ function Content({ history }: RouteComponentProps) {
                                         </div>
                                     </div>
                                     :
-                                    <div>
+                                    // {le.userId === loginUserInfo.userId ?
                                         <div>
-                                            <span>
-                                                {le.nickname}
-                                            </span>
-                                            <span>
-                                                {le.createAt}
-                                            </span>
-                                            
-                                            <span  onClick={() => CommentDeleteModalHandle(le.id)}>
-                                                삭제
-                                                {changeCommentModal ? null:<CommentDeleteModal CommentDeleteHandle = {CommentDeleteHandle} CommentDeleteModalHandle = {CommentDeleteModalHandle}></CommentDeleteModal>}
-                                            </span>
-                                            <span>
-                                                신고
-                                            </span>
+                                            <div>
+                                                <span>
+                                                    {le.nickname}
+                                                </span>
+                                                <span>
+                                                    {le.createAt}
+                                                </span>
+                                                
+                                                <span  onClick={() => CommentDeleteModalHandle(le.id)}>
+                                                    삭제
+                                                    {changeCommentModal ? null:<CommentDeleteModal CommentDeleteHandle = {CommentDeleteHandle} CommentDeleteModalHandle = {CommentDeleteModalHandle}></CommentDeleteModal>}
+                                                </span>
+                                                <span>
+                                                    신고
+                                                </span>
+                                            </div>
+                                            <div>
+                                                {le.content}
+                                            </div>
                                         </div>
-                                        <div>
-                                            {le.content}
-                                        </div>
-                                    </div>
+                                    // }
                                 }
                                 </div>
                             </div>

@@ -111,8 +111,10 @@ function Login() {
             console.log('kakao');
             window.location.href = `${process.env.REACT_APP_API_URL}/kakao`
         } else if(key === 'google'){
+
             console.log('kakao')
             window.location.href = `${process.env.REACT_APP_API_URL}/google`
+
         } else {
             console.log(key)
             const socialLoginResponse = await axios.get(`${process.env.REACT_APP_API_URL}/${key}`, { withCredentials: true })

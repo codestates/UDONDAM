@@ -91,7 +91,7 @@ import { IProps } from '../../pages/Mypage';
 
 
 
-function CommentDeleteModal ({CommentDeleteModalHandle,CommentDeleteHandle}: any) {
+function PostDeleteModal ({postDeleteHandle,PostDeleteModalHandle}: any) {
     const dispatch = useDispatch();
     const commentIdData = useSelector((state: RootStateOrAny) => state.CommentIdData)
     const history = useHistory();
@@ -110,14 +110,14 @@ function CommentDeleteModal ({CommentDeleteModalHandle,CommentDeleteHandle}: any
                 <ModalView onClick={(e) => e.stopPropagation()}>
     
                   <div>
-                    <span className='modal_title' >댓글 삭제 확인</span>
+                    <span className='modal_title' >게시글 삭제 확인</span>
                     <span className="close-btn"></span>
                   </div>
-                  <div className='modal_text'>정말로 댓글을 삭제 하시겠습니까?</div>
-                  <div className='modal_text long'>댓글 삭제시 유저 정보 삭제 및 댓글 내용을 수정합니다</div>
+                  <div className='modal_text'>게시글을 삭제 하시겠습니까?</div>
+                  <div className='modal_text long'>게시글 삭제시 복구는 불가능 합니다.</div>
                   <div className='password_submit'>
-                  <button onClick={() => CommentDeleteHandle(commentIdData.commentIdData)} className='modal_text_password'>확인</button>
-                  <button onClick={CommentDeleteModalHandle} className='modal_text_password'>취소</button>
+                  <button onClick={() => postDeleteHandle(commentIdData.commentIdData)} className='modal_text_password'>확인</button>
+                  <button onClick={PostDeleteModalHandle} className='modal_text_password'>취소</button>
                   <div className='submit_container'>
                   
                   </div>
@@ -131,4 +131,4 @@ function CommentDeleteModal ({CommentDeleteModalHandle,CommentDeleteHandle}: any
       );
 }
 
-export default CommentDeleteModal
+export default PostDeleteModal

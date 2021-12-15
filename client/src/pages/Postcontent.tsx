@@ -25,6 +25,7 @@ import { UserInfoHandler } from '../redux/modules/UserInfo';
         display: grid;
         color:white;
     `;
+    
     const TextArea = styled.textarea`
     width: 100%;
     height: 40rem;
@@ -58,9 +59,7 @@ const Postcontent: React.FC = () => {
         setSearchText(event.target.value)
     }
     const searchHandleKeyPress2 = (event:any) => {
-
-            handleSearchButton()
-        
+        handleSearchButton()
     }
     const handleSearchButton = () => {
         const a = tag.filter((el:any) => 
@@ -90,7 +89,7 @@ const Postcontent: React.FC = () => {
         setSearchText(' ')
         setTagHandle()
     }
-    
+
     const compleatContentHandle = async () => {
         console.log(contentText, contentGiftTag)
         await axios.post(`${process.env.REACT_APP_API_URL}/post`,{
@@ -105,13 +104,10 @@ const Postcontent: React.FC = () => {
         })
     }
 
-
     useEffect(() => {
         handleSearchButton()
         setTagHandle()
     }, [searchText])
-
-
 
     return(
             <div>

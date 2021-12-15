@@ -114,6 +114,7 @@ function Area({ history }: RouteComponentProps) {
         }
         setThreeLocal(!threeLocal)
     }
+    
     const areaSelectHandle = async () => {
         if(ida === 0){
             await axios.patch(`${process.env.REACT_APP_API_URL}/user/area`, {
@@ -121,13 +122,13 @@ function Area({ history }: RouteComponentProps) {
             },{withCredentials: true}).then((respone:any) => {
                 console.log(respone.data.email)
                 dispatch(UserInfoHandler({
-                    userId: respone.data.data.userId,
-                    email: respone.data.data.email,
-                    nickname: respone.data.data.nickname,
+                    userId: loginUserInfo.userId,
+                    email: loginUserInfo.email,
+                    nickname: loginUserInfo.nickname,
                     area: respone.data.data.area || null,
-                    area2: respone.data.data.area2 || null,
-                    manager: respone.data.data.manager, 
-                    socialType: respone.data.data.socialType
+                    area2: loginUserInfo.area2 || null,
+                    manager: loginUserInfo.manager, 
+                    socialType: loginUserInfo.socialType
                 }))
             })
             his.push({
@@ -139,13 +140,13 @@ function Area({ history }: RouteComponentProps) {
             },{withCredentials: true}).then((respone:any) => {
                 console.log(respone.data.email)
                 dispatch(UserInfoHandler({
-                    userId: respone.data.data.userId,
-                    email: respone.data.data.email,
-                    nickname: respone.data.data.nickname,
-                    area: respone.data.data.area || null,
+                    userId: loginUserInfo.userId,
+                    email: loginUserInfo.email,
+                    nickname: loginUserInfo.nickname,
+                    area: loginUserInfo.area || null,
                     area2: respone.data.data.area2 || null,
-                    manager: respone.data.data.manager, 
-                    socialType: respone.data.data.socialType
+                    manager: loginUserInfo.manager, 
+                    socialType: loginUserInfo.socialType
                 }))
             })
             his.push({
@@ -218,7 +219,6 @@ function Area({ history }: RouteComponentProps) {
                     firstLocal ?
                     <div>
                         <div>
-                            
                             {areaSearch}
                         </div>
                         {areaSearch === '검색중...' ? null 
@@ -232,7 +232,6 @@ function Area({ history }: RouteComponentProps) {
                             <button onClick = {noMyLocalHandle}>아니오</button>
                         </div>
                         }
-                        
                     </div>
                     :
                     <UnSelete>
@@ -266,7 +265,7 @@ function Area({ history }: RouteComponentProps) {
                     null
                 }
                 {
-                    secondLocal?
+                    secondLocal ?
                     <div>
                         <div>
                             지역설정 완료 후 한달간 변경은 불가능 합니다

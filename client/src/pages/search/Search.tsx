@@ -9,6 +9,7 @@ import axios from 'axios';
 import { useHistory } from 'react-router'
 import jQuery from 'jquery'
 import { decodedTextSpanIntersectsWith } from "typescript";
+import RecentViewModal from '../../components/Content/RecentViewModal';
 
 const qs = require('qs');
 
@@ -107,6 +108,9 @@ function Search() {
 
     const [errorTag, setErrorTag] = useState<any>()
 
+    const [changeRecentSearchModal, setChangeRecentSearchModal] = useState<any>(true)
+
+    const [changeRecentSearchData, setChangeRecentSearchData] = useState<any>()
 
     const areaSeleteClick = (event:any) => {
         if(isAreaActive){
@@ -241,7 +245,6 @@ function Search() {
         if(a){
             setErrorTag('잘했다')
             if(notGiftTag.length === 0){
-                
                 await axios(
                     {
                         url: `${process.env.REACT_APP_API_URL}/post`,
@@ -251,23 +254,39 @@ function Search() {
                             size: 10,
                             page: 0
                         },
-
                         withCredentials: true,
                         paramsSerializer: params => {
                                 return qs.stringify(params, {arrayFormat: 'brackets'})
                             }
                         }
-                    )
-                    .then((respone) => {
-                        console.log(respone)
-                        AllTagHandleData = respone.data
-                    })
-                    his.push({
-                        pathname: './Timeline',
-                        state: [
-                            AllTagHandleData
-                        ]
-                    })
+                )
+                .then((respone) => {
+                    console.log(respone)
+                    AllTagHandleData = respone.data
+                })
+                // .then(() => {
+                //     axios(
+                //         {
+                //             url: `${process.env.REACT_APP_API_URL}/post`,
+                //             method: 'post',
+                //             params: {
+                //                 tag: giftTag
+                //             },
+                //             withCredentials: true,
+                //             paramsSerializer: params => {
+                //                     return qs.stringify(params, {arrayFormat: 'brackets'})
+                //                 }
+                //             }
+                //     )
+                // })
+
+
+                his.push({
+                    pathname: './Timeline',
+                    state: [
+                        AllTagHandleData
+                    ]
+                })
             }else{
                 await axios(
                     {
@@ -289,6 +308,22 @@ function Search() {
                         console.log(respone)
                         AllTagHandleData = respone.data
                     })
+                    // .then(() => {
+                    //     axios(
+                    //         {
+                    //             url: `${process.env.REACT_APP_API_URL}/post`,
+                    //             method: 'post',
+                    //             params: {
+                    //                 tag: giftTag,
+                    //                 notTag: notGiftTag,
+                    //             },
+                    //             withCredentials: true,
+                    //             paramsSerializer: params => {
+                    //                     return qs.stringify(params, {arrayFormat: 'brackets'})
+                    //                 }
+                    //             }
+                    //     )
+                    // })
                     his.push({
                         pathname: './Timeline',
                         state: [
@@ -302,59 +337,15 @@ function Search() {
         }
     }  
 
+    const recentSearchHandle = () => {
+        setChangeRecentSearchModal(!changeRecentSearchModal)
 
-    // const timeLineAllTagHandle = () => {
-    //     let timeLineAllTagHandleData : any = ['대전','서울']
-    //     let AllTagHandleData = {}
+        
 
-    // //     console.log(decodeURIComponent('%EB%8C%80%EC%A0%84,%EC%84%9C%EC%9A%B8'))
-    // //     let endpoint:any = `${process.env.REACT_APP_API_URL}/post?tag=${decodeURIComponent(timeLineAllTagHandleData)}`
-    // //     fetch(endpoint).then(respone => 
-    // //         console.log(respone)
-    // //    )
-    //     // his.push({
-    //     //     pathname: './Timeline',
-    //     //     state: [
-    //     //         AllTagHandleData
-    //     //     ]
-    //     // })
-    // }
-
+    }
+    
 
     const timeLineAllTagHandle = async () => {
-
-
-        // let aaa = decodeURI('http://localhost:8080/post?tag%5B%5D=%EB%8C%80%EC%A0%84&tag%5B%5D=%EC%84%9C%EC%9A%B8')
-        // console.log(decodeURI('http://localhost:8080/post?tag%5B%5D=%EB%8C%80%EC%A0%84&tag%5B%5D=%EC%84%9C%EC%9A%B8'))
-        
-        // aaa = aaa.replace(/\[]/g,'')
-        // console.log(aaa)
-        // timeLineAllTagHandleData = qs.stringify(timeLineAllTagHandleData)
-        // /post?tag=${qs.stringify(timeLineAllTagHandleData)}
-        // let params:any = {tag: timeLineAllTagHandleData}
-       
-        // axios.defaults.paramsSerializer = params => {
-        //     return qs.stringify(params)
-        // }
-        // params = JSON.stringify(params)
-        // console.log(params)
-
-        // http://localhost:8080/post?tag=['대전','서울']
-        // http://localhost:8080/post?tag='대전'?tag='서울'
-
-        // let aa = "";
-        // for(let el of timeLineAllTagHandleData) {
-        //     aa= aa + `tag=${el}&`
-        // }
-        // let url = encodeURI(`${process.env.REACT_APP_API_URL}/kakao?${aa.slice(0,aa.length-1)}`)
-        // console.log('aaaaa',url)
-   
-        // await axios.get(url)
-        // .then((respone) => {
-        //     console.log(respone)
-        //     AllTagHandleData = respone.data
-        // })
-
 
         await axios(
         {
@@ -376,20 +367,6 @@ function Search() {
             AllTagHandleData = respone.data
         })
 
-        // http://localhost:8080/post?tag='대전'?tag='서울'
-
-        // await axios.get(`${process.env.REACT_APP_API_URL}/post`,{
-        //     params: {
-        //         tag: timeLineAllTagHandleData
-        //     },
-        //     paramsSerializer: params => {
-        //       return jQuery.param(params)
-        //     }
-        // }
-        // ).then((respone) => {
-        //     console.log(respone)
-        //     AllTagHandleData = respone.data
-        // })
         
         his.push({
             pathname: './Timeline',
@@ -456,6 +433,10 @@ function Search() {
 
         </span>
         <LogoImg src = '로고-우동담-Dark-모양만-배경o.png' />
+        <span onClick = {recentSearchHandle}>
+            이전 검색 내역
+        </span>
+        {changeRecentSearchModal ? null:<RecentViewModal changeRecentSearchData = {changeRecentSearchData} recentSearchHandle = {recentSearchHandle}></RecentViewModal>}
         <div>
             <input type="text" value={searchText} onChange={searchTextChange} placeholder="태그 검색" onKeyPress={searchHandleKeyPress} />
             <button onClick={handleSearchButton}>검색</button>
@@ -514,8 +495,6 @@ function Search() {
                     }else{
                         return <button style={selectButtonStyle} onClick = {giftTagHandle}>{el}</button>
                     }
-                    // console.log(el)
-                    // return <button onClick = {giftTagHandle}>{el}</button>
                 })
                 }
                 
@@ -587,8 +566,6 @@ function Search() {
                             return <button style={notTagRed} onClick = {giftTagHandle}>{el}</button>
                         }
                     }
-                    // console.log(el)
-                    // return <button onClick = {giftTagHandle}>{el}</button>
                 })
                 }
                 

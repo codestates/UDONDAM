@@ -252,6 +252,7 @@ function Search() {
                             size: 10,
                             page: 0
                         },
+                        withCredentials: true ,
                         paramsSerializer: params => {
                                 return qs.stringify(params, {arrayFormat: 'brackets'})
                             }
@@ -278,6 +279,7 @@ function Search() {
                             size: 10,
                             page: 0
                         },
+                        withCredentials: true ,
                         paramsSerializer: params => {
                                 return qs.stringify(params, {arrayFormat: 'brackets'})
                             }
@@ -363,6 +365,7 @@ function Search() {
                 size: 10,
                 page: 0
             },
+            withCredentials: true,
             paramsSerializer: params => {
                     return qs.stringify(params, {arrayFormat: 'brackets'})
                 }

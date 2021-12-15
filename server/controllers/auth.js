@@ -8,9 +8,13 @@ const KAKAOID = process.env.EC2_KAKAO_ID || process.env.KAKAO_ID;
 const KAKAOSECRET = process.env.EC2_KAKAO_SECRET || process.env.KAKAO_SECRET ;
 const KAKAOURL = process.env.EC2_KAKAO_REDIRECTURL || process.env.KAKAO_REDIRECTURL;
 const CLIENTURI = process.env.EC2_CLINET_URI || process.env.CLIENT_URI;
+const NAVERID = process.env.EC2_NAVER_ID || process.env.NAVER_ID;
+const NAVERSECRET = process.env.EC2_NAVER_SECRET || process.env.NAVER_SECRET;
+const NAVERRIDIRECT = process.env.EC2_NAVER_REDIRECT || process.env.NAVER_REDIRECT
 
 module.exports = {
     login: async (req, res) => {
+        console.log(NAVERID, NAVERSECRET, NAVERRIDIRECT)
         const { email, password } = req.body;
         let userInfo = await user.findOne({
             where: {
@@ -47,7 +51,6 @@ module.exports = {
         sendAccessToken(res, token, userData);
     },
     logout: async (req, res) => {
-        console.log(req.cookies)
         try {
             res.clearCookie('jwt');
             res.status(200).json({"message": "logout!"});
@@ -60,7 +63,7 @@ module.exports = {
     },
     signup: async (req, res) => {
         const { email, password } = req.body;
-        await kakaoUser.create({
+        await user.create({
             email: email, password:password
         });
         res.status(201).json({ "message": "signUp!"});
@@ -148,7 +151,7 @@ module.exports = {
     },
     passwordCheck: async (req, res) => {
         const { email, password } = req.body;
-        const checkPassword = await kakaoUser.findOne({
+        const checkPassword = await user.findOne({
             where: { email: email, password: password}
         })
         
@@ -166,7 +169,7 @@ module.exports = {
     },
     tempp: async (req, res) => {
         const { email } = req.body;
-        const emailCheck = await kakaoUser.findOne({
+        const emailCheck = await user.findOne({
             where: {
                 email: email
             }
@@ -223,7 +226,7 @@ module.exports = {
                     // console.log(info);
                 });
 
-                await kakaoUser.update({
+                await user.update({
                     email: email,
                     password: verificationCode,
                 },
@@ -313,7 +316,7 @@ module.exports = {
     },
     naver: (req, res) => {
         return res.redirect(
-            `https://nid.naver.com/oauth2.0/authorize?response_type=code&client_id=${process.env.NAVER_ID}&state=STATE_STRING&redirect_uri=${process.env.NAVER_REDIRECT}`
+            `https://nid.naver.com/oauth2.0/authorize?response_type=code&client_id=${NAVERID}&state=STATE_STRING&redirect_uri=${NAVERRIDIRECT}`
         );
     },
     naverCallback: async (req, res) => {
@@ -322,7 +325,7 @@ module.exports = {
         try {
         const result = await axios.post(
             // authorization code를 이용해서 access token 요청
-            `https://nid.naver.com/oauth2.0/token?grant_type=authorization_code&client_id=${process.env.NAVER_ID}&client_secret=${process.env.NAVER_SECRET}&code=${code}&state=${state}`
+            `https://nid.naver.com/oauth2.0/token?grant_type=authorization_code&client_id=${NAVERID}&client_secret=${NAVERSECRET}&code=${code}&state=${state}`
         );
         const userInfo = await axios.get(
             // access token로 유저정보 요청

@@ -66,6 +66,19 @@
     width: 100%;
 }
 
+.login_input{
+    height: 30%;
+    width: 100%;
+    font-size: large;
+}
+@media (min-width: 641px) {
+    .login_input{
+        height: 30%;
+        width: 100%;
+    }
+    
+}
+
 .userguide_box{
     display: flex; 
     flex-direction: column;
@@ -126,6 +139,7 @@
 
 
 
+
 .social_container{
     position: relative;
     display: flex;
@@ -138,7 +152,7 @@
 
 .social_button_container{
     display: flex;
-    flex-direction: column;
+    flex-direction: row;
     align-items: center;
     justify-content: center;
     width: 100%;
@@ -147,32 +161,103 @@
     max-height: 100%; */
 }
 
+.social_container_box{
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    width: 50%;
+    height: 50%;
+    border: 2px solid gray;
+    border-radius: 9px;
+}
+
+
 
 
 .social_button{
-    object-fit: cover;
-width: 70%;
-height: 60%;
+    object-fit: fill;
+width: auto;
+height: 85%;
 max-height: 60px;
 max-width: 250px;
 /* border-radius: 5px; */
 }
 
-.social_google{
-    object-fit: cover;
-    max-width: 258px;
-    width: 100%;
-    height: 63%;
-    
+.social_text{
+    margin-left: 10px;
+    font-size: 1.2rem;
 }
 
+@media (min-width: 641px) {
+    .social{
+        display: flex;
+        flex-direction: row;
+        /* justify-content: space-between; */
+        align-items: center;
+        width: 100%;
+        /* height: 22%; */
+        max-height: 20vh;
+    }
+    .social_container{
+        position: relative;
+        display: flex;
+        flex-direction: row;
+        justify-content: space-between;
+        align-items: center;
+        height: 100%;
+        width: 60%;
+    }
+    .social_container_box{
+        display: flex;
+        flex-direction: row;
+        justify-content: center;
+        align-items: center;
+        width: 100%;
+        height: 30%;
+        border: 2px solid gray;
+        margin-left: 5px;
+        margin-right: 5px;
+        border-radius: 9px;
+    }
+    .social_button_container{
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        justify-content: center;
+        width: 50%;
+        height: 100%;
+        /* max-width: 100%;
+        max-height: 100%; */
+    }
+    .social_button{
+        object-fit: fill;
+    width: auto;
+    height: 50%;
+    max-height: 60px;
+    max-width: 250px;
+    /* border-radius: 5px; */
+    }
+}
+
+
+.social_text_google{
+    /* margin-right: 5% */
+}
+
+
+
 .submit_box_input{
-    height: 100%;
+    height: 70%;
+    width: 30%;
+    min-width: max-content;
     display: flex;
     flex-direction: column;
-    justify-content: center;
+    justify-content: space-between;
+    align-items: center;
     /* align-items: center; */
 }
+
 
 
 .logo_page_div{

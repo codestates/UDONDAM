@@ -61,11 +61,11 @@ export default function InterestPost({ post }: any) {
         padding:2px;
     `;
     return (
-        <div className='interest_post_detail_container'>
+        <div className='interest_post_container'>
             {post.map((el: any) => {
                 for (let key in el[0]) {
                     return (//년-월별 컨테이너
-                        <div className={`container_${key}`} key={key}>
+                        <div className={`container_${key} interest_post_place`} key={key}>
                             <div className ='interest_post_detail_container'>
                             <YearMonth className='interest_post_box' onClick={onOffHandler(`${key}`)} >{key}</YearMonth>
                             </div>

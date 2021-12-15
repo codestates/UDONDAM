@@ -50,17 +50,17 @@ const UserInfoReducer = createReducer<userInfoState, UserInfoAction>(userInfoIni
       socialType: action.payload.socialType
     });
   },
-  [USERINFO_INIT]: (state, action) => {
-    return Object.assign({}, state, {
-      userId: userInfoInitialState.userId,
-      email: userInfoInitialState.email,
-      nickname: userInfoInitialState.nickname,
-      area: userInfoInitialState.area,
-      area2: userInfoInitialState.area2,
-      manager: userInfoInitialState.manager,
-      socialType: userInfoInitialState.socialType
-    });
-  }
+  // [USERINFO_INIT]: (state, action) => {
+  //   return Object.assign({}, state, {
+  //     userId: userInfoInitialState.userId,
+  //     email: userInfoInitialState.email,
+  //     nickname: userInfoInitialState.nickname,
+  //     area: userInfoInitialState.area,
+  //     area2: userInfoInitialState.area2,
+  //     manager: userInfoInitialState.manager,
+  //     socialType: userInfoInitialState.socialType
+  //   });
+  // }
 });
 //export default로 export 한다
 export default UserInfoReducer

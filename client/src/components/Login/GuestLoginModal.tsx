@@ -103,7 +103,7 @@ function GuestLoginModal (props:any) {
 
     const guestLogin = async() => {
       try {
-        dispatch(IsGuestHandler(true))
+        
       setIsOpen(false)
       if(document.querySelector('.logo_nav')?.classList.contains('hide')===true){
             console.log('.맨처음 로그인 하이드 작동')
@@ -113,17 +113,18 @@ function GuestLoginModal (props:any) {
         }
         const guestLogin = await axios.post(`${process.env.REACT_APP_API_URL}/guest`, {withCredentials: true })
         console.log(guestLogin)
-        const guestInfo = guestLogin.data
+        const guestInfo = guestLogin.data.data
         dispatch(UserInfoHandler({
-          userId: guestInfo.userId || null,
-          email: guestInfo.email || null,
+          userId: guestInfo.userId || 0,
+          email: guestInfo.email || 'guest',
           nickname: guestInfo.nickname || null,
-          area: guestInfo.area || null,
-          area2: guestInfo.area2 || null,
-          manager: guestInfo.manager || null, 
+          area: guestInfo.area || '인증해주세요',
+          area2: guestInfo.area2 || '인증해주세요',
+          manager: guestInfo.manager || false, 
           socialType: guestInfo.socialType || null
       }))
         closeGuestModal()
+        dispatch(IsGuestHandler(true))
       history.push('/Search')
       } catch (error:any) {
         console.log(error.response)

@@ -1,7 +1,10 @@
 import React, { useState, useEffect } from 'react';
 import { Route, Switch } from 'react-router-dom';
 import { useDispatch, useSelector, RootStateOrAny } from 'react-redux';
+import axios from 'axios';
 import { IsMobileHandler } from './redux/modules/IsMobile';
+import { UserInfoHandler } from './redux/modules/UserInfo';
+import { IsLoginHandler } from './redux/modules/IsLogin';
 import Intro from './pages/Intro';
 import Login from './pages/Login';
 import Area from './pages/area/Area';
@@ -12,7 +15,6 @@ import Nav from './pages/Nav';
 import Postcontent from './pages/Postcontent';
 import Search from './pages/search/Search';
 import Signup from './pages/Signup';
-import Timeline from './pages/timeLine/TimeLine';
 import MainPage from './pages/MainPage';
 import Footer from './pages/Footer';
 import { useHistory } from 'react-router-dom';
@@ -24,6 +26,23 @@ function App() {
   const history = useHistory()
   const dispatch = useDispatch()
   const [triger, setTriger] = useState<boolean>(false)
+
+  const getuserInfo = async function(){
+    const getUserData = await axios.get(`${process.env.REACT_APP_API_URL}/user`, { withCredentials: true })
+    const userInfo = getUserData.data
+    console.log(getUserData)
+    dispatch(UserInfoHandler({
+      userId: userInfo.userId,
+      email: userInfo.email,
+      nickname: userInfo.nickname,
+      area: userInfo.area ,
+      area2: userInfo.area2,
+      manager: userInfo.manager,
+      socialType: userInfo.socialType
+  }))
+  dispatch(IsLoginHandler(true))
+  }
+  getuserInfo()
 
   const isMobile = () => {
     try { //이건 주먹구구라 일단 이렇게 해둠. 테스트때는 터치가 안먹혀서 터치로 판단못함.

@@ -25,9 +25,9 @@ app.use(cors({
     credentials: true,
     methods: ['GET', 'POST', 'PATCH', 'DELETE' ,'OPTIONS']
 }));
+app.use(cookieParser());
 app.use(express.json());
 app.use(express.urlencoded({extended:true}));
-app.use(cookieParser());
 // app.use(session({
 //     secret:'aaa',
 //     resave:true,

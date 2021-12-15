@@ -28,6 +28,8 @@ function App() {
   const [triger, setTriger] = useState<boolean>(false)
 
   const getuserInfo = async function(){
+    
+    console.log('작동')
     const getUserData = await axios.get(`${process.env.REACT_APP_API_URL}/user`, { withCredentials: true })
     const userInfo = getUserData.data
     console.log(getUserData)

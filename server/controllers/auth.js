@@ -38,7 +38,7 @@ module.exports = {
                 socialType: socialType
             }
 
-            const token = generateAccessToken({userId: id});
+            const token = generateAccessToken(userData);
             sendAccessToken(res, token, userData);
         }
     },
@@ -300,7 +300,7 @@ module.exports = {
                 manager: manager,
                 socialType: socialType
             }
-            const token = generateAccessToken({userId: id});
+            const token = generateAccessToken(userData);
             
             res.cookie('jwt', token, {
                 sameSite: 'none',

@@ -1,6 +1,7 @@
 .grid_container{
     width: 70%;
     height: 90%;
+    justify-content: center;
     display: grid;
     grid-template-areas: 
     "title"
@@ -42,6 +43,7 @@
 
 /*비밀번호 & 비밀번호체크*/
 .passwordAndCheck_box{
+    height: 80%;
     grid-area: 'password_check';
     display: flex;
     flex-direction: column;
@@ -55,17 +57,25 @@
     justify-content: center;
 }
 /*메일인증 & 인증버튼*/
-.email_check_box{
+.email_check_container{
     grid-area: 'email_check';
+    height: 80%;
     display: flex;
-    flex-direction: row;
-    justify-content: space-between;
-    align-items: center;
+    flex-direction: column;
+    justify-content: center;
+}
+.email_check_box{
+    display: flex;
+    /* flex-direction: row; */
+    /* justify-content: space-between; */
+    /* align-items: center; */
 }
 .email_check_input_box{
     display: flex;
     flex-direction: column;
+    justify-content: space-between;
     width: 70%;
+    height: 90%;
 }
 .signup_button_box{
     display: flex;
@@ -92,12 +102,30 @@
     display: flex;
     flex-direction: row;
     /* justify-content: center; */
+    margin: 2px;
 }
 
 /*인풋*/
 input{
     height: 25px;
 }
-button{
-    /* height: 100%; */
+.gray_button{
+    height: 2rem;
+    width: 9rem;
+    border-radius: 15px;
+    border: 2px solid rgb(134, 131, 131);
+    background-color: rgb(134, 131, 131);
+    color: white;
+    font-size: large;
+  }
+@media (min-width: 641px) {
+    .gray_button{
+        height: 3rem;
+        width: 9rem;
+        border-radius: 15px;
+        border: 2px solid rgb(134, 131, 131);
+        background-color: rgb(134, 131, 131);
+        color: white;
+        font-size: large;
+      }
 }

@@ -2,7 +2,7 @@ import React,{useState, useEffect} from 'react'
 import { useDispatch, useSelector, RootStateOrAny } from "react-redux";
     
 function EmailTimer() {
-  const [timeCount, setTimeCount] = useState<number>(180);
+  const [timeCount, setTimeCount] = useState<number>(179);
   
   useEffect(() => {
     const countdown = setInterval(() => {
@@ -16,9 +16,6 @@ function EmailTimer() {
         return () => clearInterval(countdown); //이게 없으면 인터벌이 여러개 돌아서 숫자가 이상해짐
   }, [timeCount]);
 
-  const changeForm = function () {
-
-  }
 
   return (
     <>

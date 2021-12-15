@@ -121,6 +121,7 @@ function Nav() {
     };
 
     const isGuest = useSelector((state: RootStateOrAny)=>state.IsGuestReducer.isGuest)
+    console.log('isGuest:',isGuest)
 
 console.log(useSelector((state: RootStateOrAny)=>state.IsGuestReducer.isGuest))
 

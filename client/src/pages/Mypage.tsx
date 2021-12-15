@@ -7,6 +7,7 @@ import { IsLoginHandler } from '../redux/modules/IsLogin';
 import styled from 'styled-components';
 import axios from 'axios';
 import './styles/MypageStyle.css'
+import { SmallGrayButton } from '../components/utils/Buttons';
 
 //로그인하시고 이용해주세요
 
@@ -178,7 +179,7 @@ function Mypage() {
     console.log(onOff)
 
     console.log(useSelector((state: RootStateOrAny) => state.UserInfoReducer))
-
+//유즈이펙트
     return (
         <div className='container'>
             <div id='mypage_container'>
@@ -187,7 +188,7 @@ function Mypage() {
                     <div className='mypage_request_box'>
                         <div className='mypage_request_box_container'>
                         <div className='mypage_request_button'>
-                        <button className='mypage_button gray_button' onClick={onOffHandler('onRequest')}>문의하기</button>
+                        <SmallGrayButton onClick={onOffHandler('onRequest')}>문의하기</SmallGrayButton>
                         </div>
                         {onOff.onRequest ?
                             <div className='mypage_request_button_box'>

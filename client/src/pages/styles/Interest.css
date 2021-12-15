@@ -17,3 +17,14 @@
     flex-direction:row;
     justify-content:center;
 }
+
+.interest_post_container{
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    /* align-items: center; */
+    
+}
+.interest_post_place{
+    width: 80%;
+}

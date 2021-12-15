@@ -182,13 +182,12 @@ function Signup() {
 
         if (key === 'post') {
             if(Validation.validEmail === false){
-                setTimerOnOff(<EmailTimer />)
                 setNumberErrorMessage('이메일을 확인해주세요')
             } else{
                 const emailNumberCheck = await axios.post(`${process.env.REACT_APP_API_URL}/email`, { email: signupInfo.email }, { withCredentials: true })
-            console.log(emailNumberCheck)
-            const emailNumber = emailNumberCheck.data.verificationCode //여기에 숫자저장
-            setNumber(emailNumber);
+                const emailNumber = emailNumberCheck.data.verificationCode //여기에 숫자저장
+                setNumber(emailNumber);
+                setTimerOnOff(<EmailTimer />)
             }
             
         } else if (key === 'check') {
@@ -239,6 +238,7 @@ function Signup() {
                         </div>
                     </div>
                 </div>
+                <div className='email_check_container'>
                 <div className='email_check_box'>
                     <div className='email_check_input_box'>
                         <input type="text" placeholder='인증번호 입력' onChange={inputHandler('mailNumber')} />
@@ -252,6 +252,7 @@ function Signup() {
                             </button>{/*누르면 타이머로 바뀜 */}
                         <button className='gray_button' onClick={emailNumberCheck('check')}>확인</button>
                     </div>
+                </div>
                 </div>
                 <div className='grid_submit'>
                     <button className='gray_button' onClick={submitHandler}>회원가입</button>

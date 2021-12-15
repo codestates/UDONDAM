@@ -78,6 +78,19 @@ function Login() {
             }))
             dispatch(IsLoginHandler(true))
             dispatch(IsGuestHandler(false))
+            const loginData:string = JSON.stringify({
+                userId: userInfo.userId,
+                email: loginInfo.email,
+                nickname: userInfo.nickname,
+                area: userInfo.area,
+                area2: userInfo.area2,
+                manager: userInfo.manager,
+                socialType: userInfo.socialType
+            })
+            console.log(loginData)
+            localStorage.setItem('LoginData',loginData)
+            console.log(localStorage.getItem('LoginData'))
+
             hideLogo()
             document.querySelector('#nav_bar_desktop')?.classList.remove('hide')
             history.push('/Search')
@@ -174,8 +187,8 @@ function Login() {
                 </div>
                 <form className='submit_box'>
                     <div className='submit_box_input'>
-                        <input type="text" onChange={inputHandler('email')} placeholder='이메일' />
-                        <input type="password" onChange={inputHandler('password')} placeholder='비밀번호' />
+                        <input className='login_input' type="text" onChange={inputHandler('email')} placeholder='이메일' />
+                        <input className='login_input' type="password" onChange={inputHandler('password')} placeholder='비밀번호' />
                         {errorMessage !== '' ? 
                         <div>{errorMessage}</div> 
                         : <br />}
@@ -197,13 +210,22 @@ function Login() {
                 <div className='social'>
                     <div className='social_container'>
                         <div className='social_button_container social_google_container' onClick={socialLoginHandler('google')}>
-                            <img className='social_button social_google' src='btn_google_signin_light_pressed_web@2x.png' alt='social' />
+                            <div className='social_container_box'>
+                            <img className='social_button social_google' src='Social-google.png' alt='social' />
+                            <div className='social_text social_text_google'>구글 로그인</div>
+                            </div>
                         </div>
                         <div className='social_button_container social_naver_container' onClick={socialLoginHandler('naver')}>
-                            <img className='social_button social_naver' src='btnW_완성형.png' alt='social' />
+                        <div className='social_container_box'>
+                            <img className='social_button social_naver' src='Social-naver.png' alt='social' />
+                            <div className='social_text'>네이버 로그인</div>
+                            </div>
                         </div>
                         <div className='social_button_container social_kakao_container' onClick={socialLoginHandler('kakao')}>
-                            <img className='social_button social_kakao' src='kakao_login_large_narrow.png' alt='social' />
+                        <div className='social_container_box'>
+                            <img className='social_button social_kakao' src='Social-kakao.png' alt='social' />
+                            <div className='social_text'>카카오 로그인</div>
+                            </div>
                         </div>
                     </div>
                 </div>

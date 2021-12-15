@@ -1,7 +1,7 @@
 'use strict';
 module.exports = {
   up: async (queryInterface, Sequelize) => {
-    await queryInterface.createTable('recentSearche', {
+    await queryInterface.createTable('recentsearch', {
       id: {
         allowNull: false,
         autoIncrement: true,
@@ -20,7 +20,7 @@ module.exports = {
       }
     })
     .then(() => {
-      queryInterface.addColumn('comment', 'userId', {
+      queryInterface.addColumn('recentsearch', 'userId', {
         type: Sequelize.INTEGER,
         allowNull: false,
         onDelete: 'CASCADE',
@@ -33,6 +33,6 @@ module.exports = {
     await queryInterface.sequelize.query(sql, {
         type: Sequelize.QueryTypes.RAW,
     })
-    await queryInterface.dropTable('recentSearch');
+    await queryInterface.dropTable('recentsearch');
   }
 };

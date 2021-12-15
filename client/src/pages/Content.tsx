@@ -39,17 +39,16 @@ function Content({ history }: RouteComponentProps) {
         })
     }
 
-
-    const [commentView, setCommentView] = useState<any>(false);
-    const [commentText, setCommentText] = useState<any>('');
+    const [commentView, setCommentView] = useState<boolean>(false);
+    const [commentText, setCommentText] = useState<string>('');
     const [giftComment, setGiftComment] = useState<any>([]);
     const [cCommentView, setCCommentView] = useState<any>(0);
-    const [cCommentText, setCCommentText] = useState<any>('');
+    const [cCommentText, setCCommentText] = useState<string>('');
     const [giftCComment, setGiftCComment] = useState<any>([]);
-    const [likeChangeData, setLikeChangeData] = useState<any>(false);
-    const [testChangeData, setTestChangeData] = useState<any>(false);
-    const [changeCommentModal, setChangeCommentModal] = useState<any>(true);
-    const [changePostModal, setChangePostModal] = useState<any>(true);
+    const [likeChangeData, setLikeChangeData] = useState<boolean>(false);
+    const [testChangeData, setTestChangeData] = useState<boolean>(false);
+    const [changeCommentModal, setChangeCommentModal] = useState<boolean>(true);
+    const [changePostModal, setChangePostModal] = useState<boolean>(true);
 
     const likeTrue = {
         color: "blue",
@@ -89,7 +88,6 @@ function Content({ history }: RouteComponentProps) {
     //대댓글 인풋 체인지 함수
     const cCommentTextChange = (event:any) => {
         setCCommentText(event.target.value)
-
         setGiftCComment([
             {
                 postId : postDataDetail[0].id,

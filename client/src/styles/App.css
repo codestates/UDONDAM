@@ -1,6 +1,6 @@
 
 html{
-  height: 100vh;
+  height: 100%;
   /* width: 100vw; */
   max-width: 100vw;
   background-color: rgb(0, 0, 0) ;
@@ -37,18 +37,24 @@ body{
   max-width: 940px;
 }
 
-.grid_h3{
+#grid_h3{
+  width: 100%;
+  height: 100%;
 display: grid;
 grid-template-areas: 
 "grid_h3_header"
-"grid_h3_center"
-"grid_h3_footer";
-grid-template-rows: auto;
+"grid_h3_center";
+grid-template-rows: max-content 3fr;
+position: relative;
 }
-.grid_w3{
+
+#grid_w3{
+  width: 100%;
+  height: 100%;
+  grid-area: 'grid_h3_center';
   display: grid;
   grid-template-areas: ". grid_w3_center .";
-  grid-template-columns: 10% 10% 10%;
+  grid-template-columns: 0% 100% 0%;
 }
 
 ul{
@@ -56,6 +62,10 @@ ul{
 }
 
 #root{
+  height: 100%;
+  width: 100%;
+}
+/* #root{
   height: 100%;
   width: 100%;
   display: grid;
@@ -70,9 +80,10 @@ ul{
   justify-content: center;
   align-items: center;
   box-sizing: border-box;
-}
+} */
 
 #logo{
+  grid-area: 'grid_h3_header';
   background-color: rgb(0, 0, 0);
   grid-area: 'logo';
   display: block;
@@ -82,6 +93,7 @@ ul{
   grid-template-columns: 35% 30% 35%;
   width: 100%;
   height: max-content;
+  border-bottom: 5px solid gray;
   /* height: max-content; */
 }
 
@@ -121,6 +133,7 @@ ul{
 
 
 #container{
+  grid-area: 'grid_w3_center';
   background-color: rgb(92, 81, 81);
   color: white;
   grid-area: 'container';
@@ -131,7 +144,7 @@ ul{
   flex-direction: column;
   align-items: center;
   overflow: auto;
-  padding-top: 5px;
+  /* padding-top: 5px; */
 }
 
 
@@ -155,11 +168,11 @@ li:link{
   
 }
 
-#footer{
+/* #footer{
   background-color: rgba(128, 255, 0, 0.39);
   position: relative;
   color: blueviolet;
-  grid-area:"footer";
+  grid-area:"grid_h3_footer";
   display: block;
   display: flex;
   flex-direction: column;
@@ -167,12 +180,16 @@ li:link{
   align-items: center;
   width: 100%;
   height: max-content;
-}
+} */
 
 .logo_page{
+  
   object-fit: fill;
-  width: 100%;
-  height: 100%;
+  width: auto;
+  height: 30%;
+  max-height: 200px;
+  /* min-width: 200px; */
+    min-height: 200px;
   /* width: 15rem; */
   flex: none;
   /* bottom: 10rem; */
@@ -204,6 +221,7 @@ li:link{
 
 #nav_bar_desktop{
   width: 100%;
+  min-width:  195px;
   display: flex;
   flex-direction: row;
   align-items: center;
@@ -211,12 +229,23 @@ li:link{
 }
 
 footer{
-
-    max-width: 100%;
-    height: 100%;
-    position: absolute;  
-    bottom: 0;
-    left: 0;
+  /* grid-area: 'grid_h3_footer'; */
+  background-color: rgba(128, 255, 0, 0.39);
+  /* position: relative; */
+  color: blueviolet;
+  /* grid-area:"grid_h3_footer"; */
+  /* display: block;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center; */
+  /* width: 100%; */
+  /* height: max-content; */
+    /* max-width: 100%; */
+    /* height: 100%; */
+    /* position: absolute;   */
+    /* bottom: 0; */
+    /* left: 0; */
 } 
 
 @media screen {
@@ -251,6 +280,7 @@ footer{
 
   #nav_bar_desktop{
     width: 80%;
+
     display: flex;
     flex-direction: row;
     align-items: center;
@@ -276,27 +306,8 @@ footer{
     position: relative;
     height: 100%;
   width: 100%;
-  /* min-width: none; */
-  /* min-height: 3%; */
-  /* height: 3%; */
-  
-  /* max-width: 15vw; */
   max-height: 6vh;
-    /* height: 100%;
-    width: 100%; */
-    /* max-height: 100%; */
-    /* max-width: 100%; */
- 
   }
-
-  /* .social{
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    
-    height: 22%;
-} */
 
   .container{
     color: white;
@@ -306,34 +317,27 @@ footer{
 
 }
 
+/*공용*/
+  /*버튼*/
+.whiteline_button{
+  height: 3rem;
+  width: 9rem;
+  border-radius: 15px;
+  border: 2px solid white;
+  background-color: black;
+  color: white;
+  font-size: large;
+}
+.gray_button{
+  height: 3rem;
+  width: 9rem;
+  border-radius: 15px;
+  border: 2px solid rgb(134, 131, 131);
+  background-color: rgb(134, 131, 131);
+  color: white;
+  font-size: large;
+}
 
-
-/* @media (min-width: 800px){
-  body{
-    color: blue;
-  }
-
-  #container{
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    position: relative;
-  }
-
-} */
-/* @media ( min-width: 1500px){
-  body{
-    color: red;
-  }
-
-  #container{
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    position: relative;
-  }
-  641   600 width이 서로 간섭하며 바뀜
-}   
-*/
+input{
+  border-radius: 9px;
+}

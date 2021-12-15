@@ -59,64 +59,129 @@ function App() {
   //console.log(useSelector((state: RootStateOrAny)=>state.IsMobileReducer.isMobile))
   return (
     <>
-{/* <div id='grid_h3'>
-<div id='grid_w3'>
-</div>
-</div> */}
-
-      <header id='logo'>
-        <div className='logo_nav_left'></div>
-        <div className='logo_nav_center'>
-          <div className='logo_nav_center_logo'>
-            <img className='logo_nav' src="로고-우동담-Dark-글자만-배경o.png" alt="logo" onClick={introPage} />
+      <div id='grid_h3'>
+        <header id='logo'>
+          <div className='logo_nav_left'></div>
+          <div className='logo_nav_center'>
+            <div className='logo_nav_center_logo'>
+              <img className='logo_nav' src="로고-우동담-Dark-글자만-배경o.png" alt="logo" onClick={introPage} />
+            </div>
+          </div>
+          <div className='logo_nav_right'>
+            {!useSelector((state: RootStateOrAny) => state.IsMobileReducer.isMobile) ? <div id={isMobile() === false ? 'nav_bar_desktop' : 'nav_bar'}><Nav /></div> : null}
+          </div>
+        </header>
+        <div id='grid_w3'>
+          <div id='grid_w3_left'></div>
+          <div id='container'>
+            {/* {!useSelector((state: RootStateOrAny)=>state.IsMobileReducer.isMobile)? <div id='nav_bar'><Nav /></div> : null} */}
+            {/* 조건부렌더링이용:게스트/로그인 구분, 나오면 안되는창 구분 */}
+            <Switch>
+              <Route exact path="/">
+                <Intro />
+              </Route>
+              <Route path="/login">
+                <Login />
+              </Route>
+              <Route path="/Area" component={Area}>
+              </Route>
+              <Route path="/Content" component={Content}>
+              </Route>
+              <Route path="/Interest">
+                <Interest />
+              </Route>
+              <Route path="/MainPage">
+                <MainPage />
+              </Route>
+              <Route path="/Mypage">
+                <Mypage />
+              </Route>
+              <Route path="/Postcontent">
+                <Postcontent />
+              </Route>
+              <Route path="/Search">
+                <Search />
+              </Route>
+              <Route path="/Signup">
+                <Signup />
+              </Route>
+              <Route path="/TimeLine" component={TimeLine}>
+              </Route>
+            </Switch>
           </div>
         </div>
-        <div className='logo_nav_right'>
-          {!useSelector((state: RootStateOrAny) => state.IsMobileReducer.isMobile) ? <div id={isMobile() === false ? 'nav_bar_desktop' : 'nav_bar'}><Nav /></div> : null}
-        </div>
-      </header>
-      <div id='container'>
-        {/* {!useSelector((state: RootStateOrAny)=>state.IsMobileReducer.isMobile)? <div id='nav_bar'><Nav /></div> : null} */}
-        {/* 조건부렌더링이용:게스트/로그인 구분, 나오면 안되는창 구분 */}
-        <Switch>
-          <Route exact path="/">
-            <Intro />
-          </Route>
-          <Route path="/login">
-            <Login />
-          </Route>
-          <Route path="/Area" component={Area}>
-          </Route>
-          <Route path="/Content" component={Content}>
-          </Route>
-          <Route path="/Interest">
-            <Interest />
-          </Route>
-          <Route path="/MainPage">
-            <MainPage />
-          </Route>
-          <Route path="/Mypage">
-            <Mypage />
-          </Route>
-          <Route path="/Postcontent">
-            <Postcontent />
-          </Route>
-          <Route path="/Search">
-            <Search />
-          </Route>
-          <Route path="/Signup">
-            <Signup />
-          </Route>
-          <Route path="/TimeLine" component={TimeLine}>
-          </Route>
-        </Switch>
+        {/* <footer id='footer'> */}
+          {useSelector((state: RootStateOrAny) => state.IsMobileReducer.isMobile) ? <div id={isMobile() === false ? 'nav_bar_desktop' : 'nav_bar'}><Nav /></div> : null}
+          
+        {/* </footer> */}
       </div>
-      <footer id='footer'>
-        {useSelector((state: RootStateOrAny) => state.IsMobileReducer.isMobile) ? <div id={isMobile() === false ? 'nav_bar_desktop' : 'nav_bar'}><Nav /></div> : null}
-        {!useSelector((state: RootStateOrAny) => state.IsMobileReducer.isMobile) ? <Footer /> : null}
-      </footer>
+      {!useSelector((state: RootStateOrAny) => state.IsMobileReducer.isMobile) ? <Footer /> : null}
+
+
+
     </>
   );
+
+  //   return (
+  //     <>
+  // <div id='grid_h3'>
+  // <div id='grid_w3'>
+  // </div>
+  // </div>
+
+  //       <header id='logo'>
+  //         <div className='logo_nav_left'></div>
+  //         <div className='logo_nav_center'>
+  //           <div className='logo_nav_center_logo'>
+  //             <img className='logo_nav' src="로고-우동담-Dark-글자만-배경o.png" alt="logo" onClick={introPage} />
+  //           </div>
+  //         </div>
+  //         <div className='logo_nav_right'>
+  //           {!useSelector((state: RootStateOrAny) => state.IsMobileReducer.isMobile) ? <div id={isMobile() === false ? 'nav_bar_desktop' : 'nav_bar'}><Nav /></div> : null}
+  //         </div>
+  //       </header>
+  //       <div id='container'>
+  //         {/* {!useSelector((state: RootStateOrAny)=>state.IsMobileReducer.isMobile)? <div id='nav_bar'><Nav /></div> : null} */}
+  //         {/* 조건부렌더링이용:게스트/로그인 구분, 나오면 안되는창 구분 */}
+  //         <Switch>
+  //           <Route exact path="/">
+  //             <Intro />
+  //           </Route>
+  //           <Route path="/login">
+  //             <Login />
+  //           </Route>
+  //           <Route path="/Area" component={Area}>
+  //           </Route>
+  //           <Route path="/Content" component={Content}>
+  //           </Route>
+  //           <Route path="/Interest">
+  //             <Interest />
+  //           </Route>
+  //           <Route path="/MainPage">
+  //             <MainPage />
+  //           </Route>
+  //           <Route path="/Mypage">
+  //             <Mypage />
+  //           </Route>
+  //           <Route path="/Postcontent">
+  //             <Postcontent />
+  //           </Route>
+  //           <Route path="/Search">
+  //             <Search />
+  //           </Route>
+  //           <Route path="/Signup">
+  //             <Signup />
+  //           </Route>
+  //           <Route path="/TimeLine" component={TimeLine}>
+  //           </Route>
+  //         </Switch>
+  //       </div>
+  //       <footer id='footer'>
+  //         {useSelector((state: RootStateOrAny) => state.IsMobileReducer.isMobile) ? <div id={isMobile() === false ? 'nav_bar_desktop' : 'nav_bar'}><Nav /></div> : null}
+  //         {!useSelector((state: RootStateOrAny) => state.IsMobileReducer.isMobile) ? <Footer /> : null}
+  //       </footer>
+  //     </>
+  //   );
 }
 
 export default App;

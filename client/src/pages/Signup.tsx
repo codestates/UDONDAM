@@ -218,7 +218,7 @@ function Signup() {
                 <div className='grid_email_input'>
                     <div className='emailAndCheck_box'>
                         <input className='email_input' type="text" placeholder='이메일' onChange={inputHandler('email')} />
-                        <button className='email_same_check' onClick={emailSameCheck}>중복확인</button>
+                        <button className='email_same_check gray_button' onClick={emailSameCheck}>중복확인</button>
                     </div>
                     <div className='error_box'>
                         {emailErrorMessage}
@@ -247,14 +247,14 @@ function Signup() {
                         </div>
                     </div>
                     <div className='signup_button_box'>
-                        <button className='timer_button' onClick={emailNumberCheck('post')}>
+                        <button className='timer_button gray_button' onClick={emailNumberCheck('post')}>
                         {timerOnOff}
                             </button>{/*누르면 타이머로 바뀜 */}
-                        <button onClick={emailNumberCheck('check')}>확인</button>
+                        <button className='gray_button' onClick={emailNumberCheck('check')}>확인</button>
                     </div>
                 </div>
                 <div className='grid_submit'>
-                    <button onClick={submitHandler}>회원가입</button>
+                    <button className='gray_button' onClick={submitHandler}>회원가입</button>
                 </div>
             </div>
         </div>

@@ -1,14 +1,14 @@
-const { comment, likes, post_tag, post, tag, user } = require("../models");
+const { comment, likes, post, user } = require("../models");
 const { sequelize } = require("sequelize");
 const { isAuthorized } = require('../controllers/token.js');
 module.exports = {
     likesUser: async (req, res) => {
-        req.userId = req.userId || 1;
+        const userId = req.userId || 1;
         //const { userId } = req.query;
         let userInfo = await user.findOne({
             where: {
                 //id: userId
-                id: req.userId
+                id: userId
             }
         })
         if(!userInfo){
@@ -23,6 +23,7 @@ module.exports = {
                     attributes: ['postId'],
                 }]
             });
+
             const result = await post.findAll({
                 include: [{
                     model: likes,
@@ -71,7 +72,8 @@ module.exports = {
         }
     },
     likesCreate: async (req, res) => {
-        const { userId, postId } = req.body;
+        const userId = req.userId || 2;
+        const { postId } = req.body;
         let userInfo = await user.findOne({
             where: {
                 id: userId
@@ -101,7 +103,8 @@ module.exports = {
         }
     },
     likesDelete: async (req, res) => {
-        const { userId, postId } = req.query;
+        const userId = req.userId || 2;
+        const { postId } = req.query;
         let userInfo = await user.findOne({
             where: {
                 id: userId
@@ -124,10 +127,11 @@ module.exports = {
             else {
                 try{
                     await likes.destroy({
-                    where: {
-                        userId: userId,
-                        postId : postId }
-                    })
+                        where: {
+                            userId: userId,
+                            postId : postId
+                        }
+                    });
                     return res.status(200).json({ "message" : "delete!" });  
                 } catch(err) {
                     console.log(err);

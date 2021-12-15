@@ -10,7 +10,6 @@ module.exports = (sequelize, DataTypes) => {
      * The `models/index` file will call this method automatically.
      */
     static associate(models) {
-      // define association here
       models.post.belongsTo(models.user, {
         foreignKey: 'userId',
         sourceKey: 'id',
@@ -19,27 +18,13 @@ module.exports = (sequelize, DataTypes) => {
       models.post.hasMany(models.comment, {
         foreignKey: 'postId',
         sourceKey: 'id',
-        //onUpdate: 'cascade',
         onDelete: 'CASCADE'
       });
       models.post.hasMany(models.likes, {
         foreignKey: 'postId',
         sourceKey: 'id',
-        //onUpdate: 'cascade',
         onDelete: 'CASCADE'
       });
-      // models.post.belongsToMany(models.user,{
-      //   through: 'likes',
-      //   foreignKey: 'postId',
-      //   sourceKey: 'id',
-      //   onDelete: 'CASCADE'
-      // });
-      // models.post.belongsToMany(models.user,{
-      //   through: 'comment',
-      //   foreignKey: 'postId',
-      //   sourceKey: 'id',
-      //   onDelete: 'CASCADE'
-      // });
       models.post.belongsToMany(models.tag, {
         through: 'post_tag',
         sourceKey: 'id',

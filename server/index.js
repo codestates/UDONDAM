@@ -10,15 +10,7 @@ const postRouter = require('./routers/post');
 const commentRouter = require('./routers/comment');
 const likesRouter = require('./routers/likes');
 const authRouter = require('./routers/auth');
-// const session = require('express-session')
-// const models = require("./models/index.js");
-
-// models.sequelize.sync().then( () => {
-//     console.log(" DB 연결 성공");
-// }).catch(err => {
-//     console.log("연결 실패");
-//     console.log(err);
-// })
+const recentRouter = require('./routers/recent')
 
 app.use(cors({
     origin:['http://localhost:3000','https://udondam.com'],
@@ -28,12 +20,7 @@ app.use(cors({
 app.use(cookieParser());
 app.use(express.json());
 app.use(express.urlencoded({extended:true}));
-// app.use(session({
-//     secret:'aaa',
-//     resave:true,
-//     secure:false,
-//     saveUninitialized:false,
-// }))
+
 
 app.get('/', (req, res)=> {
     res.status(200).send("get 응답")
@@ -44,6 +31,7 @@ app.use('/post', postRouter);
 app.use('/comment', commentRouter);
 app.use('/likes', likesRouter);
 app.use('/', authRouter);
+app.use('/recent', recentRouter)
 
 let server ;
 if (fs.existsSync("./key.pem") && fs.existsSync("./cert.pem")) {

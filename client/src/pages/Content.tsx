@@ -20,7 +20,7 @@ const qs = require('qs');
 
 let contentDataParsing:any = []
 library.add(faCommentDots);
-
+let a:string = ''
     //게시글
 function Content({ history }: RouteComponentProps) {
     const {ida}:any = history.location.state
@@ -29,6 +29,8 @@ function Content({ history }: RouteComponentProps) {
     const loginUserInfo = useSelector((state: RootStateOrAny)=>state.UserInfoReducer)
     const commentIdData = useSelector((state: RootStateOrAny)=>state.commentIdDataReducer)
     console.log(loginUserInfo)
+
+    //게시글 데이터 가져오기
     const dataParsingHandle = async () => {
          await axios.get(`${process.env.REACT_APP_API_URL}/post/${ida}`, {withCredentials: true}).then((respone) => {
             contentDataParsing.pop()
@@ -71,9 +73,10 @@ function Content({ history }: RouteComponentProps) {
 
         display: 'inline-block'
     }
-    
+    // 게시글에 관한 모든 데이터
     const [postDataDetail, setPostDataDetail] = useState<any>(contentDataParsing)
 
+    //댓글 인풋 체인지 함수
     const commentTextChange = (event:any) => {
         setCommentText(event.target.value)
 
@@ -82,6 +85,8 @@ function Content({ history }: RouteComponentProps) {
             content : event.target.value
         }])
     }
+
+    //대댓글 인풋 체인지 함수
     const cCommentTextChange = (event:any) => {
         setCCommentText(event.target.value)
 
@@ -93,6 +98,8 @@ function Content({ history }: RouteComponentProps) {
             }
         ])
     }
+
+    //대댓글 생성시 인풋창 유무
     const commentCommentViewHandle = (data:any) => {
         if(data === cCommentView){
             setCCommentView(0)
@@ -108,10 +115,11 @@ function Content({ history }: RouteComponentProps) {
             {
                 url: `${process.env.REACT_APP_API_URL}/comment/${data}`,
                 method: 'delete',
+                withCredentials: true,
                 paramsSerializer: params => {
                         return qs.stringify(params, {arrayFormat: 'brackets'})
-                    }
-                }
+                    } 
+            }
             )
             .then((respone) => {
                 console.log(respone)
@@ -133,11 +141,9 @@ function Content({ history }: RouteComponentProps) {
         setChangePostModal(!changePostModal)
     }
 
-
+    //댓글창 유무
     const commentViewHandle = () => {
-
         setCommentView(!commentView)
-
     }
 
     //대댓글 생성
@@ -153,20 +159,17 @@ function Content({ history }: RouteComponentProps) {
 
     //댓글 생성
     const giftCommentHandle = async () => {
-
         console.log(giftComment)
         await axios.post(`${process.env.REACT_APP_API_URL}/comment`,giftComment[0],{withCredentials: true}).then((respone) => {
             console.log(respone)
         })
         setCommentText('')
-        
         setLikeChangeData(!likeChangeData)
         setGiftComment([])
     }
 
      //게시글 삭제
-     const postDeleteHandle = async (data:any) => {
-
+     const postDeleteHandle = async (data:number) => {
 
         await axios.delete(`${process.env.REACT_APP_API_URL}/post/${data}`,{withCredentials: true}).then((respone) => {
             console.log(respone)
@@ -200,7 +203,18 @@ function Content({ history }: RouteComponentProps) {
         setPostDataDetail(postDataDetail)
         setLikeChangeData(!likeChangeData)
     }
-   
+
+    //서버에서 받아온 createAt을 보기 좋게 수정해주는 핸들러
+    const createAtDesign = (data:string) => {
+        let b:string = ''
+        a = data.slice()
+        a = a.slice(0,10)
+        b = b + a
+        a = data.slice(11,16)
+        b = b + ' ' + a
+        // console.log(b)
+        return b
+    }
 
     
     // console.log(giftComment)
@@ -223,20 +237,29 @@ function Content({ history }: RouteComponentProps) {
     return(
             <div>
 
-                {postDataDetail && postDataDetail.map((el: { nickname: any,createAt: any ,content:any, tag:any, id:any, commentCount:any, likeCount:any, userId:any, comment:any}) => {
+                {postDataDetail && postDataDetail.map((el: { nickname: string,createAt: string ,content:string, tag:Array<string>, id:number, commentCount:number, likeCount:number, userId:number, comment:string}) => {
                 return (
 
                 <div>
-                    <div>{el.nickname}</div>
-                    <div>{el.createAt}
-                    {/* {postDataDetail[0].userId}  유저 데이터 가져오면 삭제버튼 유무*/}
-                    <span onClick={() =>PostDeleteModalHandle(el.id)}> 삭제  </span>
-                    {changePostModal ? null:<PostDeleteModal postDeleteHandle = {postDeleteHandle} PostDeleteModalHandle = {PostDeleteModalHandle}></PostDeleteModal>}
-                   
-                    <span> 신고 </span>
-                </div>
+                    {el.userId === loginUserInfo.userId ? 
+                    <div>
+                        <div>{`${el.nickname} -글쓴이`}</div>
+                        <div>{  createAtDesign(el.createAt) }
+                        <span onClick={() =>PostDeleteModalHandle(el.id)}> 삭제  </span>
+                        {changePostModal ? null:<PostDeleteModal postDeleteHandle = {postDeleteHandle} PostDeleteModalHandle = {PostDeleteModalHandle}></PostDeleteModal>}
+                        <span> 신고 </span>
+                        </div>
+                    </div>
+                    :
+                    <div>
+                        <div>{el.nickname}</div>
+                        <div>{  createAtDesign(el.createAt) }
+                        <span> 신고 </span>
+                    </div>
+                    </div>}
+
                 <div>{el.content}</div>
-                {el.tag.map((le: {tag: any}) => {
+                {el.tag.map((le: string) => {
                     return (<span>#{le} </span>)
                 })
                 }
@@ -277,11 +300,16 @@ function Content({ history }: RouteComponentProps) {
                             :
                             <div>
                                 <div>
+                                    {el.userId === loginUserInfo.userId ? 
+                                    <span>{`${el.nickname} -본인`}</span>
+                                    :
+                                        el.userId === postDataDetail[0].userId ?
+                                        <span>{`${el.nickname} -글쓴이`}</span>
+                                        :
+                                        <span>{el.nickname}</span>
+                                    }
                                     <span>
-                                        {el.nickname}
-                                    </span>
-                                    <span>
-                                        {el.createAt}
+                                        {  createAtDesign(el.createAt) }
                                     </span>
                                     <span style = {pointerTrue}  onClick={() => commentCommentViewHandle(el.id)}>
                                         댓글
@@ -327,14 +355,18 @@ function Content({ history }: RouteComponentProps) {
                                         </div>
                                     </div>
                                     :
-                                    // {le.userId === loginUserInfo.userId ?
                                         <div>
                                             <div>
+                                            {el.userId === loginUserInfo.userId ? 
+                                                <span>{`${le.nickname} -본인`}</span>
+                                                :
+                                                    le.userId === postDataDetail[0].userId ?
+                                                    <span>{`${le.nickname} -글쓴이`}</span>
+                                                    :
+                                                    <span>{le.nickname}</span>
+                                            }
                                                 <span>
-                                                    {le.nickname}
-                                                </span>
-                                                <span>
-                                                    {le.createAt}
+                                                 {  createAtDesign(le.createAt) }
                                                 </span>
                                                 
                                                 <span  onClick={() => CommentDeleteModalHandle(le.id)}>
@@ -349,7 +381,6 @@ function Content({ history }: RouteComponentProps) {
                                                 {le.content}
                                             </div>
                                         </div>
-                                    // }
                                 }
                                 </div>
                             </div>

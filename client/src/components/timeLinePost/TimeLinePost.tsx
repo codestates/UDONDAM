@@ -54,7 +54,7 @@ function TimeLinePost({postData,userData}: any) {
                     
                 }}>
                 <div>
-                    {userData.userId === el.userId ? <WhyUser>{el.nickname}</WhyUser> : <div>{el.nickname}</div>}
+                    {userData.userId === el.userId ? <WhyUser>{`${el.nickname} -글쓴이`}</WhyUser> : <div>{el.nickname}</div>}
                     <div>{el.createAt}
                     <span>신고</span>
                 </div>

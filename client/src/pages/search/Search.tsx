@@ -183,7 +183,6 @@ function Search() {
                        return dummyTag.splice(idx,1)
                     }
                 )
-                
                 setTagData(dummyTag)
             }else{
                 notGiftTag.splice(notGiftTag.indexOf(event.target.textContent),1)
@@ -252,6 +251,7 @@ function Search() {
                             size: 10,
                             page: 0
                         },
+                        withCredentials: true,
                         paramsSerializer: params => {
                                 return qs.stringify(params, {arrayFormat: 'brackets'})
                             }
@@ -278,6 +278,7 @@ function Search() {
                             size: 10,
                             page: 0
                         },
+                        withCredentials: true,
                         paramsSerializer: params => {
                                 return qs.stringify(params, {arrayFormat: 'brackets'})
                             }
@@ -363,6 +364,7 @@ function Search() {
                 size: 10,
                 page: 0
             },
+            withCredentials: true,
             paramsSerializer: params => {
                     return qs.stringify(params, {arrayFormat: 'brackets'})
                 }

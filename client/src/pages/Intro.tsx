@@ -58,7 +58,7 @@ function Intro() {
                 </div>
             <div className='intro_text'>내 동네를 설정하고 <br />이야기를 나눠보세요!</div><br />
             <div id='intro_button_div'>
-            <button className='intro_button' onClick={introHandler}>로그인/회원가입</button>
+            <button className='intro_button whiteline_button' onClick={introHandler}>로그인/회원가입</button>
             </div>
             </div>
        </div>

@@ -187,20 +187,20 @@ function Mypage() {
                     <div className='mypage_request_box'>
                         <div className='mypage_request_box_container'>
                         <div className='mypage_request_button'>
-                        <button className='mypage_button' onClick={onOffHandler('onRequest')}>문의하기</button>
+                        <button className='mypage_button gray_button' onClick={onOffHandler('onRequest')}>문의하기</button>
                         </div>
                         {onOff.onRequest ?
                             <div className='mypage_request_button_box'>
-                                <button className='mypage_request_button_detail'>태그추가 요청</button>
-                                <button className='mypage_request_button_detail'>신고처리현황</button>
+                                <button className='mypage_request_button_detail gray_button'>태그추가 요청</button>
+                                <button className='mypage_request_button_detail gray_button'>신고처리현황</button>
                             </div> : <div className='mypage_request_button_box'>
-                                <button className='mypage_request_button_detail hide'>태그추가 요청</button>
-                                <button className='mypage_request_button_detail hide'>신고처리현황</button>
+                                <button className='mypage_request_button_detail gray_button hide'>태그추가 요청</button>
+                                <button className='mypage_request_button_detail gray_button hide'>신고처리현황</button>
                             </div> }
                             </div>
                     </div>
                     <div className='change_button_box'>
-                    {!onOff.onChange ? <button onClick={onOffHandler('onChange')}>회원정보수정</button> : null}
+                    {!onOff.onChange ? <button className='gray_button' onClick={onOffHandler('onChange')}>회원정보수정</button> : null}
                     </div>
                     {onOff.onChange ?
                         <div className='mypage_userinfo_box mypage_userinfo_box_true'>
@@ -220,8 +220,8 @@ function Mypage() {
                             {errorMessage}
                             </div>
                             <div className='mypage_button_box mypage_button_box_true'>
-                                <button onClick={changeComplete}>수정확인</button>
-                                <button onClick={cancleHandler}>취소</button>
+                                <button className='gray_button' onClick={changeComplete}>수정확인</button>
+                                <button className='gray_button' onClick={cancleHandler}>취소</button>
                             </div>
                         </div> :
                         <div className='mypage_userinfo_box mypage_userinfo_box_false'>
@@ -236,8 +236,8 @@ function Mypage() {
                             </div>
                             </div>
                             <div className='mypage_button_box mypage_button_box_false'>
-                                <button onClick={logoutHandler}>로그아웃</button>
-                                <button onClick={onOffHandler('onModal')}>회원탈퇴</button>
+                                <button className='gray_button' onClick={logoutHandler}>로그아웃</button>
+                                <button className='gray_button' onClick={onOffHandler('onModal')}>회원탈퇴</button>
                             </div>
                         </div>}
                 

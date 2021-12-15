@@ -5,7 +5,7 @@ module.exports = {
         req.userId = req.userId || 1
         try {
             const userInfo = await user.findOne({
-            attributes: ['email', 'nickname'],
+            attributes: [['id','userId'],'email', 'nickname', 'area', 'area2', 'socialType', 'manager'],
             where: { id: req.userId }
             })
             return res.status(200).json(userInfo);

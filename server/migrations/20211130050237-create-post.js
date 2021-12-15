@@ -37,22 +37,6 @@ module.exports = {
         references: {model: 'post', key:'id'}
       })
     })
-    // .then(() => {
-    //   queryInterface.addColumn('comment', 'postId', {
-    //     type: Sequelize.INTEGER,
-    //     allowNull: false,
-    //     onDelete: 'CASCADE',
-    //     references: {model: 'post', key:'id'}
-    //   })
-    // })
-    // .then(() => {
-    //   queryInterface.addColumn('likes', 'postId', {
-    //     type: Sequelize.INTEGER,
-    //     allowNull: false,
-    //     onDelete: 'CASCADE',
-    //     references: {model: 'post', key:'id'}
-    //   })
-    // });
   },
   down: async (queryInterface, Sequelize) => {
     let sql ='SET FOREIGN_KEY_CHECKS = 0';

@@ -54,7 +54,6 @@ module.exports = {
             resultPostId= tagId;
         }
         if(resultPostId.length === 0) {
-            console.log('asd')
             return res.status(200).json(resultPostId)
         }
         const posts = await post.findAll({

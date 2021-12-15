@@ -90,6 +90,7 @@ const Postcontent: React.FC = () => {
         setSearchText(' ')
         setTagHandle()
     }
+    
     const compleatContentHandle = async () => {
         console.log(contentText, contentGiftTag)
         await axios.post(`${process.env.REACT_APP_API_URL}/post`,{

@@ -39,10 +39,10 @@
     justify-content: flex-end;
     height: 20%;
 }
-.intro_button{
+/* .intro_button{
     height: 3rem;
     width: 8rem;
-}
+} */
 
 /* 이하 로그인 css*/
 
@@ -56,24 +56,25 @@
     justify-content: center;
     min-width: 25%;
     height: auto;
-    max-height: 250px;
+    /* max-height: 250px; */
 }
 
 .submit_box {
     display: flex;
     flex-direction: column;
     align-items: center;
-    width: 80%;
+    width: 100%;
 }
 
 .userguide_box{
     display: flex; 
     flex-direction: column;
+    justify-content: center;
     align-items: center;
     /* flex: none; */
     
 }
-.login_container{
+/* .login_container{
      flex: none; 
      height: 100%;
      width: 100%;
@@ -82,13 +83,29 @@
     align-items: center;
     justify-content: center;
     
+} */
+.login_container{
+    flex: none; 
+    height: 100%;
+    max-height: 100vh;
+    width: 100%;
+    display: grid; 
+    /* grid-template-rows: 20% 20% 10% auto; */
+    grid-template-rows: 5% 30% 20% 10% 20%;
+
+   
 }
+.login_button_place{
+    width: 330px;
+}
+
+
 .login_button_box{
     width: 100%;
     height: 100%;
     display: flex;
     flex-direction: row;
-    justify-content: center;
+    justify-content: space-between;
 }
 .login_button{
     width: 70%;
@@ -103,7 +120,7 @@
     justify-content: center;
     align-items: center;
     width: 100%;
-    height: 22%;
+    /* height: 22%; */
     max-height: 20vh;
 }
 
@@ -138,19 +155,23 @@ width: 70%;
 height: 60%;
 max-height: 60px;
 max-width: 250px;
-
+/* border-radius: 5px; */
 }
 
 .social_google{
     object-fit: cover;
-    max-width: 260px;
-    width: 70%;
+    max-width: 258px;
+    width: 100%;
     height: 63%;
+    
 }
 
 .submit_box_input{
+    height: 100%;
     display: flex;
     flex-direction: column;
+    justify-content: center;
+    /* align-items: center; */
 }
 
 
@@ -160,7 +181,8 @@ max-width: 250px;
     justify-content: center;
     align-items: center;
     /*height 35%*/
-    height: 70%;
-    min-width: 200px;
-    min-height: 200px;
+    height: 100%;
+    width: 100%;
+    /* min-width: 200px;
+    min-height: 200px; */
 }

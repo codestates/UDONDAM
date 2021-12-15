@@ -166,6 +166,7 @@ function Login() {
             {modalOnOff.seaerchPasswordModal ? <SearchPassword closeSeaerchPasswordModal={closeSeaerchPasswordModal} /> : null}
             {modalOnOff.guestModal ? <GuestLoginModal closeGuestModal={closeGuestModal} /> : null}
             <div className='login_container'>
+                <div></div>
                 <div className='login_img_place'>
                     <div className='logo_page_div'>
                         <img className='logo_page' src="로고-우동담-Dark-배경x.png" alt="logo" />
@@ -179,9 +180,11 @@ function Login() {
                         <div>{errorMessage}</div> 
                         : <br />}
                     </div>
+                    <div className='login_button_place'>
                     <div className='login_button_box'>
-                        <button className='login_button' onClick={submitHandler}>로그인</button>
-                        <button className='login_button' onClick={guestModalHandler}>게스트로그인</button>
+                        <button className='login_button gray_button' onClick={submitHandler}>로그인</button>
+                        <button className='login_button gray_button' onClick={guestModalHandler}>게스트로그인</button>
+                    </div>
                     </div>
 
                 </form>
@@ -194,7 +197,7 @@ function Login() {
                 <div className='social'>
                     <div className='social_container'>
                         <div className='social_button_container social_google_container' onClick={socialLoginHandler('google')}>
-                            <img className='social_button social_google' src='btn_google_signin_light_normal_web.png' alt='social' />
+                            <img className='social_button social_google' src='btn_google_signin_light_pressed_web@2x.png' alt='social' />
                         </div>
                         <div className='social_button_container social_naver_container' onClick={socialLoginHandler('naver')}>
                             <img className='social_button social_naver' src='btnW_완성형.png' alt='social' />
@@ -204,6 +207,7 @@ function Login() {
                         </div>
                     </div>
                 </div>
+                {/* <div></div> */}
             </div>
         </div>
     )

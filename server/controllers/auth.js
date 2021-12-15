@@ -37,7 +37,8 @@ module.exports = {
                 manager: manager,
                 socialType: socialType
             }
-            const token = generateAccessToken(userData);
+
+            const token = generateAccessToken({userId: id});
             sendAccessToken(res, token, userData);
         }
     },
@@ -53,6 +54,7 @@ module.exports = {
     logout: async (req, res) => {
         try {
             res.clearCookie('jwt');
+            // res.cookie('jwt','test',{expires:new Date(Date.now() - 1)})
             res.status(200).json({"message": "logout!"});
             return;
         }
@@ -298,7 +300,7 @@ module.exports = {
                 manager: manager,
                 socialType: socialType
             }
-            const token = generateAccessToken(userData);
+            const token = generateAccessToken({userId: id});
             
             res.cookie('jwt', token, {
                 sameSite: 'none',

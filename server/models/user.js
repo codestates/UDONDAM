@@ -25,6 +25,11 @@ module.exports = (sequelize, DataTypes) => {
         sourceKey: 'id',
         onDelete: 'CASCADE'
       });
+      models.user.hasMany(models.recentsearch, {
+        foreignKey: 'userId',
+        sourceKey: 'id',
+        onDelete: 'CASCADE'
+      });
     }
   };
   user.init({

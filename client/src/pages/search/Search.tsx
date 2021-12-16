@@ -110,7 +110,7 @@ function Search() {
 
     const [changeRecentSearchModal, setChangeRecentSearchModal] = useState<any>(true)
 
-    const [changeRecentSearchData, setChangeRecentSearchData] = useState<any>()
+   
 
     const areaSeleteClick = (event:any) => {
         if(isAreaActive){
@@ -339,9 +339,6 @@ function Search() {
 
     const recentSearchHandle = () => {
         setChangeRecentSearchModal(!changeRecentSearchModal)
-
-        
-
     }
     
 
@@ -436,7 +433,7 @@ function Search() {
         <span onClick = {recentSearchHandle}>
             이전 검색 내역
         </span>
-        {changeRecentSearchModal ? null:<RecentViewModal changeRecentSearchData = {changeRecentSearchData} recentSearchHandle = {recentSearchHandle}></RecentViewModal>}
+        {changeRecentSearchModal ? null:<RecentViewModal recentSearchHandle = {recentSearchHandle} selectTagSearchHandle = {selectTagSearchHandle} setGiftTag = {setGiftTag} setNotGiftTag = {setNotGiftTag}> </RecentViewModal>}
         <div>
             <input type="text" value={searchText} onChange={searchTextChange} placeholder="태그 검색" onKeyPress={searchHandleKeyPress} />
             <button onClick={handleSearchButton}>검색</button>

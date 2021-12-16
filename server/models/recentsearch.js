@@ -20,7 +20,7 @@ module.exports = (sequelize, DataTypes) => {
   recentsearch.init({
     userId: DataTypes.INTEGER,
     tag: DataTypes.STRING,
-    nottag: DataTypes.STRING
+    notTag: DataTypes.STRING
   }, {
     sequelize,
     modelName: 'recentsearch',

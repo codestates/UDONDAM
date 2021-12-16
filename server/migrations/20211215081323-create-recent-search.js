@@ -11,7 +11,7 @@ module.exports = {
       tag: {
         type: Sequelize.STRING
       },
-      nottag: {
+      notTag: {
         type: Sequelize.STRING
       },
       createAt: {

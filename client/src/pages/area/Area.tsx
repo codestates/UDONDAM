@@ -19,6 +19,7 @@ function Area({ history }: RouteComponentProps) {
     const his = useHistory()
     const {ida}:any = history.location.state
     console.log(ida)
+    const isGuest = useSelector((state: RootStateOrAny)=>state.IsGuestReducer.isGuest)
     const loginUserInfo = useSelector((state: RootStateOrAny)=>state.UserInfoReducer)
 
     const [filterTag, setFilterTag] = useState<any>([])
@@ -116,85 +117,148 @@ function Area({ history }: RouteComponentProps) {
     }
     
     const areaSelectHandle = async () => {
-        if(ida === 0){
-            await axios.patch(`${process.env.REACT_APP_API_URL}/user/area`, {
-                area : areaSearch
-            },{withCredentials: true}).then((respone:any) => {
-                console.log(respone.data.email)
+        if(isGuest){
+            if(ida === 0){
                 dispatch(UserInfoHandler({
                     userId: loginUserInfo.userId,
                     email: loginUserInfo.email,
                     nickname: loginUserInfo.nickname,
-                    area: respone.data.data.area || null,
+                    area: areaSearch || null,
                     area2: loginUserInfo.area2 || null,
                     manager: loginUserInfo.manager, 
                     socialType: loginUserInfo.socialType
                 }))
-            })
-            his.push({
-                pathname: `./Search`,
-            })
-        }else{
-            await axios.patch(`${process.env.REACT_APP_API_URL}/user/area`, {
-                area2 : areaSearch
-            },{withCredentials: true}).then((respone:any) => {
-                console.log(respone.data.email)
+                his.push({
+                    pathname: `./Search`,
+                })
+            }else{
                 dispatch(UserInfoHandler({
                     userId: loginUserInfo.userId,
                     email: loginUserInfo.email,
                     nickname: loginUserInfo.nickname,
                     area: loginUserInfo.area || null,
-                    area2: respone.data.data.area2 || null,
+                    area2: areaSearch || null,
                     manager: loginUserInfo.manager, 
                     socialType: loginUserInfo.socialType
                 }))
-            })
-            his.push({
-                pathname: `./Search`,
-            })
+                his.push({
+                    pathname: `./Search`,
+                })
+            }
+        }else
+        {
+            if(ida === 0){
+                await axios.patch(`${process.env.REACT_APP_API_URL}/user/area`, {
+                    area : areaSearch
+                },{withCredentials: true}).then((respone:any) => {
+                    console.log(respone.data)
+                    dispatch(UserInfoHandler({
+                        userId: loginUserInfo.userId,
+                        email: loginUserInfo.email,
+                        nickname: loginUserInfo.nickname,
+                        area: respone.data.area || null,
+                        area2: loginUserInfo.area2 || null,
+                        manager: loginUserInfo.manager, 
+                        socialType: loginUserInfo.socialType
+                    }))
+                })
+                his.push({
+                    pathname: `./Search`,
+                })
+            }else{
+                await axios.patch(`${process.env.REACT_APP_API_URL}/user/area`, {
+                    area2 : areaSearch
+                },{withCredentials: true}).then((respone:any) => {
+                    console.log(respone.data)
+                    dispatch(UserInfoHandler({
+                        userId: loginUserInfo.userId,
+                        email: loginUserInfo.email,
+                        nickname: loginUserInfo.nickname,
+                        area: loginUserInfo.area || null,
+                        area2: respone.data.area2 || null,
+                        manager: loginUserInfo.manager, 
+                        socialType: loginUserInfo.socialType
+                    }))
+                })
+                his.push({
+                    pathname: `./Search`,
+                })
+            }
         }
+        
 
     }
 
     const selectAreaSelectHandle = async () => {
-        if(ida === 0){
-            await axios.patch(`${process.env.REACT_APP_API_URL}/user/area`, {
-                area : giftTag2[0]
-            },{withCredentials: true}).then((respone:any) => {
-                console.log(respone)
+        
+        if(isGuest){
+            if(ida === 0){
                 dispatch(UserInfoHandler({
-                    userId: respone.data.data.userId,
-                    email: respone.data.data.email,
-                    nickname: respone.data.data.nickname,
-                    area: respone.data.data.area || null,
-                    area2: respone.data.data.area2 || null,
-                    manager: respone.data.data.manager, 
-                    socialType: respone.data.data.socialType
+                    userId: loginUserInfo.userId,
+                    email: loginUserInfo.email,
+                    nickname: loginUserInfo.nickname,
+                    area: giftTag2[0] || null,
+                    area2: loginUserInfo.area2 || null,
+                    manager: loginUserInfo.manager, 
+                    socialType: loginUserInfo.socialType
                 }))
-            })
-            his.push({
-                pathname: `./Search`,
-            })
-        }else{
-            await axios.patch(`${process.env.REACT_APP_API_URL}/user/area`, {
-                area2 : giftTag2[0]
-            },{withCredentials: true}).then((respone:any) => {
-                console.log(respone)
+                his.push({
+                    pathname: `./Search`,
+                })
+            }else{
                 dispatch(UserInfoHandler({
-                    userId: respone.data.data.userId,
-                    email: respone.data.data.email,
-                    nickname: respone.data.data.nickname,
-                    area: respone.data.data.area || null,
-                    area2: respone.data.data.area2 || null,
-                    manager: respone.data.data.manager, 
-                    socialType: respone.data.data.socialType
+                    userId: loginUserInfo.userId,
+                    email: loginUserInfo.email,
+                    nickname: loginUserInfo.nickname,
+                    area: loginUserInfo.area || null,
+                    area2: giftTag2[0] || null,
+                    manager: loginUserInfo.manager, 
+                    socialType: loginUserInfo.socialType
                 }))
-            })
-            his.push({
-                pathname: `./Search`,
-            })
+                his.push({
+                    pathname: `./Search`,
+                })
+            }
+        }else
+        {
+            if(ida === 0){
+                await axios.patch(`${process.env.REACT_APP_API_URL}/user/area`, {
+                    area : giftTag2[0]
+                },{withCredentials: true}).then((respone:any) => {
+                    console.log(respone)
+                    dispatch(UserInfoHandler({
+                        userId: loginUserInfo.userId,
+                        email: loginUserInfo.email,
+                        nickname: loginUserInfo.nickname,
+                        area: respone.data.area || null,
+                        area2: loginUserInfo.area2 || null,
+                        manager: loginUserInfo.manager, 
+                        socialType: loginUserInfo.socialType
+                    }))
+                })
+                his.push({
+                    pathname: `./Search`,
+                })
+            }else{
+                await axios.patch(`${process.env.REACT_APP_API_URL}/user/area`, {
+                    area2 : giftTag2[0]
+                },{withCredentials: true}).then((respone:any) => {
+                    console.log(respone)
+                    dispatch(UserInfoHandler({
+                        userId: loginUserInfo.userId,
+                        email: loginUserInfo.email,
+                        nickname: loginUserInfo.nickname,
+                        area: loginUserInfo.area || null,
+                        area2: respone.data.area2 || null,
+                        manager: loginUserInfo.manager, 
+                        socialType: loginUserInfo.socialType
+                    }))
+                })
+                his.push({
+                    pathname: `./Search`,
+                })
+            }
         }
-
     }
     
     

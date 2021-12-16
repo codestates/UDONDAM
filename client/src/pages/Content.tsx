@@ -28,6 +28,7 @@ function Content({ history }: RouteComponentProps) {
     const dispatch = useDispatch()
     const loginUserInfo = useSelector((state: RootStateOrAny)=>state.UserInfoReducer)
     const commentIdData = useSelector((state: RootStateOrAny)=>state.commentIdDataReducer)
+    const isGuest = useSelector((state: RootStateOrAny)=>state.IsGuestReducer.isGuest)
     console.log(loginUserInfo)
 
     //게시글 데이터 가져오기
@@ -267,7 +268,13 @@ function Content({ history }: RouteComponentProps) {
                         {el.commentCount}
                     </span>
                     {postDataDetail && postDataDetail.map((el:any) => el.likeCheck ?
+                    
                         <span style={likeTrue} onClick={likeChangeHandle}>
+                            <FontAwesomeIcon icon={faThumbsUp}></FontAwesomeIcon>
+                            {el.likeCount}
+                        </span>
+                        : isGuest ? 
+                        <span>
                             <FontAwesomeIcon icon={faThumbsUp}></FontAwesomeIcon>
                             {el.likeCount}
                         </span>
@@ -309,18 +316,25 @@ function Content({ history }: RouteComponentProps) {
                                     <span>
                                         {  createAtDesign(el.createAt) }
                                     </span>
-                                    <span style = {pointerTrue}  onClick={() => commentCommentViewHandle(el.id)}>
-                                        댓글
-                                        
-                                    </span>
+                                    {
+                                        isGuest ? null :
+                                        <span>
+                                            <span style = {pointerTrue}  onClick={() => commentCommentViewHandle(el.id)}>
+                                                댓글
+                                            
+                                            </span>
+                                            <span onClick={() => CommentDeleteModalHandle(el.id)}>
+                                            삭제
+                                            {changeCommentModal ? null:<CommentDeleteModal CommentDeleteHandle = {CommentDeleteHandle} CommentDeleteModalHandle = {CommentDeleteModalHandle}></CommentDeleteModal>}
+                                            </span>
+                                            <span>
+                                                신고
+                                            </span>
+                                        </span>
+                                    }
+                                    
 
-                                    <span onClick={() => CommentDeleteModalHandle(el.id)}>
-                                        삭제
-                                        {changeCommentModal ? null:<CommentDeleteModal CommentDeleteHandle = {CommentDeleteHandle} CommentDeleteModalHandle = {CommentDeleteModalHandle}></CommentDeleteModal>}
-                                    </span>
-                                    <span>
-                                        신고
-                                    </span>
+                                    
                                 </div>
                                 <div>
                                     {el.content}
@@ -391,13 +405,14 @@ function Content({ history }: RouteComponentProps) {
             null
             }
             {
-                commentView ? 
+                !commentView ? null
+                :isGuest ? null
+                :
                 <div>
                     <input type="text" value={commentText} onChange={commentTextChange} placeholder="게시물에 댓글을 달아보세요" />
                     <button onClick={giftCommentHandle}>확인</button>
                 </div>
-                :
-                null
+                
             }
             </div>
     )

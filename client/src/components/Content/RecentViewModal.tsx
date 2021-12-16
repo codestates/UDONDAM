@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import { useRef, useState, useEffect } from "react";
 import { useDispatch, useSelector, RootStateOrAny } from "react-redux";
 import { UserInfoHandler } from '../../redux/modules/UserInfo';
 import { IsLoginHandler } from '../../redux/modules/IsLogin';
@@ -89,16 +89,27 @@ import { IProps } from '../../pages/Mypage';
   
   `;
 
-
-
-function RecentViewModal ({changeRecentSearchData,recentSearchHandle}: any) {
+let RecentDataParsing:any = []
+//모달창 유무, 태그로 검색, 태그수정 핸들러, 낫태그수정 핸들러
+function RecentViewModal ({recentSearchHandle,selectTagSearchHandle,setGiftTag,setNotGiftTag}: any) {
     const dispatch = useDispatch();
     const history = useHistory();
     const userInfo = useSelector((state: RootStateOrAny) => state.UserInfoReducer);
 
-    // await axios.get(`${process.env.REACT_APP_API_URL}/comment`,{withCredentials: true}).then((respone) => {
-        //             return setChangeRecentSearchData(respone)
-        //         })
+//     const dataParsingHandle = async () => {
+//          await axios.get(`${process.env.REACT_APP_API_URL}/comment`,{withCredentials: true}).then((respone) => {
+//             return RecentDataParsing = respone
+//          })
+//     }
+//     const recentTagSearchHandle = () => {
+//         setGiftTag()
+//         setNotGiftTag()
+//         selectTagSearchHandle()
+//    }
+
+    // useEffect(() => {
+    //     dataParsingHandle()
+    // },[])
 
     return (
         <>
@@ -112,11 +123,12 @@ function RecentViewModal ({changeRecentSearchData,recentSearchHandle}: any) {
                     <span className='modal_title' >최근 검색 내역</span>
                     <span className="close-btn"></span>
                   </div>
-                  <div className='modal_text'>최근 3개의 검색 내역을 표시합니다.</div>
-                  <div className='modal_text long'>댓글 삭제시 유저 정보 삭제 및 댓글 내용을 수정합니다</div>
+                  <div className='modal_text_long'>최근 3개의 검색 내역을 표시합니다.</div>
+                    // {RecentDataParsing}
                   <div className='password_submit'>
                
                   <div className='submit_container'>
+                  <button onClick={recentSearchHandle}>취소</button>
                   
                   </div>
                    

@@ -199,6 +199,7 @@ module.exports = {
             }
         }
         let commentArr = [];
+        let deleteArr = [];
         if(comments.length !== 0) {
             comments.map((el)=>{
                 const {id, content, userId, postId, commentId, createAt, user} = el.dataValues
@@ -226,10 +227,72 @@ module.exports = {
                             commentId: commentId,
                             createAt:createAt
                         })
+                    }else{
+                        deleteArr.push({
+                            id: id,
+                            content: content,
+                            nickname: user.nickname,
+                            userId: userId,
+                            postId: postId,
+                            commentId: commentId,
+                            createAt:createAt
+                        })
                     }
                 }
             }
         })
+        }
+        let idxArr = [];
+        if(deleteArr.length !== 0) {
+            for(let el of deleteArr) {
+                let idx = commentArr.findIndex((ele)=> el.commentId < ele.id);
+                idxArr.push(idx)
+            }
+            let bb = [];
+            for(let i = 0; i < idxArr.length; i++) {
+            if(idxArr[i] === -1 && !bb[idxArr[i]]) {
+                bb.push({
+                    id: deleteArr[i].commentId,
+                    content: '탈퇴한 회원의 댓글입니다',
+                    nickname: null,
+                    userId: null,
+                    postId: deleteArr[i].postId,
+                    commentId: null,
+                    createAt: null,
+                    comment: []
+                });
+                }
+            else if(idxArr[i] === -1 && bb[idxArr[i]]) {
+                bb[idxArr[i]].comment.push(deleteArr[i])
+            }
+            else if (bb[idxArr[i]]) {
+                bb[idxArr[i]].comment.push(deleteArr[i])
+            } 
+            else if(!bb[idxArr[i]]) {
+                bb[idxArr[i]] = {
+                    id: deleteArr[i].commentId,
+                    content: '탈퇴한 회원의 댓글입니다',
+                    nickname: null,
+                    userId: null,
+                    postId: deleteArr[i].postId,
+                    commentId: null,
+                    createAt: null,
+                    comment: []
+                }
+            }
+            }
+            let count = 0;
+            for(let el of commentArr) {
+                if(bb[count]) {
+                    bb.push(el);
+                    count = count + 2
+                }
+                else if (!bb[count]) {
+                    bb[count] = el;
+                    count++
+                }
+            }
+            commentArr = bb
         }
         const resPost = {
             id: id,

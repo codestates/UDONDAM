@@ -27,7 +27,9 @@ export interface IProps {
     offModal: any
 }
 
-function Mypage() {
+function Mypage(props:any) {
+    const data = props
+    console.log(data)
     const history = useHistory()
     const dispatch = useDispatch()
     if(useSelector((state: RootStateOrAny) => state.IsGuestReducer.isGuest === true)){
@@ -35,6 +37,13 @@ function Mypage() {
         console.log('로그인하시고 이용해주세요')
         history.push('/Search')
     }
+    console.log(useSelector((state: RootStateOrAny) => state))
+    
+    // if(useSelector((state: RootStateOrAny) => state.IsLoginReducer.isLogin === false)){
+    //     // 모달창으로 로그인하라 안내
+    //     console.log('로그인하시고 이용해주세요')
+    //     history.push('/Search')
+    // }
     
     //리덕스 관련
     const userInfo = useSelector((state: RootStateOrAny) => state.UserInfoReducer);
@@ -188,6 +197,8 @@ function Mypage() {
     console.log(userData)
     const refresh = function(){
         if(userData.email === ''){
+            
+            console.log('바뀜')
             setUserData({
             email: userInfo.email,
             nickname: userInfo.nickname,

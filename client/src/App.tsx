@@ -27,6 +27,9 @@ function App() {
   const dispatch = useDispatch()
   const [refresh, setRefresh] = useState<boolean>(false)
 
+  // if(sessionStorage.getItem('areaData')){
+  //   sessionStorage.removeItem('areaData')
+  // }
   
   const isMobile = () => {
     try { //이건 주먹구구라 일단 이렇게 해둠. 테스트때는 터치가 안먹혀서 터치로 판단못함.
@@ -43,11 +46,11 @@ function App() {
   };
 
   const getuserInfo = async function(){
-    
     console.log('작동')
     const getUserData = await axios.get(`${process.env.REACT_APP_API_URL}/user`, { withCredentials: true })
-    const userInfo = getUserData.data
     console.log(getUserData)
+    console.log('getUserData왔음')
+    const userInfo = getUserData.data
     if(userInfo === null){
       return ;
     }
@@ -61,6 +64,10 @@ function App() {
       socialType: userInfo.socialType
   }))
   dispatch(IsLoginHandler(true))
+  const areadata:string = JSON.stringify([userInfo.area,userInfo.area2])
+  sessionStorage.setItem('areaData',areadata)
+   
+    
   }
   getuserInfo()
   isMobile()
@@ -152,66 +159,6 @@ function App() {
     </>
   );
 
-  //   return (
-  //     <>
-  // <div id='grid_h3'>
-  // <div id='grid_w3'>
-  // </div>
-  // </div>
-
-  //       <header id='logo'>
-  //         <div className='logo_nav_left'></div>
-  //         <div className='logo_nav_center'>
-  //           <div className='logo_nav_center_logo'>
-  //             <img className='logo_nav' src="로고-우동담-Dark-글자만-배경o.png" alt="logo" onClick={introPage} />
-  //           </div>
-  //         </div>
-  //         <div className='logo_nav_right'>
-  //           {!useSelector((state: RootStateOrAny) => state.IsMobileReducer.isMobile) ? <div id={isMobile() === false ? 'nav_bar_desktop' : 'nav_bar'}><Nav /></div> : null}
-  //         </div>
-  //       </header>
-  //       <div id='container'>
-  //         {/* {!useSelector((state: RootStateOrAny)=>state.IsMobileReducer.isMobile)? <div id='nav_bar'><Nav /></div> : null} */}
-  //         {/* 조건부렌더링이용:게스트/로그인 구분, 나오면 안되는창 구분 */}
-  //         <Switch>
-  //           <Route exact path="/">
-  //             <Intro />
-  //           </Route>
-  //           <Route path="/login">
-  //             <Login />
-  //           </Route>
-  //           <Route path="/Area" component={Area}>
-  //           </Route>
-  //           <Route path="/Content" component={Content}>
-  //           </Route>
-  //           <Route path="/Interest">
-  //             <Interest />
-  //           </Route>
-  //           <Route path="/MainPage">
-  //             <MainPage />
-  //           </Route>
-  //           <Route path="/Mypage">
-  //             <Mypage />
-  //           </Route>
-  //           <Route path="/Postcontent">
-  //             <Postcontent />
-  //           </Route>
-  //           <Route path="/Search">
-  //             <Search />
-  //           </Route>
-  //           <Route path="/Signup">
-  //             <Signup />
-  //           </Route>
-  //           <Route path="/TimeLine" component={TimeLine}>
-  //           </Route>
-  //         </Switch>
-  //       </div>
-  //       <footer id='footer'>
-  //         {useSelector((state: RootStateOrAny) => state.IsMobileReducer.isMobile) ? <div id={isMobile() === false ? 'nav_bar_desktop' : 'nav_bar'}><Nav /></div> : null}
-  //         {!useSelector((state: RootStateOrAny) => state.IsMobileReducer.isMobile) ? <Footer /> : null}
-  //       </footer>
-  //     </>
-  //   );
 }
 
 export default App;

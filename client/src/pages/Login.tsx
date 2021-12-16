@@ -78,18 +78,18 @@ function Login() {
             }))
             dispatch(IsLoginHandler(true))
             dispatch(IsGuestHandler(false))
-            const loginData:string = JSON.stringify({
-                userId: userInfo.userId,
-                email: loginInfo.email,
-                nickname: userInfo.nickname,
-                area: userInfo.area,
-                area2: userInfo.area2,
-                manager: userInfo.manager,
-                socialType: userInfo.socialType
-            })
-            console.log(loginData)
-            localStorage.setItem('LoginData',loginData)
-            console.log(localStorage.getItem('LoginData'))
+            // const loginData:string = JSON.stringify({
+            //     userId: userInfo.userId,
+            //     email: loginInfo.email,
+            //     nickname: userInfo.nickname,
+            //     area: userInfo.area,
+            //     area2: userInfo.area2,
+            //     manager: userInfo.manager,
+            //     socialType: userInfo.socialType
+            // })
+            // console.log(loginData)
+            // localStorage.setItem('LoginData',loginData)
+            // console.log(localStorage.getItem('LoginData'))
 
             hideLogo()
             document.querySelector('#nav_bar_desktop')?.classList.remove('hide')

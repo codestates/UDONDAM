@@ -186,6 +186,7 @@ module.exports = {
             ]
         });
         try{
+            console.log(postPick)
         const {id, userId, public, content, createAt, user, tags, comments, likes} = postPick
         let tag = [];
         for(let el of tags) {

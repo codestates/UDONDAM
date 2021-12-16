@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useEffect, useRef, useState } from 'react'
 import { useSelector, RootStateOrAny, useDispatch } from 'react-redux';
 import { UserInfoHandler, InitUserInfo } from '../redux/modules/UserInfo';
 import { useHistory } from 'react-router';
@@ -40,8 +40,14 @@ function Mypage() {
     const userInfo = useSelector((state: RootStateOrAny) => state.UserInfoReducer);
     console.log(userInfo)
     //스테이트 설정
+    // const info = useRef<userDataState>({
+    //     email: userInfo.email,
+    //     nickname: userInfo.nickname,
+    //     password: '',
+    //     passwordCheck: ''
+    // })
     const [userData, setUserData] = useState<userDataState>({
-        email: userInfo.email || '',
+        email: userInfo.email|| '',
         nickname: userInfo.nickname || '',
         password: '',
         passwordCheck: ''
@@ -179,6 +185,20 @@ function Mypage() {
     console.log(onOff)
 
     console.log(useSelector((state: RootStateOrAny) => state.UserInfoReducer))
+    console.log(userData)
+    const refresh = function(){
+        if(userData.email === ''){
+            setUserData({
+            email: userInfo.email,
+            nickname: userInfo.nickname,
+            password: '',
+            passwordCheck: ''
+            })
+        }
+    }
+    useEffect(()=>{
+        refresh()
+    },[userData])
 //유즈이펙트
     return (
         <div className='container'>
@@ -248,5 +268,6 @@ function Mypage() {
         </div>
     )
 }
+
 
 export default Mypage

@@ -5,7 +5,7 @@ const auth = require('../middleware/verifyToken')
 
 
 
-// router.use(auth)
+router.use(auth)
 
 router.get('/', recentController.get);
 router.post('/', recentController.post);

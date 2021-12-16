@@ -43,11 +43,11 @@ function Intro() {
         
       }
 
-    useEffect(()=>{
-      test()  
-      hideLogo()
-    },[])
-    
+    // useEffect(()=>{
+    //   test()  
+    //   hideLogo()
+    // },[])
+    hideLogo()
     return (
         <div className='container'>
             <div id='intro_container'>

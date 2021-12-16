@@ -3,6 +3,7 @@ const {user} = require('../models/index');
 module.exports = {
     userInfo : async (req, res) => { 
         req.userId = req.userId || 1
+        console.log(req.userId)
         try {
             const userInfo = await user.findOne({
             attributes: [['id','userId'],'email', 'nickname', 'area', 'area2', 'socialType', 'manager'],

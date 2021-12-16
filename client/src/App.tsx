@@ -25,27 +25,9 @@ import { contains } from 'jquery';
 function App() {
   const history = useHistory()
   const dispatch = useDispatch()
-  const [triger, setTriger] = useState<boolean>(false)
+  const [refresh, setRefresh] = useState<boolean>(false)
 
-  const getuserInfo = async function(){
-    
-    console.log('작동')
-    const getUserData = await axios.get(`${process.env.REACT_APP_API_URL}/user`, { withCredentials: true })
-    const userInfo = getUserData.data
-    console.log(getUserData)
-    dispatch(UserInfoHandler({
-      userId: userInfo.userId,
-      email: userInfo.email,
-      nickname: userInfo.nickname,
-      area: userInfo.area ,
-      area2: userInfo.area2,
-      manager: userInfo.manager,
-      socialType: userInfo.socialType
-  }))
-  dispatch(IsLoginHandler(true))
-  }
-  getuserInfo()
-
+  
   const isMobile = () => {
     try { //이건 주먹구구라 일단 이렇게 해둠. 테스트때는 터치가 안먹혀서 터치로 판단못함.
       if (/Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent)/* || window.innerWidth < 640*/) {
@@ -60,20 +42,47 @@ function App() {
     }
   };
 
+  const getuserInfo = async function(){
+    
+    console.log('작동')
+    const getUserData = await axios.get(`${process.env.REACT_APP_API_URL}/user`, { withCredentials: true })
+    const userInfo = getUserData.data
+    console.log(getUserData)
+    if(userInfo === null){
+      return ;
+    }
+    dispatch(UserInfoHandler({
+      userId: userInfo.userId,
+      email: userInfo.email,
+      nickname: userInfo.nickname,
+      area: userInfo.area ,
+      area2: userInfo.area2,
+      manager: userInfo.manager,
+      socialType: userInfo.socialType
+  }))
+  dispatch(IsLoginHandler(true))
+  }
+  getuserInfo()
+  isMobile()
+
   const introPage = function () {
     history.push('/Search')
   }
 
   isMobile()
   const isDeskTop = !useSelector((state: RootStateOrAny) => state.IsMobileReducer.isMobile);
+  const test = function () {
+    setRefresh(true)
+  }
   useEffect(() => {
     if (isDeskTop === false) {
       document.body.style.minWidth = '0';
       // console.log(document.querySelector('.social')?.classList)
-
-
     }
-  }, [])
+    test()
+    console.log(refresh)
+  }, [refresh])
+
 
   dispatch(IsMobileHandler(isMobile()))
   //console.log(document.documentElement)

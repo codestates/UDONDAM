@@ -70,8 +70,12 @@ function Search() {
         width: '10vw',
         height: '7vh'
     }
-
-    const [userAreaData, setUserAreaData] = useState<any>([
+    const areaData = String(sessionStorage.getItem('areaData')) 
+    const formChange = JSON.parse(areaData)
+    console.log(formChange)
+    const [userAreaData, setUserAreaData] = useState<any>(sessionStorage.getItem('areaData')?[
+        formChange[0],formChange[1]
+    ]:[
         // 유저 정보에서 area,area2를 받아서 한 배열로 병합할거임
         // 그럼 지역정보 바꾸고 나서 바로 서버쪽에서 다시 유저정보 줘야겠네
         // 예 ) 유저정보.area, ...유저정보.area2
@@ -392,7 +396,6 @@ function Search() {
 
     console.log(giftTag)
     console.log(notGiftTag)
-
     return (
     <div>
 

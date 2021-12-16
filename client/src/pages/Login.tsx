@@ -211,19 +211,19 @@ function Login() {
                     <div className='social_container'>
                         <div className='social_button_container social_google_container' onClick={socialLoginHandler('google')}>
                             <div className='social_container_box'>
-                            <img className='social_button social_google' src='Social-google.png' alt='social' />
+                            <img className='social_button social_google' src='Google.png' alt='social' />
                             <div className='social_text social_text_google'>구글 로그인</div>
                             </div>
                         </div>
                         <div className='social_button_container social_naver_container' onClick={socialLoginHandler('naver')}>
                         <div className='social_container_box'>
-                            <img className='social_button social_naver' src='Social-naver.png' alt='social' />
+                            <img className='social_button social_naver' src='Naver.png' alt='social' />
                             <div className='social_text'>네이버 로그인</div>
                             </div>
                         </div>
                         <div className='social_button_container social_kakao_container' onClick={socialLoginHandler('kakao')}>
                         <div className='social_container_box'>
-                            <img className='social_button social_kakao' src='Social-kakao.png' alt='social' />
+                            <img className='social_button social_kakao' src='Kakao.png' alt='social' />
                             <div className='social_text'>카카오 로그인</div>
                             </div>
                         </div>

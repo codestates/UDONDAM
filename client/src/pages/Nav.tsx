@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import { Link } from 'react-router-dom'
+import { Link, useHistory } from 'react-router-dom'
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { useSelector, RootStateOrAny } from 'react-redux';
 import IsGuestReducer from '../redux/modules/IsGuest';
@@ -10,6 +10,7 @@ import { faSearchLocation, faListAlt, faPenSquare, faUser, faSignInAlt } from "@
 //네비게이션바 로그인/게스트 분리할것, 홈,로그인,회원가입창에선 안나옴
 
 function Nav() {
+    const history = useHistory()
     const [guestMod, setGuestMod] = useState<boolean>(false)
     const NavContainer = styled.div`
         position: relative;
@@ -93,7 +94,11 @@ function Nav() {
                     </Link>
                 </div>
                 <div className='nav_link_detail'>
-                    <Link to='../Mypage' >
+                    <Link to={{
+                        pathname:'../Mypage',
+                        state:{key:'data123'}
+                    }}
+                     >
                         <FontAwesomeIcon icon={faUser} size='3x'></FontAwesomeIcon>
                     </Link>
                 </div>

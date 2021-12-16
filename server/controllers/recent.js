@@ -9,7 +9,7 @@ module.exports = {
             }
         });
         const recent = await recentsearch.findAll({
-            attributes:['id','userId','tag','nottag'],
+            attributes:['id','userId','tag','notTag'],
             where:{
                 userId: userId
             },
@@ -25,12 +25,12 @@ module.exports = {
             }
             else {
                 const result = recent.map((el,idx) =>{
-                    const { tag, nottag, createAt } = el;
-                    if(nottag !== null){
+                    const { tag, notTag, createAt } = el;
+                    if(notTag !== null){
                         return {
                             id: idx+1,
                             tag: tag.split(','),
-                            nottag: nottag.split(','),
+                            notTag: notTag.split(','),
                             createAt: createAt
                         };
                     }
@@ -38,7 +38,7 @@ module.exports = {
                         return {
                             id: idx+1,
                             tag: tag.split(','),
-                            nottag: null,
+                            notTag: null,
                             createAt: createAt
                         };
                     }
@@ -49,10 +49,10 @@ module.exports = {
     },
     post: async(req, res) => {
         const userId = req.userId || 2;
-        const { nottag, tag } = req.body;
+        const { tag, notTag } = req.body;
         let stringNotTag = null;
-        if(nottag !== null){
-            stringNotTag = nottag.join();
+        if(notTag !== null){
+            stringNotTag = notTag.join();
         }
         const stringTag = tag.join();
         let userInfo = await user.findOne({
@@ -65,7 +65,7 @@ module.exports = {
         }
         else {
             const recent = await recentsearch.findAll({
-                attributes:['id','userId','tag','nottag'],
+                attributes:['id','userId','tag','notTag'],
                 where:{
                     userId: userId
                 },
@@ -85,7 +85,7 @@ module.exports = {
                 where: {
                     userId: userId,
                     tag: stringTag,
-                    nottag: stringNotTag
+                    notTag: stringNotTag
                 }
             });
 
@@ -99,7 +99,7 @@ module.exports = {
                     await recentsearch.create({
                         userId: userId,
                         tag: stringTag,
-                        nottag: stringNotTag
+                        notTag: stringNotTag
                     });
                     res.status(200).json({ "message" : "recentsearch created" });
                 }
@@ -112,7 +112,7 @@ module.exports = {
                 await recentsearch.create({
                     userId: userId,
                     tag: stringTag,
-                    nottag: stringNotTag
+                    notTag: stringNotTag
                 });
                 res.status(200).json({ "message" : "recentsearch created" });
             }

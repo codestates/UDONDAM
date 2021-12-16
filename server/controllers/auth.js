@@ -53,8 +53,14 @@ module.exports = {
     },
     logout: async (req, res) => {
         try {
-            res.clearCookie('jwt');
-            // res.cookie('jwt','test',{expires:new Date(Date.now() - 1)})
+            res.clearCookie('jwt',{
+                sameSite: 'none',
+                domain: DOMAIN,
+                path: '/',
+                secure: true,
+                httpOnly: true
+                }
+            );
             res.status(200).json({"message": "logout!"});
             return;
         }

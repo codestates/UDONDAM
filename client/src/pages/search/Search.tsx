@@ -77,7 +77,7 @@ function Search() {
         // 예 ) 유저정보.area, ...유저정보.area2
         loginUserInfo.area,loginUserInfo.area2
     ])
-    console.log(userAreaData)
+
     const [tag, setTag] = useState<any>([
         '여행', '게임', '소문', '유머', '산책', '자랑', '놀라운', '직장', '학교', '운동', '반려동물', '만화', '고민', '비밀', '음악', '흥미', '사고', '독서', '식사', '취미', '도움', '나눔', '연애', '만남', '자소서', '스포츠', '잡담', '알림', '질문'])
     const [tagData, setTagData] = useState<any>([
@@ -231,6 +231,8 @@ function Search() {
     const notTagHandle = () => {
         setNotModeTag(!notModeTag)
     }
+
+    
     
     const selectTagSearchHandle = async () => {
         let a = false
@@ -242,9 +244,11 @@ function Search() {
                 return a = true
             }
         })
+        console.log(giftTag , a)
         if(a){
             setErrorTag('잘했다')
-            if(notGiftTag.length === 0){
+            console.log(notGiftTag)
+            if(notGiftTag === null || notGiftTag.length === 0){
                 await axios(
                     {
                         url: `${process.env.REACT_APP_API_URL}/post`,
@@ -264,21 +268,9 @@ function Search() {
                     console.log(respone)
                     AllTagHandleData = respone.data
                 })
-                // .then(() => {
-                //     axios(
-                //         {
-                //             url: `${process.env.REACT_APP_API_URL}/post`,
-                //             method: 'post',
-                //             params: {
-                //                 tag: giftTag
-                //             },
-                //             withCredentials: true,
-                //             paramsSerializer: params => {
-                //                     return qs.stringify(params, {arrayFormat: 'brackets'})
-                //                 }
-                //             }
-                //     )
-                // })
+     
+                await axios.post(`${process.env.REACT_APP_API_URL}/recent`, {tag:giftTag, notTag: null}, { withCredentials: true })
+            
 
 
                 his.push({
@@ -308,22 +300,12 @@ function Search() {
                         console.log(respone)
                         AllTagHandleData = respone.data
                     })
-                    // .then(() => {
-                    //     axios(
-                    //         {
-                    //             url: `${process.env.REACT_APP_API_URL}/post`,
-                    //             method: 'post',
-                    //             params: {
-                    //                 tag: giftTag,
-                    //                 notTag: notGiftTag,
-                    //             },
-                    //             withCredentials: true,
-                    //             paramsSerializer: params => {
-                    //                     return qs.stringify(params, {arrayFormat: 'brackets'})
-                    //                 }
-                    //             }
-                    //     )
-                    // })
+                    
+                       await axios.post(`${process.env.REACT_APP_API_URL}/recent`,{
+                            tag: giftTag,
+                            notTag: notGiftTag
+                        },{withCredentials: true})
+                 
                     his.push({
                         pathname: './Timeline',
                         state: [
@@ -525,7 +507,8 @@ function Search() {
             </div>
             <TagContainerDiv>
                 {searchText === '' ? notTagData.map((el:any) => {
-                    if(notGiftTag.indexOf(el) === -1){
+
+                    if(notGiftTag !== null && notGiftTag.indexOf(el) === -1){
                         if(giftTag.indexOf(el) === -1){
                             if(el === '인증해주세요'){
                                 return

@@ -89,56 +89,67 @@ import { IProps } from '../../pages/Mypage';
   
   `;
 
-let RecentDataParsing:any = []
+
 //모달창 유무, 태그로 검색, 태그수정 핸들러, 낫태그수정 핸들러
 function RecentViewModal ({recentSearchHandle,selectTagSearchHandle,setGiftTag,setNotGiftTag}: any) {
     const dispatch = useDispatch();
     const history = useHistory();
     const userInfo = useSelector((state: RootStateOrAny) => state.UserInfoReducer);
+    const [recentDataParsing, setRecentDataParsing] = useState<any>([])
 
-//     const dataParsingHandle = async () => {
-//          await axios.get(`${process.env.REACT_APP_API_URL}/comment`,{withCredentials: true}).then((respone) => {
-//             return RecentDataParsing = respone
-//          })
-//     }
-//     const recentTagSearchHandle = () => {
-//         setGiftTag()
-//         setNotGiftTag()
-//         selectTagSearchHandle()
-//    }
+    const dataParsingHandle = async () => {
+         await axios.get(`${process.env.REACT_APP_API_URL}/recent`,{withCredentials: true}).then((respone) => {
+             console.log(respone)
+            return setRecentDataParsing(respone.data)
+         })
+    }
+    console.log(recentDataParsing)
+    const recentTagSearchHandle = (data:any) => {
+        if(data.notTag === null){
+            setGiftTag(data.tag)
+        }else{
+            setGiftTag(data.tag)
+            setNotGiftTag(data.notTag)
+        }
+        
+        selectTagSearchHandle()
+        recentSearchHandle()
+   }
+   
 
-    // useEffect(() => {
-    //     dataParsingHandle()
-    // },[])
+    useEffect(() => {
+        dataParsingHandle()
+    },[])
 
     return (
         <>
-    
-    
             <ModalContainer>
-              <ModalBackdrop >
-                <ModalView onClick={(e) => e.stopPropagation()}>
-    
-                  <div>
-                    <span className='modal_title' >최근 검색 내역</span>
-                    <span className="close-btn"></span>
-                  </div>
-                  <div className='modal_text_long'>최근 3개의 검색 내역을 표시합니다.</div>
-                    // {RecentDataParsing}
-                  <div className='password_submit'>
-               
-                  <div className='submit_container'>
-                  <button onClick={recentSearchHandle}>취소</button>
-                  
-                  </div>
-                   
-                  </div>
-                </ModalView>
-              </ModalBackdrop>
-            </ModalContainer>
+            <ModalBackdrop >
+            <ModalView onClick={(e) => e.stopPropagation()}>
+                <div>
+                <span className='modal_title' >최근 검색 내역</span>
+                </div>
+                <div className='modal_text_long'>최근 3개의 검색 내역을 표시합니다.</div>
+
+                {recentDataParsing && recentDataParsing.map((el:any) => {
+
+                    return (<div onClick={() => recentTagSearchHandle(el)}>
+                        <div>{`태그 : ${el.tag}`}</div>
+                        {el.nottag === null ? null 
+                        :
+                        <div>{`금지태그 : ${el.notTag}`}</div>
+                        }
+
+                    </div>)
+                })}
+                <button onClick={recentSearchHandle} className='modal_text_password'>취소</button>
+
+            </ModalView>
+            </ModalBackdrop>
+          </ModalContainer>
           
         </>
-      );
+    );
 }
 
 export default RecentViewModal

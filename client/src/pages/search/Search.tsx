@@ -41,7 +41,8 @@ const LogoImg = styled.img`
     justify-content: center;
     align-items: center;
 `;
-
+const tagdummyData = [
+    '여행', '게임', '소문', '유머', '산책', '자랑', '놀라운', '직장', '학교', '운동', '반려동물', '만화', '고민', '비밀', '음악', '흥미', '사고', '독서', '식사', '취미', '도움', '나눔', '연애', '만남', '자소서', '스포츠', '잡담', '알림', '질문']
 //지역에 관한 필터링
 function Search() {
     const loginUserInfo = useSelector((state: RootStateOrAny)=>state.UserInfoReducer)
@@ -70,24 +71,21 @@ function Search() {
         width: '10vw',
         height: '7vh'
     }
+    sessionStorage.getItem('areaData')
     const areaData = String(sessionStorage.getItem('areaData')) 
     const formChange = JSON.parse(areaData)
     console.log(formChange)
-    const [userAreaData, setUserAreaData] = useState<any>(sessionStorage.getItem('areaData')?[
-        formChange[0],formChange[1]
-    ]:[
-        // 유저 정보에서 area,area2를 받아서 한 배열로 병합할거임
-        // 그럼 지역정보 바꾸고 나서 바로 서버쪽에서 다시 유저정보 줘야겠네
-        // 예 ) 유저정보.area, ...유저정보.area2
+    const [userAreaData, setUserAreaData] = useState<any>(loginUserInfo.area.length > 1 ?[
         loginUserInfo.area,loginUserInfo.area2
-    ])
+    ]:[formChange[0],formChange[1]] 
+    )
+    
 
-    const [tag, setTag] = useState<any>([
-        '여행', '게임', '소문', '유머', '산책', '자랑', '놀라운', '직장', '학교', '운동', '반려동물', '만화', '고민', '비밀', '음악', '흥미', '사고', '독서', '식사', '취미', '도움', '나눔', '연애', '만남', '자소서', '스포츠', '잡담', '알림', '질문'])
+    const [tag, setTag] = useState<any>(tagdummyData.sort())
     const [tagData, setTagData] = useState<any>([
         // 여기도 수정될 예정 
         // 예 ) 유저정보.area, ...유저정보.area2
-        userAreaData[0],userAreaData[1],...tag])
+        userAreaData[0],userAreaData[1],...tag.sort()])
     const [notTagData, setNotTagData] = useState<any>([
         // 여기도 수정될 예정 
         // 예 ) 유저정보.area, ...유저정보.area2
@@ -166,20 +164,26 @@ function Search() {
 
         if(notModeTag){
             if(giftTag.indexOf(event.target.textContent) === -1){
+                let elTagData:any = tagData.indexOf(event.target.textContent)
+                tagData.splice(elTagData,1)
+                tagData.unshift(event.target.textContent)
+                setTagData(tagData)
                 setGiftTag([...giftTag,event.target.textContent])
-                event.target.style.backgroundColor = 'blue'
+
+                // event.target.style.backgroundColor = 'blue'
                 setTagHandle()
             }else{
                 giftTag.splice(giftTag.indexOf(event.target.textContent),1)
                 setGiftTag(giftTag)
                 event.target.style.backgroundColor = ''
+                setTagData([userAreaData[0],userAreaData[1],...tag.sort()])
                 setTagHandle()
             }
         }else
         {
             if(notGiftTag.indexOf(event.target.textContent) === -1){
                 setNotGiftTag([...notGiftTag,event.target.textContent])
-                event.target.style.backgroundColor = 'red'
+                // event.target.style.backgroundColor = 'red'
                 if(giftTag.indexOf(event.target.textContent) !== -1){
                     giftTag.splice(giftTag.indexOf(event.target.textContent),1)
                     setGiftTag(giftTag)
@@ -248,11 +252,12 @@ function Search() {
                 return a = true
             }
         })
-        console.log(giftTag , a)
+
         if(a){
             setErrorTag('잘했다')
             console.log(notGiftTag)
             if(notGiftTag === null || notGiftTag.length === 0){
+
                 await axios(
                     {
                         url: `${process.env.REACT_APP_API_URL}/post`,
@@ -279,9 +284,11 @@ function Search() {
 
                 his.push({
                     pathname: './Timeline',
-                    state: [
-                        AllTagHandleData
-                    ]
+                    state: {
+                        data : AllTagHandleData,
+                        tag: giftTag,
+                        notTag: notGiftTag,
+                    }
                 })
             }else{
                 await axios(
@@ -312,9 +319,11 @@ function Search() {
                  
                     his.push({
                         pathname: './Timeline',
-                        state: [
-                            AllTagHandleData
-                        ]
+                        state: {
+                            data : AllTagHandleData,
+                            tag: giftTag,
+                            notTag: notGiftTag,
+                        }
                     })
             }
         }
@@ -353,9 +362,11 @@ function Search() {
         
         his.push({
             pathname: './Timeline',
-            state: [
-                AllTagHandleData
-            ]
+            state: {
+                data : AllTagHandleData,
+                tag: giftTag,
+                notTag: notGiftTag,
+            }
         })
     }
     
@@ -374,10 +385,9 @@ function Search() {
         setTagHandle()
     }, [notGiftTag])
 
-
-
     console.log(giftTag)
     console.log(notGiftTag)
+
     return (
     <div>
 
@@ -412,12 +422,11 @@ function Search() {
                 </ul>
             </AreaSelete>
             }
-
-        </span>
-        <LogoImg src = '로고-우동담-Dark-모양만-배경o.png' />
         <span onClick = {recentSearchHandle}>
             이전 검색 내역
         </span>
+        </span>
+        <LogoImg src = '로고-우동담-Dark-모양만-배경o.png' />
         {changeRecentSearchModal ? null:<RecentViewModal recentSearchHandle = {recentSearchHandle} selectTagSearchHandle = {selectTagSearchHandle} setGiftTag = {setGiftTag} setNotGiftTag = {setNotGiftTag}> </RecentViewModal>}
         <div>
             <input type="text" value={searchText} onChange={searchTextChange} placeholder="태그 검색" onKeyPress={searchHandleKeyPress} />
@@ -425,8 +434,7 @@ function Search() {
         </div>
     
         {
-            notModeTag ? 
-        
+            notModeTag ?
         <div>
             <div>
                 <button onClick = {notTagHandle}>
@@ -447,11 +455,28 @@ function Search() {
                     타임라인 전체 보기
                 </button>
             </div>
-            <div>
-                {tagSeletView}
-            </div>
+            
+            {
+                notGiftTag.length !== 0 ?
+                <div>금지 설정한 태그 
+                    <div>{notTagSeletView}</div>
+                </div>
+                : null
+            }
+            
             
             <TagContainerDiv>
+                {tagData.map((el:any) => {
+                    if(giftTag.indexOf(el) !== -1){
+                        
+                        
+                        return <button style={selectButtonStyle} onClick = {giftTagHandle}>{el}</button>
+                        
+                    }
+                })}
+                <div>
+                    {tagSeletView}
+                </div>
                 {searchText === '' ? tagData.map((el:any) => {
                     if(giftTag.indexOf(el) === -1){
                         if(el === '인증해주세요'){
@@ -464,20 +489,21 @@ function Search() {
                         if(el === '인증해주세요'){
                             return
                         }
-                        else
-                        {
-                            return <button style={selectButtonStyle} onClick = {giftTagHandle}>{el}</button>
-                        }
+                        
                     }
                 })
                 :
                 filterTag.map((el:any) => {
                     if(giftTag.indexOf(el) === -1){
                         return <button style={unSelectButtonStyle} onClick = {giftTagHandle}>{el}</button>
-                    }else{
+                    }
+                    
+                    else if (giftTag.indexOf(el) !== -1){
                         return <button style={selectButtonStyle} onClick = {giftTagHandle}>{el}</button>
                     }
                 })
+                
+
                 }
                 
             </TagContainerDiv>
@@ -505,10 +531,19 @@ function Search() {
                     타임라인 전체 보기
                 </button>
             </div>
-            <div>
-                {notTagSeletView}
-            </div>
+            
             <TagContainerDiv>
+                {notTagData.map((el:any) => {
+                    if(notGiftTag.indexOf(el) !== -1){
+                        
+                        
+                        return <button style={notTagRed} onClick = {giftTagHandle}>{el}</button>
+                        
+                    }
+                })}
+                <div>
+                    {notTagSeletView}
+                </div>
                 {searchText === '' ? notTagData.map((el:any) => {
 
                     if(notGiftTag !== null && notGiftTag.indexOf(el) === -1){
@@ -530,7 +565,7 @@ function Search() {
                         if(el === '인증해주세요'){
                             return
                         }else{
-                        return <button style={notTagRed} onClick = {giftTagHandle}>{el}</button>
+                        return  
                         }
                     }
                 })
@@ -555,8 +590,6 @@ function Search() {
             </TagContainerDiv>
         </div>
         }
-        
-        
     </div>
     )
 }

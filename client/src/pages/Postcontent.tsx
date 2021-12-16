@@ -25,7 +25,7 @@ import { UserInfoHandler } from '../redux/modules/UserInfo';
         display: grid;
         color:white;
     `;
-    
+
     const TextArea = styled.textarea`
     width: 100%;
     height: 40rem;
@@ -45,7 +45,7 @@ const Postcontent: React.FC = () => {
     const [contentViewTag, setContentViewTag] = useState<any>([])
     const [searchText, setSearchText] = useState<any>('')
     const [filterTag, setFilterTag] = useState<any>([])
-    const [handleTrue, setHandleTrue] = useState<any>(false)
+    const [falseMessage, setFalseMessage] = useState<any>('')
 
     
 
@@ -65,6 +65,12 @@ const Postcontent: React.FC = () => {
         const a = tag.filter((el:any) => 
             !el.indexOf(searchText)
         )
+        if(loginUserInfo.area !== '인증해주세요'){
+            a.unshift(loginUserInfo.area)
+        }
+        if(loginUserInfo.area2 !== '인증해주세요'){
+            a.unshift(loginUserInfo.area2)
+        }
         setFilterTag(a)
     }
     const giftTagHandle2 = (event:any) => {
@@ -92,16 +98,21 @@ const Postcontent: React.FC = () => {
 
     const compleatContentHandle = async () => {
         console.log(contentText, contentGiftTag)
-        await axios.post(`${process.env.REACT_APP_API_URL}/post`,{
-            content: contentText,
-            public: false,
-            tag: contentGiftTag
-        },{withCredentials: true}).then((respone) => {
-            console.log(respone)
-        })
-        his.push({
-            pathname: `./Search`,
-        })
+        if(contentGiftTag.includes(loginUserInfo.area) || contentGiftTag.includes(loginUserInfo.area2)){
+            await axios.post(`${process.env.REACT_APP_API_URL}/post`,{
+                content: contentText,
+                public: false,
+                tag: contentGiftTag
+            },{withCredentials: true}).then((respone) => {
+                console.log(respone)
+            })
+            his.push({
+                pathname: `./Search`,
+            })
+        }
+        else {
+            setFalseMessage('지역 태그가 최소 1개가 필요합니다.')
+        }
     }
 
     useEffect(() => {
@@ -138,6 +149,10 @@ const Postcontent: React.FC = () => {
                     </div>
                     <div>
                         <button onClick={compleatContentHandle}>작성 완료</button>
+                        
+                    </div>
+                    <div>
+                        {falseMessage}
                     </div>
                     
                 </div>

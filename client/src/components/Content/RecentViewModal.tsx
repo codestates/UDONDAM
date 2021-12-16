@@ -19,6 +19,11 @@ import { IProps } from '../../pages/Mypage';
     //align-content:center;
     
   `;
+const ContanierBox = styled.div`
+  border: '2px solid black';
+  
+`;
+  
   
   export const ModalBackdrop = styled.div`
    position:absolute;
@@ -85,13 +90,15 @@ import { IProps } from '../../pages/Mypage';
     height: 18px;
     bottom:1px
   }
-  
-  
   `;
 
 
 //모달창 유무, 태그로 검색, 태그수정 핸들러, 낫태그수정 핸들러
 function RecentViewModal ({recentSearchHandle,selectTagSearchHandle,setGiftTag,setNotGiftTag}: any) {
+    const boxBorder = {
+        border: '1px solid black',
+    }
+  
     const dispatch = useDispatch();
     const history = useHistory();
     const userInfo = useSelector((state: RootStateOrAny) => state.UserInfoReducer);
@@ -133,9 +140,9 @@ function RecentViewModal ({recentSearchHandle,selectTagSearchHandle,setGiftTag,s
 
                 {recentDataParsing && recentDataParsing.map((el:any) => {
 
-                    return (<div onClick={() => recentTagSearchHandle(el)}>
+                    return (<div style={boxBorder} onClick={() => recentTagSearchHandle(el)}>
                         <div>{`태그 : ${el.tag}`}</div>
-                        {el.nottag === null ? null 
+                        {el.notTag === null ? null 
                         :
                         <div>{`금지태그 : ${el.notTag}`}</div>
                         }

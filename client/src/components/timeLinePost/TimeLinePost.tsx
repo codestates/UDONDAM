@@ -8,9 +8,10 @@ import { Link } from 'react-router-dom'
 import { faCommentDots } from "@fortawesome/free-solid-svg-icons";
 import { faThumbsUp } from "@fortawesome/free-solid-svg-icons";
 import { NONAME } from "dns";
+import { faArrowAltCircleDown } from "@fortawesome/free-solid-svg-icons";
 
 library.add(faCommentDots);
-
+library.add(faArrowAltCircleDown);
 
 const WhyUser = styled.div`
     color: #ff4006;
@@ -28,7 +29,7 @@ const WhyUser = styled.div`
 //     public: true  // 1 대 1 채팅 활성화, 비활성화
 //    }
 
-function TimeLinePost({postData,userData}: any) {
+function TimeLinePost({postData,userData,addSelectTagSearchHandle,createAtDesign,notGiftTag,giftTag}: any) {
     console.log(postData)
     const likeTrue = {
         color: "blue"
@@ -38,54 +39,71 @@ function TimeLinePost({postData,userData}: any) {
         textDecoration: 'none',
         margin: '1rem'
     }
-
+    
     return (
         <div>
             
 
-            {postData.map((el: { nickname: any,createAt: any ,content:any, tag:any, id:any, commentCount:any, likeCount:any, userId:any, likeCheck:any}) => {
+            {postData.map((el: { nickname: any,createAt: any ,content:any, tag:any, id:any, commentCount:any, likeCount:any, userId:any, likeCheck:any} , idx:any) => {
+        
                 return (
-                    <div style={boxBorder}>
-                <Link style={{textDecoration: 'none'}} to={{
-                    pathname: `./Content`,
-                    state: {
-                    ida: el.id,
-                    }
-                    
-                }}>
-                <div>
-                    {userData.userId === el.userId ? <WhyUser>{`${el.nickname} -글쓴이`}</WhyUser> : <div>{el.nickname}</div>}
-                    <div>{el.createAt}
-                    <span>신고</span>
-                </div>
-                <div>{el.content}</div>
-                {el.tag.map((le: {tag: any}) => {
-                    return (<span>#{le} </span>)
-                })
-                }
-                <div>
-                    <span>
-                        <FontAwesomeIcon icon={faCommentDots} data-fa-transform="flip-v"></FontAwesomeIcon>
-                        {el.commentCount}
-                    </span>
-                    {el.likeCheck ? 
-                    <span style={likeTrue}>
-                        <FontAwesomeIcon icon={faThumbsUp}></FontAwesomeIcon>
-                        {el.likeCount}
-                    </span>
-                    :
-                    <span>
-                        <FontAwesomeIcon icon={faThumbsUp}></FontAwesomeIcon>
-                        {el.likeCount}
-                    </span>
-                    }
+                    //여기다 탈퇴한 회원정보 3항 연산자 쓰면 됨
+                    <div>
+                        <div style={boxBorder}>
+                        <Link style={{textDecoration: 'none'}} to={{
+                            pathname: `./Content`,
+                            state: {
+                            ida: el.id,
+                            tag: giftTag,
+                            notTag: notGiftTag,
 
-                </div>
-                </div>
-                </Link>
-                </div>
+                            }
+                            
+                        }}>
+                        <div>
+                            {userData.userId === el.userId ? <WhyUser>{`${el.nickname} -글쓴이`}</WhyUser> : <div>{el.nickname}</div>}
+                            <div>{createAtDesign(el.createAt)}
+                            <span>신고</span>
+                        </div>
+                        <div>{el.content}</div>
+                        {el.tag.map((le: {tag: any}) => {
+                            return (<span>#{le} </span>)
+                        })
+                        }
+                        <div>
+                            <span>
+                                <FontAwesomeIcon icon={faCommentDots} data-fa-transform="flip-v"></FontAwesomeIcon>
+                                {el.commentCount}
+                            </span>
+                            {el.likeCheck ? 
+                            <span style={likeTrue}>
+                                <FontAwesomeIcon icon={faThumbsUp}></FontAwesomeIcon>
+                                {el.likeCount}
+                            </span>
+                            :
+                            <span>
+                                <FontAwesomeIcon icon={faThumbsUp}></FontAwesomeIcon>
+                                {el.likeCount}
+                            </span>
+                            }
+
+                        </div>
+                        </div>
+                        </Link>
+                        
+                        </div>
+                        <div>{postData.length === idx+1 ? <button onClick={addSelectTagSearchHandle}>
+                        <FontAwesomeIcon icon={faArrowAltCircleDown}></FontAwesomeIcon>
+                        </button>: null}</div>
+                    </div>
                 )
-            }) }
+                
+            }
+            
+            )
+            
+            }
+            
         </div>
     )
 

@@ -32,6 +32,7 @@ function App() {
   // }
   
   const isMobile = () => {
+    console.log('모바일여부 확인')
     try { //이건 주먹구구라 일단 이렇게 해둠. 테스트때는 터치가 안먹혀서 터치로 판단못함.
       if (/Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent)/* || window.innerWidth < 640*/) {
         return true;
@@ -47,6 +48,20 @@ function App() {
 
   const getuserInfo = async function(){
     console.log('작동')
+    
+    console.log('로그인재입력')
+    if(sessionStorage.getItem('user')){
+      console.log('유저입력')
+      const sessionData = String(sessionStorage.getItem('user')) 
+      const formChange = JSON.parse(sessionData)
+      dispatch(UserInfoHandler(formChange))
+      dispatch(IsLoginHandler(true))
+      // console.log('세션 삭제')
+      // sessionStorage.removeItem('areaData')
+      // sessionStorage.removeItem('user')
+     
+      
+    }
     const getUserData = await axios.get(`${process.env.REACT_APP_API_URL}/user`, { withCredentials: true })
     console.log(getUserData)
     console.log('getUserData왔음')
@@ -63,12 +78,16 @@ function App() {
       manager: userInfo.manager,
       socialType: userInfo.socialType
   }))
-  dispatch(IsLoginHandler(true))
+  
   const areadata:string = JSON.stringify([userInfo.area,userInfo.area2])
   sessionStorage.setItem('areaData',areadata)
    
-    
+  // console.log(useSelector((state: RootStateOrAny) => state))
   }
+  // useEffect(()=>{
+  //   console.log('유즈이펙트작동')
+  //   getuserInfo()
+  // },[])
   getuserInfo()
   isMobile()
 

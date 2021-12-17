@@ -135,6 +135,16 @@ function Mypage(props:any) {
                     manager: userInfo.manager,
                     socialType: userInfo.socialType
                 }))
+                const changeJson:string = JSON.stringify({
+                    userId: userInfo.userId,
+                    email: userInfo.email,
+                    nickname: getUserData.data.nickname,
+                    area: userInfo.area,
+                    area2: userInfo.area2,
+                    manager: userInfo.manager,
+                    socialType: userInfo.socialType
+                })
+                sessionStorage.setItem('user',changeJson)
                 setUserData({
                     email: userInfo.email,
                     nickname: getUserData.data.nickname,

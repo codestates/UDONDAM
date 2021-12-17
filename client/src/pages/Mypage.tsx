@@ -28,6 +28,7 @@ export interface IProps {
 }
 
 function Mypage(props:any) {
+    console.log(useSelector((state: RootStateOrAny) => state.UserInfoReducer))
     const data = props
     console.log(data)
     const history = useHistory()
@@ -134,6 +135,16 @@ function Mypage(props:any) {
                     manager: userInfo.manager,
                     socialType: userInfo.socialType
                 }))
+                const changeJson:string = JSON.stringify({
+                    userId: userInfo.userId,
+                    email: userInfo.email,
+                    nickname: getUserData.data.nickname,
+                    area: userInfo.area,
+                    area2: userInfo.area2,
+                    manager: userInfo.manager,
+                    socialType: userInfo.socialType
+                })
+                sessionStorage.setItem('user',changeJson)
                 setUserData({
                     email: userInfo.email,
                     nickname: getUserData.data.nickname,
@@ -195,21 +206,21 @@ function Mypage(props:any) {
 
     console.log(useSelector((state: RootStateOrAny) => state.UserInfoReducer))
     console.log(userData)
-    const refresh = function(){
-        if(userData.email === ''){
+    // const refresh = function(){
+    //     if(userData.email === ''){
             
-            console.log('바뀜')
-            setUserData({
-            email: userInfo.email,
-            nickname: userInfo.nickname,
-            password: '',
-            passwordCheck: ''
-            })
-        }
-    }
-    useEffect(()=>{
-        refresh()
-    },[userData])
+    //         console.log('바뀜')
+    //         setUserData({
+    //         email: userInfo.email,
+    //         nickname: userInfo.nickname,
+    //         password: '',
+    //         passwordCheck: ''
+    //         })
+    //     }
+    // }
+    // useEffect(()=>{
+    //     refresh()
+    // },[userData])
 //유즈이펙트
     return (
         <div className='container'>

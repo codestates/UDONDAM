@@ -67,6 +67,16 @@ function Login() {
             const loginInfoPost = await axios.post(`${process.env.REACT_APP_API_URL}/login`, body, { withCredentials: true })
             const userInfo = loginInfoPost.data.data
             console.log(userInfo.userId)
+            const changeJson:string = JSON.stringify({
+                userId: userInfo.userId,
+                email: loginInfo.email,
+                nickname: userInfo.nickname,
+                area: userInfo.area,
+                area2: userInfo.area2,
+                manager: userInfo.manager,
+                socialType: userInfo.socialType
+            })
+            sessionStorage.setItem('user',changeJson)
             dispatch(UserInfoHandler({
                 userId: userInfo.userId,
                 email: loginInfo.email,
@@ -78,18 +88,6 @@ function Login() {
             }))
             dispatch(IsLoginHandler(true))
             dispatch(IsGuestHandler(false))
-            // const loginData:string = JSON.stringify({
-            //     userId: userInfo.userId,
-            //     email: loginInfo.email,
-            //     nickname: userInfo.nickname,
-            //     area: userInfo.area,
-            //     area2: userInfo.area2,
-            //     manager: userInfo.manager,
-            //     socialType: userInfo.socialType
-            // })
-            // console.log(loginData)
-            // localStorage.setItem('LoginData',loginData)
-            // console.log(localStorage.getItem('LoginData'))
 
             hideLogo()
             document.querySelector('#nav_bar_desktop')?.classList.remove('hide')

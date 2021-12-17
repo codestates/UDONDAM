@@ -21,9 +21,11 @@ const qs = require('qs');
 let contentDataParsing:any = []
 library.add(faCommentDots);
 let a:string = ''
+let b:string = ''
     //게시글
 function Content({ history }: RouteComponentProps) {
     const {ida}:any = history.location.state
+    let hisData:any = history.location.state
     const his = useHistory()
     const dispatch = useDispatch()
     const loginUserInfo = useSelector((state: RootStateOrAny)=>state.UserInfoReducer)
@@ -39,6 +41,8 @@ function Content({ history }: RouteComponentProps) {
             setLikeChangeData(!likeChangeData)
         })
     }
+    const [giftTag, setGiftTag] = useState<any>(hisData.tag);
+    const [notGiftTag, setNotGiftTag] = useState<any>(hisData.notTag);
 
     const [commentView, setCommentView] = useState<boolean>(false);
     const [commentText, setCommentText] = useState<string>('');
@@ -177,6 +181,101 @@ function Content({ history }: RouteComponentProps) {
             pathname: `./Search`,
         })
     }
+
+    // 뒤로가기
+    const backTimeLineHandle = async () => {
+        let AllTagHandleData:any = []
+        if(giftTag.length === 0 || giftTag === null){
+            await axios(
+                {
+                    url: `${process.env.REACT_APP_API_URL}/post`,
+                    method: 'get',
+                    params: {
+                        tag: [loginUserInfo.area,loginUserInfo.area2],
+                        size: 10,
+                        page: 0
+                    },
+                    withCredentials: true,
+                    paramsSerializer: params => {
+                            return qs.stringify(params, {arrayFormat: 'brackets'})
+                        }
+                    }
+                    
+            )
+            .then((respone) => {
+                console.log(respone)
+                AllTagHandleData = respone.data
+            })
+            his.push({
+                pathname: './Timeline',
+                state: {
+                    data : AllTagHandleData,
+                    tag: giftTag,
+                    notTag: notGiftTag,
+                }
+            })
+        }
+        else if(notGiftTag === null || notGiftTag.length === 0){
+
+            await axios(
+                {
+                    url: `${process.env.REACT_APP_API_URL}/post`,
+                    method: 'get',
+                    params: {
+                        tag: giftTag,
+                        size: 10,
+                        page: 0
+                    },
+                    withCredentials: true,
+                    paramsSerializer: params => {
+                            return qs.stringify(params, {arrayFormat: 'brackets'})
+                        }
+                    }
+            ).then((respone) => {
+                console.log(respone)
+                AllTagHandleData = respone.data
+            })
+            his.push({
+                pathname: './Timeline',
+                state: {
+                    data : AllTagHandleData,
+                    tag: giftTag,
+                    notTag: notGiftTag,
+                }
+            })
+            
+        }else{
+            await axios(
+                {
+                    url: `${process.env.REACT_APP_API_URL}/post`,
+                    method: 'get',
+                    params: {
+                        tag: giftTag,
+                        notTag: notGiftTag,
+                        size: 10,
+                        page: 0
+                    },
+                    withCredentials: true,
+                    paramsSerializer: params => {
+                            return qs.stringify(params, {arrayFormat: 'brackets'})
+                        }
+                    }
+                ).then((respone) => {
+                    console.log(respone)
+                    AllTagHandleData = respone.data
+                })
+                his.push({
+                    pathname: './Timeline',
+                    state: {
+                        data : AllTagHandleData,
+                        tag: giftTag,
+                        notTag: notGiftTag,
+                    }
+                })
+                
+        }
+        
+    }
     
 
     const likeChangeHandle = async () => {
@@ -205,13 +304,34 @@ function Content({ history }: RouteComponentProps) {
 
     //서버에서 받아온 createAt을 보기 좋게 수정해주는 핸들러
     const createAtDesign = (data:string) => {
-        let b:string = ''
-        a = data.slice()
-        a = a.slice(0,10)
+        const timeStamp = Date.now() - new Date(data).getTime()
+        const second = timeStamp / 1000
+        const minute = second / 60
+        const hour = minute / 60
+        const days = hour / 24
+        if(second < 60){
+            return '방금 전'}
+        if(minute < 60){
+            return `${Math.floor(minute)}분 전`}
+        if(hour < 24){
+            return `${Math.floor(hour)}시간 전`}
+        // if(days < 7){
+        //     return `${Math.floor(days)}일 전`}
+        
+        const WEEKDAY = ['일요일', '월요일', '화요일', '수요일', '목요일', '금요일', '토요일']
+        let week = WEEKDAY[new Date(data).getDay()];
+
+        let a:any = ''
+        let b = ''
+        let c:any = ''
+        
+        a = new Date(data)
+        c = new Date(a.getTime() - (a.getTimezoneOffset() * 60000)).toISOString()
+        a = c.slice(0,10)
         b = b + a
-        a = data.slice(11,16)
-        b = b + ' ' + a
-        // console.log(b)
+        a = c.slice(11,16)
+        b = b + ' ' + a + ' ' + week 
+
         return b
     }
 
@@ -242,17 +362,23 @@ function Content({ history }: RouteComponentProps) {
                 <div>
                     {el.userId === loginUserInfo.userId ? 
                     <div>
-                        <div>{`${el.nickname} -글쓴이`}</div>
-                        <div>{  createAtDesign(el.createAt) }
-                        <span onClick={() =>PostDeleteModalHandle(el.id)}> 삭제  </span>
-                        {changePostModal ? null:<PostDeleteModal postDeleteHandle = {postDeleteHandle} PostDeleteModalHandle = {PostDeleteModalHandle}></PostDeleteModal>}
-                        <span> 신고 </span>
+                        <div onClick={backTimeLineHandle}>뒤로..</div>
+                        <div>
+                            
+                            <div>{`${el.nickname} -글쓴이`}</div>
+                            <div>{createAtDesign(el.createAt)}
+        
+                            <span onClick={() =>PostDeleteModalHandle(el.id)}> 삭제  </span>
+                            {changePostModal ? null:<PostDeleteModal postDeleteHandle = {postDeleteHandle} PostDeleteModalHandle = {PostDeleteModalHandle}></PostDeleteModal>}
+                            <span> 신고 </span>
+                            </div>
                         </div>
                     </div>
                     :
                     <div>
                         <div>{el.nickname}</div>
-                        <div>{  createAtDesign(el.createAt) }
+                        <div>{createAtDesign(el.createAt)}
+         
                         <span> 신고 </span>
                     </div>
                     </div>}

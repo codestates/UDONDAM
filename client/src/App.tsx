@@ -59,7 +59,7 @@ function App() {
       // console.log('세션 삭제')
       // sessionStorage.removeItem('areaData')
       // sessionStorage.removeItem('user')
-      console.log(useSelector((state: RootStateOrAny) => state))
+     
       
     }
     const getUserData = await axios.get(`${process.env.REACT_APP_API_URL}/user`, { withCredentials: true })
@@ -82,7 +82,7 @@ function App() {
   const areadata:string = JSON.stringify([userInfo.area,userInfo.area2])
   sessionStorage.setItem('areaData',areadata)
    
-  console.log(useSelector((state: RootStateOrAny) => state))
+  // console.log(useSelector((state: RootStateOrAny) => state))
   }
   // useEffect(()=>{
   //   console.log('유즈이펙트작동')

@@ -59,6 +59,7 @@ export default function InterestPost({ post }: any) {
     const YearMonth = styled.div`
         background-color: #6b686544;
         padding:2px;
+        font-size:1.3rem;
     `;
     return (
         <div className='interest_post_container'>
@@ -67,7 +68,7 @@ export default function InterestPost({ post }: any) {
                     return (//년-월별 컨테이너
                         <div className={`container_${key} interest_post_place`} key={key}>
                             <div className ='interest_post_detail_container'>
-                            <YearMonth className='interest_post_box' onClick={onOffHandler(`${key}`)} >{key}</YearMonth>
+                            <YearMonth className='interest_post_box' onClick={onOffHandler(`${key}`)} >▼ {key}</YearMonth>
                             </div>
                             <div>{el[0][key].map((value: any) => {
                                 return (//내용물

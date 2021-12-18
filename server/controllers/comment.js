@@ -23,16 +23,6 @@ module.exports = {
         if(a.length === 0) {
             return res.status(200).json(a)
         }
-        // let b = a.map((el)=> {
-        //     const {id, content, createAt, likes, comments} = el.dataValues;
-        //     return ({
-        //         id:id,
-        //         content: content,
-        //         createAt: createAt,
-        //         likeCount: likes.length,
-        //         commentCount: comments.length
-        //     })
-        // })
         let b = [];
         for(let el of a) {
             const {id, content, createAt, likes} = el.dataValues;

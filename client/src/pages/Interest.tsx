@@ -224,7 +224,7 @@ function Interest() {
     }
 
     const InterestNav = styled.div`
-        font-size: 1rem;
+        font-size: 1.5rem;
         
         .interest_nav_box_${targetPage}{
             border-bottom: solid 2px gray;

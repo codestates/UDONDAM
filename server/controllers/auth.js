@@ -359,7 +359,7 @@ module.exports = {
             }
         });
         const userData = generateAccessToken({
-            id: naverUser[0].dataValues.id,
+            userId: naverUser[0].dataValues.id,
             email: naverUser[0].dataValues.email,
             nickname: naverUser[0].dataValues.nickname,
             socialType: naverUser[0].dataValues.socialType,
@@ -377,7 +377,7 @@ module.exports = {
         res.redirect(`${process.env.CLIENT_URI}/search`);
         } catch (error) {
         console.error(error);
-        res.sendStatus(500);
+        res.status(500).json({"message" : "Server Error"});
         }
     },
 
@@ -436,7 +436,7 @@ module.exports = {
         return res.redirect(`${CLIENTURI}/search`);
         } catch (error) {
         console.error(error);
-        res.sendStatus(500);
+        res.status(500).json({"message": "Server Error"});
         }
     }
 }

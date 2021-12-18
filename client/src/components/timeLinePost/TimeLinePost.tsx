@@ -33,7 +33,7 @@ function TimeLinePost({postData,userData,addSelectTagSearchHandle,createAtDesign
   
     
     return (
-        <div className="contanier">
+        <div className="contanier2">
             
 
             {postData.map((el: { nickname: any,createAt: any ,content:any, tag:any, id:any, commentCount:any, likeCount:any, userId:any, likeCheck:any}) => {

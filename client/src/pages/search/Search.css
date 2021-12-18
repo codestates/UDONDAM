@@ -179,7 +179,7 @@
 
     background-color: rgb(105, 105, 105);
     color: white;
-    padding: 5px;
+
 }
 .header-container-tag-mode-button-right{
     display: inline-block;
@@ -194,12 +194,12 @@
 
     background-color: rgb(105, 105, 105);
     color: white;
-    padding: 5px;
+
 }
 .header-container-tag-mode-button2{
     display: inline-block;
     margin: auto;
-
+    height: 1.4vw;
     max-height: 1.3vw;
     min-height: 1.5rem;
     width: 70%;
@@ -209,7 +209,7 @@
     margin-bottom: 5px;
     background-color: rgb(105, 105, 105);
     color: white;
-    padding: 5px;
+
 }
 
 /* const TagContainerDiv = styled.div`

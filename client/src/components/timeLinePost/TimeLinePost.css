@@ -1,5 +1,6 @@
-.contanier{
+.contanier2{
     font-size: 1.5rem;
+    width: 100%; 
 }
 .content-box{
     border: solid 2px rgb(255, 255, 255);
@@ -7,7 +8,7 @@
     border-radius: 15px;
     width: 80%; 
     margin: 0 auto;
-    margin-bottom: 20px;
+    margin-bottom: 10px;
 }
 .content-box-main{
     margin: 1rem;

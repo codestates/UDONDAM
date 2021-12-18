@@ -128,7 +128,9 @@ function TimeLine({ history }: RouteComponentProps){
     
     return (
         <div>
-            <div className="show-nickname">{userData.nickname}님 안녕하세요</div>
+            <div className="show-box">
+                <div className="show-nickname">{userData.nickname}님 안녕하세요</div>
+            </div>
             <div className="logo-contanier">
                 <img className="logo" src = '로고-우동담-Dark-글자만-배경o.png'/>
             </div>

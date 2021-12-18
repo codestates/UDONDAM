@@ -52,7 +52,7 @@ function TimeLinePost({postData,userData,addSelectTagSearchHandle,createAtDesign
                             
                         }}>
                         <div>
-                            {userData.userId === el.userId ? <div className="writer-true">{`${el.nickname} -글쓴이`}</div> : <div>{el.nickname}</div>}
+                            {userData.userId === el.userId ? <div className="writer-true">{`${el.nickname} -본인글`}</div> : <div>{el.nickname}</div>}
                             <div>{createAtDesign(el.createAt)}
                             <span className="report">신고</span>
                         </div>

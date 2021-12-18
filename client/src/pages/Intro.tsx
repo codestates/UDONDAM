@@ -60,7 +60,7 @@ function Intro() {
                 </div>
                 <div className='intro_text_place'>
                     <div className='intro_text_box'>
-                        <div className='intro_text intro_text_big'>우리동네 이야기, 우동담</div><br />
+                        <div className='intro_text intro_text_big_mobile'>우리동네 이야기, 우동담</div><br />
                         <div className='intro_text'>내 동네를 설정하고 <br />무슨 이야기가 있는지 살펴봐요!</div><br />
                     </div>
                 </div>

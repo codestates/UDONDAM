@@ -54,7 +54,7 @@ body{
   height: 100%;
   /* height: fit-content; */
   min-height: 100vh;
-  min-width: max-content  ;
+  /* min-width: max-content  ; */
 display: grid;
 grid-template-areas: 
 "grid_h3_header"

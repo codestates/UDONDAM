@@ -81,6 +81,11 @@
     font-size: 3rem;
 
 }
+.intro_text_big_mobile{
+    font-family: "title";
+    font-size: 2rem;
+
+}
 
 .intro_button_place{
     height: 90%;
@@ -391,6 +396,7 @@ max-width: 250px;
 }
 
 .social_text{
+    white-space: nowrap;
     margin-left: 10px;
     font-size: 1.2rem;
 }

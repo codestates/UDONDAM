@@ -110,6 +110,7 @@ function GuestLoginModal (props:any) {
             document.querySelector('.logo_nav')?.classList.remove('hide')
             document.querySelector('#nav_bar')?.classList.remove('hide')
             document.querySelector('#nav_bar_desktop')?.classList.remove('hide')
+            document.querySelector('.logo_nav_place')?.classList.remove('hide')
         }
         const guestLogin = await axios.post(`${process.env.REACT_APP_API_URL}/guest`, {withCredentials: true })
         console.log(guestLogin)

@@ -102,6 +102,43 @@ function Interest() {
     const formChange = (origin: Array<any>) => {
         let yearArray: Array<any> = [];
         let sortedArray: Array<any> = [];
+
+
+        const createAtDesign = (data:string) => {
+            const timeStamp = Date.now() - new Date(data).getTime()
+            const second = timeStamp / 1000
+            const minute = second / 60
+            const hour = minute / 60
+            const days = hour / 24
+            if(second < 60){
+                return '방금 전'}
+            if(minute < 60){
+                return `${Math.floor(minute)}분 전`}
+            if(hour < 24){
+                return `${Math.floor(hour)}시간 전`}
+            // if(days < 7){
+            //     return `${Math.floor(days)}일 전`}
+            
+            const WEEKDAY = ['일요일', '월요일', '화요일', '수요일', '목요일', '금요일', '토요일']
+            let week = WEEKDAY[new Date(data).getDay()];
+    
+            let a:any = ''
+            let b = ''
+            let c:any = ''
+            
+            a = new Date(data)
+            c = new Date(a.getTime() - (a.getTimezoneOffset() * 60000)).toISOString()
+            a = c.slice(0,10)
+            b = b + a
+            a = c.slice(11,16)
+            b = b + ' ' + a + ' ' + week 
+    
+            return b
+        }
+
+        
+
+
         const splitNum = function (createAt: string) {
 
             const splited:Array<any> = createAt.split('-');
@@ -124,7 +161,7 @@ function Interest() {
             return {
                 id: el.id,
                 createAtYearMonth: splitNum(el.createAt),
-                createAt: chancgeCreateAt(el.createAt),
+                createAt: createAtDesign(el.createAt),
                 content: el.content
             }
         });

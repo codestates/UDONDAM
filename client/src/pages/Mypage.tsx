@@ -176,7 +176,10 @@ function Mypage(props:any) {
                 socialType: ''
             }))
             dispatch(IsLoginHandler(false))
-
+            //세션삭제
+            sessionStorage.removeItem('user')
+            sessionStorage.removeItem('areaData')
+            //세션삭제
             history.push('/');
         } catch (err) {
             console.log(err)

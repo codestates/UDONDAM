@@ -115,6 +115,10 @@ function MypageModal (props:any) {
         const userDeleteResult = await axios.delete(`${process.env.REACT_APP_API_URL}/user`, { withCredentials: true })
         
         setPassword('')
+        //세션삭제
+        sessionStorage.removeItem('user')
+        sessionStorage.removeItem('areaData')
+        //세션삭제
         dispatch(UserInfoHandler({
           userId:0,
           email: '',

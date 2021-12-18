@@ -1,4 +1,5 @@
 .grid_footer_container{
+    /* position: relative; */
     height: max-content;
     width: 100%;
     min-width: 740px;
@@ -11,7 +12,7 @@
 }
 /* 어바웃 */
 .grid_footer_about_place{
-    grid-area: 'about';
+    grid-area: about;
     min-width: min-content;
 }
 .grid_footer_about_box{
@@ -28,7 +29,7 @@
 /* 카피라이트 */
 
 .grid_footer_copyright_place{
-    grid-area: 'copyright';
+    grid-area: copyright;
     display: flex;
     flex-direction: column;
     justify-content: center;
@@ -45,7 +46,7 @@
 }
 /* 멤버 */
 .grid_footer_member_place{
-    grid-area: 'member';
+    grid-area: member;
     width: 100%;
     min-width: max-content;
     /* max-width: 100%; */

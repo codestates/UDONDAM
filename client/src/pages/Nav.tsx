@@ -39,7 +39,7 @@ function Nav() {
         }
 
         @media(min-width: 641px){
-            grid-area: 'logo';
+            grid-area: logo;
         /* position: relative;
         background-color:gray;
         display: flex;

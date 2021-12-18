@@ -31,16 +31,7 @@ function Search() {
     const timeLineAllTagHandleData = []
     console.log(loginUserInfo)
     
-    const notRed = {
-        background: "red",
-        color: "white"
-    }
-    const notTagRed = {
-        background: "red",
-        color: "white",
-        width: '10vw',
-        height: '7vh'
-    }
+   
     sessionStorage.getItem('areaData')
     const areaData = String(sessionStorage.getItem('areaData')) 
     const formChange = JSON.parse(areaData)
@@ -131,7 +122,7 @@ function Search() {
         // }
     }
     const giftTagHandle = (event:any) => {
-
+        setErrorTag('')
         if(notModeTag){
             if(giftTag.indexOf(event.target.textContent) === -1){
                 let elTagData:any = tagData.indexOf(event.target.textContent)
@@ -374,9 +365,7 @@ function Search() {
                 }
                 
             </span>
-            <button className="header-container-recent" onClick = {recentSearchHandle}>
-                이전 검색 내역
-            </button>
+            
         </span>
             {isAreaActive ? 
             <div>
@@ -404,14 +393,17 @@ function Search() {
                 </div>
             </div>
             }
-            <div className="header-container-img-box">
-                <img className="header-container-img" src = '로고-우동담-Dark-모양만-배경o.png' />
-            </div>
+        
+        <button className="header-container-recent" onClick = {recentSearchHandle}>
+                이전 검색 내역
+            </button>
         
         
         {changeRecentSearchModal ? null:<RecentViewModal recentSearchHandle = {recentSearchHandle} selectTagSearchHandle = {selectTagSearchHandle} setGiftTag = {setGiftTag} setNotGiftTag = {setNotGiftTag}> </RecentViewModal>}
     </div>
-        
+        <div className="header-container-img-box">
+                <img className="header-container-img" src = '로고-우동담-Dark-모양만-배경o.png' />
+            </div>
     
         {
             notModeTag ?
@@ -444,16 +436,7 @@ function Search() {
                     <input className="header-container-search-input" type="text" value={searchText} onChange={searchTextChange} placeholder="태그 검색" onKeyPress={searchHandleKeyPress} />
                 
                 </div>
-                <div className="error-tag">{errorTag}</div>
                 
-                {tagData.map((el:any) => {
-                    if(giftTag.indexOf(el) !== -1){
-                        
-                        
-                        return <button className="select box box-contanier2" onClick = {giftTagHandle}>{el}</button>
-                        
-                    }
-                })}
                 <div className="tag-view">
                     {tagSeletView}
                     {
@@ -465,10 +448,22 @@ function Search() {
                     : null
                     }
                 </div>
+                <div className="error-tag">{errorTag}</div>
             </div>
             
             <div className="box-contanier">
+                <div>
                 
+                
+                {tagData.map((el:any) => {
+                    if(giftTag.indexOf(el) !== -1){
+                        
+                        
+                        return <button className="select box box-contanier2" onClick = {giftTagHandle}>{el}</button>
+                        
+                    }
+                })}
+                </div>
                 
                 {searchText === '' ? tagData.map((el:any) => {
                     if(giftTag.indexOf(el) === -1){

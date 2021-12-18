@@ -9,8 +9,8 @@ module.exports = {
       nickname: '익명',
       password: 'bbb',
       socialType: 'basic',
-      area: '서울특별시',
-      area2: '인증해주세요',
+      area: '부산광역시',
+      area2: '대구광역시',
       manager: false,
       createAt: new Date().toISOString().replace(/T/, ' ').replace(/\..+/, ''),
       updateAt: new Date().toISOString().replace(/T/, ' ').replace(/\..+/, '')

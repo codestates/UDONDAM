@@ -67,9 +67,9 @@ module.exports = {
                     id: req.userId
                 }
                 })
-            if(!patchCheck) {
-                return res.status(400).json({"message": "area checked!"})
-            }
+            // if(!patchCheck) {
+            //     return res.status(400).json({"message": "area checked!"})
+            // }
             const userInfo = await user.findOne({
                 attributes:['area'],
                 where:{
@@ -77,9 +77,6 @@ module.exports = {
                 },
                 raw:true
             })
-            // res.clearCookie('jwt');
-            // const patchToken = generateAccessToken(userInfo);
-            // sendAccessToken(res, patchToken, userInfo);
             res.status(200).json(userInfo)
         }
         else if(area2) {
@@ -91,9 +88,9 @@ module.exports = {
                     id: req.userId
                 }
             })
-            if(!patchCheck) {
-                return res.status(400).json({"message": "area2 checked!"})
-            }
+            // if(!patchCheck) {
+            //     return res.status(400).json({"message": "area2 checked!"})
+            // }
             const userInfo = await user.findOne({
                 attributes:['area2'],
                 where:{
@@ -101,9 +98,6 @@ module.exports = {
                 },
                 raw:true
             })
-            // res.clearCookie('jwt');
-            // const patchToken = generateAccessToken(userInfo);
-            // sendAccessToken(res, patchToken, userInfo);
             res.status(200).json(userInfo)
         }
         } catch(err) {

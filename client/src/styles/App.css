@@ -13,9 +13,9 @@ html{
   align-items: center;
   box-sizing: border-box;
 }
-/* html::-webkit-scrollbar{
+html::-webkit-scrollbar{
   display: none;
-} */
+}
 
 #container::-webkit-scrollbar{
   width: 8px;
@@ -338,7 +338,7 @@ footer{
     display: flex;
     flex-direction: row;
     align-items: center;
-    justify-content: space-between;
+    /* justify-content: space-between; */
   }
 
   .logo_nav_container{

@@ -59,8 +59,9 @@ function Nav() {
             /* align-content:space-between; */
         //} */
         width: ${useSelector((state: RootStateOrAny) => state.IsMobileReducer.isMobile) === true ?
-            'auto' : '100%'/*'max-content' */
+            'auto;' : '100%;'/*'max-content' */
         }
+        max-width:250px;
         /* height: max-content; */
         /* left: 35.5%;
         bottom: 6.9%; */
@@ -75,22 +76,24 @@ function Nav() {
         console.log(document.location.href)
     }
 
+    const navColor = 'rgb(197, 196, 196)'
+
     const LoginNav = function () {
         return (
             <div className='nav_link_container'>
                 <div className='nav_link_detail'>
                     <Link to='./Search' >
-                        <FontAwesomeIcon icon={faSearchLocation} size='3x'></FontAwesomeIcon>
+                        <FontAwesomeIcon icon={faSearchLocation} size='3x' color = {navColor}></FontAwesomeIcon>
                     </Link>
                 </div>
                 <div className='nav_link_detail'>
                     <Link to='../Interest' >
-                        <FontAwesomeIcon icon={faListAlt} size='3x'></FontAwesomeIcon>
+                        <FontAwesomeIcon icon={faListAlt} size='3x' color = {navColor}></FontAwesomeIcon>
                     </Link>
                 </div>
                 <div className='nav_link_detail'>
                     <Link to='../Postcontent' >
-                        <FontAwesomeIcon icon={faPenSquare} size='3x'></FontAwesomeIcon>
+                        <FontAwesomeIcon icon={faPenSquare} size='3x' color = {navColor}></FontAwesomeIcon>
                     </Link>
                 </div>
                 <div className='nav_link_detail'>
@@ -99,7 +102,7 @@ function Nav() {
                         state:{key:'data123'}
                     }}
                      >
-                        <FontAwesomeIcon icon={faUser} size='3x'></FontAwesomeIcon>
+                        <FontAwesomeIcon icon={faUser} size='3x' color = {navColor}></FontAwesomeIcon>
                     </Link>
                 </div>
             </div>
@@ -113,12 +116,12 @@ function Nav() {
             <div className='nav_link_container'>
                 <div className='nav_link_detail'>
                     <Link to='./Search' >
-                        <FontAwesomeIcon icon={faSearchLocation} size='3x'></FontAwesomeIcon>
+                        <FontAwesomeIcon icon={faSearchLocation} size='3x' color = {navColor}></FontAwesomeIcon>
                     </Link>
                 </div>
                 <div className='nav_link_detail'>
                     <Link to='../Login' >
-                        <FontAwesomeIcon icon={faSignInAlt} size='3x'></FontAwesomeIcon>
+                        <FontAwesomeIcon icon={faSignInAlt} size='3x' color = {navColor}></FontAwesomeIcon>
                     </Link>
                 </div>
             </div>

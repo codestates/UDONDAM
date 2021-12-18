@@ -1,7 +1,8 @@
 #mypage_container{
     flex: none; 
     height: 100%;
-    width: 100%;
+    width: 90%;
+    /* max-width: 1200px; */
 }
 
 .mypage_request_box{
@@ -80,4 +81,10 @@
     display: flex;
     flex-direction: column;
     justify-content: center;
+    font-size: 1.3rem;
 }
+
+input[type="text"]:disabled {
+    background: rgb(177, 175, 175);
+    color: rgb(73, 73, 73);
+  }

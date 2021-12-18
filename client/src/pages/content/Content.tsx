@@ -11,17 +11,17 @@ import { faGreaterThan } from "@fortawesome/free-solid-svg-icons";
 import { RootStateOrAny, useDispatch, useSelector } from 'react-redux'
 import axios from 'axios';
 import { userInfo } from 'os';
-import CommentDeleteModal from '../components/Content/CommentDeleteModal'
-import { commentIdDataHandler } from '../redux/modules/CommentIdData';
+import CommentDeleteModal from '../../components/Content/CommentDeleteModal'
+import { commentIdDataHandler } from '../../redux/modules/CommentIdData';
 import { useHistory } from 'react-router'
-import PostDeleteModal from '../components/Content/PostDeleteModal';
+import PostDeleteModal from '../../components/Content/PostDeleteModal';
+import './Content.css'
 
 const qs = require('qs');
 
 let contentDataParsing:any = []
 library.add(faCommentDots);
-let a:string = ''
-let b:string = ''
+
     //게시글
 function Content({ history }: RouteComponentProps) {
     const {ida}:any = history.location.state
@@ -32,15 +32,20 @@ function Content({ history }: RouteComponentProps) {
     const commentIdData = useSelector((state: RootStateOrAny)=>state.commentIdDataReducer)
     const isGuest = useSelector((state: RootStateOrAny)=>state.IsGuestReducer.isGuest)
     console.log(loginUserInfo)
-
+    const [test1, setTest1] = useState<any>('');
     //게시글 데이터 가져오기
+    let wg:any = ''
     const dataParsingHandle = async () => {
          await axios.get(`${process.env.REACT_APP_API_URL}/post/${ida}`, {withCredentials: true}).then((respone) => {
             contentDataParsing.pop()
             contentDataParsing.push(respone.data)
+            setPostDataDetail(contentDataParsing)
+            wg = respone.data
+            setTest1(wg.commentCount)
             setLikeChangeData(!likeChangeData)
         })
     }
+    
     const [giftTag, setGiftTag] = useState<any>(hisData.tag);
     const [notGiftTag, setNotGiftTag] = useState<any>(hisData.notTag);
 
@@ -55,51 +60,90 @@ function Content({ history }: RouteComponentProps) {
     const [changeCommentModal, setChangeCommentModal] = useState<boolean>(true);
     const [changePostModal, setChangePostModal] = useState<boolean>(true);
 
-    const likeTrue = {
-        color: "blue",
-        cursor: 'pointer'
-    }
-    const Writer = {
-        color: "blue",
-    }
- 
-    const pointerTrue = {
-        cursor: 'pointer'
-    }
-    const boxBorder = {
-        marginBottom: '1rem',
-        border: '1px solid black'
+    const [charNum, setCharNum] = useState<number>(0);
+    const [charNumError, setCharNumError] = useState<any>('');
 
-    }
-    const boxBorder2 = {
-        border: '1px solid black',
-        marginBottom: '1rem',
+    const [cCharNum, setCCharNum] = useState<number>(0);
+    const [cCharNumError, setCCharNumError] = useState<any>('');
 
-        display: 'inline-block'
-    }
     // 게시글에 관한 모든 데이터
     const [postDataDetail, setPostDataDetail] = useState<any>(contentDataParsing)
 
     //댓글 인풋 체인지 함수
     const commentTextChange = (event:any) => {
-        setCommentText(event.target.value)
-
-        setGiftComment([{
+        const max = 100;
+        const textValue = event.target.value;
+        const textLength = textValue.length
+        let num = 0
+        for(let i =0; i<textLength; i++){
+            //하 유니코드 체크..
+            let char = textValue.charAt(i)
+            let uniChar = encodeURI(char)
+            if(uniChar.length>4){
+                //한글은 2
+                num = num + 2
+            }else{
+                //영문 숫자 1
+                num = num + 1
+            }
+        }
+        
+        setCharNum(num)
+        if(max < num){
+            setCharNumError('글자 제한 수를 초과하셨습니다.')
+        }
+        else{
+            setCommentText(event.target.value)
+            setCharNumError('')
+            setGiftComment([{
             postId : postDataDetail[0].id,
             content : event.target.value
         }])
+        }
     }
 
     //대댓글 인풋 체인지 함수
     const cCommentTextChange = (event:any) => {
-        setCCommentText(event.target.value)
-        setGiftCComment([
-            {
-                postId : postDataDetail[0].id,
-                content : event.target.value,
-                commentId : cCommentView
+        const max2 = 100;
+        const textValue2 = event.target.value;
+        const textLength2 = textValue2.length
+        let num2 = 0
+        for(let i =0; i<textLength2; i++){
+            //하 유니코드 체크..
+            let char2 = textValue2.charAt(i)
+            let uniChar2 = encodeURI(char2)
+            if(uniChar2.length>4){
+                //한글은 2
+                num2 = num2 + 2
+            }else{
+                //영문 숫자 1
+                num2 = num2 + 1
             }
-        ])
+        }
+        
+        setCCharNum(num2)
+        if(max2 < num2){
+            setCCharNumError('글자 제한 수를 초과하셨습니다.')
+        }
+        else{
+            setCCommentText(event.target.value)
+            setCCharNumError('')
+            setGiftCComment([
+                {
+                    postId : postDataDetail[0].id,
+                    content : event.target.value,
+                    commentId : cCommentView
+                }
+            ])
+        }
+        // setCCommentText(event.target.value)
+        // setGiftCComment([
+        //     {
+        //         postId : postDataDetail[0].id,
+        //         content : event.target.value,
+        //         commentId : cCommentView
+        //     }
+        // ])
     }
 
     //대댓글 생성시 인풋창 유무
@@ -315,7 +359,7 @@ function Content({ history }: RouteComponentProps) {
             return `${Math.floor(minute)}분 전`}
         if(hour < 24){
             return `${Math.floor(hour)}시간 전`}
-        // if(days < 7){
+        // if(days < 3){
         //     return `${Math.floor(days)}일 전`}
         
         const WEEKDAY = ['일요일', '월요일', '화요일', '수요일', '목요일', '금요일', '토요일']
@@ -351,10 +395,12 @@ function Content({ history }: RouteComponentProps) {
     useEffect(() => {
         dataParsingHandle()
     },[testChangeData])
-
+ 
     console.log(postDataDetail)
     return(
-            <div>
+        <div className='contanier-main-contanier'>
+            <button className='back-button' onClick={backTimeLineHandle}>뒤로..</button>
+            <div className='contanier-main'>
 
                 {postDataDetail && postDataDetail.map((el: { nickname: string,createAt: string ,content:string, tag:Array<string>, id:number, commentCount:number, likeCount:number, userId:number, comment:string}) => {
                 return (
@@ -362,15 +408,15 @@ function Content({ history }: RouteComponentProps) {
                 <div>
                     {el.userId === loginUserInfo.userId ? 
                     <div>
-                        <div onClick={backTimeLineHandle}>뒤로..</div>
+                        
                         <div>
                             
-                            <div>{`${el.nickname} -글쓴이`}</div>
+                            <div className='writer-true'>{`${el.nickname} -글쓴이`}</div>
                             <div>{createAtDesign(el.createAt)}
         
-                            <span onClick={() =>PostDeleteModalHandle(el.id)}> 삭제  </span>
+                            <span className='delete-button' onClick={() =>PostDeleteModalHandle(el.id)}> 삭제</span>
                             {changePostModal ? null:<PostDeleteModal postDeleteHandle = {postDeleteHandle} PostDeleteModalHandle = {PostDeleteModalHandle}></PostDeleteModal>}
-                            <span> 신고 </span>
+                            <span className='delete-button'> 신고 </span>
                             </div>
                         </div>
                     </div>
@@ -379,81 +425,89 @@ function Content({ history }: RouteComponentProps) {
                         <div>{el.nickname}</div>
                         <div>{createAtDesign(el.createAt)}
          
-                        <span> 신고 </span>
+                        <span className='delete-button'> 신고 </span>
                     </div>
                     </div>}
 
-                <div>{el.content}</div>
+                <div className='content-main'>{
+                // /n을 기준으로 줄바꿈을 만듬
+                el.content.split('\n').map((le:any) => {
+                    return (<span>{le}<br /></span>)
+                })
+                }</div>
                 {el.tag.map((le: string) => {
                     return (<span>#{le} </span>)
                 })
                 }
-                <div>
-                    <span style = {pointerTrue} onClick={commentViewHandle}>
+               
+                    <span className='comment-icon' onClick={commentViewHandle}>
                         <FontAwesomeIcon icon={faCommentDots} data-fa-transform="flip-v"></FontAwesomeIcon>
                         {el.commentCount}
                     </span>
                     {postDataDetail && postDataDetail.map((el:any) => el.likeCheck ?
                     
-                        <span style={likeTrue} onClick={likeChangeHandle}>
+                        <span className='like-icon-true' onClick={likeChangeHandle}>
                             <FontAwesomeIcon icon={faThumbsUp}></FontAwesomeIcon>
                             {el.likeCount}
                         </span>
                         : isGuest ? 
-                        <span>
-                            <FontAwesomeIcon icon={faThumbsUp}></FontAwesomeIcon>
+                        <span className='like-icon'>
+                            <FontAwesomeIcon  icon={faThumbsUp}></FontAwesomeIcon>
                             {el.likeCount}
                         </span>
                         :
-                        <span style = {pointerTrue} onClick={likeChangeHandle}>
+                        <span className='like-icon' onClick={likeChangeHandle}>
                             <FontAwesomeIcon icon={faThumbsUp}></FontAwesomeIcon>
                             {el.likeCount}
                         </span>
                         )
                     }
-                </div>
+                
                 </div>
                
                 )
             }) }
-
-            {commentView ? postDataDetail[0].comment.map((el:any) => {
+            <div className='comment-contanier'>
+            {
+            commentView ? 
+                 postDataDetail[0].comment.map((el:any,idx:any) => {
+                
                 return (
-                <div>
                     
-                    <div style={boxBorder}>
-                        {el.content === '삭제 된 댓글 입니다' ?
-                            <div>
+                <div className='as'>
+                    <div>
+                        {el.content ===  null || el.content === '삭제 된 댓글 입니다'?
+                            <div className='comment-box'>
                                 <div>
                                     {el.content}
                                 </div>
                             </div>
                             :
-                            <div>
+                            <div className='comment-box'>
                                 <div>
                                     {el.userId === loginUserInfo.userId ? 
                                     <span>{`${el.nickname} -본인`}</span>
                                     :
                                         el.userId === postDataDetail[0].userId ?
-                                        <span>{`${el.nickname} -글쓴이`}</span>
+                                        <span className='writer-comment'>{`${el.nickname} -글쓴이`}</span>
                                         :
                                         <span>{el.nickname}</span>
                                     }
-                                    <span>
+                                    <span className='comment-createAt'>
                                         {  createAtDesign(el.createAt) }
                                     </span>
                                     {
                                         isGuest ? null :
                                         <span>
-                                            <span style = {pointerTrue}  onClick={() => commentCommentViewHandle(el.id)}>
+                                            <span className='comment-option'  onClick={() => commentCommentViewHandle(el.id)}>
                                                 댓글
                                             
                                             </span>
-                                            <span onClick={() => CommentDeleteModalHandle(el.id)}>
+                                            <span className='comment-option-delete' onClick={() => CommentDeleteModalHandle(el.id)}>
                                             삭제
                                             {changeCommentModal ? null:<CommentDeleteModal CommentDeleteHandle = {CommentDeleteHandle} CommentDeleteModalHandle = {CommentDeleteModalHandle}></CommentDeleteModal>}
                                             </span>
-                                            <span>
+                                            <span className='comment-option-delete'>
                                                 신고
                                             </span>
                                         </span>
@@ -463,18 +517,38 @@ function Content({ history }: RouteComponentProps) {
                                     
                                 </div>
                                 <div>
-                                    {el.content}
+                                    {el.content.split('\n').map((le:any) => {
+                                        return (<span>{le}<br /></span>)
+                                    })}
                                 </div>
                             </div>
                 
                         }
                         
                     </div>
+                    
+
                     {
                         cCommentView === el.id ? 
+                        // <div>
+                        //     <input type="text" value={cCommentText} onChange={cCommentTextChange} placeholder="댓글에 댓글을 달아보세요" />
+                        //     <button onClick={giftCCommentHandle}>확인</button>
+                        // </div>
                         <div>
-                            <input type="text" value={cCommentText} onChange={cCommentTextChange} placeholder="댓글에 댓글을 달아보세요" />
-                            <button onClick={giftCCommentHandle}>확인</button>
+                            <textarea className='input-comment' value={cCommentText} onChange={cCommentTextChange} />
+                            {charNumError === '' ? <div className='charNum'>
+                                {`${cCharNum} /100 byte`}
+                            </div>
+                            :
+                            <div className='charNum-Red'>
+                                {`${cCharNum} /100 byte`}
+                            </div>
+                            }
+                            
+                            {charNumError === '' ? null : <div>{cCharNumError}</div>}
+                            <div className='complete-comment-box'>
+                                <button className='complete-comment-button' onClick={giftCCommentHandle}>대댓글 작성 완료</button>
+                            </div>
                         </div>
                         :
                         null
@@ -483,64 +557,85 @@ function Content({ history }: RouteComponentProps) {
                     el.comment && el.comment.map((le:any) => {
                         return (
                             <div>
-                                <FontAwesomeIcon  icon={faGreaterThan} data-fa-transform="flip-v"/>
+                                <FontAwesomeIcon className='icon-ccoment'  icon={faGreaterThan} data-fa-transform="flip-v"/>
 
-                                <div style={boxBorder2}>
+                                <div className='ccomment-box' >
                                 {le.content === '삭제 된 댓글 입니다' ?
-                                    <div>
+                                    <div className='comment-box2'>
                                         <div>
                                             {le.content}
                                         </div>
                                     </div>
                                     :
-                                        <div>
+                                        <div className='comment-box2'>
                                             <div>
                                             {el.userId === loginUserInfo.userId ? 
                                                 <span>{`${le.nickname} -본인`}</span>
                                                 :
                                                     le.userId === postDataDetail[0].userId ?
-                                                    <span>{`${le.nickname} -글쓴이`}</span>
+                                                    <span className='writer-comment'>{`${le.nickname} -글쓴이`}</span>
                                                     :
                                                     <span>{le.nickname}</span>
                                             }
-                                                <span>
+                                                <span className='comment-createAt'>
                                                  {  createAtDesign(le.createAt) }
                                                 </span>
                                                 
-                                                <span  onClick={() => CommentDeleteModalHandle(le.id)}>
+                                                <span className='comment-option-delete'  onClick={() => CommentDeleteModalHandle(le.id)}>
                                                     삭제
                                                     {changeCommentModal ? null:<CommentDeleteModal CommentDeleteHandle = {CommentDeleteHandle} CommentDeleteModalHandle = {CommentDeleteModalHandle}></CommentDeleteModal>}
                                                 </span>
-                                                <span>
+                                                <span className='comment-option-delete'>
                                                     신고
                                                 </span>
                                             </div>
                                             <div>
-                                                {le.content}
+                                            {le.content.split('\n').map((el:any) => {
+                                                return (<span>{el}<br /></span>)
+                                            })}
                                             </div>
                                         </div>
                                 }
                                 </div>
                             </div>
                         )
+                            
                     })
+                    
                     }
+                
                 </div>)
+            
             })
-            :
-            null
-            }
+            
+            :test1 > 0 ? null : <div className='comment-box'>댓글이 없습니다. 첫 댓글을 달아보세요!</div>
+            
+        }
+            </div>
             {
                 !commentView ? null
                 :isGuest ? null
                 :
                 <div>
-                    <input type="text" value={commentText} onChange={commentTextChange} placeholder="게시물에 댓글을 달아보세요" />
-                    <button onClick={giftCommentHandle}>확인</button>
+                    <textarea className='input-comment' value={commentText} onChange={commentTextChange} />
+                    {charNumError === '' ? <div className='charNum'><div>
+                        {`${charNum} /100 byte`}
+                    </div></div>
+                    :
+                    <div className='charNum-Red'>
+                        {`${charNum} /100 byte`}
+                    </div>
+                     }
+                    
+                    {charNumError === '' ? null : <div>{charNumError}</div>}
+                    <div className='complete-comment-box'>
+                        <button className='complete-comment-button' onClick={giftCommentHandle}>댓글 작성 완료</button>
+                    </div>
                 </div>
                 
             }
             </div>
+        </div>
     )
 }
 

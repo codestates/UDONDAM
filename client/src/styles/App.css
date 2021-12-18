@@ -142,7 +142,7 @@ ul{
 
 #container{
   grid-area: 'grid_w3_center';
-  background-color: rgb(92, 81, 81);
+  background-color: black;
   color: white;
   grid-area: 'container';
   position: relative;

@@ -7,11 +7,9 @@ import 'dotenv/config'
 import { RootStateOrAny, useDispatch, useSelector } from 'react-redux'
 import { useHistory } from 'react-router'
 import { UserInfoHandler } from '../../redux/modules/UserInfo';
+import './Area.css'
 
 
-const UnSelete = styled.div`
-    display: none;
-`;
     //지역인증
 let falseArr:any = ''
 function Area({ history }: RouteComponentProps) {
@@ -69,32 +67,7 @@ function Area({ history }: RouteComponentProps) {
             })
             
             })
-            // .then((res) => {
-            //     if(falseArr ==='대한민국' || '경기도' || '강원도' || '충청북도' || '충청남도' || '경상북도' || '전라북도' || '경상남도' || '전라남도'){
-            //         setAreaSearch('지역 감지가 잘 되지 않고 있습니다. 잠시만 기다려주세요.')
-            //         setTimeout(() => axios.get(`https://maps.googleapis.com/maps/api/geocode/json?latlng=${a},${b}&language=ko&key=${process.env.REACT_APP_API_KEY}`)
-            //         .then((respone2) => {
-            //             console.log(respone2.data.results[5].address_components[0].long_name)
-            //             falseArr = respone2.data.results[5].address_components[0].long_name
-            //             console.log(falseArr)
-            //            setAreaSearch(respone2.data.results[5].address_components[0].long_name)
-            //            if(falseArr ==='대한민국' || '경기도' || '강원도' || '충청북도' || '충청남도' || '경상북도' || '전라북도' || '경상남도' || '전라남도'){
-            //             setAreaSearch('자신의 지역이 나타나지 않은 경우 직접 지역을 선택해 주세요. 조금만 더 기다려 주세요.')
-            //             setTimeout(() => axios.get(`https://maps.googleapis.com/maps/api/geocode/json?latlng=${a},${b}&language=ko&key=${process.env.REACT_APP_API_KEY}`)
-            //             .then((respone3) => {
-            //                 console.log(respone3.data.results[4].address_components[2].long_name)
-            //                 setAreaSearch(respone3.data.results[4].address_components[2].long_name)
-            //                 if(areaSearch ==='대한민국' || '경기도' || '강원도' || '충청북도' || '충청남도' || '경상북도' || '전라북도' || '경상남도' || '전라남도'){
-            //                     setAreaSearch('죄송합니다. 직접 지역을 선택해주세요')
-            //                 }
-            //             })
-            //            ,5000)
-            //         }
-            //         })
-            //        ,5000)
-            //     }
-            // })
-           
+          
             try {}
             catch (err) {
                 setAreaSearch('죄송합니다. 직접 지역을 선택해주세요')
@@ -104,16 +77,20 @@ function Area({ history }: RouteComponentProps) {
     console.log(giftTag2)
     const yesMyLocalHandle = () => {
         if(threeLocal){
-            setThreeLocal(!threeLocal)
+            setThreeLocal(false)
+            setSecondLocal(false)
         }
-        setSecondLocal(!secondLocal)
+        setSecondLocal(true)
+        setThreeLocal(false)
     }
 
     const noMyLocalHandle = () => {
         if(secondLocal){
-            setSecondLocal(!secondLocal)
+            setSecondLocal(false)
+            setThreeLocal(false)
         }
-        setThreeLocal(!threeLocal)
+        setThreeLocal(true)
+        setSecondLocal(false)
     }
     
     const areaSelectHandle = async () => {
@@ -270,56 +247,63 @@ function Area({ history }: RouteComponentProps) {
     
 
     return(
-            <div>
-                <div>
-                    지역인증
+            <div className='contanier-area'>
+                <div className='contanier-area-title-box'>
+                    <div className='contanier-area-title'>
+                        지역인증
+                    </div>
+                    
                 </div>
-                <div>
-                    <button onClick = {myLocalHandle}>
+                <div className='contanier-area-title-box'>
+                    <div>
+                        내 위치 확인을 누르시면 자동으로 위치를 검색합니다.
+                    </div>
+                </div>
+                <div className='contanier-area-title-box'>
+                    <button className='area-auto-button' onClick = {myLocalHandle}>
                         내 위치 확인
                     </button>
+                    <button className='area-auto-button' onClick = {noMyLocalHandle}>직접 할래요</button>
                 </div>
                 {
                     firstLocal ?
                     <div>
-                        <div>
+                        <div className='contanier-area-title-box'>
                             {areaSearch}
                         </div>
                         {areaSearch === '검색중...' ? null 
                         :
-                        <div>
-                            <span>이 위치가 맞습니까?  </span>
+                        <div >
+                            <span className='contanier-area-title-box'>이 위치가 맞습니까?  </span>
                             {areaSearch === '죄송합니다. 직접 지역을 선택해주세요' ? null 
-                            :
-                                <button onClick = {yesMyLocalHandle}>예</button>
+                            :   <div className='contanier-area-title-box'>
+                                    <button className='yes-button' onClick = {yesMyLocalHandle}>예</button>
+                                    <button className='yes-button' onClick = {noMyLocalHandle}>아니오</button>
+                                </div>
                             }
-                            <button onClick = {noMyLocalHandle}>아니오</button>
+                            
                         </div>
                         }
                     </div>
                     :
-                    <UnSelete>
-                        <span>이 위치가 맞습니까?  </span>
-                        <button>예</button>
-                        <button>아니오</button>
-                    </UnSelete>
+                    null
                 }
                 {
                     threeLocal ? 
                     <div>
-                        <div>
+                        <div className='contanier-area-title-box'>
                             직접 지역설정
                         </div>
-                        <div> # {giftTag2}
+                        <div className='contanier-area-title-box2'> # {giftTag2}
                         </div>
-                        <div>
-                            <input type="text" value={searchText} onChange={searchTextChange2} placeholder="지역 검색, 시 군단위로 나뉩니다." onKeyPress= {searchHandleKeyPress2} />
+                        <div className='contanier-area-title-box'>
+                            <input className='input-search-tag' type="text" value={searchText} onChange={searchTextChange2} placeholder="지역 검색, 시 군단위로 나뉩니다." onKeyPress= {searchHandleKeyPress2} />
                         </div>
-                        <div>
+                        <div className='contanier-area-title-box'>
                             {searchText === '' ? null
                         :filterTag.map((el:any) => {
 
-                                return <button onClick = {giftTagHandle2}>{el}</button>
+                                return <button className='tag-area-button'  onClick = {giftTagHandle2}>{el}</button>
                             
                         })
                         }
@@ -331,31 +315,24 @@ function Area({ history }: RouteComponentProps) {
                 {
                     secondLocal ?
                     <div>
-                        <div>
+                        <div className='contanier-area-title-box'>
                             지역설정 완료 후 한달간 변경은 불가능 합니다
                         </div>
-                        <div>
-                            <button onClick={areaSelectHandle}>위치 설정 완료</button>
+                        <div className='contanier-area-title-box'>
+                            <button className='yes-button' onClick={areaSelectHandle}>위치 설정 완료</button>
                         </div>
                     </div>
                     :
-                    <UnSelete>
-                        <div>
-                            지역설정 완료 후 한달간 변경은 불가능 합니다
-                        </div>
-                        <div>
-                            <button onClick={selectAreaSelectHandle}>위치 설정 완료</button>
-                        </div>
-                    </UnSelete>
+                    null
                 }
                 {
                     giftTag2.length === 1 ? 
                     <div>
-                        <div>
+                        <div className='contanier-area-title-box'>
                             지역설정 완료 후 한달간 변경은 불가능 합니다
                         </div>
-                        <div>
-                            <button onClick={selectAreaSelectHandle}>위치 설정 완료</button>
+                        <div className='contanier-area-title-box'>
+                            <button className='yes-button' onClick={selectAreaSelectHandle}>위치 설정 완료</button>
                         </div>
                     </div>
                     :

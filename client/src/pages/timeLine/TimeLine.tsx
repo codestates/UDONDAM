@@ -7,6 +7,7 @@ import '@fortawesome/fontawesome-free/js/all.js'
 import TimeLinePost from '../../components/timeLinePost/TimeLinePost'
 import { RouteComponentProps } from 'react-router-dom';
 import axios from 'axios';
+import './TimeLine.css'
 const qs = require('qs');
 
 //   '로고-우동담-Dark-글자만-배경o.png'
@@ -18,23 +19,6 @@ function TimeLine({ history }: RouteComponentProps){
     const [postData, setPostData] = useState<any>(hisData.data);
     const [giftTag, setGiftTag] = useState<any>(hisData.tag);
     const [notGiftTag, setNotGiftTag] = useState<any>(hisData.notTag);
-
-    const Container = styled.div`
-    box-sizing: border-box;
-    width: 30vw;
-    display: grid;
-    grid-template-areas: 
-     "nav nav nav"
-     ". center ."
-     "foot foot foot";
-    `;
-
-    const CharacterImg = styled.img`
-    box-sizing: border-box;
-        width: 30vw;
-        display: grid;
-        color:white;
-    `;
 
     const [userData, setUserData] = useState<any>(loginUserInfo);
     const [pageCount, setPageCount] = useState<number>(1);
@@ -74,6 +58,7 @@ function TimeLine({ history }: RouteComponentProps){
 
     const addSelectTagSearchHandle = async () => {
         setPageCount(pageCount+1)
+        console.log(pageCount)
             if(giftTag.length === 0 || giftTag === null){
                 await axios(
                     {
@@ -143,10 +128,10 @@ function TimeLine({ history }: RouteComponentProps){
     
     return (
         <div>
-            <div>{userData.nickname}님 안녕하세요</div>
-            <Container>
-                <CharacterImg src = '로고-우동담-Dark-글자만-배경o.png'/>
-            </Container>
+            <div className="show-nickname">{userData.nickname}님 안녕하세요</div>
+            <div className="logo-contanier">
+                <img className="logo" src = '로고-우동담-Dark-글자만-배경o.png'/>
+            </div>
             <TimeLinePost postData = {postData} userData = {userData} addSelectTagSearchHandle={addSelectTagSearchHandle} createAtDesign={createAtDesign} giftTag={giftTag} notGiftTag={notGiftTag}/>
         </div>
     )

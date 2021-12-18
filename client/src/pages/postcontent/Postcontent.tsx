@@ -9,22 +9,6 @@ import { useHistory } from 'react-router'
 import { UserInfoHandler } from '../../redux/modules/UserInfo';
 import './Postcontent.css'
     //게시글 작성
-    const Container = styled.div`
-    box-sizing: border-box;
-    width: 30vw;
-    display: grid;
-    grid-template-areas: 
-     "nav nav nav"
-     ". center ."
-     "foot foot foot";
-    `;
-
-    const CharacterImg = styled.img`
-    box-sizing: border-box;
-        width: 30vw;
-        display: grid;
-        color:white;
-    `;
 
    
 
@@ -34,6 +18,7 @@ const Postcontent: React.FC = () => {
     const his = useHistory()
     const loginUserInfo = useSelector((state: RootStateOrAny)=>state.UserInfoReducer)
     let a = ''
+    const isMobile = useSelector((state: RootStateOrAny)=>state.IsMobileReducer.isMobile)
 
     const [contentText, setContentText] = useState<any>('')
     const [contentGiftTag, setContentGiftTag] = useState<any>([])
@@ -155,22 +140,27 @@ const Postcontent: React.FC = () => {
     }, [searchText])
 
     return(
-            <div>
+            <div className='post-contanier-contanier'>
                 <div className='post-contanier'>
-                    <div>
-                        <img src = '로고-우동담-Dark-글자만-배경o.png'/>
+                    <div className='logo-contanier2'>
+                        <img className='logo-logo-logo' src = '로고-우동담-Dark-글자만-배경o.png'/>
                     </div>
                     <div>
-                        <textarea className='textarea-input' onChange={contentTextChange} value={contentText}/>
-                        {charNumError === '' ? <div className='charNum'>
+                        <div className='contanier-area-title-box3'>
+                            <textarea className='textarea-input' onChange={contentTextChange} value={contentText}/>
+                        </div>
+                        <div >
+                        {charNumError === '' ? <div className='charNum2'>
                                 {`${charNum} /300 byte`}
                             </div>
                             :
-                            <div className='charNum-Red'>
+                            <div className='charNum-Red2'>
                                 {`${charNum} /300 byte`}
                             </div>
                             }
+                            
                         {charNumError === '' ? null : <div>{charNumError}</div>}
+                        </div>
                     </div>
                     <div className='tag-box'>
                         {contentGiftTag.map((el:any) => {
@@ -192,7 +182,7 @@ const Postcontent: React.FC = () => {
                         <button className='compelete-button' onClick={compleatContentHandle}>게시글 업로드</button>
                         
                     </div>
-                    <div>
+                    <div className='contanier-area-title-box3'>
                         {falseMessage}
                     </div>
                     

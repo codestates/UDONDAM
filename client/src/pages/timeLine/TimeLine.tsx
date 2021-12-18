@@ -52,7 +52,6 @@ function TimeLine({ history }: RouteComponentProps){
         b = b + a
         a = c.slice(11,16)
         b = b + ' ' + a + ' ' + week 
-
         return b
     }
 
@@ -127,7 +126,7 @@ function TimeLine({ history }: RouteComponentProps){
     }
     
     return (
-        <div>
+        <div className="show-width-all">
             <div className="show-box">
                 <div className="show-nickname">{userData.nickname}님 안녕하세요</div>
             </div>

@@ -10,6 +10,7 @@ import { faThumbsUp } from "@fortawesome/free-solid-svg-icons";
 import { NONAME } from "dns";
 import { faArrowAltCircleDown } from "@fortawesome/free-solid-svg-icons";
 import './TimeLinePost.css'
+import { RootStateOrAny, useDispatch, useSelector } from 'react-redux'
 
 library.add(faCommentDots);
 library.add(faArrowAltCircleDown);
@@ -30,7 +31,7 @@ library.add(faArrowAltCircleDown);
 function TimeLinePost({postData,userData,addSelectTagSearchHandle,createAtDesign,notGiftTag,giftTag}: any) {
     console.log(postData)
  
-  
+    const isMobile = useSelector((state: RootStateOrAny)=>state.IsMobileReducer.isMobile)
     
     return (
         <div className="contanier2">
@@ -57,10 +58,12 @@ function TimeLinePost({postData,userData,addSelectTagSearchHandle,createAtDesign
                             <span className="report">신고</span>
                         </div>
                         <div className="content">{el.content}</div>
-                        {el.tag.map((le: {tag: any}) => {
+                        {isMobile ? <span>#{el.tag[0]} </span>
+                        :el.tag.map((le: {tag: any}) => {
                             return (<span>#{le} </span>)
                         })
                         }
+                        
                         <div className="Thumb-box">
                             <span className="thumb-contanier">
                                 <FontAwesomeIcon icon={faCommentDots} data-fa-transform="flip-v"></FontAwesomeIcon>

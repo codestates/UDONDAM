@@ -31,7 +31,9 @@ function Content({ history }: RouteComponentProps) {
     const loginUserInfo = useSelector((state: RootStateOrAny)=>state.UserInfoReducer)
     const commentIdData = useSelector((state: RootStateOrAny)=>state.commentIdDataReducer)
     const isGuest = useSelector((state: RootStateOrAny)=>state.IsGuestReducer.isGuest)
-    console.log(loginUserInfo)
+    const isMobile = useSelector((state: RootStateOrAny)=>state.IsMobileReducer.isMobile)
+
+    console.log(isMobile)
     const [test1, setTest1] = useState<any>('');
     //게시글 데이터 가져오기
     let wg:any = ''
@@ -411,7 +413,7 @@ function Content({ history }: RouteComponentProps) {
                         
                         <div>
                             
-                            <div className='writer-true'>{`${el.nickname} -글쓴이`}</div>
+                            <div className='writer-true'>{`${el.nickname} -본인글`}</div>
                             <div>{createAtDesign(el.createAt)}
         
                             <span className='delete-button' onClick={() =>PostDeleteModalHandle(el.id)}> 삭제</span>

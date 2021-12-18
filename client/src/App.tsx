@@ -115,8 +115,9 @@ function App() {
   //console.log(useSelector((state: RootStateOrAny)=>state.IsMobileReducer.isMobile))
   return (
     <>
+    {/* <div id='root_container'> */}
       <div id='grid_h3'>
-        <header id='logo'>
+        <header id='logo' className='logo_nav_place'>
           <div className='logo_nav_left'></div>
           <div className='logo_nav_center'>
             <div className='logo_nav_center_logo'>
@@ -128,7 +129,7 @@ function App() {
           </div>
         </header>
         <div id='grid_w3'>
-          <div id='grid_w3_left'></div>
+         <div id='grid_w3_left'></div> 
           <div id='container'>
             {/* {!useSelector((state: RootStateOrAny)=>state.IsMobileReducer.isMobile)? <div id='nav_bar'><Nav /></div> : null} */}
             {/* 조건부렌더링이용:게스트/로그인 구분, 나오면 안되는창 구분 */}
@@ -172,7 +173,7 @@ function App() {
         {/* </footer> */}
       </div>
       {!useSelector((state: RootStateOrAny) => state.IsMobileReducer.isMobile) ? <Footer /> : null}
-
+      {/* </div> */}
 
 
     </>

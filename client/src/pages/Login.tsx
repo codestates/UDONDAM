@@ -35,10 +35,12 @@ function Login() {
         console.log('로그인 트루')
         if (document.querySelector('.logo_nav')?.classList.contains('hide') === true) {
             console.log('.맨처음 로그인 하이드 작동')
+            document.querySelector('.logo_nav_place')?.classList.add('hide')
             document.querySelector('.logo_nav')?.classList.toggle('hide')
             document.querySelector('#nav_bar')?.classList.toggle('hide')
 
         }
+        
         history.push('/Search')
 
     }
@@ -91,6 +93,7 @@ function Login() {
 
             hideLogo()
             document.querySelector('#nav_bar_desktop')?.classList.remove('hide')
+            document.querySelector('.logo_nav_place')?.classList.remove('hide')
             history.push('/Search')
 
         } catch (error: any) {
@@ -151,7 +154,10 @@ function Login() {
         if (document.querySelector('.logo_nav')?.classList.contains('hide') === false) {
             document.querySelector('.logo_nav')?.classList.toggle('hide')
             document.querySelector('#nav_bar')?.classList.toggle('hide')
-            document.querySelector('#nav_bar_desktop')?.classList.add('hide')
+            
+        }
+        if(document.querySelector('.logo_nav_place')?.classList.toggle('hide') === false){
+            document.querySelector('.logo_nav_place')?.classList.add('hide')
         }
     }
 
@@ -160,7 +166,7 @@ function Login() {
         if (document.querySelector('.logo_nav')?.classList.contains('hide') === true) {
             document.querySelector('.logo_nav')?.classList.toggle('hide')
             document.querySelector('#nav_bar')?.classList.toggle('hide')
-
+            document.querySelector('.logo_nav_place')?.classList.toggle('hide')
         }
 
     }

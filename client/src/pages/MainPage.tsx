@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import styled from "styled-components"
 import Interest from "./Interest";
 import TimeLine from "./timeLine/TimeLine";
-import Content from "./Content";
+import Content from "./content/Content";
 import { RouteComponentProps } from 'react-router-dom';
 import { useSelector, useDispatch, RootStateOrAny } from "react-redux";
 import { MainPageHandler } from "../redux/modules/MainPageHandle";

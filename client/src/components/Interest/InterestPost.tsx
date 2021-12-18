@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom';
 import { useSelector, RootStateOrAny } from 'react-redux';
 import { useHistory } from 'react-router';
 import axios from 'axios';
-import Content from '../../pages/Content';
+import Content from '../../pages/content/Content';
 import styled from 'styled-components';
 import './style.css'
 //날짜별로 나눠야함

@@ -250,7 +250,7 @@ function Mypage(props:any) {
                     </div>
                     {onOff.onChange ?
                         <div className='mypage_userinfo_box mypage_userinfo_box_true'>
-
+                            <div className='mypage_userinfo_input'>
                             <div className='mypage_input_box'>
                             <div>닉네임 변경</div>
                             <input type="text" value={userData.nickname} onChange={userDataHandler('nickname')} />
@@ -268,6 +268,7 @@ function Mypage(props:any) {
                             <div className='mypage_button_box mypage_button_box_true'>
                                 <button className='gray_button' onClick={changeComplete}>수정확인</button>
                                 <button className='gray_button' onClick={cancleHandler}>취소</button>
+                            </div>
                             </div>
                         </div> :
                         <div className='mypage_userinfo_box mypage_userinfo_box_false'>

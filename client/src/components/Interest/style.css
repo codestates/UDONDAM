@@ -1,0 +1,13 @@
+.content_text{
+    overflow-x: hidden;
+    text-overflow: ellipsis;
+}
+
+.container_value_box{
+width: 90%;
+padding-left: 5%;
+padding-top: 5px;
+}
+.content_box{
+    width: 100%;
+}

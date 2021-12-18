@@ -46,11 +46,13 @@ export default function InterestPost({ post }: any) {
     }
 
     const onOffHandler = (key: string) => (e: React.MouseEvent<HTMLDivElement>) => {
-        const list = document.getElementsByClassName(`container_value_${key}`)
-
-        for (let i = 0; i <= list.length - 1; i++) {
-            list[i].classList.toggle('hide')
-        }
+        const list = document.getElementsByClassName(`container_value_${key}`);
+        const open = document.getElementsByClassName(`open_icon_${key}`);
+        const close = document.getElementsByClassName(`close_icon_${key}`);
+            list[0].classList.toggle('hide');
+            open[0].classList.toggle('hide');
+            close[0].classList.toggle('hide');
+        
     }
 
 
@@ -68,14 +70,18 @@ export default function InterestPost({ post }: any) {
                     return (//년-월별 컨테이너
                         <div className={`container_${key} interest_post_place`} key={key}>
                             <div className ='interest_post_detail_container'>
-                            <YearMonth className='interest_post_box' onClick={onOffHandler(`${key}`)} >▼ {key}</YearMonth>
+                            <YearMonth className={`interest_post_box interest_post_box_${key}`} onClick={onOffHandler(`${key}`)} >
+                                <span className={`open_icon_${key}`}>▼ </span>
+                                <span className={`close_icon_${key} hide`}>▲ </span>
+                                {key}
+                                </YearMonth>
                             </div>
-                            <div>{el[0][key].map((value: any) => {
+                            <div className={`container_value_${key} container_value_box hide`}>{el[0][key].map((value: any) => {
                                 return (//내용물
-                                    <div>
-                                        <div className={`container_value_${key} hide`} key={value.id} id={value.id} onClick={clickHandler}>
+                                    <div className='content_box'>
+                                        <div  key={value.id} id={value.id} onClick={clickHandler}>
                                             <div >{value.createAt}</div>
-                                            <div >{value.content}</div>
+                                            <div className='content_text'>{value.content}</div>
                                         </div><br />
                                     </div>
                                 )

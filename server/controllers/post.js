@@ -1,13 +1,17 @@
 const {post, tag, user, comment, likes, post_tag} = require('../models/index');
 module.exports = {
     postTag : async (req, res) => {
-        req.query.page = req.query.page || 0;
-        req.query.size = req.query.size || 5;
+        req.query.page = req.query.page || '1';
+        //req.query.size = req.query.size || '2';
         req.userId = req.userId || 1;
         req.query.tag = req.query.tag || ["부산광역시", "대구광역시"];
         req.query.notTag = req.query.notTag || null;
         let page = Number(req.query.page);
-        let size = Number(req.query.size)
+        //let size = Number(req.query.size);
+        let offset= 0;
+        if(page !== 0) {
+            offset = page * 10;
+        }
         const areaTag = req.query.tag.filter((el) => {
             return el[el.length-1] === '시' || el[el.length-1] === '군'
         })
@@ -130,7 +134,8 @@ module.exports = {
                 }
             ],
             order: [['createAt','DESC']],
-            limit: [page, size]
+            offset: offset,
+            limit: 10
         })
         const resPosts =  posts.map((post)=> {
             const {id, content, createAt, public, userId, user, likes, tags, comments} = post;

@@ -66,6 +66,7 @@
     align-items: center;
 }
 .intro_text{
+    font-family: 'contents';
     display: flex;
     flex-direction: column;;
     justify-content: center;
@@ -76,7 +77,9 @@
     text-align: center;
 }
 .intro_text_big{
-    font-size: 1.8rem;
+    font-family: "title";
+    font-size: 3rem;
+
 }
 
 .intro_button_place{

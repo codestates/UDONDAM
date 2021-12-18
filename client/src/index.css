@@ -11,3 +11,11 @@ code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
     monospace;
 }
+@font-face {
+  font-family: "title";
+  src: url("fonts/BMHANNAPro.ttf");
+}
+@font-face {
+  font-family: "contents";
+  src: url("fonts/BMHANNAAir_ttf.ttf");
+}

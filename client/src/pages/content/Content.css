@@ -1,5 +1,5 @@
 .contanier-main{
-    height:98%;
+    
     width:80%;
     border: solid 2px rgb(255, 255, 255);
 
@@ -35,7 +35,7 @@
     font-size: 1.8rem;
     margin-top: 10px;
     margin-bottom: 20px;
-  
+    overflow: auto;
 }
 .comment-icon{
     cursor: pointer;

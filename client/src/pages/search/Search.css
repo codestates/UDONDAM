@@ -15,7 +15,7 @@
     /* overflow: auto; */
     text-align: center;
     margin-top: 30px;
-    height: 100%;
+    
     /* position: absolute; */ 
     
 }
@@ -54,6 +54,7 @@
    height: 100%;
    width: 100%;
    position: absolute;  
+   overflow: auto;
 }
 .header-container-area{
     position: relative;
@@ -163,7 +164,7 @@
 .header-container-tag-mode{
    
     position: absolute;
-    height: auto;
+    height: 150%;
     width: 100%;
 }
 .header-container-tag-mode-button-left{

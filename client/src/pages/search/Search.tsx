@@ -10,37 +10,17 @@ import { useHistory } from 'react-router'
 import jQuery from 'jquery'
 import { decodedTextSpanIntersectsWith } from "typescript";
 import RecentViewModal from '../../components/Content/RecentViewModal';
+import './Search.css'
+import { faChevronUp } from "@fortawesome/free-solid-svg-icons";
+import { faChevronDown } from "@fortawesome/free-solid-svg-icons";
+import { library } from "@fortawesome/fontawesome-svg-core";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+
+library.add(faChevronUp);
+library.add(faChevronDown);
 
 const qs = require('qs');
 
-const AreaSelete = styled.div`
-    background-color: darkgray;
-`;
-const AreaUnSelete = styled.div`
-    display: none;
-`;
-const FixedScroll = styled.div`
-    position: fixed;
-    top : 0;
-    left : 0;
-`;
-const TagContainerDiv = styled.div`
-    position: relative;
-    
-    width: 20vw;
-    //height: 50vh;
-`;
-
-const LogoImg = styled.img`
-    box-sizing: border-box;
-    width: 10vw;
-    height: 10vh;
-    color:white;
-    background-color: black;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-`;
 const tagdummyData = [
     '여행', '게임', '소문', '유머', '산책', '자랑', '놀라운', '직장', '학교', '운동', '반려동물', '만화', '고민', '비밀', '음악', '흥미', '사고', '독서', '식사', '취미', '도움', '나눔', '연애', '만남', '자소서', '스포츠', '잡담', '알림', '질문']
 //지역에 관한 필터링
@@ -50,17 +30,7 @@ function Search() {
     let AllTagHandleData = {}
     const timeLineAllTagHandleData = []
     console.log(loginUserInfo)
-    const selectButtonStyle = {
-        background: "blue",
-        color: "white",
-        width: '10vw',
-        height: '7vh'
-    }
-    const unSelectButtonStyle = {
-        background: "lightgray",
-        width: '10vw',
-        height: '7vh'
-    }
+    
     const notRed = {
         background: "red",
         color: "white"
@@ -115,11 +85,11 @@ function Search() {
    
 
     const areaSeleteClick = (event:any) => {
-        if(isAreaActive){
-            event.target.textContent = 'u'
-        }else{
-            event.target.textContent = 'n'
-        }
+        // if(isAreaActive){
+        //     event.target.textContent = 'u'
+        // }else{
+        //     event.target.textContent = 'n'
+        // }
 
         setIsAreaActive(!isAreaActive)
     }
@@ -389,29 +359,41 @@ function Search() {
     console.log(notGiftTag)
 
     return (
-    <div>
-
-        <span>
-            지역
-            <button onClick = {areaSeleteClick}>
-                n
+    <div className='search-page-container'>
+        <div className="header-container-main">
+        <span className="header-container">
+            <span className='header-container-area'>
+                지역  
+                {isAreaActive? <button className="header-container-area-button" onClick = {areaSeleteClick}>
+                    <FontAwesomeIcon icon={faChevronDown}></FontAwesomeIcon>
+                </button>
+                :
+                <button className="header-container-area-button" onClick = {areaSeleteClick}>
+                    <FontAwesomeIcon icon={faChevronUp}></FontAwesomeIcon>
+                </button>
+                }
+                
+            </span>
+            <button className="header-container-recent" onClick = {recentSearchHandle}>
+                이전 검색 내역
             </button>
+        </span>
             {isAreaActive ? 
-            <AreaUnSelete>
-            </AreaUnSelete>
+            <div>
+            </div>
             :
-            <AreaSelete>
-                <ul>
+            <div>
+                <div className="header-container-area-box">
                     {userAreaData.map((el:any, idx:any) => {
                         if(el === '인증해주세요'){
-                            return <div>인증해주세요<Link to={{
+                            return <div>인증해주세요<Link className="header-container-area-box-link" to={{
                                 pathname: `./Area`,
                                 state: {
                                 ida: idx,
                             }
                         }}>인증</Link></div>
                         }else{
-                            return <div>{el}<Link to={{
+                            return <div>{el}<Link className="header-container-area-box-link" to={{
                                     pathname: `./Area`,
                                     state: {
                                     ida: idx,
@@ -419,71 +401,82 @@ function Search() {
                             }}>인증</Link></div>
                         }
                     })}
-                </ul>
-            </AreaSelete>
+                </div>
+            </div>
             }
-        <span onClick = {recentSearchHandle}>
-            이전 검색 내역
-        </span>
-        </span>
-        <LogoImg src = '로고-우동담-Dark-모양만-배경o.png' />
+            <div className="header-container-img-box">
+                <img className="header-container-img" src = '로고-우동담-Dark-모양만-배경o.png' />
+            </div>
+        
+        
         {changeRecentSearchModal ? null:<RecentViewModal recentSearchHandle = {recentSearchHandle} selectTagSearchHandle = {selectTagSearchHandle} setGiftTag = {setGiftTag} setNotGiftTag = {setNotGiftTag}> </RecentViewModal>}
-        <div>
-            <input type="text" value={searchText} onChange={searchTextChange} placeholder="태그 검색" onKeyPress={searchHandleKeyPress} />
-            <button onClick={handleSearchButton}>검색</button>
-        </div>
+    </div>
+        
     
         {
             notModeTag ?
-        <div>
-            <div>
-                <button onClick = {notTagHandle}>
-                    금지 태그 설정
-                </button>
-                <button onClick = {selectTagReSet}>
-                    태그 초기화
-                </button>
-            </div>
-            <div>
-                <button onClick = {selectTagSearchHandle}>
-                    설정한 태그로 타임라인 검색
-                </button>
-                <div>{errorTag}</div>
-            </div>
-            <div>
-                <button onClick={timeLineAllTagHandle}>
-                    타임라인 전체 보기
-                </button>
-            </div>
-            
-            {
-                notGiftTag.length !== 0 ?
-                <div>금지 설정한 태그 
-                    <div>{notTagSeletView}</div>
+        <div className="header-container-tag-mode">
+            <div className="header-container-main2">
+                
+                <div className="header-container-tag-mode-box">
+                    <button className="header-container-tag-mode-button2" onClick={timeLineAllTagHandle}>
+                        타임라인 전체 보기
+                    </button>
                 </div>
-                : null
-            }
+                <div className="header-container-tag-mode-box">
+                    <button className="header-container-tag-mode-button2" onClick = {selectTagSearchHandle}>
+                        설정한 태그로 타임라인 검색
+                    </button>
+                     
+                </div>
+                <div className="header-container-tag-mode-box">
+                    
+                        <button className="header-container-tag-mode-button-left" onClick = {notTagHandle}>
+                            금지 태그 설정
+                        </button>
+                        <button className="header-container-tag-mode-button-right" onClick = {selectTagReSet}>
+                            태그 초기화
+                        </button>
+                    
+                </div>
             
-            
-            <TagContainerDiv>
+                <div className="header-container-search-box">
+                    <input className="header-container-search-input" type="text" value={searchText} onChange={searchTextChange} placeholder="태그 검색" onKeyPress={searchHandleKeyPress} />
+                
+                </div>
+                <div className="error-tag">{errorTag}</div>
+                
                 {tagData.map((el:any) => {
                     if(giftTag.indexOf(el) !== -1){
                         
                         
-                        return <button style={selectButtonStyle} onClick = {giftTagHandle}>{el}</button>
+                        return <button className="select box box-contanier2" onClick = {giftTagHandle}>{el}</button>
                         
                     }
                 })}
-                <div>
+                <div className="tag-view">
                     {tagSeletView}
+                    {
+                    notGiftTag.length !== 0 ?
+                    <div className="tag-view-title">금지 설정한 태그 
+                        <div>{notTagSeletView}</div>
+                    </div>
+                    
+                    : null
+                    }
                 </div>
+            </div>
+            
+            <div className="box-contanier">
+                
+                
                 {searchText === '' ? tagData.map((el:any) => {
                     if(giftTag.indexOf(el) === -1){
                         if(el === '인증해주세요'){
                             return
                         }
                         else{
-                            return <button style={unSelectButtonStyle} onClick = {giftTagHandle}>{el}</button>
+                            return <button className="un-select box" onClick = {giftTagHandle}>{el}</button>
                         }
                     }else{
                         if(el === '인증해주세요'){
@@ -495,55 +488,66 @@ function Search() {
                 :
                 filterTag.map((el:any) => {
                     if(giftTag.indexOf(el) === -1){
-                        return <button style={unSelectButtonStyle} onClick = {giftTagHandle}>{el}</button>
+                        return <button className="un-select box" onClick = {giftTagHandle}>{el}</button>
                     }
                     
                     else if (giftTag.indexOf(el) !== -1){
-                        return <button style={selectButtonStyle} onClick = {giftTagHandle}>{el}</button>
+                        return <button className="select box" onClick = {giftTagHandle}>{el}</button>
                     }
                 })
                 
 
                 }
                 
-            </TagContainerDiv>
+            </div>
         </div>
 
         :
 
-        <div>
-            <div>
-                <button style = {notRed} onClick = {notTagHandle}>
-                    금지 태그 설정 해제
-                </button>
-                <button onClick = {selectTagReSet}>
-                    태그 초기화
+        <div className="header-container-tag-mode">
+            <div className="header-container-main2">
+            
+            <div className="header-container-tag-mode-box">
+                <button className="header-container-tag-mode-button2">
+                    타임라인 전체 보기
                 </button>
             </div>
-            <div>
-                <button onClick = {selectTagSearchHandle}>
+
+            <div className="header-container-tag-mode-box">
+                <button className="header-container-tag-mode-button2" onClick = {selectTagSearchHandle}>
                     설정한 태그로 타임라인 검색
                 </button>
                 <div>{errorTag}</div>
             </div>
-            <div>
-                <button>
-                    타임라인 전체 보기
+            
+
+            <div className="header-container-tag-mode-box">
+                <button className="not-tag-mode header-container-tag-mode-button-left" onClick = {notTagHandle}>
+                    금지 태그 설정 해제
+                </button>
+                <button className="header-container-tag-mode-button-right" onClick = {selectTagReSet}>
+                    태그 초기화
                 </button>
             </div>
-            
-            <TagContainerDiv>
+                <div className="header-container-search-box">
+                    <input className="header-container-search-input" type="text" value={searchText} onChange={searchTextChange} placeholder="태그 검색" onKeyPress={searchHandleKeyPress} />
+                
+                </div>
                 {notTagData.map((el:any) => {
                     if(notGiftTag.indexOf(el) !== -1){
                         
                         
-                        return <button style={notTagRed} onClick = {giftTagHandle}>{el}</button>
+                        return <button className="not-select box box-contanier2" onClick = {giftTagHandle}>{el}</button>
                         
                     }
                 })}
-                <div>
+                <div className="tag-view">
                     {notTagSeletView}
-                </div>
+                </div >
+            </div>
+            <div className="box-contanier">
+                
+                
                 {searchText === '' ? notTagData.map((el:any) => {
 
                     if(notGiftTag !== null && notGiftTag.indexOf(el) === -1){
@@ -551,14 +555,14 @@ function Search() {
                             if(el === '인증해주세요'){
                                 return
                             }else{
-                                return <button style={unSelectButtonStyle} onClick = {giftTagHandle}>{el}</button>
+                                return <button className="un-select box" onClick = {giftTagHandle}>{el}</button>
                             }
                         }
                         else{
                             if(el === '인증해주세요'){
                                 return
                             }else{
-                            return <button style={selectButtonStyle} onClick = {giftTagHandle}>{el}</button>
+                            return <button className="select box" onClick = {giftTagHandle}>{el}</button>
                             }
                         }
                     }else{
@@ -575,21 +579,23 @@ function Search() {
                         if(el === '인증해주세요'){
                             return
                         }else{
-                        return <button style={unSelectButtonStyle} onClick = {giftTagHandle}>{el}</button>
+                        return <button className="un-select box" onClick = {giftTagHandle}>{el}</button>
                         }
                     }else{
                         if(el === '인증해주세요'){
                             return
                         }else{
-                            return <button style={notTagRed} onClick = {giftTagHandle}>{el}</button>
+                            return <button className="not-select box" onClick = {giftTagHandle}>{el}</button>
                         }
                     }
                 })
                 }
                 
-            </TagContainerDiv>
+            </div>
+        
         </div>
         }
+        
     </div>
     )
 }

@@ -1,0 +1,129 @@
+.contanier-main{
+    height:98%;
+    width:80%;
+    border: solid 2px rgb(255, 255, 255);
+
+    border-radius: 15px;
+    margin: 0 auto;
+    padding: 20px;
+    margin-top: 10px;
+    margin-bottom: 30px;
+}
+.contanier-main-contanier{
+    width: 100%;
+    font-size: 1.3rem;
+    margin-bottom: 30px;
+}
+
+.back-button{
+
+    font-size: 1.3rem;
+    margin: 10px;
+    background-color: rgb(58, 58, 58);
+    color: white;
+}
+.writer-true{
+    color: tomato;
+}
+.delete-button{
+    float: right;
+    color: tomato;
+    margin-right: 10px;
+    cursor: pointer;
+}
+.content-main{
+    font-size: 1.8rem;
+    margin-top: 10px;
+    margin-bottom: 20px;
+  
+}
+.comment-icon{
+    cursor: pointer;
+    float: right;
+}
+.like-icon-true{
+    cursor: pointer;
+    float: right;
+    color: blue;
+    margin-right: 10px;
+
+}
+.like-icon{
+    cursor: pointer;
+    float: right;
+    margin-right: 10px;
+}
+.comment-box{
+    border: solid 2px rgb(255, 255, 255);
+    border-radius: 10px;
+    padding: 10px;
+    color: white;
+}
+.comment-box2{
+    border: solid 2px rgb(255, 255, 255);
+    border-radius: 10px;
+    padding: 10px;
+    color: white;
+    width: 92%;
+ 
+    margin-top: 10px;
+}
+.icon-ccoment{
+    position: absolute;
+    margin-top: 40px;
+}
+.comment-contanier{
+    margin-top: 30px;
+}
+.as{
+    margin-top: 10px;
+}
+.writer-comment{
+    color: chartreuse;
+}
+.comment-createAt{
+    margin-left: 10px;
+}
+.comment-option-delete{
+    cursor: pointer;
+    float: right;
+    margin-right: 10px;
+    color: tomato;
+}
+.comment-option{
+    cursor: pointer;
+    float: right;
+    margin-right: 10px;
+}
+.input-comment{
+    margin-top: 20px;
+    width: 94%;
+    height: 7rem;
+    resize: none;
+    font-size: 1.3rem;
+    border-radius: 10px;
+    padding: 20px;
+}
+.charNum-Red{
+    color: tomato;
+    display: flex;
+    justify-content: right;
+}
+.charNum{
+    display: flex;
+    justify-content: right;
+}
+.complete-comment-box{
+    display: flex;
+    justify-content: left;
+}
+.complete-comment-button{
+    
+    font-size: 1.4rem;
+    color: white;
+    background-color: rgb(58, 58, 58);
+}
+.ccomment-box{
+    display: flex;
+    justify-content: right;
+}

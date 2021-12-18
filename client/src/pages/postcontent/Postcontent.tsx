@@ -6,8 +6,8 @@ import axios from 'axios';
 import 'dotenv/config'
 import { RootStateOrAny, useDispatch, useSelector } from 'react-redux'
 import { useHistory } from 'react-router'
-import { UserInfoHandler } from '../redux/modules/UserInfo';
-
+import { UserInfoHandler } from '../../redux/modules/UserInfo';
+import './Postcontent.css'
     //게시글 작성
     const Container = styled.div`
     box-sizing: border-box;
@@ -26,12 +26,7 @@ import { UserInfoHandler } from '../redux/modules/UserInfo';
         color:white;
     `;
 
-    const TextArea = styled.textarea`
-    width: 100%;
-    height: 40rem;
-    resize: none;
-    font-size: 2em;
-    `
+   
 
 let arr:any = []
 const Postcontent: React.FC = () => {
@@ -46,6 +41,8 @@ const Postcontent: React.FC = () => {
     const [searchText, setSearchText] = useState<any>('')
     const [filterTag, setFilterTag] = useState<any>([])
     const [falseMessage, setFalseMessage] = useState<any>('')
+    const [charNum, setCharNum] = useState<any>(0) 
+    const [charNumError, setCharNumError] = useState<any>('') 
 
     
 
@@ -53,7 +50,31 @@ const Postcontent: React.FC = () => {
         '여행', '게임', '소문', '유머', '산책', '자랑', '놀라운', '직장', '학교', '운동', '반려동물', '만화', '고민', '비밀', '음악', '흥미', '사고', '독서', '식사', '취미', '도움', '나눔', '연애', '만남', '자소서', '스포츠', '잡담', '알림', '질문', loginUserInfo.area, loginUserInfo.area2])
 
     const contentTextChange = (event:any) => {
-        setContentText(event.target.value)
+        const max = 300;
+        const textValue = event.target.value;
+        const textLength = textValue.length
+        let num = 0
+        for(let i =0; i<textLength; i++){
+            //하 유니코드 체크..
+            let char = textValue.charAt(i)
+            let uniChar = encodeURI(char)
+            if(uniChar.length>4){
+                //한글은 2
+                num = num + 2
+            }else{
+                //영문 숫자 1
+                num = num + 1
+            }
+        }
+        setCharNum(num)
+        if(max < num){
+            setCharNumError('글자 제한 수를 초과하셨습니다.')
+        }
+        else{
+            setContentText(event.target.value)
+            setCharNumError('')
+        }
+       
     }
     const searchTextChange2 = (event:any) => {
         setSearchText(event.target.value)
@@ -89,18 +110,31 @@ const Postcontent: React.FC = () => {
         
     }
     const giftTagDeleteHandle = (data:any) => {
+        if(searchText === '1'){
+            arr.splice(arr.indexOf(data),1)
+            a = ''
+            setContentGiftTag(arr)
+            setSearchText('2')
+            setTagHandle()
+        }
         arr.splice(arr.indexOf(data),1)
         a = ''
         setContentGiftTag(arr)
-        setSearchText(' ')
+        setSearchText('1')
         setTagHandle()
     }
 
     const compleatContentHandle = async () => {
         console.log(contentText, contentGiftTag)
+        
+        //줄바꿈 적용 하고 싶다
+        const replaceHandle = () => {
+            return contentText.replaceAll('<br>','₩r₩n')
+        }
+
         if(contentGiftTag.includes(loginUserInfo.area) || contentGiftTag.includes(loginUserInfo.area2)){
             await axios.post(`${process.env.REACT_APP_API_URL}/post`,{
-                content: contentText,
+                content: replaceHandle(),
                 public: false,
                 tag: contentGiftTag
             },{withCredentials: true}).then((respone) => {
@@ -122,33 +156,40 @@ const Postcontent: React.FC = () => {
 
     return(
             <div>
-                <div>
-                    <Container>
-                        <CharacterImg src = '로고-우동담-Dark-글자만-배경o.png'/>
-                    </Container>
+                <div className='post-contanier'>
                     <div>
-                        <TextArea onChange={contentTextChange} value={contentText}></TextArea>
+                        <img src = '로고-우동담-Dark-글자만-배경o.png'/>
                     </div>
                     <div>
+                        <textarea className='textarea-input' onChange={contentTextChange} value={contentText}/>
+                        {charNumError === '' ? <div className='charNum'>
+                                {`${charNum} /300 byte`}
+                            </div>
+                            :
+                            <div className='charNum-Red'>
+                                {`${charNum} /300 byte`}
+                            </div>
+                            }
+                        {charNumError === '' ? null : <div>{charNumError}</div>}
+                    </div>
+                    <div className='tag-box'>
                         {contentGiftTag.map((el:any) => {
-                            return <button onClick={() => giftTagDeleteHandle(el)}>{`# ${el}`}</button>
+                            return <button className='select-tag' onClick={() => giftTagDeleteHandle(el)}>{`# ${el}`}</button>
                         })}
                     </div>
+                    
                     <div>
-                        <div> - 태그 검색 -</div>                
-                    </div>
-                    <div>
-                        <input type="text" value={searchText} onChange={searchTextChange2} placeholder="태그를 검색하세요" onKeyPress= {searchHandleKeyPress2} />
+                        <input className='tag-input' type="text" value={searchText} onChange={searchTextChange2} placeholder="태그를 검색하세요, 최소 한개의 지역 태그가 필요합니다." onKeyPress= {searchHandleKeyPress2} />
                     </div>
                     <div>
                         {searchText === '' ? null
                             :filterTag.map((el:any) => {
-                                return <button onClick = {giftTagHandle2}>{el}</button>
+                                return <button className='tag-button' onClick = {giftTagHandle2}>{el}</button>
                             })
                             }
                     </div>
-                    <div>
-                        <button onClick={compleatContentHandle}>작성 완료</button>
+                    <div className='compelete-button-box'>
+                        <button className='compelete-button' onClick={compleatContentHandle}>게시글 업로드</button>
                         
                     </div>
                     <div>

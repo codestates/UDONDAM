@@ -1,0 +1,220 @@
+.box{
+    border-radius: 15px;
+    margin: 0.5%;
+    width: 10vw;
+    height: 7vh;
+    font-size: 1rem;
+    min-height: 50px;
+    min-width: 95px;
+    max-height: 150px;
+    max-width: 150px;
+    display: inline-block;
+    
+}
+.box-contanier{
+    /* overflow: auto; */
+    text-align: center;
+    margin-top: 30px;
+    height: 100%;
+    /* position: absolute; */ 
+    
+}
+
+.box-contanier{
+    /* overflow: auto; */
+    text-align: center;
+    /* position: absolute; */ 
+}
+
+.select{
+    background: blue;
+    color: white;
+    
+    
+}  
+.un-select{
+    background-color: rgb(58, 58, 58);
+    color: white;
+}
+.not-tag-mode{
+    background: red;
+    color:white;
+}
+.not-select{
+    background: red;
+    color: white;
+    
+}
+.header-container{
+    font-size: 1rem;
+    position: relative;
+    
+}
+.search-page-container{
+   height: 100%;
+   width: 100%;
+   position: absolute;  
+}
+.header-container-area{
+    position: relative;
+    font-size: 1.4rem;
+    margin-left: 10px;
+}
+.header-container-area-button{
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    font-size: 1rem;
+    padding: auto;
+    margin-left: 10px;
+}
+.header-container-recent{
+    float:right;
+    font-size: 1.3rem;
+    color: white;
+    background-color: rgb(87, 87, 87);
+}
+.header-container-area-box{
+    
+    border: solid 2px rgb(255, 255, 255);
+    font-size: 1.3rem;
+    position: absolute;
+    z-index:1;
+    width: 170px;
+    
+}
+.error-tag{
+    display: inline-block;
+    font-size: 1.7rem;
+}
+.tag-view{
+    font-size: 1.2rem;
+}
+.tag-view-title{
+    color: red;
+    text-shadow: 1px 0 white, 1px 0 white, 1px 0 white, 1px 0 white;
+}
+.header-container-area-box-link{
+    border: solid 1px rgb(255, 255, 255);
+    text-decoration-line: none;
+    color: white;
+    float: right;
+
+    font-size: 1.1rem;
+}
+.header-container-img-box{
+    height:11vw;
+    min-height: 100px;
+    max-height: 255px;
+    
+    width: 100%;
+    position: absolute;
+    overflow: auto;
+}
+
+.header-container-img{
+   height: 10vw;
+   max-height: 250px;
+   display: block;
+   margin: 0px auto;
+   min-height: 100px;
+   min-width: 100px;
+}
+.header-container-search-box{
+    /* height: 30%;
+    max-height: 40px;
+    min-width: 200px; */
+    margin-top: 13px;
+    margin-bottom: 13px;
+}
+.header-container-search-input{
+    display: block;
+    margin: 0px auto;
+    height: 1.4vw;
+    max-height: 1.3vw;
+    min-height: 1.5rem;
+    width: 60%;
+    font-size: 1rem;
+    border-radius: 15px;
+}
+.header-container-main{
+    height: 12vw;
+    position: relative;
+    min-height: 140px;
+    max-height: 290px;
+}
+.header-container-main2{
+    
+    max-height: 800px;
+    min-height: 180px;
+    width: 100%;
+    text-align: center;
+    position: sticky;
+    top: 20px;
+    
+}
+
+.header-container-tag-mode-box{
+    text-align: center;
+    height: 30%;
+    max-height: 40px;
+    min-width: 200px;
+}
+.header-container-tag-mode{
+   
+    position: absolute;
+    height: 200%;
+    width: 100%;
+}
+.header-container-tag-mode-button-left{
+    display: inline-block;
+
+    height: 1.4vw;
+    max-height: 1.3vw;
+    min-height: 1.5rem;
+    width: 35%;
+    font-size: 1rem;
+
+    border-radius: 15px;
+
+    background-color: rgb(105, 105, 105);
+    color: white;
+    padding: 5px;
+}
+.header-container-tag-mode-button-right{
+    display: inline-block;
+
+    height: 1.4vw;
+    max-height: 1.3vw;
+    min-height: 1.5rem;
+    width: 30%;
+    font-size: 1rem;
+    margin-left: 5%;
+    border-radius: 15px;
+
+    background-color: rgb(105, 105, 105);
+    color: white;
+    padding: 5px;
+}
+.header-container-tag-mode-button2{
+    display: inline-block;
+    margin: auto;
+
+    max-height: 1.3vw;
+    min-height: 1.5rem;
+    width: 70%;
+    font-size: 1rem;
+    border-radius: 15px;
+
+    margin-bottom: 5px;
+    background-color: rgb(105, 105, 105);
+    color: white;
+    padding: 5px;
+}
+
+/* const TagContainerDiv = styled.div`
+    position: relative;
+    
+    width: 20vw;
+    //height: 50vh;
+`; */

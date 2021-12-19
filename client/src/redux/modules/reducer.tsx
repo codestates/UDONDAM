@@ -6,6 +6,7 @@ import IsMobileReducer from './IsMobile';
 import MainPageReducer from './MainPageHandle';
 import IsGuestReducer from './IsGuest';
 import CommentIdData from './CommentIdData';
+import IsPostContentReducer from './IsPostContent'
 
 
 const rootReducer = combineReducers({
@@ -15,7 +16,8 @@ const rootReducer = combineReducers({
     IsMobileReducer,
     MainPageReducer,
     IsGuestReducer,
-    CommentIdData
+    CommentIdData,
+    IsPostContentReducer
   });  
   
   export default rootReducer;

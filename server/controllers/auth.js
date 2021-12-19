@@ -317,7 +317,7 @@ module.exports = {
                 expires: new Date(Date.now() + 1000 * 60 * 60 * 48),
             });
 
-            res.redirect(`${process.env.CLIENT_URI}/search`);
+            res.redirect(`${process.env.CLIENT_URI}/mypage`);
         } catch (error) {
             res.sendStatus(500);
         }
@@ -374,7 +374,7 @@ module.exports = {
             httpOnly: true,
             expires: new Date(Date.now() + 1000 * 60 * 60 * 48),
         });
-        res.redirect(`${process.env.CLIENT_URI}/search`);
+        res.redirect(`${process.env.CLIENT_URI}/mypage`);
         } catch (error) {
         console.error(error);
         res.status(500).json({"message" : "Server Error"});
@@ -433,7 +433,7 @@ module.exports = {
             httpOnly: true,
             expires: new Date(Date.now() + 1000 * 60 * 60 * 48),
         });
-        return res.redirect(`${CLIENTURI}/search`);
+        return res.redirect(`${CLIENTURI}/mypage`);
         } catch (error) {
         console.error(error);
         res.status(500).json({"message": "Server Error"});

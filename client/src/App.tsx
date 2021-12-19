@@ -61,8 +61,11 @@ function App() {
       // sessionStorage.removeItem('user')
      
       
+    } else {
+      return ;
     }
-    const getUserData = await axios.get(`${process.env.REACT_APP_API_URL}/user`, { withCredentials: true })
+    try {
+      const getUserData = await axios.get(`${process.env.REACT_APP_API_URL}/user`, { withCredentials: true })
     console.log(getUserData)
     console.log('getUserData왔음')
     const userInfo = getUserData.data
@@ -81,6 +84,10 @@ function App() {
   
   const areadata:string = JSON.stringify([userInfo.area,userInfo.area2])
   sessionStorage.setItem('areaData',areadata)
+    } catch (error:any) {
+      console.log(error.response)
+    }
+    
    
   // console.log(useSelector((state: RootStateOrAny) => state))
   }

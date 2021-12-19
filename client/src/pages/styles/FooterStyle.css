@@ -3,14 +3,15 @@
     height: max-content;
     max-height: 90px;
     width: 100%;
-    min-width: 740px;
+    /* min-width: 740px; */
     display: grid;
     grid-template-areas: "about copyright member";
-    grid-template-columns: 30% 40% 30%;
+    grid-template-columns: auto;
     background-color: rgb(66, 66, 66);
     color: white;
     border-top: 5px solid rgb(48, 48, 48);
 }
+
 /* 어바웃 */
 .grid_footer_about_place{
     grid-area: about;
@@ -115,4 +116,48 @@ min-height: 50px;
 /* 폰트 */
 .footer_text{
     font-size: 0.8rem;
+}
+
+
+@media (max-width:850px) {
+    .about_team_text{
+        font-size: 1.0rem;
+        width: 80%;
+    }
+    .about_project_project{
+        font-size: 1.2rem;
+    }
+    .about_project_udondam{
+        font-size: 1.5rem;
+    }
+    .grid_footer_copyright{
+        font-size: 1.0rem;
+        white-space: nowrap;
+    }
+    .member_text{
+        font-size: 2rem;
+    }
+}
+
+@media (max-width:600px) {
+    .grid_footer_container{
+        /* position: relative; */
+        height: max-content;
+        max-height: 90px;
+        width: 100%;
+        /* min-width: 740px; */
+        display: grid;
+        grid-template-areas: "about ";
+        grid-template-columns: auto;
+        background-color: rgb(66, 66, 66);
+        color: white;
+        border-top: 5px solid rgb(48, 48, 48);
+    }
+    .grid_footer_copyright_place{
+        display: none;
+    }
+    .grid_footer_member_place{
+        display: none;
+    
+    }
 }

@@ -279,11 +279,13 @@ function Mypage(props:any) {
                         </div>
                         {onOff.onRequest ?
                             <div className='mypage_request_button_box'>
-                                <button className='mypage_request_button_detail gray_button'>태그추가 요청</button>
-                                <button className='mypage_request_button_detail gray_button'>신고처리현황</button>
+                                <button className='mypage_request_button_detail gray_button'>준비중입니다</button>
+                                {/* <button className='mypage_request_button_detail gray_button'>태그추가 요청</button>
+                                <button className='mypage_request_button_detail gray_button'>신고처리현황</button> */}
                             </div> : <div className='mypage_request_button_box'>
-                                <button className='mypage_request_button_detail gray_button hide'>태그추가 요청</button>
-                                <button className='mypage_request_button_detail gray_button hide'>신고처리현황</button>
+                            <button className='mypage_request_button_detail gray_button hide'>준비중입니다</button>
+                                {/* <button className='mypage_request_button_detail gray_button hide'>태그추가 요청</button>
+                                <button className='mypage_request_button_detail gray_button hide'>신고처리현황</button> */}
                             </div> }
                             </div>
                     </div>

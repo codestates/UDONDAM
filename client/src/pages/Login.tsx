@@ -9,6 +9,7 @@ import { IsGuestHandler } from '../redux/modules/IsGuest';
 import SearchPassword from '../components/Login/SearchPassword';
 import GuestLoginModal from '../components/Login/GuestLoginModal';
 import LoadingIndicator from '../components/utils/LoadingIndicator';
+import SocialGoogleLogin from '../components/SocialGoogleLogin';
 import './styles/IntroStyle.css';
 const NAVER = process.env.NAVER || 'http://localhost:8080/naver';
 const KAKAO = process.env.KAKAO || 'http://localhost:8080/kakao';
@@ -137,8 +138,18 @@ function Login() {
         if (key === 'kakao') {
           window.location.href = KAKAO
           //window.location.href = `${process.env.REACT_APP_API_URL}/kakao`
+        //   const userInfo = {}
+        //   dispatch(UserInfoHandler({
+        //     userId: userInfo.userId,
+        //     email: loginInfo.email,
+        //     nickname: userInfo.nickname,
+        //     area: userInfo.area || null,
+        //     area2: userInfo.area2 || null,
+        //     manager: userInfo.manager,
+        //     socialType: userInfo.socialType
+        // }))
         } else if(key === 'google'){
-            window.location.href = `${process.env.REACT_APP_API_URL}/google`
+            // window.location.href = `${process.env.REACT_APP_API_URL}/google`
         } else if(key === 'naver') {
             window.location.href = NAVER
         }
@@ -228,6 +239,7 @@ function Login() {
                         <div className='social_container_box'>
                         <img className='social_button social_google' src='Google.png' alt='social' />
                         <div className='social_text social_text_google'>구글 로그인</div>
+                        {/* <SocialGoogleLogin /> */}
                         </div>
                     </div>
                     <div className='social_button_container social_naver_container' onClick={socialLoginHandler('naver')}>

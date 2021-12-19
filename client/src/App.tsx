@@ -89,12 +89,12 @@ function App() {
     }
     
    
-  // console.log(useSelector((state: RootStateOrAny) => state))
   }
-  // useEffect(()=>{
-  //   console.log('유즈이펙트작동')
-  //   getuserInfo()
-  // },[])
+  
+  useEffect(()=>{
+    console.log('유즈이펙트작동')
+    getuserInfo()
+  },[])
   getuserInfo()
   isMobile()
 

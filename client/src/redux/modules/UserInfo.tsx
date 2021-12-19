@@ -17,8 +17,8 @@ export const userInfoInitialState: userInfoState = {
     userId:0,
     email: '',
     nickname: '',
-    area: '',
-    area2: '',
+    area: '인증해주세요',
+    area2: '인증해주세요',
     manager: false,
     socialType: ''
 };

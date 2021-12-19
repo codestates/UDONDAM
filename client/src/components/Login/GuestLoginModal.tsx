@@ -124,6 +124,20 @@ function GuestLoginModal (props:any) {
           manager: guestInfo.manager || false, 
           socialType: guestInfo.socialType || null
       }))
+      //세션 관련
+      const changeJson:string = JSON.stringify({
+        userId: guestInfo.userId || 0,
+        email: guestInfo.email || 'guest',
+        nickname: guestInfo.nickname || null,
+        area: guestInfo.area || '인증해주세요',
+        area2: guestInfo.area2 || '인증해주세요',
+        manager: guestInfo.manager || false, 
+        socialType: guestInfo.socialType || null
+    })
+    const areadata:string = JSON.stringify([guestInfo.area,guestInfo.area2])
+    console.log('세션작동:',changeJson)
+    sessionStorage.setItem('user',changeJson)
+    sessionStorage.setItem('areaData',areadata)
         closeGuestModal()
         dispatch(IsGuestHandler(true))
       history.push('/Search')

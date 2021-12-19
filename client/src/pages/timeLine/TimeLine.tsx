@@ -13,7 +13,7 @@ const qs = require('qs');
 //   '로고-우동담-Dark-글자만-배경o.png'
 function TimeLine({ history }: RouteComponentProps){
     let today = new Date()
-
+    const isMobile = useSelector((state: RootStateOrAny)=>state.IsMobileReducer.isMobile)
     let hisData:any = history.location.state
     const loginUserInfo = useSelector((state: RootStateOrAny)=>state.UserInfoReducer)
     const [postData, setPostData] = useState<any>(hisData.data);
@@ -128,7 +128,11 @@ function TimeLine({ history }: RouteComponentProps){
     return (
         <div className="show-width-all">
             <div className="show-box">
+                {isMobile? <div className={`show-nickname ${isMobile ? 't1' : null}`}>{userData.nickname}님 안녕하세요</div>
+                :
                 <div className="show-nickname">{userData.nickname}님 안녕하세요</div>
+                }
+ 
             </div>
             <div className="logo-contanier">
                 <img className="logo" src = '로고-우동담-Dark-글자만-배경o.png'/>

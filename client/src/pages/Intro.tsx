@@ -45,10 +45,8 @@ function Intro() {
                 document.querySelector('.logo_nav')?.classList.toggle('hide')
                 document.querySelector('#nav_bar')?.classList.toggle('hide')
                 document.querySelector('#nav_bar_desktop')?.classList.toggle('hide')
-
             }
         }
-
     }
     const MobileVeiw = function () {
         return (

@@ -30,7 +30,7 @@ function Search() {
     let AllTagHandleData = {}
     const timeLineAllTagHandleData = []
     console.log(loginUserInfo)
-    
+    const isMobile = useSelector((state: RootStateOrAny)=>state.IsMobileReducer.isMobile)
    
     sessionStorage.getItem('areaData')
     const areaData = String(sessionStorage.getItem('areaData')) 
@@ -139,7 +139,8 @@ function Search() {
                 setTagData([userAreaData[0],userAreaData[1],...tag.sort()])
                 setTagHandle()
             }
-        }else
+        }
+        else
         {
             if(notGiftTag.indexOf(event.target.textContent) === -1){
                 setNotGiftTag([...notGiftTag,event.target.textContent])
@@ -298,36 +299,41 @@ function Search() {
     
 
     const timeLineAllTagHandle = async () => {
+        if((userAreaData[0] === undefined || userAreaData[0] === null) && (userAreaData[1] === undefined || userAreaData[1] === null)){
+            setErrorTag('지역인증부터 해주세요')
+        }
+        else{
 
-        await axios(
-        {
-            url: `${process.env.REACT_APP_API_URL}/post`,
-            method: 'get',
-            params: {
-                tag: userAreaData,
-                size: 10,
-                page: 0
-            },
-            withCredentials: true,
-            paramsSerializer: params => {
-                    return qs.stringify(params, {arrayFormat: 'brackets'})
+            await axios(
+            {
+                url: `${process.env.REACT_APP_API_URL}/post`,
+                method: 'get',
+                params: {
+                    tag: userAreaData,
+                    size: 10,
+                    page: 0
+                },
+                withCredentials: true,
+                paramsSerializer: params => {
+                        return qs.stringify(params, {arrayFormat: 'brackets'})
+                    }
                 }
-            }
-        )
-        .then((respone) => {
-            console.log(respone)
-            AllTagHandleData = respone.data
-        })
+            )
+            .then((respone) => {
+                console.log(respone)
+                AllTagHandleData = respone.data
+            })
 
-        
-        his.push({
-            pathname: './Timeline',
-            state: {
-                data : AllTagHandleData,
-                tag: giftTag,
-                notTag: notGiftTag,
-            }
-        })
+            
+            his.push({
+                pathname: './Timeline',
+                state: {
+                    data : AllTagHandleData,
+                    tag: giftTag,
+                    notTag: notGiftTag,
+                }
+            })
+        }
     }
     
 
@@ -352,17 +358,17 @@ function Search() {
     <div className='search-page-container'>
         <div className="header-container-main">
         <span className="header-container">
-            <span className='header-container-area'>
+            
+            <span className={`header-container-area ${isMobile ? 's1' : null}`}>
                 지역  
-                {isAreaActive? <button className="header-container-area-button" onClick = {areaSeleteClick}>
+                {isAreaActive? <button className={`header-container-area-button ${isMobile ? 's2' : null}`} onClick = {areaSeleteClick}>
                     <FontAwesomeIcon icon={faChevronDown}></FontAwesomeIcon>
                 </button>
                 :
-                <button className="header-container-area-button" onClick = {areaSeleteClick}>
+                <button className={`header-container-area-button ${isMobile ? 's2' : null}`} onClick = {areaSeleteClick}>
                     <FontAwesomeIcon icon={faChevronUp}></FontAwesomeIcon>
                 </button>
                 }
-                
             </span>
             
         </span>
@@ -371,17 +377,17 @@ function Search() {
             </div>
             :
             <div>
-                <div className="header-container-area-box">
+                <div className={`header-container-area-box ${isMobile ? 's3' : null}`}>
                     {userAreaData.map((el:any, idx:any) => {
                         if(el === '인증해주세요'){
-                            return <div>인증해주세요<Link className="header-container-area-box-link" to={{
+                            return <div>{`인증해주세요  `}<Link className={`header-container-area-box-link  ${isMobile ? 's4' : null}`} to={{
                                 pathname: `./Area`,
                                 state: {
                                 ida: idx,
                             }
                         }}>인증</Link></div>
                         }else{
-                            return <div>{el}<Link className="header-container-area-box-link" to={{
+                            return <div>{`${el}  `}<Link className={`header-container-area-box-link  ${isMobile ? 's4' : null}`} to={{
                                     pathname: `./Area`,
                                     state: {
                                     ida: idx,
@@ -393,7 +399,7 @@ function Search() {
             </div>
             }
         
-        <button className="header-container-recent" onClick = {recentSearchHandle}>
+        <button className={`header-container-recent ${isMobile ? 's5' : null}`} onClick = {recentSearchHandle}>
                 이전 검색 내역
             </button>
         
@@ -410,46 +416,45 @@ function Search() {
             <div className="header-container-main2">
                 
                 <div className="header-container-tag-mode-box">
-                    <button className="header-container-tag-mode-button2" onClick={timeLineAllTagHandle}>
+                    <div><button className={`header-container-tag-mode-button2 ${isMobile ? 's6' : null}`} onClick={timeLineAllTagHandle}>
                         타임라인 전체 보기
-                    </button>
-                </div>
-                <div className="header-container-tag-mode-box">
-                    <button className="header-container-tag-mode-button2" onClick = {selectTagSearchHandle}>
+                    </button></div>
+                    <div>
+                    <button className={`header-container-tag-mode-button2 ${isMobile ? 's6' : null}`} onClick = {selectTagSearchHandle}>
                         설정한 태그로 타임라인 검색
                     </button>
-                     
-                </div>
-                <div className="header-container-tag-mode-box">
-                    
-                        <button className="header-container-tag-mode-button-left" onClick = {notTagHandle}>
+                    </div>
+                
+                    <div>
+                        <button className={`header-container-tag-mode-button-left ${isMobile ? 's6' : null}`} onClick = {notTagHandle}>
                             금지 태그 설정
                         </button>
-                        <button className="header-container-tag-mode-button-right" onClick = {selectTagReSet}>
+                        
+                        <button className={`header-container-tag-mode-button-right ${isMobile ? 's6' : null}`}  onClick = {selectTagReSet}>
                             태그 초기화
                         </button>
-                    
-                </div>
-            
-                <div className="header-container-search-box">
-                    <input className="header-container-search-input" type="text" value={searchText} onChange={searchTextChange} placeholder="태그 검색" onKeyPress={searchHandleKeyPress} />
+                    </div>
+                    <div className="header-container-search-box">
+                    <input className={`header-container-search-input ${isMobile ? 's9' : null}`}   type="text" value={searchText} onChange={searchTextChange} placeholder="태그 검색" onKeyPress={searchHandleKeyPress} />
                 
                 </div>
-                
-                <div className="tag-view">
+                <div className={`tag-view ${isMobile ? 's3' : null}`}>
                     {tagSeletView}
                     {
                     notGiftTag.length !== 0 ?
-                    <div className="tag-view-title">금지 설정한 태그 
+                    <div className={`tag-view-title ${isMobile ? 's3' : null}`}>금지 설정한 태그 
                         <div>{notTagSeletView}</div>
                     </div>
                     
                     : null
                     }
                 </div>
-                <div className="error-tag">{errorTag}</div>
+                </div>
+
+                <div className={`error-tag ${isMobile ? 's7' : null}`}>{errorTag}</div>
             </div>
             
+
             <div className="box-contanier">
                 <div>
                 
@@ -458,7 +463,7 @@ function Search() {
                     if(giftTag.indexOf(el) !== -1){
                         
                         
-                        return <button className="select box box-contanier2" onClick = {giftTagHandle}>{el}</button>
+                        return <button className={`select box box-contanier2 ${isMobile ? 's8' : null}`} onClick = {giftTagHandle}>{el}</button>
                         
                     }
                 })}
@@ -470,7 +475,7 @@ function Search() {
                             return
                         }
                         else{
-                            return <button className="un-select box" onClick = {giftTagHandle}>{el}</button>
+                            return <button className={`un-select box ${isMobile ? 's8' : null}`} onClick = {giftTagHandle}>{el}</button>
                         }
                     }else{
                         if(el === '인증해주세요'){
@@ -482,11 +487,11 @@ function Search() {
                 :
                 filterTag.map((el:any) => {
                     if(giftTag.indexOf(el) === -1){
-                        return <button className="un-select box" onClick = {giftTagHandle}>{el}</button>
+                        return <button className={`un-select box ${isMobile ? 's8' : null}`} onClick = {giftTagHandle}>{el}</button>
                     }
                     
                     else if (giftTag.indexOf(el) !== -1){
-                        return <button className="select box" onClick = {giftTagHandle}>{el}</button>
+                        return <button className={`select box ${isMobile ? 's8' : null}`} onClick = {giftTagHandle}>{el}</button>
                     }
                 })
                 
@@ -502,24 +507,23 @@ function Search() {
             <div className="header-container-main2">
             
             <div className="header-container-tag-mode-box">
-                <button className="header-container-tag-mode-button2">
+                <button className={`header-container-tag-mode-button2 ${isMobile ? 's6' : null}`} onClick={timeLineAllTagHandle}>
                     타임라인 전체 보기
                 </button>
             </div>
 
             <div className="header-container-tag-mode-box">
-                <button className="header-container-tag-mode-button2" onClick = {selectTagSearchHandle}>
+                <button className={`header-container-tag-mode-button2 ${isMobile ? 's6' : null}`} onClick = {selectTagSearchHandle}>
                     설정한 태그로 타임라인 검색
                 </button>
-                <div>{errorTag}</div>
             </div>
             
 
             <div className="header-container-tag-mode-box">
-                <button className="not-tag-mode header-container-tag-mode-button-left" onClick = {notTagHandle}>
+                <button className={`header-container-tag-mode-button-left ${isMobile ? 's6' : null}`}onClick = {notTagHandle}>
                     금지 태그 설정 해제
                 </button>
-                <button className="header-container-tag-mode-button-right" onClick = {selectTagReSet}>
+                <button className={`header-container-tag-mode-button-right ${isMobile ? 's6' : null}`} onClick = {selectTagReSet}>
                     태그 초기화
                 </button>
             </div>
@@ -527,18 +531,21 @@ function Search() {
                     <input className="header-container-search-input" type="text" value={searchText} onChange={searchTextChange} placeholder="태그 검색" onKeyPress={searchHandleKeyPress} />
                 
                 </div>
+
                 {notTagData.map((el:any) => {
                     if(notGiftTag.indexOf(el) !== -1){
                         
                         
-                        return <button className="not-select box box-contanier2" onClick = {giftTagHandle}>{el}</button>
+                        return <button className={`not-select box box-contanier2 ${isMobile ? 's8' : null}`} onClick = {giftTagHandle}>{el}</button>
                         
                     }
                 })}
-                <div className="tag-view">
+                <div className={`tag-view ${isMobile ? 's3' : null}`}>
                     {notTagSeletView}
                 </div >
+                <div className={`error-tag ${isMobile ? 's7' : null}`}>{errorTag}</div>
             </div>
+
             <div className="box-contanier">
                 
                 
@@ -549,14 +556,14 @@ function Search() {
                             if(el === '인증해주세요'){
                                 return
                             }else{
-                                return <button className="un-select box" onClick = {giftTagHandle}>{el}</button>
+                                return <button className={`un-select box ${isMobile ? 's8' : null}`} onClick = {giftTagHandle}>{el}</button>
                             }
                         }
                         else{
                             if(el === '인증해주세요'){
                                 return
                             }else{
-                            return <button className="select box" onClick = {giftTagHandle}>{el}</button>
+                            return <button className={`select box ${isMobile ? 's8' : null}`} onClick = {giftTagHandle}>{el}</button>
                             }
                         }
                     }else{
@@ -573,13 +580,13 @@ function Search() {
                         if(el === '인증해주세요'){
                             return
                         }else{
-                        return <button className="un-select box" onClick = {giftTagHandle}>{el}</button>
+                        return <button className={`un-select box ${isMobile ? 's8' : null}`} onClick = {giftTagHandle}>{el}</button>
                         }
                     }else{
                         if(el === '인증해주세요'){
                             return
                         }else{
-                            return <button className="not-select box" onClick = {giftTagHandle}>{el}</button>
+                            return <button className={`not-select box ${isMobile ? 's8' : null}`} onClick = {giftTagHandle}>{el}</button>
                         }
                     }
                 })

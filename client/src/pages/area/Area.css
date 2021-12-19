@@ -1,18 +1,18 @@
 .contanier-area{
     height: 120%;
     width: 100%;
-    font-size: 1.5rem;
+    font-size: 1.8rem;
     
 }
 .contanier-area-title{
-    font-size: 2.3rem;
+    font-size: 2.6rem;
     margin: 20px;
 
 }
 .contanier-area-title-box{
     display: flex;
     justify-content: center;
-    margin-top: 20px;
+    margin: 20px;
 }
 .contanier-area-title-box2{
     display: flex;
@@ -22,7 +22,7 @@
 }
 
 .area-auto-button{
-    font-size: 1.5rem;
+    font-size: 1.7rem;
     padding: 5px;
     color: white;
     background-color: rgb(58, 58, 58);
@@ -30,7 +30,7 @@
 }
 .yes-button{
     margin: 20px;
-    font-size: 1.5rem;
+    font-size: 1.7rem;
     padding: 5px;
     color: white;
     background-color: rgb(58, 58, 58);
@@ -42,23 +42,66 @@
     height: 1.4vw;
     max-height: 1.3vw;
     min-height: 1.5rem;
-    width: 60%;
-    font-size: 1rem;
+    width: 30%;
+    font-size: 1.3rem;
     border-radius: 15px;
     padding: 5px;
     padding-left: 20px;
-    margin-top: 20px;
+    margin-top: 10px;
 }
 .tag-area-button{
     border-radius: 15px;
     margin-top: 20px;
     margin-left: 10px;
-    width: 10vw;
-    height: 7vh;
-    font-size: 1rem;
-    min-height: 50px;
-    min-width: 95px;
-    max-height: 150px;
-    max-width: 150px;
+    padding: 10px;
+    font-size: 1.3rem;
     display: inline-block;
+}
+.title-box-area{
+    width: 100%;
+}
+.a1{
+    font-size: 1.2rem;
+}
+.a2{
+    font-size: 1.2rem;
+}
+.a3{
+    font-size: 1.7rem;
+}
+.a4{
+    font-size: 1rem;
+    padding: 5px;
+    color: white;
+
+    margin-left: 10px;
+}
+.a5{
+
+    font-size: 1rem;
+    padding: 5px;
+    color: white;
+    margin-left: 10px;
+}
+.a6{
+    
+    min-height: 1.2rem;
+    width: 80%;
+    font-size: 1rem;
+    border-radius: 15px;
+    padding: 5px;
+    padding-left: 20px;
+}
+
+.a8{
+    /* all:inherit; */
+    border-radius: 15px;
+    margin-top: 20px;
+    margin-left: 0px;
+    padding: 10px;
+    font-size: 1rem;
+    display: inline-block;
+}
+.a7{
+    font-size: 1rem;
 }

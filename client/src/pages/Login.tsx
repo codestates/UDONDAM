@@ -91,6 +91,8 @@ function Login() {
                 socialType: userInfo.socialType
             })
             sessionStorage.setItem('user',changeJson)
+            const areadata:string = JSON.stringify([userInfo.area,userInfo.area2])
+            sessionStorage.setItem('areaData',areadata)
             dispatch(UserInfoHandler({
                 userId: userInfo.userId,
                 email: loginInfo.email,
@@ -109,6 +111,7 @@ function Login() {
             history.push('/Search')
 
         } catch (error: any) {
+            setIsLoading(false)
             if (error.response.status === 401) {
                 console.log('이메일이나 비밀번호가 맞지 않습니다')
             }

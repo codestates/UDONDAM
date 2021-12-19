@@ -139,50 +139,61 @@ const Postcontent: React.FC = () => {
         setTagHandle()
     }, [searchText])
 
+
+
+    
+
     return(
             <div className='post-contanier-contanier'>
                 <div className='post-contanier'>
                     <div className='logo-contanier2'>
                         <img className='logo-logo-logo' src = '로고-우동담-Dark-글자만-배경o.png'/>
                     </div>
+                    <div className={`title-text ${isMobile ? 'po2' : null}`}>
+                        <div className='title-text-center'>
+                            {contentText.split('\n')[0]}
+                        </div>
+                    </div>
                     <div>
                         <div className='contanier-area-title-box3'>
-                            <textarea className='textarea-input' onChange={contentTextChange} value={contentText}/>
+                            <textarea className={`textarea-input ${isMobile ? 'po1' : null}`} onChange={contentTextChange} value={contentText} placeholder='제목은 엔터키 및 줄바꿈시 적용됩니다.'/>
                         </div>
                         <div >
-                        {charNumError === '' ? <div className='charNum2'>
+                        {charNumError === '' ? <div className={`charNum2 ${isMobile ? 'po3' : null}`}>
                                 {`${charNum} /300 byte`}
                             </div>
                             :
-                            <div className='charNum-Red2'>
+                            <div className={`charNum-Red2 ${isMobile ? 'po3' : null}`}>
                                 {`${charNum} /300 byte`}
                             </div>
                             }
                             
-                        {charNumError === '' ? null : <div>{charNumError}</div>}
+                        {charNumError === '' ? null : <div className={`error-charnum ${isMobile ? 'po3' : null}`}>{charNumError}</div>}
                         </div>
                     </div>
-                    <div className='tag-box'>
-                        {contentGiftTag.map((el:any) => {
-                            return <button className='select-tag' onClick={() => giftTagDeleteHandle(el)}>{`# ${el}`}</button>
-                        })}
+                    <div className='tag-box-box-box'>
+                        <div className='tag-box'>
+                            {contentGiftTag.map((el:any) => {
+                                return <button className={`select-tag ${isMobile ? 'po4' : null}`} onClick={() => giftTagDeleteHandle(el)}>{`# ${el}`}</button>
+                            })}
+                        </div>
                     </div>
                     
                     <div>
-                        <input className='tag-input' type="text" value={searchText} onChange={searchTextChange2} placeholder="태그를 검색하세요, 최소 한개의 지역 태그가 필요합니다." onKeyPress= {searchHandleKeyPress2} />
+                        <input className={`tag-input ${isMobile ? 'po5' : null}`} type="text" value={searchText} onChange={searchTextChange2} placeholder="최소 한개의 지역 태그가 필요합니다." onKeyPress= {searchHandleKeyPress2} />
                     </div>
-                    <div>
+                    <div className='tag-box-box-box'>
                         {searchText === '' ? null
                             :filterTag.map((el:any) => {
-                                return <button className='tag-button' onClick = {giftTagHandle2}>{el}</button>
+                                return <button className={`tag-button ${isMobile ? 'po6' : null}`} onClick = {giftTagHandle2}>{el}</button>
                             })
                             }
                     </div>
                     <div className='compelete-button-box'>
-                        <button className='compelete-button' onClick={compleatContentHandle}>게시글 업로드</button>
+                        <button className={`compelete-button ${isMobile ? 'po7' : null}`} onClick={compleatContentHandle}>게시글 업로드</button>
                         
                     </div>
-                    <div className='contanier-area-title-box3'>
+                    <div className={`contanier-area-title-box3 ${isMobile ? 'po8' : null}`} >
                         {falseMessage}
                     </div>
                     

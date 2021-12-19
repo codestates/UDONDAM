@@ -19,6 +19,7 @@ function Area({ history }: RouteComponentProps) {
     console.log(ida)
     const isGuest = useSelector((state: RootStateOrAny)=>state.IsGuestReducer.isGuest)
     const loginUserInfo = useSelector((state: RootStateOrAny)=>state.UserInfoReducer)
+    const isMobile = useSelector((state: RootStateOrAny)=>state.IsMobileReducer.isMobile)
 
     const [filterTag, setFilterTag] = useState<any>([])
     const [searchText, setSearchText] = useState<any>('')
@@ -247,38 +248,38 @@ function Area({ history }: RouteComponentProps) {
     
 
     return(
-            <div className='contanier-area'>
-                <div className='contanier-area-title-box'>
-                    <div className='contanier-area-title'>
+            <div className={`contanier-area ${isMobile ? 'a1' : null}`}>
+                <div className={`contanier-area-title-box ${isMobile ? 'a2' : null}`}>
+                    <div className={`contanier-area-title ${isMobile ? 'a3' : null}`}>
                         지역인증
                     </div>
                     
                 </div>
-                <div className='contanier-area-title-box'>
+                <div className={`contanier-area-title-box ${isMobile ? 'a2' : null}`}>
                     <div>
                         내 위치 확인을 누르시면 자동으로 위치를 검색합니다.
                     </div>
                 </div>
-                <div className='contanier-area-title-box'>
-                    <button className='area-auto-button' onClick = {myLocalHandle}>
+                <div className={`contanier-area-title-box ${isMobile ? 'a2' : null}`}>
+                    <button className={`area-auto-button ${isMobile ? 'a4' : null}`} onClick = {myLocalHandle}>
                         내 위치 확인
                     </button>
-                    <button className='area-auto-button' onClick = {noMyLocalHandle}>직접 할래요</button>
+                    <button className={`area-auto-button ${isMobile ? 'a4' : null}`} onClick = {noMyLocalHandle}>직접 할래요</button>
                 </div>
                 {
                     firstLocal ?
                     <div>
-                        <div className='contanier-area-title-box'>
+                        <div className={`contanier-area-title-box ${isMobile ? 'a2' : null}`}>
                             {areaSearch}
                         </div>
                         {areaSearch === '검색중...' ? null 
                         :
                         <div >
-                            <span className='contanier-area-title-box'>이 위치가 맞습니까?  </span>
+                            <span className={`contanier-area-title-box ${isMobile ? 'a2' : null}`}>이 위치가 맞습니까?  </span>
                             {areaSearch === '죄송합니다. 직접 지역을 선택해주세요' ? null 
-                            :   <div className='contanier-area-title-box'>
-                                    <button className='yes-button' onClick = {yesMyLocalHandle}>예</button>
-                                    <button className='yes-button' onClick = {noMyLocalHandle}>아니오</button>
+                            :   <div className={`contanier-area-title-box ${isMobile ? 'a2' : null}`}>
+                                    <button className={`yes-button ${isMobile ? 'a4' : null}`} onClick = {yesMyLocalHandle}>예</button>
+                                    <button className={`yes-button ${isMobile ? 'a4' : null}`} onClick = {noMyLocalHandle}>아니오</button>
                                 </div>
                             }
                             
@@ -290,20 +291,20 @@ function Area({ history }: RouteComponentProps) {
                 }
                 {
                     threeLocal ? 
-                    <div>
-                        <div className='contanier-area-title-box'>
+                    <div className='title-box-area'>
+                        <div className={`contanier-area-title-box ${isMobile ? 'a2' : null}`}>
                             직접 지역설정
                         </div>
-                        <div className='contanier-area-title-box2'> # {giftTag2}
+                        <div className={`contanier-area-title-box ${isMobile ? 'a2' : null}`}> # {giftTag2}
                         </div>
-                        <div className='contanier-area-title-box'>
-                            <input className='input-search-tag' type="text" value={searchText} onChange={searchTextChange2} placeholder="지역 검색, 시 군단위로 나뉩니다." onKeyPress= {searchHandleKeyPress2} />
+                        <div className={`contanier-area-title-box ${isMobile ? 'a2' : null}`}>
+                            <input className={`input-search-tag ${isMobile ? 'a6' : null}`} type="text" value={searchText} onChange={searchTextChange2} placeholder="지역 검색, 시 군단위로 나뉩니다." onKeyPress= {searchHandleKeyPress2} />
                         </div>
-                        <div className='contanier-area-title-box'>
+                        <div className={`contanier-area-title-box ${isMobile ? 'a7' : null}`}>
                             {searchText === '' ? null
                         :filterTag.map((el:any) => {
 
-                                return <button className='tag-area-button'  onClick = {giftTagHandle2}>{el}</button>
+                                return <button className={`tag-area-button ${isMobile ? 'a8' : null}`}  onClick = {giftTagHandle2}>{el}</button>
                             
                         })
                         }
@@ -315,10 +316,10 @@ function Area({ history }: RouteComponentProps) {
                 {
                     secondLocal ?
                     <div>
-                        <div className='contanier-area-title-box'>
+                        <div className={`contanier-area-title-box ${isMobile ? 'a7' : null}`}>
                             지역설정 완료 후 한달간 변경은 불가능 합니다
                         </div>
-                        <div className='contanier-area-title-box'>
+                        <div className={`contanier-area-title-box ${isMobile ? 'a4' : null}`}>
                             <button className='yes-button' onClick={areaSelectHandle}>위치 설정 완료</button>
                         </div>
                     </div>
@@ -328,11 +329,11 @@ function Area({ history }: RouteComponentProps) {
                 {
                     giftTag2.length === 1 ? 
                     <div>
-                        <div className='contanier-area-title-box'>
+                        <div className={`contanier-area-title-box ${isMobile ? 'a7' : null}`}>
                             지역설정 완료 후 한달간 변경은 불가능 합니다
                         </div>
-                        <div className='contanier-area-title-box'>
-                            <button className='yes-button' onClick={selectAreaSelectHandle}>위치 설정 완료</button>
+                        <div className={`contanier-area-title-box ${isMobile ? 'a4' : null}`}>
+                            <button className={`yes-button ${isMobile ? 'a4' : null}`} onClick={selectAreaSelectHandle}>위치 설정 완료</button>
                         </div>
                     </div>
                     :

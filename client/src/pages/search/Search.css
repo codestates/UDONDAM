@@ -3,18 +3,21 @@
     margin: 0.5%;
     width: 10vw;
     height: 7vh;
-    font-size: 1rem;
+    font-size: 1.4rem;
     min-height: 50px;
     min-width: 95px;
     max-height: 150px;
     max-width: 150px;
     display: inline-block;
+    text-overflow: ellipsis;
+    overflow: hidden;
+    white-space: nowrap;
     
 }
 .box-contanier{
     /* overflow: auto; */
     text-align: center;
-    margin-top: 80px;
+    margin-top: 10px;
     
     /* position: absolute; */ 
     
@@ -46,7 +49,7 @@
     
 }
 .header-container{
-    font-size: 1rem;
+
     position: relative;
     
 }
@@ -58,26 +61,37 @@
 }
 .header-container-area{
     
-    font-size: 1.4rem;
+    font-size: 1.3rem;
     margin-left: 10px;
     display: flex;
     
+}
+.s1{
+    font-size: 1rem;
 }
 .header-container-area-button{
     position: absolute;
     width: 60px;
     height: 25px;
     font-size: 1rem;
-   
     margin-left: 50px;
+}
+.s2{
+    font-size: 0.7rem;
+    margin-left: 30px;
+    width: 30px;
+    height: 1.1rem;
 }
 .header-container-recent{
 
-   
+    
     font-size: 1.3rem;
     color: white;
     background-color: rgb(87, 87, 87);
    
+}
+.s5{
+    font-size: 0.9rem;
 }
 .header-container-area-box{
     
@@ -85,38 +99,47 @@
     font-size: 1.3rem;
     position: absolute;
     z-index:1;
-    width: 170px;
+    
     background:black;
+    padding: 5px;
     
 }
+
 .error-tag{
     display: inline-block;
     font-size: 1.7rem;
 }
-.tag-view{
-    font-size: 1.2rem;
+.s7{
+    font-size:1.3rem;
 }
+
+.tag-view{
+    font-size: 1.3rem;
+}
+
 .tag-view-title{
     color: red;
     text-shadow: 1px 0 white, 1px 0 white, 1px 0 white, 1px 0 white;
 }
 .header-container-area-box-link{
-    border: solid 1px rgb(255, 255, 255);
+    
     text-decoration-line: none;
-    color: white;
-    float: right;
-
-    font-size: 1.1rem;
+    color: rgb(229, 255, 0);
+   
+    font-size: 1.2rem;
+}
+.s4{
+    font-size: 0.9rem;
 }
 .header-container-img-box{
-    max-height: 400px;
+    max-height: 500px;
     display: flex;
     margin-bottom: 20px;
 }
 
 .header-container-img{
-   height: 12vw;
-   max-height: 400px;
+   height: 17vw;
+
    justify-content: center;
    margin: 0px auto;
    min-height: 200px;
@@ -127,18 +150,15 @@
     /* height: 30%;
     max-height: 40px;
     min-width: 200px; */
-    margin-top: 13px;
-    margin-bottom: 13px;
+    margin-top: 10px;
+    margin-bottom: 5px;
 }
 .header-container-search-input{
     display: block;
     margin: 0px auto;
-
-    height: 3vh;
-    max-height: 3vh;
-    min-height: 1.8rem;
+    min-height: 1.6rem;
     width: 28%;
-    font-size: 1.1rem;
+    font-size: 1.2rem;
     border-radius: 15px;
     min-width: 18rem;
     max-width: 33rem;
@@ -155,20 +175,21 @@
     margin-top: 20px;
 }
 .header-container-main2{
-    height: 5vh;
-    max-height: 1500px;
-    min-height: 180px;
+   
+    
+    
     width: 100%;
     text-align: center;
     position: sticky;
-    top: 40px;
-    
+    top: 0px;
+    border-top: solid 5px black;
+    background: black;
 }
 
 .header-container-tag-mode-box{
     text-align: center;
-    height: 30%;
-    max-height: 40px;
+
+ 
     min-width: 200px;
 }
 .header-container-tag-mode{
@@ -181,21 +202,21 @@
     display: inline-block;
 
     height: 3vh;
-    max-height: 3vh;
+    max-height: 2.8vh;
     min-height: 1.8rem;
     width: 15%;
-    font-size: 1.1rem;
+    font-size: 1.2rem;
     border-radius: 15px;
-    min-width: 10rem;
-    max-width: 17rem;
+    min-width: 9.6rem;
+    max-width: 15.4rem;
 
-    font-size: 1rem;
+
     margin-right: 5px;
     border-radius: 15px;
 
     background-color: rgb(105, 105, 105);
     color: white;
-
+    margin-bottom: 5px;
 }
 .header-container-tag-mode-button-right{
     display: inline-block;
@@ -204,18 +225,18 @@
     max-height: 3vh;
     min-height: 1.8rem;
     width: 15%;
-    font-size: 1.1rem;
+    font-size: 1.2rem;
     border-radius: 15px;
-    min-width: 10rem;
-    max-width: 17rem;
+    min-width: 9.6rem;
+    max-width: 15.4rem;
 
-    font-size: 1rem;
+
     margin-left: 5px;
     border-radius: 15px;
 
     background-color: rgb(105, 105, 105);
     color: white;
-
+    margin-bottom: 5px;
 }
 
 .header-container-tag-mode-button2{
@@ -225,7 +246,7 @@
     max-height: 3vh;
     min-height: 1.8rem;
     width: 30%;
-    font-size: 1.1rem;
+    font-size: 1.2rem;
     border-radius: 15px;
     min-width: 20rem;
     max-width: 35rem;
@@ -234,6 +255,9 @@
     color: white;
 
 }
+.s6{
+    font-size: 0.9rem;
+}
 
 /* const TagContainerDiv = styled.div`
     position: relative;
@@ -241,3 +265,19 @@
     width: 20vw;
     //height: 50vh;
 `; */
+.s3{
+    font-size: 1rem;
+    
+}
+.s8{
+    font-size: 0.9rem;
+    
+}
+.s9{
+    
+    min-height: 1.2rem;
+    width: 28%;
+    font-size: 0.8rem;
+    border-radius: 15px;
+
+}

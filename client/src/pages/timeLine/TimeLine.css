@@ -1,6 +1,7 @@
 .show-nickname{
+    margin-top: 10px;
     font-size: 1.5rem;
-    margin-left: 30px;
+    margin-left: 20px;
     
 }
 .logo-contanier{
@@ -25,4 +26,7 @@
     overflow: auto;
     width: 100%;
     height: 100%;
+}
+.t1{
+    font-size: 1rem;
 }

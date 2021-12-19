@@ -34,7 +34,7 @@ function TimeLinePost({postData,userData,addSelectTagSearchHandle,createAtDesign
     const isMobile = useSelector((state: RootStateOrAny)=>state.IsMobileReducer.isMobile)
     
     return (
-        <div className="contanier2">
+        <div className={`contanier2 ${isMobile ? 't2' : null}`}>
             
 
             {postData.map((el: { nickname: any,createAt: any ,content:any, tag:any, id:any, commentCount:any, likeCount:any, userId:any, likeCheck:any}) => {
@@ -57,7 +57,18 @@ function TimeLinePost({postData,userData,addSelectTagSearchHandle,createAtDesign
                             <div>{createAtDesign(el.createAt)}
                             <span className="report">신고</span>
                         </div>
-                        <div className="content">{el.content}</div>
+
+                        {isMobile ? <div className='content t3'>{el.content.split('\n')[0]}</div>
+                        :
+                        <div className='content'>{
+                            // /n을 기준으로 줄바꿈을 만듬
+                            el.content.split('\n').map((le:any) => {
+                                return (<span>{le}<br /></span>)
+                            })
+                            }</div>
+                        }
+                        
+
                         {isMobile ? <span>#{el.tag[0]} </span>
                         :el.tag.map((le: {tag: any}) => {
                             return (<span>#{le} </span>)

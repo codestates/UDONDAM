@@ -1,8 +1,9 @@
 import React, { useEffect, useState } from 'react'
 import { Link, useHistory } from 'react-router-dom'
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { useSelector, RootStateOrAny } from 'react-redux';
+import { useSelector, RootStateOrAny, useDispatch } from 'react-redux';
 import IsGuestReducer from '../redux/modules/IsGuest';
+import { UserInfoHandler } from '../redux/modules/UserInfo';
 import styled from 'styled-components';
 import { library } from "@fortawesome/fontawesome-svg-core";
 import { faSearchLocation, faListAlt, faPenSquare, faUser, faSignInAlt } from "@fortawesome/free-solid-svg-icons";
@@ -11,6 +12,7 @@ import { faSearchLocation, faListAlt, faPenSquare, faUser, faSignInAlt } from "@
 
 function Nav() {
     const history = useHistory()
+    const dispatch = useDispatch()
     const [guestMod, setGuestMod] = useState<boolean>(false)
     const NavContainer = styled.div`
         position: relative;
@@ -76,7 +78,22 @@ function Nav() {
         console.log(document.location.href)
     }
 
-    const navColor = 'rgb(197, 196, 196)'
+    const navColor = 'rgb(197, 196, 196)';
+
+    const sessionControl = function() {
+        dispatch(UserInfoHandler({
+            userId: 0,
+            email: '',
+            nickname: '',
+            area: '',
+            area2: '',
+            manager: false,
+            socialType: ''
+        }))
+        //세션삭제
+        sessionStorage.removeItem('user')
+        sessionStorage.removeItem('areaData')
+    }
 
     const LoginNav = function () {
         return (
@@ -121,7 +138,7 @@ function Nav() {
                 </div>
                 <div className='nav_link_detail'>
                     <Link to='../Login' >
-                        <FontAwesomeIcon icon={faSignInAlt} size='3x' color = {navColor}></FontAwesomeIcon>
+                        <FontAwesomeIcon icon={faSignInAlt} size='3x' color = {navColor} onClick={sessionControl}></FontAwesomeIcon>
                     </Link>
                 </div>
             </div>

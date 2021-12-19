@@ -149,7 +149,7 @@ function Login() {
         //     socialType: userInfo.socialType
         // }))
         } else if(key === 'google'){
-            // window.location.href = `${process.env.REACT_APP_API_URL}/google`
+            window.location.href = `${process.env.REACT_APP_API_URL}/google`
         } else if(key === 'naver') {
             window.location.href = NAVER
         }

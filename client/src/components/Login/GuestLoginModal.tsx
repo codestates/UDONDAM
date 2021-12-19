@@ -116,25 +116,27 @@ function GuestLoginModal (props:any) {
         console.log(guestLogin)
         const guestInfo = guestLogin.data.data
         dispatch(UserInfoHandler({
-          userId: guestInfo.userId || 0,
+          userId: 5,
           email: guestInfo.email || 'guest',
           nickname: guestInfo.nickname || null,
-          area: guestInfo.area || '인증해주세요',
-          area2: guestInfo.area2 || '인증해주세요',
+          // area: guestInfo.area !== null ? guestInfo.area : '인증해주세요',
+          // area2: guestInfo.area2 !== null ? guestInfo.area2 : '인증해주세요',
+           area: '인증해주세요',
+           area2: '인증해주세요',
           manager: guestInfo.manager || false, 
           socialType: guestInfo.socialType || null
       }))
       //세션 관련
       const changeJson:string = JSON.stringify({
-        userId: guestInfo.userId || 0,
+        userId: 5,
         email: guestInfo.email || 'guest',
         nickname: guestInfo.nickname || null,
-        area: guestInfo.area || '인증해주세요',
-        area2: guestInfo.area2 || '인증해주세요',
+        area: '인증해주세요',
+        area2: '인증해주세요',
         manager: guestInfo.manager || false, 
         socialType: guestInfo.socialType || null
     })
-    const areadata:string = JSON.stringify([guestInfo.area,guestInfo.area2])
+    const areadata:string = JSON.stringify(['인증해주세요','인증해주세요'])
     console.log('세션작동:',changeJson)
     sessionStorage.setItem('user',changeJson)
     sessionStorage.setItem('areaData',areadata)

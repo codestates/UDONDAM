@@ -8,6 +8,7 @@ import styled from 'styled-components';
 import axios from 'axios';
 import './styles/MypageStyle.css'
 import { SmallGrayButton } from '../components/utils/Buttons';
+import { faFirstAid } from '@fortawesome/free-solid-svg-icons';
 
 //로그인하시고 이용해주세요
 
@@ -82,6 +83,9 @@ function Mypage(props:any) {
         } else if (key === 'onModal') {
             setOnOff({ ...onOff, [key]: !onOff.onModal })
         } else if (key === 'onChange') {
+            if(userInfo.socialType !== 'baisc'){
+                return ;
+            }
             setOnOff({ ...onOff, [key]: !onOff.onChange })
         };
         console.log(onOff)
@@ -159,6 +163,7 @@ function Mypage(props:any) {
             }
         }
     }
+    //구글 로그인 관련
     const getData = async () => {
         const tempData = await axios.get(`${process.env.REACT_APP_API_URL}/user`, { withCredentials: true })
         console.log(tempData);
@@ -172,6 +177,25 @@ function Mypage(props:any) {
             manager: tempData.data.manager,
             socialType: tempData.data.socialType
         }))
+        const changeJson:string = JSON.stringify({
+            userId: tempData.data.userId,
+            email: tempData.data.email,
+            nickname: tempData.data.nickname,
+            area: tempData.data.area,
+            area2: tempData.data.area2,
+            manager: tempData.data.manager,
+            socialType: tempData.data.socialType
+        })
+        sessionStorage.setItem('user',changeJson)
+        dispatch(IsLoginHandler(true))
+        setUserData({
+            email: tempData.data.email,
+            nickname: tempData.data.nickname,
+            password: '',
+            passwordCheck: ''
+        });
+        const areadata:string = JSON.stringify([tempData.data.area,tempData.data.area2])
+        sessionStorage.setItem('areaData',areadata)
         return tempData;
     }
     useEffect(()=>{
@@ -241,9 +265,7 @@ function Mypage(props:any) {
     //         })
     //     }
     // }
-    // useEffect(()=>{
-    //     refresh()
-    // },[userData])
+    
 //유즈이펙트
     return (
         <div className='container'>

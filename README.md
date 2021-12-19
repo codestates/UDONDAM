@@ -3,7 +3,7 @@
 
 <img width="300" alt="로고-우동담-Light-배경o" src="https://user-images.githubusercontent.com/87490361/143793771-ab32461e-2a76-4f2b-b96f-55241c2a9d98.png">
 
-## About
+## 서비스를 소개할게요.
 
 ### 지금, 이 지역에서 일어나는 일이 궁금할 때
 세상에는 많은 일들이 일어나고 있지만, 내가 속한 지역에서 일어나는 일을 찾아보는 건 쉽지 않습니다.   
@@ -54,5 +54,50 @@ sns에서 타임라인을 보면 수많은 얘기들이 나열되어 있습니�
 # ⚙️ System Architecture
 ![image](https://user-images.githubusercontent.com/87490361/146557427-bd69f7b8-a5a1-4692-8622-4ea6a9cdc369.png)
 
+***
+# 📢 우리 팀을 소개합니다.
+<table>
+  <tbody>
+    <tr>
+      <td align="center">
+       <a href="https://github.com/ksg9482"><strong>김석규</strong></a>
+        <br>
+      </td>
+      <td>
+        <strong>🚩 Front-end</strong>
+      </td>
+    </tr>
+     <tr>
+      <td align="center">
+        <a href="https://github.com/wjdehdry3"><strong>정동교</strong></a>
+        <br>
+      </td>
+      <td>
+        <strong>🚩 Front-end</strong>
+      </td>
+    </tr>
+      <td align="center">
+        <a href="https://github.com/bombamong"><strong>이선영</strong></a>
+        <br>
+      </td>
+      <td>
+        <strong>🏁 Back-end</strong>
+      </td>
+    </tr>
+    <tr>
+      <td align="center">
+        <a href="https://github.com/Kyung-Douhyun"><strong>정동현</stronf></a>
+        <br>
+      </td>
+      <td>
+        <strong>🏁 Back-end</strong>
+      </td>
+    </tr>
+    <tr>
+  </tbody>
+</table>
 
+***
+# For project details
 
+### [checkout WIKI](https://github.com/codestates/UDONDAM/wiki)

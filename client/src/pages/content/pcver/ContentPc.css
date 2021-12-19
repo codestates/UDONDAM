@@ -1,71 +1,86 @@
-.contanier-main{
+.contanier-main-contanierp{
+    flex: 1;
+    font-size: 1.6rem;
+    margin-bottom: 30px;
     
-    width:80%;
+}
+.contanier-mainp{
+    
+
+    width:100%;
     border: solid 2px rgb(255, 255, 255);
 
     border-radius: 15px;
     margin: 0 auto;
     padding: 20px;
-    margin-top: 10px;
+
     margin-bottom: 30px;
+
+    position: sticky;
+    position: -webkit-sticky;
+    top: 0px;
+    display: inline-block;
+ 
 }
-.contanier-main-contanier{
-    width: 100%;
-    font-size: 1.6rem;
-    margin-bottom: 30px;
+.hidden-over{
+    position: fixed;
+    width: 40%;
+    margin-right: 100px;
 }
 
 
-.back-button{
+
+.back-buttonp{
 
     font-size: 1.3rem;
     margin: 10px;
     background-color: rgb(58, 58, 58);
     color: white;
 }
-.writer-true{
+.writer-truep{
     color: tomato;
 }
-.delete-button{
+.delete-buttonp{
     float: right;
     color: tomato;
     margin-right: 10px;
     cursor: pointer;
 }
-.content-main{
+.content-mainp{
     font-size: 1.8rem;
     margin-top: 10px;
     margin-bottom: 20px;
     overflow: auto;
 }
-.comment-icon{
+.comment-iconp{
     cursor: pointer;
     margin-right: 10px;
 
 }
-.like-icon-true{
+.like-icon-truep{
     cursor: pointer;
     float: right;
     color: blue;
     margin-right: 10px;
 
 }
-.like-icon{
+.like-iconp{
     cursor: pointer;
 
     margin-right: 10px;
 }
-.icon-box{
+.icon-boxp{
     display: flex;
     justify-content: right;
 }
-.comment-box{
+.comment-boxp{
     border: solid 2px rgb(255, 255, 255);
     border-radius: 10px;
     padding: 10px;
     color: white;
+    
 }
-.comment-box2{
+.comment-box2p{
     border: solid 2px rgb(255, 255, 255);
     border-radius: 10px;
     padding: 10px;
@@ -74,91 +89,96 @@
  
     margin-top: 10px;
 }
-.icon-ccoment{
+.icon-ccomentp{
     position: absolute;
     margin-top: 40px;
 }
-.comment-contanier{
+.comment-contanierp{
     margin-top: 30px;
 }
-.as{
+.asp{
     margin-top: 10px;
 }
-.writer-comment{
+.writer-commentp{
     color: chartreuse;
 }
 
 
-.comment-option-delete{
+.comment-option-deletep{
     cursor: pointer;
     float: right;
     margin-right: 10px;
     color: tomato;
 }
-.comment-option{
+.comment-optionp{
     cursor: pointer;
     float: right;
     margin-right: 10px;
 }
-.input-comment{
+.input-commentp{
     margin-top: 20px;
-    width: 85%;
+    width: 92%;
     height: 7rem;
     resize: none;
     font-size: 1.3rem;
     border-radius: 10px;
     padding: 20px;
 }
-.charNum-Red{
+.charNum-Redp{
     color: tomato;
     display: flex;
     justify-content: right;
+    
 }
-.charNum{
+.charNump{
     display: flex;
     justify-content: right;
 }
-.complete-comment-box{
+.complete-comment-boxp{
     display: flex;
     justify-content: left;
 }
-.complete-comment-button{
+.complete-comment-buttonp{
     
     font-size: 1.4rem;
     color: white;
     background-color: rgb(58, 58, 58);
 }
 
-.ccomment-box{
+.ccomment-boxp{
     display: flex;
     justify-content: right;
 }
-.createAt-box-box{
+.createAt-box-boxp{
     display: flex;
     flex-direction: row;
     justify-content:space-between;
     
 }
-.margin-comment-box{
+.margin-comment-boxp{
     margin-bottom: 5px;
+    
 }
-.c1{
+.c1p{
     font-size: 0.9rem;
 }
-.c2{
+.c2p{
     font-size: 1rem;
 }
-.c3{
+.c3p{
     font-size: 1.1rem;
 }
-.c4{
+.c4p{
     font-size: 0.8rem;
 }
-.c5{
+.c5p{
 
     width: 72vw;
     height: 4rem;
     padding: 10px;
 
     font-size: 1rem;
+}
+.input-commentp-box{
+    width: 100%;
 }

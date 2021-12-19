@@ -8,20 +8,45 @@ import TimeLinePost from '../../components/timeLinePost/TimeLinePost'
 import { RouteComponentProps } from 'react-router-dom';
 import axios from 'axios';
 import './TimeLine.css'
+import ContentPc from '../content/pcver/ContentPc'
+import Postcontent from '../postcontent/Postcontent'
+import { isPostContentHandler } from '../../redux/modules/IsPostContent';
+
 const qs = require('qs');
+
+
 
 //   '로고-우동담-Dark-글자만-배경o.png'
 function TimeLine({ history }: RouteComponentProps){
     let today = new Date()
+    const dispatch = useDispatch()
     const isMobile = useSelector((state: RootStateOrAny)=>state.IsMobileReducer.isMobile)
     let hisData:any = history.location.state
     const loginUserInfo = useSelector((state: RootStateOrAny)=>state.UserInfoReducer)
+    const isPost = useSelector((state: RootStateOrAny)=>state.IsPostContentReducer.isPostContent)
     const [postData, setPostData] = useState<any>(hisData.data);
     const [giftTag, setGiftTag] = useState<any>(hisData.tag);
     const [notGiftTag, setNotGiftTag] = useState<any>(hisData.notTag);
 
     const [userData, setUserData] = useState<any>(loginUserInfo);
     const [pageCount, setPageCount] = useState<number>(1);
+    const [datapa, setDatapa] = useState<any>(true);
+
+    //컨텐트 페이지 보여줄거야?
+    const [handlePageContent, setHandlePageContent] = useState<any>(false);
+    //글쓰기 페이지 보여줄거야?
+    const [handlePagePostContent, setHandlePagePostContent] = useState<any>(false);
+
+    console.log(document.location.href)
+
+    const [contentPropsData, setContentPropsData] = useState<any>({
+        state: {
+        ida: '',
+        tag: giftTag,
+        notTag: notGiftTag,
+        }
+    });
+   
 
     const createAtDesign = (data:any) => {
 
@@ -54,10 +79,11 @@ function TimeLine({ history }: RouteComponentProps){
         b = b + ' ' + a + ' ' + week 
         return b
     }
+    
 
     const addSelectTagSearchHandle = async () => {
         setPageCount(pageCount+1)
-        console.log(pageCount)
+       
             if(giftTag.length === 0 || giftTag === null){
                 await axios(
                     {
@@ -124,9 +150,15 @@ function TimeLine({ history }: RouteComponentProps){
                     })
             }
     }
+
+    
+   
+
+
+
     
     return (
-        <div className="show-width-all">
+        <div className="show-width-all etet">
             <div className="show-box">
                 {isMobile? <div className={`show-nickname ${isMobile ? 't1' : null}`}>{userData.nickname}님 안녕하세요</div>
                 :
@@ -137,7 +169,24 @@ function TimeLine({ history }: RouteComponentProps){
             <div className="logo-contanier">
                 <img className="logo" src = '로고-우동담-Dark-글자만-배경o.png'/>
             </div>
-            <TimeLinePost postData = {postData} userData = {userData} addSelectTagSearchHandle={addSelectTagSearchHandle} createAtDesign={createAtDesign} giftTag={giftTag} notGiftTag={notGiftTag}/>
+            <div className="page-handle-where">
+            <TimeLinePost postData = {postData} userData = {userData} addSelectTagSearchHandle={addSelectTagSearchHandle} createAtDesign={createAtDesign} giftTag={giftTag} notGiftTag={notGiftTag} setContentPropsData={setContentPropsData} setHandlePageContent={setHandlePageContent} handlePageContent={handlePageContent} datapa={datapa}/>
+            {isMobile ? null
+            :!handlePageContent ? null
+            :
+            isPost ? null
+            :
+            <ContentPc contentPropsData = {contentPropsData}></ContentPc>
+            
+            }
+            {isMobile ? null
+            :isPost ?
+            <Postcontent setPostData={setPostData} giftTag={giftTag} notGiftTag={notGiftTag}></Postcontent>
+            :
+            null
+            }
+            
+            </div>
         </div>
     )
 }

@@ -33,70 +33,7 @@ function Interest() {
             return mypost
         }
         
-        
-        //setResult(mypost.data)
-        //더미데이터
-        // const post = [
-        //     {
-        //         id: 1, //postId
-        //         nickname: "oh", //유저 닉네
-        //         content: "그.....", //게시글내
-        //         tag: ['서울', '운동', '식사', '독서'], //태그
-        //         commentCount: 20, //댓글 
-        //         likeCount: 10, //따봉 수
-        //         likeCheck: false,  //따봉 눌렀는지 체
-        //         createAt: '2019-10-10 09:10',  //생성날
-        //         public: true  // 1 대 1 채팅 활성화, 비활성화
-        //     },
-        //     {
-        //         id: 2,
-        //         nickname: "gang",
-        //         content: "나...",
-        //         userId: 1,
-        //         tag: ['서울', '운동'],
-        //         commentCount: 10,
-        //         likeCount: 5,
-        //         likeCheck: false,
-        //         createAt: '2020-10-15 10:10',
-        //         public: false
-        //     },
-        //     {
-        //         id: 5,
-        //         nickname: "kim",
-        //         content: "잘...",
-        //         tag: ['서울', '독서'],
-        //         commentCount: 5,
-        //         likeCount: 2,
-        //         likeCheck: false,
-        //         createAt: '2020-10-20 12:10',
-        //         public: true
-        //     },
-        //     {
-        //         id: 11,
-        //         nickname: "kim",
-        //         content: "이거...",
-        //         tag: ['서울', '독서'],
-        //         commentCount: 5,
-        //         likeCount: 2,
-        //         likeCheck: false,
-        //         createAt: '2020-10-21 11:10',
-        //         public: true
-        //     },
-        //     {
-        //         id: 21,
-        //         nickname: "kim",
-        //         content: "왜...",
-        //         tag: ['서울', '독서'],
-        //         commentCount: 5,
-        //         likeCount: 2,
-        //         likeCheck: false,
-        //         createAt: '2021-01-20 11:55',
-        //         public: true
-        //     }
-        // ]
-        //setResult(post)
-        //더미데이터
-        //더미데이터
+      
     };
 
     const formChange = (origin: Array<any>) => {

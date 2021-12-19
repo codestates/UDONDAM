@@ -1,6 +1,6 @@
 .box{
     border-radius: 15px;
-    margin: 0.5%;
+    margin: 5px;
     width: 10vw;
     height: 7vh;
     font-size: 1.4rem;
@@ -64,7 +64,7 @@
     font-size: 1.3rem;
     margin-left: 10px;
     display: flex;
-    
+    margin-bottom: 20px;
 }
 .s1{
     font-size: 1rem;
@@ -156,7 +156,7 @@
 .header-container-search-input{
     display: block;
     margin: 0px auto;
-    min-height: 1.6rem;
+    min-height: 2rem;
     width: 28%;
     font-size: 1.2rem;
     border-radius: 15px;
@@ -181,9 +181,10 @@
     width: 100%;
     text-align: center;
     position: sticky;
+    position: -webkit-sticky;
     top: 0px;
     border-top: solid 5px black;
-    background: black;
+    /* background: black; */
 }
 
 .header-container-tag-mode-box{
@@ -195,7 +196,7 @@
 .header-container-tag-mode{
    
     position: absolute;
-    height: 150%;
+    
     width: 100%;
 }
 .header-container-tag-mode-button-left{
@@ -280,4 +281,15 @@
     font-size: 0.8rem;
     border-radius: 15px;
 
+}
+.not-area-handle{
+    font-size: 13rem;
+    color:yellow;
+    margin-left: 70px;
+    margin-top: 30px;
+}
+.sc1{
+    font-size: 7rem;
+    margin-left: 40px;
+    margin-top: 20px;
 }

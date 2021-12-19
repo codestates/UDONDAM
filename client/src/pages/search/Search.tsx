@@ -15,6 +15,9 @@ import { faChevronUp } from "@fortawesome/free-solid-svg-icons";
 import { faChevronDown } from "@fortawesome/free-solid-svg-icons";
 import { library } from "@fortawesome/fontawesome-svg-core";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { isPostContentHandler } from '../../redux/modules/IsPostContent';
+import { faHandPointUp } from "@fortawesome/free-solid-svg-icons";
+
 
 library.add(faChevronUp);
 library.add(faChevronDown);
@@ -22,7 +25,7 @@ library.add(faChevronDown);
 const qs = require('qs');
 
 const tagdummyData = [
-    '여행', '게임', '소문', '유머', '산책', '자랑', '놀라운', '직장', '학교', '운동', '반려동물', '만화', '고민', '비밀', '음악', '흥미', '사고', '독서', '식사', '취미', '도움', '나눔', '연애', '만남', '자소서', '스포츠', '잡담', '알림', '질문']
+    '여행', '게임', '소문', '유머', '산책', '자랑', '놀라운', '직장', '학교', '운동', '반려동물', '만화', '고민', '비밀', '음악', '흥미', '사고', '독서', '식사', '취미', '도움', '나눔', '연애', '만남', '자소서', '스포츠', '잡담', '알림', '질문', '일상','잡담','후기','영화','디자인','상담','취업','이력서','환경','맛집','데이트','화장실','건강','병원','공연','나눔','버스킹','사진','학생','버스','초콜릿','발렌타인','크리스마스','설날','명절','데일리','패션','카페','브런치','디저트','커피','tea','해외','부모','효도','학원','공부','코딩','꿀팁','잇템','책','스트리밍','방송','전기','자격증','영업','주식','코인','비트코인','담배','전자담배','액상담배','앨범','전자기기','컴퓨터','노트북','전화','월드컵','로또','rpg','fps','pc게임','콘솔게임','보드게임','코로나','오징어게임','자가진단','요소수','주유소','기름','세차','카센타','로블록스','의사','한식','중식','일식','양식','트렌드','구글','야구','축구','농구','인사','신화','병법','유튜브']
 //지역에 관한 필터링
 function Search() {
     const loginUserInfo = useSelector((state: RootStateOrAny)=>state.UserInfoReducer)
@@ -31,7 +34,7 @@ function Search() {
     const timeLineAllTagHandleData = []
     console.log(loginUserInfo)
     const isMobile = useSelector((state: RootStateOrAny)=>state.IsMobileReducer.isMobile)
-   
+    const dispatch = useDispatch()
     sessionStorage.getItem('areaData')
     const areaData = String(sessionStorage.getItem('areaData')) 
     const formChange = JSON.parse(areaData)
@@ -72,7 +75,9 @@ function Search() {
 
     const [changeRecentSearchModal, setChangeRecentSearchModal] = useState<any>(true)
 
-   
+    const [notAreaHandle, setNotAreaHandle] = useState<any>(false)
+
+    
 
     const areaSeleteClick = (event:any) => {
         // if(isAreaActive){
@@ -82,10 +87,14 @@ function Search() {
         // }
 
         setIsAreaActive(!isAreaActive)
+        setNotAreaHandle(false)
+        setIsAreaActive(true)
     }
 
     const searchTextChange = (event:any) => {
         setSearchText(event.target.value)
+        setNotAreaHandle(false)
+        setIsAreaActive(true)
     }
 
     const searchHandleKeyPress = (event:any) => {
@@ -99,7 +108,7 @@ function Search() {
             
                 const a = tagData.filter((el:any) => {
                     if(el !== null){
-                       return !el.indexOf(searchText)
+                       return el.includes(searchText)
                     }
                     else{
                         return
@@ -295,12 +304,16 @@ function Search() {
 
     const recentSearchHandle = () => {
         setChangeRecentSearchModal(!changeRecentSearchModal)
+        setNotAreaHandle(false)
+        setIsAreaActive(true)
     }
     
 
     const timeLineAllTagHandle = async () => {
-        if((userAreaData[0] === undefined || userAreaData[0] === null) && (userAreaData[1] === undefined || userAreaData[1] === null)){
+        if((loginUserInfo.area.length < 2 && loginUserInfo.area2.length < 2) || (loginUserInfo.area === '인증해주세요' && loginUserInfo.area2 === '인증해주세요')){
             setErrorTag('지역인증부터 해주세요')
+            setIsAreaActive(false)
+            setNotAreaHandle(true)
         }
         else{
 
@@ -350,6 +363,10 @@ function Search() {
         handleSearchButton()
         setTagHandle()
     }, [notGiftTag])
+    useEffect(() => {
+        dispatch(isPostContentHandler(false))
+    }, [])
+    
 
     console.log(giftTag)
     console.log(notGiftTag)
@@ -363,10 +380,13 @@ function Search() {
                 지역  
                 {isAreaActive? <button className={`header-container-area-button ${isMobile ? 's2' : null}`} onClick = {areaSeleteClick}>
                     <FontAwesomeIcon icon={faChevronDown}></FontAwesomeIcon>
+                    
+                    
                 </button>
                 :
                 <button className={`header-container-area-button ${isMobile ? 's2' : null}`} onClick = {areaSeleteClick}>
                     <FontAwesomeIcon icon={faChevronUp}></FontAwesomeIcon>
+                    
                 </button>
                 }
             </span>
@@ -385,7 +405,8 @@ function Search() {
                                 state: {
                                 ida: idx,
                             }
-                        }}>인증</Link></div>
+                        }}>인증</Link>
+                        </div>
                         }else{
                             return <div>{`${el}  `}<Link className={`header-container-area-box-link  ${isMobile ? 's4' : null}`} to={{
                                     pathname: `./Area`,
@@ -395,17 +416,25 @@ function Search() {
                             }}>인증</Link></div>
                         }
                     })}
+                    
                 </div>
+                
             </div>
             }
         
         <button className={`header-container-recent ${isMobile ? 's5' : null}`} onClick = {recentSearchHandle}>
                 이전 검색 내역
             </button>
-        
+            {
+                notAreaHandle ? <div className={`not-area-handle ${isMobile ? 'sc1' : null}`}><FontAwesomeIcon icon={faHandPointUp}></FontAwesomeIcon></div>
+                :
+                null
+            }
         
         {changeRecentSearchModal ? null:<RecentViewModal recentSearchHandle = {recentSearchHandle} selectTagSearchHandle = {selectTagSearchHandle} setGiftTag = {setGiftTag} setNotGiftTag = {setNotGiftTag}> </RecentViewModal>}
+        
     </div>
+    
         <div className="header-container-img-box">
                 <img className="header-container-img" src = '로고-우동담-Dark-모양만-배경o.png' />
             </div>
@@ -528,7 +557,7 @@ function Search() {
                 </button>
             </div>
                 <div className="header-container-search-box">
-                    <input className="header-container-search-input" type="text" value={searchText} onChange={searchTextChange} placeholder="태그 검색" onKeyPress={searchHandleKeyPress} />
+                    <input className={`header-container-search-input ${isMobile ? 's9' : null}`} type="text" value={searchText} onChange={searchTextChange} placeholder="태그 검색" onKeyPress={searchHandleKeyPress} />
                 
                 </div>
 

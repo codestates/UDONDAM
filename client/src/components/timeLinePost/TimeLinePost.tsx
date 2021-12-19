@@ -11,6 +11,7 @@ import { NONAME } from "dns";
 import { faArrowAltCircleDown } from "@fortawesome/free-solid-svg-icons";
 import './TimeLinePost.css'
 import { RootStateOrAny, useDispatch, useSelector } from 'react-redux'
+import { isPostContentHandler } from '../../redux/modules/IsPostContent';
 
 library.add(faCommentDots);
 library.add(faArrowAltCircleDown);
@@ -28,13 +29,24 @@ library.add(faArrowAltCircleDown);
 //     public: true  // 1 대 1 채팅 활성화, 비활성화
 //    }
 
-function TimeLinePost({postData,userData,addSelectTagSearchHandle,createAtDesign,notGiftTag,giftTag}: any) {
-    console.log(postData)
+function TimeLinePost({postData,userData,addSelectTagSearchHandle,createAtDesign,notGiftTag,giftTag,setContentPropsData,setHandlePageContent,handlePageContent,datapa}: any) {
+
+    const dispatch = useDispatch()
  
     const isMobile = useSelector((state: RootStateOrAny)=>state.IsMobileReducer.isMobile)
     
+    const contentPageDataHandle = (data:any) => {
+        dispatch(isPostContentHandler(false))
+        setContentPropsData(data)
+        if(!handlePageContent){
+            setHandlePageContent(!handlePageContent)
+        }
+        
+    }
+    
+
     return (
-        <div className={`contanier2 ${isMobile ? 't2' : null}`}>
+        <div className={`contanier2 ${isMobile ? 't2' : 'pt1'}`}>
             
 
             {postData.map((el: { nickname: any,createAt: any ,content:any, tag:any, id:any, commentCount:any, likeCount:any, userId:any, likeCheck:any}) => {
@@ -42,7 +54,7 @@ function TimeLinePost({postData,userData,addSelectTagSearchHandle,createAtDesign
                 return (
                     //여기다 탈퇴한 회원정보 3항 연산자 쓰면 됨
                     <div className="content-box">
-                        <div className="content-box-main">
+                        {isMobile ? <div className="content-box-main">
                         <Link className="link-content-box" to={{
                             pathname: `./Content`,
                             state: {
@@ -69,26 +81,27 @@ function TimeLinePost({postData,userData,addSelectTagSearchHandle,createAtDesign
                         }
                         
 
-                        {isMobile ? <span>#{el.tag[0]} </span>
-                        :el.tag.map((le: {tag: any}) => {
+                        {!isMobile ? el.tag.map((le: {tag: any}) => {
                             return (<span>#{le} </span>)
                         })
+                        :el.tag[0] ? <span>#{el.tag[0]} </span> 
+                        :<span>#{el.tag[1]} </span> 
                         }
                         
                         <div className="Thumb-box">
                             <span className="thumb-contanier">
                                 <FontAwesomeIcon icon={faCommentDots} data-fa-transform="flip-v"></FontAwesomeIcon>
-                                {el.commentCount}
+                                {` ${el.commentCount}`}
                             </span>
                             {el.likeCheck ? 
                             <span className="thumb-contanier likeTrue">
                                 <FontAwesomeIcon icon={faThumbsUp}></FontAwesomeIcon>
-                                {el.likeCount}
+                                {` ${el.likeCount}`}
                             </span>
                             :
                             <span className="thumb-contanier">
                                 <FontAwesomeIcon icon={faThumbsUp}></FontAwesomeIcon>
-                                {el.likeCount}
+                                {` ${el.likeCount}`}
                             </span>
                             }
 
@@ -97,6 +110,64 @@ function TimeLinePost({postData,userData,addSelectTagSearchHandle,createAtDesign
                         </Link>
                         
                         </div>
+                        :
+                        //pc버전 절취선
+
+
+                        <div className="content-box-main">
+                            <span className="link-content-box" onClick={() => contentPageDataHandle({state: {
+                            ida: el.id,
+                            tag: giftTag,
+                            notTag: notGiftTag,
+                            }})}>
+                        <div>
+                            {userData.userId === el.userId ? <div className="writer-true">{`${el.nickname} -본인글`}</div> : <div>{el.nickname}</div>}
+                            <div>{createAtDesign(el.createAt)}
+                            <span className="report">신고</span>
+                        </div>
+
+                        {isMobile ? <div className='content t3'>{el.content.split('\n')[0]}</div>
+                        :
+                        <div className='content'>{
+                            // /n을 기준으로 줄바꿈을 만듬
+                            el.content.split('\n').map((le:any) => {
+                                return (<span>{le}<br /></span>)
+                            })
+                            }</div>
+                        }
+                        
+
+                        {!isMobile ? el.tag.map((le: {tag: any}) => {
+                            return (<span>#{le} </span>)
+                        })
+                        :el.tag[0] ? <span>#{el.tag[0]} </span> 
+                        :<span>#{el.tag[1]} </span> 
+                        }
+                        
+                        <div className="Thumb-box">
+                            <span className="thumb-contanier">
+                                <FontAwesomeIcon icon={faCommentDots} data-fa-transform="flip-v"></FontAwesomeIcon>
+                                {` ${el.commentCount}`}
+                            </span>
+                            {el.likeCheck ? 
+                            <span className="thumb-contanier likeTrue">
+                                <FontAwesomeIcon icon={faThumbsUp}></FontAwesomeIcon>
+                                {` ${el.likeCount}`}
+                            </span>
+                            :
+                            <span className="thumb-contanier">
+                                <FontAwesomeIcon icon={faThumbsUp}></FontAwesomeIcon>
+                                {` ${el.likeCount}`}
+                            </span>
+                            }
+
+                        </div>
+                        </div>
+                        </span>
+                        
+                        </div>
+                        }
+                        
                     </div>
                     
                 )

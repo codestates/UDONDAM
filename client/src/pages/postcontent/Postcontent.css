@@ -1,10 +1,10 @@
 .post-contanier{
     font-size: 1.4rem;
-    width:100%;
+    
     height: 100%;
 }
 .post-contanier-contanier{
-    overflow: auto;
+
     width: 100%;
     height: 100%;
 }
@@ -20,7 +20,7 @@
 
 .textarea-input{
     margin-top: 20px;
-    width: 80vw;
+    width: 100%;
     height: 25vh;
     resize: none;
     font-size: 1.3rem;
@@ -28,6 +28,8 @@
     padding: 20px;
     min-width: 200px;
     max-width: 1600px;
+    margin-left: 20px;
+    margin-right: 20px;
 }
 .charNum-Red2{
     margin-top: 10px;
@@ -59,7 +61,7 @@
 .tag-button{
     border-radius: 15px;
     margin-top: 20px;
-    margin-left: 10px;
+    margin-left: 5px;
     padding: 10px;
     font-size: 1.3rem;
     min-height: 32px;
@@ -83,8 +85,7 @@
     margin-left: 5%;
     margin-right: 5%;
 
-    display: flex;
-    justify-content: center;
+    
 }
 .compelete-button{
 
@@ -124,6 +125,8 @@
 }
 .title-text{
     font-size: 1.3rem;
+    display: flex;
+    justify-content: center;
 }
 .po2{
     font-size: 1rem;
@@ -173,6 +176,37 @@
     font-size: 1rem;
 }
 .tag-box-box-box{
+    
+    
+}
+.tag-box-box-box2{
+    margin-left: 3%;
+    margin-right: 3%;
+    width: 94%;
+
+}
+.pc1{
+    margin-top: 0px;
+}
+.pc2{
+    margin-bottom: 10px;
+}
+
+/* 절취선 */
+
+.post-contanierpc{
+    font-size: 1.4rem;
+    position: fixed;
+    width: 45%;
+}
+.post-contanier-contanierpc{
+
+    flex: 1;
+    display: flex;
+}
+.contanier-area-title-box3pc{
     display: flex;
     justify-content: center;
+    position: sticky;
+    top: 0px;
 }

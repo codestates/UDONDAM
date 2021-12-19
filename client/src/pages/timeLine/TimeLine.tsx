@@ -106,7 +106,7 @@ function TimeLine({ history }: RouteComponentProps){
                     console.log(pageCount)
                 })
             }
-            else if(notGiftTag === null || notGiftTag.length === 0){
+            else if(notGiftTag === null || notGiftTag === undefined || notGiftTag.length === 0){
 
                 await axios(
                     {

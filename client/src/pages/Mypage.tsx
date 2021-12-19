@@ -159,6 +159,26 @@ function Mypage(props:any) {
             }
         }
     }
+    const getData = async () => {
+        const tempData = await axios.get(`${process.env.REACT_APP_API_URL}/user`, { withCredentials: true })
+        console.log(tempData);
+        dispatch(UserInfoHandler({
+            email: tempData.data.email,
+            userId: tempData.data.userId,
+            //닉네임만 바꿈. 리덕스는 읽기 체계라 다 바꿔야함
+            nickname: tempData.data.nickname,
+            area: tempData.data.area,
+            area2: tempData.data.area2,
+            manager: tempData.data.manager,
+            socialType: tempData.data.socialType
+        }))
+        return tempData;
+    }
+    useEffect(()=>{
+        console.log('유즈이펙트작동')
+        getData()
+    },[])
+    
 
     const logoutHandler = async function () {
         try {

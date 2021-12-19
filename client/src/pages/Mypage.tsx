@@ -265,10 +265,10 @@ function Mypage(props:any) {
                             <input type="text" value={userData.passwordCheck} onChange={userDataHandler('passwordCheck')} />
                             {errorMessage}
                             </div>
+                            </div>
                             <div className='mypage_button_box mypage_button_box_true'>
                                 <button className='gray_button' onClick={changeComplete}>수정확인</button>
                                 <button className='gray_button' onClick={cancleHandler}>취소</button>
-                            </div>
                             </div>
                         </div> :
                         <div className='mypage_userinfo_box mypage_userinfo_box_false'>

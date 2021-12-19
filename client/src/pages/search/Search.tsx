@@ -41,7 +41,6 @@ function Search() {
     ]:[formChange[0],formChange[1]] 
     )
     
-
     const [tag, setTag] = useState<any>(tagdummyData.sort())
     const [tagData, setTagData] = useState<any>([
         // 여기도 수정될 예정 

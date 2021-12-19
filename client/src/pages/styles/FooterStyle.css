@@ -90,6 +90,8 @@ min-height: 50px;
     width: 100%;
     min-width: max-content;
     max-height: 100%;
+    max-width: 100%;
+    overflow-x: hidden;
     /* max-width: 100%; */
 
 }

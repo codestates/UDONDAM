@@ -241,7 +241,7 @@ function Signup() {
                 </div>
                 </div>
                 <div className='grid_submit'>
-                    <button className='gray_button' onClick={submitHandler}>회원가입</button>
+                    <button className='gray_button' style={{width:'10rem'}} onClick={submitHandler}>회원가입</button>
                 </div>
             </div>}
             

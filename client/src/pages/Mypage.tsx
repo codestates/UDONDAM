@@ -252,16 +252,16 @@ function Mypage(props:any) {
                             <div className='mypage_userinfo_input'>
                             <div className='mypage_input_box'>
                             <div style={{fontSize : '1.8rem'}}>닉네임 변경</div>
-                            <input type="text" value={userData.nickname} onChange={userDataHandler('nickname')} />
+                            <input type="text" style={{width: '15rem'}} value={userData.nickname} onChange={userDataHandler('nickname')} />
                             </div>
                             <div className='mypage_input_box'>
                             <div style={{fontSize : '1.8rem'}}>비밀번호 수정</div>
-                            <input type="text" value={userData.password} onChange={userDataHandler('password')} />
+                            <input type="text" style={{width: '15rem'}} value={userData.password} onChange={userDataHandler('password')} />
                             {errorMessage}
                             </div>
                             <div className='mypage_input_box'>
                             <div style={{fontSize : '1.8rem'}}>비밀번호 수정 확인</div>
-                            <input type="text" value={userData.passwordCheck} onChange={userDataHandler('passwordCheck')} />
+                            <input type="text"  style={{width: '15rem'}} value={userData.passwordCheck} onChange={userDataHandler('passwordCheck')} />
                             {errorMessage}
                             </div>
                             </div>

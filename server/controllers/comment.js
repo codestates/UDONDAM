@@ -17,8 +17,8 @@ module.exports = {
                         model:likes,
                         attributes:['id']
                     }
-
-                ]
+                ],
+                order:[['createAt', 'DESC']]
         })
         if(posts.length === 0) {
             return res.status(200).json(posts)

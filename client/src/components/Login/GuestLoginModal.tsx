@@ -25,7 +25,7 @@ import { UserInfoHandler } from '../../redux/modules/UserInfo';
    top:0;
    left:0;
    z-index: 999;
-   background-color: rgba(117, 190, 218, 0.3);
+   background-color: rgba(107, 112, 114, 0.37);
    
    width: 100%;
    height: 100%;
@@ -43,7 +43,8 @@ import { UserInfoHandler } from '../../redux/modules/UserInfo';
   transform: translate(-50%, -50%);
   background-color: white;
   padding:40px;
-  width: 20em;
+  width: 19em;
+  max-width: 90vw;
   //height: 20em;
   border-radius: 10px;
   text-align: center;
@@ -52,14 +53,15 @@ import { UserInfoHandler } from '../../redux/modules/UserInfo';
   .close-btn{
     position:relative;
     color:red;
-    bottom:3rem;
-    left:9rem;
+    bottom:2rem;
+    left:8rem;
+    font-size:1.3rem
   }
   
   & .modal_text{
     position:relative;
     bottom: 3rem;
-    font-size:1.5rem;
+    font-size:1.3rem;
     line-height:7rem
     
   }
@@ -161,7 +163,7 @@ function GuestLoginModal (props:any) {
                     <span className='modal_title' >게스트 로그인</span>
                     <span className="close-btn" onClick={openModalHandler}>&times;</span>
                   </div>
-                  <div className='modal_text'>회원가입 없이 서비스를 체험하세요!</div>
+                  <div className='modal_text'>회원가입 없이<br /> 서비스를 체험하세요!</div>
                   <div className='submit_container'>
                    <button onClick={guestLogin}>확인</button>
                    <button onClick={openModalHandler}>취소</button>

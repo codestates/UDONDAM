@@ -10,4 +10,12 @@ padding-top: 5px;
 }
 .content_box{
     width: 100%;
+    border: 2.5px solid white;
+    margin: 6px;
+    border-radius: 9px;
+}
+.interest_post_item{
+    margin-left: 5px;
+    margin-top: 5px;
+    height: 100%;
 }

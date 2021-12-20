@@ -174,7 +174,7 @@ function GuestLoginModal (props:any) {
                     <span className='modal_title' >게스트 로그인</span>
                     <span className="close-btn" onClick={openModalHandler}>&times;</span>
                   </div>
-                  <div className='modal_text'>회원가입 없이<br /> 서비스를 체험하세요!</div>
+                  <div className='modal_text'>회원가입 없이<br /> 서비스를 체험하세요!<br /><br />'글쓰기'와 '댓글 쓰기',<br /> '따봉' 기능은 사용 불가합니다.</div>
                   <div className='submit_container'>
                    <button onClick={guestLogin}>확인</button>
                    <button onClick={openModalHandler}>취소</button>

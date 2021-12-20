@@ -1,21 +1,18 @@
 import React from 'react'
-import { RouteComponentProps } from 'react-router-dom';
-import { useRef, useState, useEffect } from "react";
-import styled from "styled-components";
+import { useState, useEffect } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { library } from "@fortawesome/fontawesome-svg-core";
-import { Link } from 'react-router-dom'
 import { faCommentDots } from "@fortawesome/free-solid-svg-icons";
 import { faThumbsUp } from "@fortawesome/free-solid-svg-icons";
 import { faGreaterThan } from "@fortawesome/free-solid-svg-icons";
 import { RootStateOrAny, useDispatch, useSelector } from 'react-redux'
 import axios from 'axios';
-import { userInfo } from 'os';
 import CommentDeleteModal from '../../../components/Content/CommentDeleteModal'
 import { commentIdDataHandler } from '../../../redux/modules/CommentIdData';
 import { useHistory } from 'react-router'
 import PostDeleteModal from '../../../components/Content/PostDeleteModal';
 import './ContentPc.css'
+import LoadingIndicator from '../../../components/utils/LoadingIndicator';
 
 const qs = require('qs');
 
@@ -27,20 +24,20 @@ library.add(faCommentDots);
 function ContentPc({ contentPropsData }: any) {
     const {ida}:any = contentPropsData.state
     let hisData:any = contentPropsData.state
-    console.log(ida)
+
     const his = useHistory()
     const dispatch = useDispatch()
     const loginUserInfo = useSelector((state: RootStateOrAny)=>state.UserInfoReducer)
-    const commentIdData = useSelector((state: RootStateOrAny)=>state.commentIdDataReducer)
     const isGuest = useSelector((state: RootStateOrAny)=>state.IsGuestReducer.isGuest)
     const isMobile = useSelector((state: RootStateOrAny)=>state.IsMobileReducer.isMobile)
-    const isPost = useSelector((state: RootStateOrAny)=>state.IsPostContentReducer.isPostContent)
 
-    console.log(isMobile)
+
+    const [isLoading, setIsLoading] = useState<any>(false)
     const [test1, setTest1] = useState<any>('');
     //게시글 데이터 가져오기
     let wg:any = ''
     const dataParsingHandle = async () => {
+        setIsLoading(true)
          await axios.get(`${process.env.REACT_APP_API_URL}/post/${ida}`, {withCredentials: true}).then((respone) => {
             contentDataParsing.pop()
             contentDataParsing.push(respone.data)
@@ -49,6 +46,8 @@ function ContentPc({ contentPropsData }: any) {
             setTest1(wg.commentCount)
             setLikeChangeData(!likeChangeData)
         })
+        try {setIsLoading(false)}
+            catch (err) {}
     }
     
     const [giftTag, setGiftTag] = useState<any>(hisData.tag);
@@ -141,14 +140,6 @@ function ContentPc({ contentPropsData }: any) {
                 }
             ])
         }
-        // setCCommentText(event.target.value)
-        // setGiftCComment([
-        //     {
-        //         postId : postDataDetail[0].id,
-        //         content : event.target.value,
-        //         commentId : cCommentView
-        //     }
-        // ])
     }
 
     //대댓글 생성시 인풋창 유무
@@ -162,7 +153,7 @@ function ContentPc({ contentPropsData }: any) {
 
     //댓글 삭제
     const CommentDeleteHandle = async (data:any) => {
-
+        setIsLoading(true)
         await axios(
             {
                 url: `${process.env.REACT_APP_API_URL}/comment/${data}`,
@@ -170,12 +161,14 @@ function ContentPc({ contentPropsData }: any) {
                 withCredentials: true,
                 paramsSerializer: params => {
                         return qs.stringify(params, {arrayFormat: 'brackets'})
-                    } 
+                } 
             }
             )
             .then((respone) => {
-                console.log(respone)
+  
             })
+            try {setIsLoading(false)}
+            catch (err) {}
         setTestChangeData(!testChangeData)
         setChangeCommentModal(true)
     }
@@ -200,9 +193,12 @@ function ContentPc({ contentPropsData }: any) {
 
     //대댓글 생성
     const giftCCommentHandle = async () => {
+        setIsLoading(true)
         await axios.post(`${process.env.REACT_APP_API_URL}/comment`,giftCComment[0],{withCredentials: true}).then((respone) => {
-            console.log(respone)
+            
         })
+        try {setIsLoading(false)}
+            catch (err) {}
         setCCommentView(null)
         setLikeChangeData(!likeChangeData)
         setCCommentText('')
@@ -211,10 +207,12 @@ function ContentPc({ contentPropsData }: any) {
 
     //댓글 생성
     const giftCommentHandle = async () => {
-        console.log(giftComment)
+        setIsLoading(true)
         await axios.post(`${process.env.REACT_APP_API_URL}/comment`,giftComment[0],{withCredentials: true}).then((respone) => {
-            console.log(respone)
+            
         })
+        try {setIsLoading(false)}
+            catch (err) {}
         setCommentText('')
         setLikeChangeData(!likeChangeData)
         setGiftComment([])
@@ -222,10 +220,12 @@ function ContentPc({ contentPropsData }: any) {
 
      //게시글 삭제
      const postDeleteHandle = async (data:number) => {
-
+        setIsLoading(true)
         await axios.delete(`${process.env.REACT_APP_API_URL}/post/${data}`,{withCredentials: true}).then((respone) => {
-            console.log(respone)
+        
         })
+        try {setIsLoading(false)}
+            catch (err) {}
         
     }
 
@@ -233,6 +233,7 @@ function ContentPc({ contentPropsData }: any) {
     const backTimeLineHandle = async () => {
         let AllTagHandleData:any = []
         if(giftTag.length === 0 || giftTag === null){
+            setIsLoading(true)
             await axios(
                 {
                     url: `${process.env.REACT_APP_API_URL}/post`,
@@ -250,9 +251,10 @@ function ContentPc({ contentPropsData }: any) {
                     
             )
             .then((respone) => {
-                console.log(respone)
                 AllTagHandleData = respone.data
             })
+            try {setIsLoading(false)}
+            catch (err) {}
             his.push({
                 pathname: './Timeline',
                 state: {
@@ -263,7 +265,7 @@ function ContentPc({ contentPropsData }: any) {
             })
         }
         else if(notGiftTag === null || notGiftTag.length === 0){
-
+            setIsLoading(true)
             await axios(
                 {
                     url: `${process.env.REACT_APP_API_URL}/post`,
@@ -279,9 +281,10 @@ function ContentPc({ contentPropsData }: any) {
                         }
                     }
             ).then((respone) => {
-                console.log(respone)
                 AllTagHandleData = respone.data
             })
+            try {setIsLoading(false)}
+            catch (err) {}
             his.push({
                 pathname: './Timeline',
                 state: {
@@ -292,6 +295,7 @@ function ContentPc({ contentPropsData }: any) {
             })
             
         }else{
+            setIsLoading(true)
             await axios(
                 {
                     url: `${process.env.REACT_APP_API_URL}/post`,
@@ -308,9 +312,10 @@ function ContentPc({ contentPropsData }: any) {
                         }
                     }
                 ).then((respone) => {
-                    console.log(respone)
                     AllTagHandleData = respone.data
                 })
+                try {setIsLoading(false)}
+            catch (err) {}
                 his.push({
                     pathname: './Timeline',
                     state: {
@@ -329,20 +334,24 @@ function ContentPc({ contentPropsData }: any) {
         if(postDataDetail[0].likeCheck){
             postDataDetail[0].likeCheck = false
             postDataDetail[0].likeCount = postDataDetail[0].likeCount - 1
+            setIsLoading(true)
             await axios.delete(`${process.env.REACT_APP_API_URL}/likes/?userId=${loginUserInfo.userId}&postId=${postDataDetail[0].id}`,{withCredentials: true}).then((respone) => {
-                console.log(respone)
             })
+            try {setIsLoading(false)}
+            catch (err) {}
             //대충 액시오스로 서버로 따봉 딜리트 요청 보낸다는것
         } 
         else{
             postDataDetail[0].likeCheck = true
             postDataDetail[0].likeCount++
+            setIsLoading(true)
             await axios.post(`${process.env.REACT_APP_API_URL}/likes`,{
                 postId : postDataDetail[0].id,
                 userId : loginUserInfo.userId
             },{withCredentials: true}).then((respone) => {
-                console.log(respone)
             })
+            try {setIsLoading(false)}
+            catch (err) {}
             //대충 액시오스로 서버로 따봉 포스트 요청 보낸다는것
         }
         setPostDataDetail(postDataDetail)
@@ -382,28 +391,30 @@ function ContentPc({ contentPropsData }: any) {
         return bc
     }
 
-    
-    // console.log(giftComment)
-    // console.log(giftCComment)
-
     useEffect(() => {
         dataParsingHandle()
+        setIsLoading(false)
     },[ida])
     useEffect(() => {
         dataParsingHandle()
+ 
     },[])
     useEffect(() => {
         dataParsingHandle()
+        setIsLoading(false)
     },[giftComment])
     useEffect(() => {
         dataParsingHandle()
+        setIsLoading(false)
     },[giftCComment])
     useEffect(() => {
         dataParsingHandle()
+        setIsLoading(false)
     },[testChangeData])
  
-    console.log(postDataDetail)
-    return(
+  
+    return(isLoading ? <LoadingIndicator></LoadingIndicator>
+    :
         <div className={`contanier-main-contanierp ${isMobile ? 'c1p' : null}`}>
             <div className='hidden-over'>
             {isMobile ? 
@@ -453,8 +464,6 @@ function ContentPc({ contentPropsData }: any) {
                         return (<span>#{le} </span>)
                     })
                     }
-               
-                    
                     <span className='icon-boxp'>
                     <span className='comment-iconp' onClick={commentViewHandle}>
                         <FontAwesomeIcon icon={faCommentDots} data-fa-transform="flip-vp"></FontAwesomeIcon>

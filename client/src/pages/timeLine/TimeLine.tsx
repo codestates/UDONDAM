@@ -1,8 +1,7 @@
 
 import React from "react";
-import { useRef, useState, useEffect } from "react";
+import { useState} from "react";
 import { RootStateOrAny, useDispatch, useSelector } from 'react-redux'
-import styled from "styled-components";
 import '@fortawesome/fontawesome-free/js/all.js'
 import TimeLinePost from '../../components/timeLinePost/TimeLinePost'
 import { RouteComponentProps } from 'react-router-dom';
@@ -10,16 +9,11 @@ import axios from 'axios';
 import './TimeLine.css'
 import ContentPc from '../content/pcver/ContentPc'
 import Postcontent from '../postcontent/Postcontent'
-import { isPostContentHandler } from '../../redux/modules/IsPostContent';
-
+import LoadingIndicator from '../../components/utils/LoadingIndicator';
 const qs = require('qs');
-
-
 
 //   '로고-우동담-Dark-글자만-배경o.png'
 function TimeLine({ history }: RouteComponentProps){
-    let today = new Date()
-    const dispatch = useDispatch()
     const isMobile = useSelector((state: RootStateOrAny)=>state.IsMobileReducer.isMobile)
     let hisData:any = history.location.state
     const loginUserInfo = useSelector((state: RootStateOrAny)=>state.UserInfoReducer)
@@ -31,14 +25,11 @@ function TimeLine({ history }: RouteComponentProps){
     const [userData, setUserData] = useState<any>(loginUserInfo);
     const [pageCount, setPageCount] = useState<number>(1);
     const [datapa, setDatapa] = useState<any>(true);
+    const [isLoding, setIsLoding] = useState<any>(false);
 
     //컨텐트 페이지 보여줄거야?
     const [handlePageContent, setHandlePageContent] = useState<any>(false);
-    //글쓰기 페이지 보여줄거야?
-    const [handlePagePostContent, setHandlePagePostContent] = useState<any>(false);
-
-    console.log(document.location.href)
-
+ 
     const [contentPropsData, setContentPropsData] = useState<any>({
         state: {
         ida: '',
@@ -85,6 +76,7 @@ function TimeLine({ history }: RouteComponentProps){
         setPageCount(pageCount+1)
        
             if(giftTag.length === 0 || giftTag === null){
+                setIsLoding(true)
                 await axios(
                     {
                         url: `${process.env.REACT_APP_API_URL}/post`,
@@ -103,11 +95,16 @@ function TimeLine({ history }: RouteComponentProps){
                 .then((respone:any) => {
                     
                     setPostData(postData.concat(respone.data))
-                    console.log(pageCount)
+    
                 })
+                try {setIsLoding(false)}
+                catch (err) {
+                
+            }
+                
             }
             else if(notGiftTag === null || notGiftTag === undefined || notGiftTag.length === 0){
-
+                setIsLoding(true)
                 await axios(
                     {
                         url: `${process.env.REACT_APP_API_URL}/post`,
@@ -124,10 +121,16 @@ function TimeLine({ history }: RouteComponentProps){
                         }
                 )
                 .then((respone:any) => {
-                    console.log(respone)
+     
                     setPostData(postData.concat(respone.data))
                 })
+                try {setIsLoding(false)}
+                catch (err) {
+                
+            }
+                
             }else{
+                setIsLoding(true)
                 await axios(
                     {
                         url: `${process.env.REACT_APP_API_URL}/post`,
@@ -145,9 +148,13 @@ function TimeLine({ history }: RouteComponentProps){
                         }
                     )
                     .then((respone:any) => {
-                        console.log(respone)
+         
                         setPostData(postData.concat(respone.data))
                     })
+                    try {setIsLoding(false)}
+            catch (err) {
+                
+            }
             }
     }
 
@@ -158,6 +165,8 @@ function TimeLine({ history }: RouteComponentProps){
 
     
     return (
+        isLoding ? <LoadingIndicator></LoadingIndicator>
+        :
         <div className="show-width-all etet">
             <div className="show-box">
                 {isMobile? <div className={`show-nickname ${isMobile ? 't1' : null}`}>{userData.nickname}님 안녕하세요</div>

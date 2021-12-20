@@ -1,6 +1,6 @@
 
 import React from "react";
-import { useState} from "react";
+import { useState, useEffect } from "react";
 import { RootStateOrAny, useDispatch, useSelector } from 'react-redux'
 import '@fortawesome/fontawesome-free/js/all.js'
 import TimeLinePost from '../../components/timeLinePost/TimeLinePost'
@@ -162,7 +162,6 @@ function TimeLine({ history }: RouteComponentProps){
    
 
 
-
     
     return (
         isLoding ? <LoadingIndicator></LoadingIndicator>
@@ -178,6 +177,7 @@ function TimeLine({ history }: RouteComponentProps){
             <div className="logo-contanier">
                 <img className="logo" src = '로고-우동담-Dark-글자만-배경o.png'/>
             </div>
+            
             <div className="page-handle-where">
             <TimeLinePost postData = {postData} userData = {userData} addSelectTagSearchHandle={addSelectTagSearchHandle} createAtDesign={createAtDesign} giftTag={giftTag} notGiftTag={notGiftTag} setContentPropsData={setContentPropsData} setHandlePageContent={setHandlePageContent} handlePageContent={handlePageContent} datapa={datapa}/>
             {isMobile ? null

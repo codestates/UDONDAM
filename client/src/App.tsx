@@ -26,10 +26,12 @@ function App() {
   const history = useHistory()
   const dispatch = useDispatch()
   const [refresh, setRefresh] = useState<boolean>(false)
-
+  const [timeLine, setTimeLine] = useState<boolean>(false)
   // if(sessionStorage.getItem('areaData')){
   //   sessionStorage.removeItem('areaData')
   // }
+  
+
   
   const isMobile = () => {
     // console.log('모바일여부 확인')
@@ -45,6 +47,7 @@ function App() {
       return false;
     }
   };
+  
 
   const getuserInfo = async function(){
     // console.log('작동')
@@ -90,11 +93,20 @@ function App() {
     
    
   }
+
   
   useEffect(()=>{
     // console.log('유즈이펙트작동')
     getuserInfo()
+    if(document.location.href.slice(-8) === 'Timeline' && timeLine === false){
+      setTimeLine(true)
+
+    }else{
+      setTimeLine(false)
+    }
   },[])
+ 
+ 
   getuserInfo()
   isMobile()
 

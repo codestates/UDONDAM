@@ -33,7 +33,7 @@ function Content({ history }: RouteComponentProps) {
     const isGuest = useSelector((state: RootStateOrAny)=>state.IsGuestReducer.isGuest)
     const isMobile = useSelector((state: RootStateOrAny)=>state.IsMobileReducer.isMobile)
 
-
+    console.log(isGuest)
     const [test1, setTest1] = useState<any>('');
     //게시글 데이터 가져오기
     let wg:any = ''
@@ -237,7 +237,7 @@ function Content({ history }: RouteComponentProps) {
     // 뒤로가기
     const backTimeLineHandle = async () => {
         let AllTagHandleData:any = []
-        if(giftTag.length === 0 || giftTag === null){
+        if(giftTag === null ||  giftTag === undefined || giftTag.length === 0 ){
             setIsLoading(true)
             await axios(
                 {
@@ -260,6 +260,7 @@ function Content({ history }: RouteComponentProps) {
             })
             try {setIsLoading(false)}
             catch (err) {}
+            
             his.push({
                 pathname: './Timeline',
                 state: {
@@ -469,15 +470,15 @@ function Content({ history }: RouteComponentProps) {
                     </span>
 
 
-                    {postDataDetail && postDataDetail.map((el:any) => el.likeCheck ?
-                    
+                    {postDataDetail && postDataDetail.map((el:any) => isGuest ?
+                        <span className='like-icon'>
+                        <FontAwesomeIcon  icon={faThumbsUp}></FontAwesomeIcon>
+                        {` ${el.likeCount}`}
+                        </span>
+                        :  el.likeCheck ?
+                        
                         <span className='like-icon-true' onClick={likeChangeHandle}>
                             <FontAwesomeIcon icon={faThumbsUp}></FontAwesomeIcon>
-                            {` ${el.likeCount}`}
-                        </span>
-                        : isGuest ? 
-                        <span className='like-icon'>
-                            <FontAwesomeIcon  icon={faThumbsUp}></FontAwesomeIcon>
                             {` ${el.likeCount}`}
                         </span>
                         :
@@ -495,6 +496,8 @@ function Content({ history }: RouteComponentProps) {
                
                 )
             }) }
+
+            {/* 댓글 관리 */}
             <div className='comment-contanier'>
             {
             commentView ? 
@@ -504,7 +507,7 @@ function Content({ history }: RouteComponentProps) {
                     
                 <div className='as'>
                     <div>
-                        {el.content ===  null || el.content === '삭제 된 댓글 입니다'?
+                        {el.content ===  null || el.content === '삭제 된 댓글 입니다' ?
                             <div className='comment-box'>
                                 <div>
                                     {el.content}
@@ -556,7 +559,25 @@ function Content({ history }: RouteComponentProps) {
                                         }
                                         </div>
                                         :
-                                        <span>{el.nickname}</span>
+                                        <div className='createAt-box-box'>
+                                            <span >{el.nickname}</span>
+                                            {
+                                            isGuest ? null :
+                                            <span>
+                                                <span className='comment-option'  onClick={() => commentCommentViewHandle(el.id)}>
+                                                    댓글
+                                                
+                                                </span>
+                                                <span className='comment-option-delete' onClick={() => CommentDeleteModalHandle(el.id)}>
+                                                삭제
+                                                {changeCommentModal ? null:<CommentDeleteModal CommentDeleteHandle = {CommentDeleteHandle} CommentDeleteModalHandle = {CommentDeleteModalHandle}></CommentDeleteModal>}
+                                                </span>
+                                                <span className='comment-option-delete'>
+                                                    신고
+                                                </span>
+                                            </span>
+                                        }
+                                        </div>
                                     }
                                     <span className={`comment-createAt ${isMobile ? 'c4' : null}`}>
                                         {  createAtDesign(el.createAt) }

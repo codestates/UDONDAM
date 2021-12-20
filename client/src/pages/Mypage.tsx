@@ -6,11 +6,10 @@ import MypageModal from '../components/Mypage/MypageModal';
 import { IsLoginHandler } from '../redux/modules/IsLogin';
 import styled from 'styled-components';
 import axios from 'axios';
+import LoadingIndicator from '../components/utils/LoadingIndicator';
 import './styles/MypageStyle.css'
 import { SmallGrayButton } from '../components/utils/Buttons';
-import { faFirstAid } from '@fortawesome/free-solid-svg-icons';
 
-//로그인하시고 이용해주세요
 
 //인터페이스 관련
 export interface onOffState {
@@ -29,34 +28,18 @@ export interface IProps {
 }
 
 function Mypage(props:any) {
-    console.log(useSelector((state: RootStateOrAny) => state.UserInfoReducer))
     const data = props
-    console.log(data)
     const history = useHistory()
     const dispatch = useDispatch()
     if(useSelector((state: RootStateOrAny) => state.IsGuestReducer.isGuest === true)){
-        // 모달창으로 로그인하라 안내
-        console.log('로그인하시고 이용해주세요')
+       
         history.push('/Search')
     }
-    console.log(useSelector((state: RootStateOrAny) => state))
-    
-    // if(useSelector((state: RootStateOrAny) => state.IsLoginReducer.isLogin === false)){
-    //     // 모달창으로 로그인하라 안내
-    //     console.log('로그인하시고 이용해주세요')
-    //     history.push('/Search')
-    // }
     
     //리덕스 관련
     const userInfo = useSelector((state: RootStateOrAny) => state.UserInfoReducer);
-    console.log(userInfo)
-    //스테이트 설정
-    // const info = useRef<userDataState>({
-    //     email: userInfo.email,
-    //     nickname: userInfo.nickname,
-    //     password: '',
-    //     passwordCheck: ''
-    // })
+
+        //스테이트 설정
     const [userData, setUserData] = useState<userDataState>({
         email: userInfo.email|| '',
         nickname: userInfo.nickname || '',
@@ -74,21 +57,21 @@ function Mypage(props:any) {
         onChange: false
     })
     const [errorMessage, setErrorMessage] = useState<string>('')
+    const [isLoading, setIsLoading] = useState<boolean>(false)
 
     //스테이트 핸들링
     const onOffHandler = (key: string) => () => {
-        console.log('핸들러 작동')
         if (key === 'onRequest') {
             setOnOff({ ...onOff, [key]: !onOff.onRequest })
         } else if (key === 'onModal') {
             setOnOff({ ...onOff, [key]: !onOff.onModal })
         } else if (key === 'onChange') {
-            if(userInfo.socialType !== 'baisc'){
+            if(userInfo.socialType !== 'basic'){
                 return ;
+            } else {
+               setOnOff({ ...onOff, [key]: !onOff.onChange }) 
             }
-            setOnOff({ ...onOff, [key]: !onOff.onChange })
         };
-        console.log(onOff)
     };
     const userDataHandler = (key: string) => (e: React.ChangeEvent<HTMLInputElement>) => {
         setUserData({ ...userData, [key]: e.target.value })
@@ -113,22 +96,16 @@ function Mypage(props:any) {
     }
 
     const changeComplete = async () => {
-
-        console.log('작동')
         const checkeResult = changeCheck(userData.password, userData.passwordCheck);
         if (checkeResult !== true) {
             setErrorMessage('수정된 비밀번호와 비밀번호 확인이 같아야 합니다')
             return;
         } else if (checkeResult === true) {
             //비밀번호 수정인지 아닌지 구분
-            //aaa@naver.com의 닉네임 수정을 하면 aaa의 닉네임이 바뀜
             try {
                 const body = { nickname: userData.nickname, password: userData.password }
-                //const passwordCheckResp = await axios.post(`${process.env.REACT_APP_API_URL}/passwordcheck`, {password:userData.password}, { withCredentials: true })
                 const userDataChange = await axios.patch(`${process.env.REACT_APP_API_URL}/user`, body, { withCredentials: true })
                 const getUserData = await axios.get(`${process.env.REACT_APP_API_URL}/user`, { withCredentials: true })
-                console.log(userDataChange)
-                console.log(getUserData)
                 dispatch(UserInfoHandler({
                     email: userInfo.email,
                     userId: userInfo.userId,
@@ -139,6 +116,7 @@ function Mypage(props:any) {
                     manager: userInfo.manager,
                     socialType: userInfo.socialType
                 }))
+                //세션 관련
                 const changeJson:string = JSON.stringify({
                     userId: userInfo.userId,
                     email: userInfo.email,
@@ -158,15 +136,12 @@ function Mypage(props:any) {
                 setOnOff({ ...onOff, ['onChange']: !onOff.onChange })
 
             } catch (error: any) {
-
-                console.log(error.response)
             }
         }
     }
     //구글 로그인 관련
     const getData = async () => {
         const tempData = await axios.get(`${process.env.REACT_APP_API_URL}/user`, { withCredentials: true })
-        console.log(tempData);
         dispatch(UserInfoHandler({
             email: tempData.data.email,
             userId: tempData.data.userId,
@@ -177,6 +152,7 @@ function Mypage(props:any) {
             manager: tempData.data.manager,
             socialType: tempData.data.socialType
         }))
+        //세션 관련
         const changeJson:string = JSON.stringify({
             userId: tempData.data.userId,
             email: tempData.data.email,
@@ -199,16 +175,15 @@ function Mypage(props:any) {
         return tempData;
     }
     useEffect(()=>{
-        console.log('유즈이펙트작동')
         getData()
     },[])
     
 
     const logoutHandler = async function () {
         try {
+            setIsLoading(true)
             const logoutResult = await axios.get(`${process.env.REACT_APP_API_URL}/logout`, { withCredentials: true })
-
-            console.log('logoutResult:', logoutResult)
+            setIsLoading(false)
 
             dispatch(UserInfoHandler({
                 userId: 0,
@@ -223,10 +198,9 @@ function Mypage(props:any) {
             //세션삭제
             sessionStorage.removeItem('user')
             sessionStorage.removeItem('areaData')
-            //세션삭제
             history.push('/');
         } catch (err) {
-            console.log(err)
+            setIsLoading(false)
         }
     }
 
@@ -249,28 +223,13 @@ function Mypage(props:any) {
     const MypageContainer2 = styled.div`
     `;
 
-    console.log(onOff)
-
-    console.log(useSelector((state: RootStateOrAny) => state.UserInfoReducer))
-    console.log(userData)
-    // const refresh = function(){
-    //     if(userData.email === ''){
-            
-    //         console.log('바뀜')
-    //         setUserData({
-    //         email: userInfo.email,
-    //         nickname: userInfo.nickname,
-    //         password: '',
-    //         passwordCheck: ''
-    //         })
-    //     }
-    // }
+    
     
 //유즈이펙트
     return (
         <div className='container'>
+            {isLoading? <LoadingIndicator />: 
             <div id='mypage_container'>
-                
                     {onOff.onModal ? <MypageModal closeModal={closeModal} /> : null}
                     <div className='mypage_request_box'>
                         <div className='mypage_request_box_container'>
@@ -280,12 +239,8 @@ function Mypage(props:any) {
                         {onOff.onRequest ?
                             <div className='mypage_request_button_box'>
                                 <button className='mypage_request_button_detail gray_button'>준비중입니다</button>
-                                {/* <button className='mypage_request_button_detail gray_button'>태그추가 요청</button>
-                                <button className='mypage_request_button_detail gray_button'>신고처리현황</button> */}
                             </div> : <div className='mypage_request_button_box'>
                             <button className='mypage_request_button_detail gray_button hide'>준비중입니다</button>
-                                {/* <button className='mypage_request_button_detail gray_button hide'>태그추가 요청</button>
-                                <button className='mypage_request_button_detail gray_button hide'>신고처리현황</button> */}
                             </div> }
                             </div>
                     </div>
@@ -334,7 +289,8 @@ function Mypage(props:any) {
                 
 
         
-            </div>
+            </div>}
+            
         </div>
     )
 }

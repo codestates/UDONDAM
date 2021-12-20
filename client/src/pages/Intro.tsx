@@ -27,18 +27,12 @@ function Intro() {
         history.push('/Search')
     }
 
-    const test = function () {
-        //document.querySelector('.nav_link_box')?.classList.add('hide')
-        console.log(document.baseURI)
-        console.log(document.location.href)
-    }
+    
 
     const isLogin = useSelector((state: RootStateOrAny) => state.IsLoginReducer.isLogin)
     const isMobile = useSelector((state: RootStateOrAny) => state.IsMobileReducer.isMobile)
     const hideLogo = function () {
         if (isLogin === false) {
-            console.log('isLogin:', isLogin)
-            console.log('인트로 하이드 작동')
             if (document.querySelector('.logo_nav')?.classList.contains('hide') === false) {
                 document.querySelector('.logo_nav_place')?.classList.toggle('hide')
                
@@ -122,7 +116,6 @@ function Intro() {
 const save1 = document.querySelector('.intro_content_place')?.clientHeight
 const save2 = document.querySelector('#intro_container')?.clientHeight
   const heightContlor = function(save1:number,save2:number){
-      console.log(save1, save2)
       if(save1 < save2) {
           const height = save1 - save2
       }

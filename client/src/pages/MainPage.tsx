@@ -33,7 +33,6 @@ function MainPage () {
     const TimeLineContainer =styled.div``;
     const ContentContainer =styled.div``;
     
-    console.log('interestBoxOn내용:',useSelector((state: RootStateOrAny)=>state.MainPageReducer).interestBoxOn)
     useEffect(()=>{
         console.log('useEffect작동')
         

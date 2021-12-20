@@ -1,6 +1,6 @@
 .contanier-main-contanierp{
     flex: 1;
-    font-size: 1.6rem;
+    font-size: 1.3rem;
     margin-bottom: 30px;
     
 }
@@ -47,7 +47,7 @@
     cursor: pointer;
 }
 .content-mainp{
-    font-size: 1.8rem;
+    font-size: 1.5rem;
     margin-top: 10px;
     margin-bottom: 20px;
     overflow: auto;
@@ -118,7 +118,7 @@
 .input-commentp{
     margin-top: 20px;
     width: 92%;
-    height: 7rem;
+    height: 3rem;
     resize: none;
     font-size: 1.3rem;
     border-radius: 10px;
@@ -140,7 +140,7 @@
 }
 .complete-comment-buttonp{
     
-    font-size: 1.4rem;
+    font-size: 1.2rem;
     color: white;
     background-color: rgb(58, 58, 58);
 }

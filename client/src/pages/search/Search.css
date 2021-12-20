@@ -3,7 +3,7 @@
     margin: 5px;
     width: 10vw;
     height: 7vh;
-    font-size: 1.4rem;
+    font-size: 1rem;
     min-height: 50px;
     min-width: 95px;
     max-height: 150px;
@@ -85,7 +85,7 @@
 .header-container-recent{
 
     
-    font-size: 1.3rem;
+    font-size: 1.1rem;
     color: white;
     background-color: rgb(87, 87, 87);
    
@@ -158,7 +158,7 @@
     margin: 0px auto;
     min-height: 2rem;
     width: 28%;
-    font-size: 1.2rem;
+    font-size: 1rem;
     border-radius: 15px;
     min-width: 18rem;
     max-width: 33rem;
@@ -206,7 +206,7 @@
     max-height: 2.8vh;
     min-height: 1.8rem;
     width: 15%;
-    font-size: 1.2rem;
+    font-size: 1rem;
     border-radius: 15px;
     min-width: 9.6rem;
     max-width: 15.4rem;
@@ -226,7 +226,7 @@
     max-height: 3vh;
     min-height: 1.8rem;
     width: 15%;
-    font-size: 1.2rem;
+    font-size: 1rem;
     border-radius: 15px;
     min-width: 9.6rem;
     max-width: 15.4rem;
@@ -247,7 +247,7 @@
     max-height: 3vh;
     min-height: 1.8rem;
     width: 30%;
-    font-size: 1.2rem;
+    font-size: 1rem;
     border-radius: 15px;
     min-width: 20rem;
     max-width: 35rem;

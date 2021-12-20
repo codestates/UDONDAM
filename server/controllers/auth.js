@@ -44,6 +44,7 @@ module.exports = {
     },
     guest: async (req, res) => {
         const userData = {
+            userId: 5,
             nickname: '게스트',
             manager: false,
             socialType: 'basic'

@@ -4,7 +4,7 @@ module.exports = {
     commentUser: async (req, res) => {
         req.userId = req.userId || 1;
         try{
-        let a = await post.findAll({
+        let posts = await post.findAll({
                 include:[
                     {
                         model:comment,
@@ -20,27 +20,27 @@ module.exports = {
 
                 ]
         })
-        if(a.length === 0) {
-            return res.status(200).json(a)
+        if(posts.length === 0) {
+            return res.status(200).json(posts)
         }
-        let b = [];
-        for(let el of a) {
+        let commentPost = [];
+        for(let el of posts) {
             const {id, content, createAt, likes} = el.dataValues;
-            let c = await comment.count({
+            let commentCount = await comment.count({
                 where:{
                     postId: id
                 }
             })
-            b.push(
+            commentPost.push(
                 {
                 id:id,
                 content: content,
                 createAt: createAt,
                 likeCount: likes.length,
-                commentCount: c
+                commentCount: commentCount
                 })
         }
-            return res.send(b)
+            return res.send(commentPost)
         } catch(err) {
             console.log(err);
             return res.status(500).json({"message": "Server Error"})

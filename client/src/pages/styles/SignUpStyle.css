@@ -1,5 +1,5 @@
 .grid_container{
-    width: 70%;
+    width: 90%;
     height: 90%;
     justify-content: center;
     display: grid;
@@ -10,6 +10,7 @@
     "email_check"
     "submit";
     grid-template-rows: 5% auto auto auto auto;
+    grid-template-columns: 70%;
 }
 
 /*회원가입 텍스트*/
@@ -20,6 +21,7 @@
     justify-content: center;
     align-items: center;
     height: 100%;
+    font-size: 1.8rem;
 }
 /*이메일 & 중복체크*/
 .grid_email_input{
@@ -34,10 +36,10 @@
     flex-direction: row;
     justify-content: space-between;
     align-items: center;
-    height: 20%;
+    /* height: 20%; */
 }
 .email_input{
-    width: 70%;
+    /* width: 70%; */
 }
 
 
@@ -67,7 +69,7 @@
 .email_check_box{
     display: flex;
     /* flex-direction: row; */
-    /* justify-content: space-between; */
+    justify-content: space-between;
     /* align-items: center; */
 }
 .email_check_input_box{

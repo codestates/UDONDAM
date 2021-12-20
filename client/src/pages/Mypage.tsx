@@ -251,16 +251,16 @@ function Mypage(props:any) {
                         <div className='mypage_userinfo_box mypage_userinfo_box_true'>
                             <div className='mypage_userinfo_input'>
                             <div className='mypage_input_box'>
-                            <div>닉네임 변경</div>
+                            <div style={{fontSize : '1.8rem'}}>닉네임 변경</div>
                             <input type="text" value={userData.nickname} onChange={userDataHandler('nickname')} />
                             </div>
                             <div className='mypage_input_box'>
-                            <div>비밀번호 수정</div>
+                            <div style={{fontSize : '1.8rem'}}>비밀번호 수정</div>
                             <input type="text" value={userData.password} onChange={userDataHandler('password')} />
                             {errorMessage}
                             </div>
                             <div className='mypage_input_box'>
-                            <div>비밀번호 수정 확인</div>
+                            <div style={{fontSize : '1.8rem'}}>비밀번호 수정 확인</div>
                             <input type="text" value={userData.passwordCheck} onChange={userDataHandler('passwordCheck')} />
                             {errorMessage}
                             </div>
@@ -273,12 +273,12 @@ function Mypage(props:any) {
                         <div className='mypage_userinfo_box mypage_userinfo_box_false'>
                             <div className='mypage_userinfo_input'>
                             <div className='mypage_input_box'>
-                                <div>이메일</div>
-                                <input type="text" value={userData.email} disabled />
+                                <div style={{fontSize : '1.8rem'}}>이메일</div>
+                                <input type="text" style={{width: '15rem'}} value={userData.email} disabled />
                             </div>
                             <div className='mypage_input_box'>
-                                <div>닉네임</div>
-                                <input type="text" value={userData.nickname} disabled />
+                                <div style={{fontSize : '1.8rem'}}>닉네임</div>
+                                <input type="text" style={{width: '15rem'}} value={userData.nickname} disabled />
                             </div>
                             </div>
                             <div className='mypage_button_box mypage_button_box_false'>

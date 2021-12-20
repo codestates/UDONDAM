@@ -1,11 +1,10 @@
-import React, { useState } from 'react'
+import React  from 'react'
 import { useDispatch, useSelector, RootStateOrAny } from "react-redux";
-import { UserInfoHandler } from '../../redux/modules/UserInfo';
-import { IsLoginHandler } from '../../redux/modules/IsLogin';
+
 import { useHistory } from 'react-router-dom';
-import axios from 'axios';
+
 import styled from 'styled-components';
-import { IProps } from '../../pages/Mypage';
+
 
 
     export const ModalContainer = styled.div`
@@ -61,24 +60,27 @@ import { IProps } from '../../pages/Mypage';
   
   & .modal_text{
     position:relative;
-    bottom: 3rem;
-    font-size:1.5rem;
-    line-height:7rem
+
+    font-size:1.2rem;
+ 
     
   }
   & .modal_title{
     position:relative;
     bottom:2rem;
+    font-size:2rem
   }
   
   & .long{
-    position:relative;
-    line-height:2.5rem
+
+    font-size:1.2rem;
+    margin-bottom:10px;
   }
   
   & .modal_text_password{
     position:relative;
-    font-size:2rem;
+    font-size:1.5rem;
+    margin:10px;
   }
   
   & .input_password{

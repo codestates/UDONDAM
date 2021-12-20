@@ -1,26 +1,27 @@
 import React from 'react'
 import { RouteComponentProps } from 'react-router-dom';
-import { useRef, useState, useEffect } from "react";
-import styled from "styled-components";
+import { useState, useEffect } from "react";
+
 import axios from 'axios';
 import 'dotenv/config'
 import { RootStateOrAny, useDispatch, useSelector } from 'react-redux'
 import { useHistory } from 'react-router'
 import { UserInfoHandler } from '../../redux/modules/UserInfo';
 import './Area.css'
+import LoadingIndicator from '../../components/utils/LoadingIndicator';
 
 
     //지역인증
-let falseArr:any = ''
+
 function Area({ history }: RouteComponentProps) {
     const dispatch = useDispatch()
     const his = useHistory()
     const {ida}:any = history.location.state
-    console.log(ida)
     const isGuest = useSelector((state: RootStateOrAny)=>state.IsGuestReducer.isGuest)
     const loginUserInfo = useSelector((state: RootStateOrAny)=>state.UserInfoReducer)
     const isMobile = useSelector((state: RootStateOrAny)=>state.IsMobileReducer.isMobile)
 
+    const [isLoding, setIsLoding] = useState<any>(false)
     const [filterTag, setFilterTag] = useState<any>([])
     const [searchText, setSearchText] = useState<any>('')
     const [giftTag2, setGiftTag2] = useState<any>([])
@@ -51,14 +52,16 @@ function Area({ history }: RouteComponentProps) {
     }
     const myLocalHandle = () => {
         setFirstLocal(!firstLocal)
+        setIsLoding(true)
         navigator.geolocation.getCurrentPosition(async function(pos) {
             let a = pos.coords.latitude
             let b = pos.coords.longitude
+
             
             await axios
             .get(`https://maps.googleapis.com/maps/api/geocode/json?latlng=${a},${b}&language=ko&key=${process.env.REACT_APP_API_KEY}`)
             .then((respone1) => {
-                console.log(respone1.data)
+
                return respone1.data.results[4].address_components.map((el:any) => {
                if(localTagData.indexOf(el.long_name) !== -1){
                     return setAreaSearch(el.long_name)
@@ -69,13 +72,13 @@ function Area({ history }: RouteComponentProps) {
             
             })
           
-            try {}
+            try {setIsLoding(false)}
             catch (err) {
                 setAreaSearch('죄송합니다. 직접 지역을 선택해주세요')
             }
         })
     }
-    console.log(giftTag2)
+
     const yesMyLocalHandle = () => {
         if(threeLocal){
             setThreeLocal(false)
@@ -97,6 +100,7 @@ function Area({ history }: RouteComponentProps) {
     const areaSelectHandle = async () => {
         if(isGuest){
             if(ida === 0){
+                setIsLoding(true)
                 dispatch(UserInfoHandler({
                     userId: loginUserInfo.userId,
                     email: loginUserInfo.email,
@@ -106,10 +110,13 @@ function Area({ history }: RouteComponentProps) {
                     manager: loginUserInfo.manager, 
                     socialType: loginUserInfo.socialType
                 }))
+                setIsLoding(false)
                 his.push({
                     pathname: `./Search`,
                 })
+                
             }else{
+                setIsLoding(true)
                 dispatch(UserInfoHandler({
                     userId: loginUserInfo.userId,
                     email: loginUserInfo.email,
@@ -119,17 +126,21 @@ function Area({ history }: RouteComponentProps) {
                     manager: loginUserInfo.manager, 
                     socialType: loginUserInfo.socialType
                 }))
+                setIsLoding(false)
                 his.push({
                     pathname: `./Search`,
                 })
+                
             }
         }else
         {
             if(ida === 0){
+                setIsLoding(true)
+
                 await axios.patch(`${process.env.REACT_APP_API_URL}/user/area`, {
                     area : areaSearch
                 },{withCredentials: true}).then((respone:any) => {
-                    console.log(respone.data)
+                  
                     dispatch(UserInfoHandler({
                         userId: loginUserInfo.userId,
                         email: loginUserInfo.email,
@@ -140,14 +151,21 @@ function Area({ history }: RouteComponentProps) {
                         socialType: loginUserInfo.socialType
                     }))
                 })
+                try {setIsLoding(false)}
+            catch (err) {
+                
+            }
+                setIsLoding(false)
                 his.push({
                     pathname: `./Search`,
                 })
+                
             }else{
+                setIsLoding(true)
                 await axios.patch(`${process.env.REACT_APP_API_URL}/user/area`, {
                     area2 : areaSearch
                 },{withCredentials: true}).then((respone:any) => {
-                    console.log(respone.data)
+               
                     dispatch(UserInfoHandler({
                         userId: loginUserInfo.userId,
                         email: loginUserInfo.email,
@@ -158,9 +176,14 @@ function Area({ history }: RouteComponentProps) {
                         socialType: loginUserInfo.socialType
                     }))
                 })
+                try {setIsLoding(false)}
+                catch (err) {
+                    
+                }
                 his.push({
                     pathname: `./Search`,
                 })
+                setIsLoding(false)
             }
         }
         
@@ -171,6 +194,7 @@ function Area({ history }: RouteComponentProps) {
         
         if(isGuest){
             if(ida === 0){
+                setIsLoding(true)
                 dispatch(UserInfoHandler({
                     userId: loginUserInfo.userId,
                     email: loginUserInfo.email,
@@ -183,7 +207,9 @@ function Area({ history }: RouteComponentProps) {
                 his.push({
                     pathname: `./Search`,
                 })
+                setIsLoding(false)
             }else{
+                setIsLoding(true)
                 dispatch(UserInfoHandler({
                     userId: loginUserInfo.userId,
                     email: loginUserInfo.email,
@@ -196,14 +222,16 @@ function Area({ history }: RouteComponentProps) {
                 his.push({
                     pathname: `./Search`,
                 })
+       
             }
         }else
         {
             if(ida === 0){
+                setIsLoding(true)
                 await axios.patch(`${process.env.REACT_APP_API_URL}/user/area`, {
                     area : giftTag2[0]
                 },{withCredentials: true}).then((respone:any) => {
-                    console.log(respone)
+              
                     dispatch(UserInfoHandler({
                         userId: loginUserInfo.userId,
                         email: loginUserInfo.email,
@@ -214,14 +242,20 @@ function Area({ history }: RouteComponentProps) {
                         socialType: loginUserInfo.socialType
                     }))
                 })
+                try {setIsLoding(false)}
+            catch (err) {
+                
+            }
                 his.push({
                     pathname: `./Search`,
                 })
+         
             }else{
+                setIsLoding(true)
                 await axios.patch(`${process.env.REACT_APP_API_URL}/user/area`, {
                     area2 : giftTag2[0]
                 },{withCredentials: true}).then((respone:any) => {
-                    console.log(respone)
+                   
                     dispatch(UserInfoHandler({
                         userId: loginUserInfo.userId,
                         email: loginUserInfo.email,
@@ -232,9 +266,14 @@ function Area({ history }: RouteComponentProps) {
                         socialType: loginUserInfo.socialType
                     }))
                 })
+                try {setIsLoding(false)}
+            catch (err) {
+                
+            }
                 his.push({
                     pathname: `./Search`,
                 })
+                
             }
         }
     }
@@ -243,11 +282,14 @@ function Area({ history }: RouteComponentProps) {
 
     useEffect(() => {
         handleSearchButton()
+        setIsLoding(false)
     }, [searchText])
 
     
 
     return(
+        isLoding ? <LoadingIndicator></LoadingIndicator>
+        :
             <div className={`contanier-area ${isMobile ? 'a1' : null}`}>
                 <div className={`contanier-area-title-box ${isMobile ? 'a2' : null}`}>
                     <div className={`contanier-area-title ${isMobile ? 'a3' : null}`}>

@@ -1,14 +1,12 @@
 import React from 'react'
-import { RouteComponentProps } from 'react-router-dom';
-import { useRef, useState, useEffect } from "react";
-import styled from "styled-components";
+import { useState, useEffect } from "react";
 import axios from 'axios';
 import 'dotenv/config'
 import { RootStateOrAny, useDispatch, useSelector } from 'react-redux'
 import { useHistory } from 'react-router'
-import { UserInfoHandler } from '../../redux/modules/UserInfo';
 import './Postcontent.css'
 import { isPostContentHandler } from '../../redux/modules/IsPostContent';
+import LoadingIndicator from '../../components/utils/LoadingIndicator';
     //게시글 작성
 const qs = require('qs');
    
@@ -29,7 +27,7 @@ function Postcontent({ notGiftTag,giftTag,setPostData }: any) {
     const [falseMessage, setFalseMessage] = useState<any>('')
     const [charNum, setCharNum] = useState<any>(0) 
     const [charNumError, setCharNumError] = useState<any>('') 
-
+    const [isLoading, setIsLoading] = useState<any>(false)
     
 
     const [tag, setTag] = useState<any>([
@@ -90,26 +88,20 @@ function Postcontent({ notGiftTag,giftTag,setPostData }: any) {
             arr.push(a)
         }
 
-        setContentGiftTag(arr)
-        // arr.map((el:any) => {
-        //     return a = a + `#${el} `})
-        
+        setContentGiftTag(arr)  
     }
     const giftTagDeleteHandle = (event:any) => {
         let dummyTag = event.target.textContent
         dummyTag = dummyTag.slice(2,20)
-        console.log(dummyTag)
         contentGiftTag.splice(arr.indexOf(dummyTag),1)
         a = ''
-        console.log(arr)
         setContentGiftTag(arr)
         setTagHandle()
         setContentViewTag(!contentViewTag)
     }
 
     const compleatContentHandle = async () => {
-        console.log(contentText, contentGiftTag)
-        
+
             await axios(
                 {
                     url: `${process.env.REACT_APP_API_URL}/post`,
@@ -126,7 +118,6 @@ function Postcontent({ notGiftTag,giftTag,setPostData }: any) {
                     }
             )
             .then((respone) => {
-                console.log(respone)
                 setPostData(respone.data)
             })
             
@@ -142,14 +133,12 @@ function Postcontent({ notGiftTag,giftTag,setPostData }: any) {
                 public: false,
                 tag: contentGiftTag
             },{withCredentials: true}).then((respone) => {
-                console.log(respone)
             })
             if(isMobile){
                 his.push({
                     pathname: `./Search`,
                 })
             }
-            
             dispatch(isPostContentHandler(false))
         }
         else {
@@ -288,9 +277,7 @@ function Postcontent({ notGiftTag,giftTag,setPostData }: any) {
             </div>
             
         </div>
-    </div>
-        
-            
+    </div>      
     )
 }
 

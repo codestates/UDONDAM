@@ -1,14 +1,10 @@
 import React from "react";
-import { useRef, useState, useEffect } from "react";
-import styled from "styled-components";
+import { useState, useEffect } from "react";
 import '@fortawesome/fontawesome-free/js/all.js'
 import { Link } from 'react-router-dom'
-import { Route, Switch } from 'react-router-dom';
 import { RootStateOrAny, useDispatch, useSelector } from 'react-redux'
 import axios from 'axios';
 import { useHistory } from 'react-router'
-import jQuery from 'jquery'
-import { decodedTextSpanIntersectsWith } from "typescript";
 import RecentViewModal from '../../components/Content/RecentViewModal';
 import './Search.css'
 import { faChevronUp } from "@fortawesome/free-solid-svg-icons";
@@ -17,7 +13,7 @@ import { library } from "@fortawesome/fontawesome-svg-core";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { isPostContentHandler } from '../../redux/modules/IsPostContent';
 import { faHandPointUp } from "@fortawesome/free-solid-svg-icons";
-
+import LoadingIndicator from '../../components/utils/LoadingIndicator';
 
 library.add(faChevronUp);
 library.add(faChevronDown);
@@ -31,19 +27,18 @@ function Search() {
     const loginUserInfo = useSelector((state: RootStateOrAny)=>state.UserInfoReducer)
     const his = useHistory()
     let AllTagHandleData = {}
-    const timeLineAllTagHandleData = []
-    console.log(loginUserInfo)
     const isMobile = useSelector((state: RootStateOrAny)=>state.IsMobileReducer.isMobile)
     const dispatch = useDispatch()
     sessionStorage.getItem('areaData')
     const areaData = String(sessionStorage.getItem('areaData')) 
     const formChange = JSON.parse(areaData)
-    console.log(formChange)
     const [userAreaData, setUserAreaData] = useState<any>(loginUserInfo.area.length > 1 ?[
         loginUserInfo.area,loginUserInfo.area2
     ]:[formChange[0],formChange[1]] 
     )
     
+    const [isLoading, setIsLoading] = useState<any>(false)
+
     const [tag, setTag] = useState<any>(tagdummyData.sort())
     const [tagData, setTagData] = useState<any>([
         // 여기도 수정될 예정 
@@ -53,7 +48,6 @@ function Search() {
         // 여기도 수정될 예정 
         // 예 ) 유저정보.area, ...유저정보.area2
         userAreaData[0],userAreaData[1],...tag])
-    const [giftTimeLineData, setGiftTimeLineData] = useState<any>({})
 
     const [isAreaActive, setIsAreaActive] = useState<any>([false])
 
@@ -80,15 +74,8 @@ function Search() {
     
 
     const areaSeleteClick = (event:any) => {
-        // if(isAreaActive){
-        //     event.target.textContent = 'u'
-        // }else{
-        //     event.target.textContent = 'n'
-        // }
-
         setIsAreaActive(!isAreaActive)
         setNotAreaHandle(false)
-        setIsAreaActive(true)
     }
 
     const searchTextChange = (event:any) => {
@@ -105,7 +92,6 @@ function Search() {
 
     const handleSearchButton = () => {
         if(notModeTag){
-            
                 const a = tagData.filter((el:any) => {
                     if(el !== null){
                        return el.includes(searchText)
@@ -125,9 +111,6 @@ function Search() {
             setFilterTag(a)
             }
         }
-        // if(filterTag[0] === []){
-        //     setFilterTag(['해당 태그는 없습니다.'])
-        // }
     }
     const giftTagHandle = (event:any) => {
         setErrorTag('')
@@ -138,8 +121,6 @@ function Search() {
                 tagData.unshift(event.target.textContent)
                 setTagData(tagData)
                 setGiftTag([...giftTag,event.target.textContent])
-
-                // event.target.style.backgroundColor = 'blue'
                 setTagHandle()
             }else{
                 giftTag.splice(giftTag.indexOf(event.target.textContent),1)
@@ -153,7 +134,6 @@ function Search() {
         {
             if(notGiftTag.indexOf(event.target.textContent) === -1){
                 setNotGiftTag([...notGiftTag,event.target.textContent])
-                // event.target.style.backgroundColor = 'red'
                 if(giftTag.indexOf(event.target.textContent) !== -1){
                     giftTag.splice(giftTag.indexOf(event.target.textContent),1)
                     setGiftTag(giftTag)
@@ -176,8 +156,7 @@ function Search() {
             }
         }
     }
-    // console.log(tagData)
-
+  
     const setTagHandle = () => {
         if(notModeTag){
             let b = ''
@@ -224,10 +203,10 @@ function Search() {
         })
 
         if(a){
-            setErrorTag('잘했다')
-            console.log(notGiftTag)
+            setErrorTag('검색중')
+            
             if(notGiftTag === null || notGiftTag.length === 0){
-
+                setIsLoading(true)
                 await axios(
                     {
                         url: `${process.env.REACT_APP_API_URL}/post`,
@@ -244,14 +223,17 @@ function Search() {
                         }
                 )
                 .then((respone) => {
-                    console.log(respone)
+              
                     AllTagHandleData = respone.data
                 })
-     
+                try {setIsLoading(false)}
+            catch (err) {}
+                
                 await axios.post(`${process.env.REACT_APP_API_URL}/recent`, {tag:giftTag, notTag: null}, { withCredentials: true })
             
 
-
+                try {setIsLoading(false)}
+            catch (err) {}
                 his.push({
                     pathname: './Timeline',
                     state: {
@@ -261,6 +243,7 @@ function Search() {
                     }
                 })
             }else{
+                setIsLoading(true)
                 await axios(
                     {
                         url: `${process.env.REACT_APP_API_URL}/post`,
@@ -278,15 +261,17 @@ function Search() {
                         }
                     )
                     .then((respone) => {
-                        console.log(respone)
+                       
                         AllTagHandleData = respone.data
                     })
+                    
                     
                        await axios.post(`${process.env.REACT_APP_API_URL}/recent`,{
                             tag: giftTag,
                             notTag: notGiftTag
                         },{withCredentials: true})
-                 
+                        try {setIsLoading(false)}
+            catch (err) {}
                     his.push({
                         pathname: './Timeline',
                         state: {
@@ -316,7 +301,7 @@ function Search() {
             setNotAreaHandle(true)
         }
         else{
-
+            setIsLoading(true)
             await axios(
             {
                 url: `${process.env.REACT_APP_API_URL}/post`,
@@ -333,11 +318,11 @@ function Search() {
                 }
             )
             .then((respone) => {
-                console.log(respone)
                 AllTagHandleData = respone.data
             })
 
-            
+            try {setIsLoading(false)}
+            catch (err) {}
             his.push({
                 pathname: './Timeline',
                 state: {
@@ -365,14 +350,17 @@ function Search() {
     }, [notGiftTag])
     useEffect(() => {
         dispatch(isPostContentHandler(false))
+        setIsLoading(false)
+        
     }, [])
     
 
-    console.log(giftTag)
-    console.log(notGiftTag)
 
     return (
+        isLoading ? <LoadingIndicator></LoadingIndicator>
+            :
     <div className='search-page-container'>
+        
         <div className="header-container-main">
         <span className="header-container">
             
@@ -627,6 +615,7 @@ function Search() {
         }
         
     </div>
+        
     )
 }
 export default Search;

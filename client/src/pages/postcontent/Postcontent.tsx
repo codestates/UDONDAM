@@ -118,7 +118,7 @@ function Postcontent({ notGiftTag,giftTag,setPostData }: any) {
                     }
             )
             .then((respone) => {
-                setPostData(respone.data)
+                // setPostData(respone.data)
             })
             
         

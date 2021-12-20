@@ -150,14 +150,16 @@ function Nav() {
         }
         
 
-
-        
+        // 정동교 흔적
+        let w:any = document.getElementById('containerTL')
 
         return (
             <div className='nav_link_container'>
                 <div className='nav_link_detail'>
                     <Link to='./Search' >
                         <FontAwesomeIcon icon={faSearchLocation} size='3x' color = {navColor}></FontAwesomeIcon>
+                        {/* 정동교 흔적 */}
+                        {w === null ? null : w.setAttribute('id','container')}
                     </Link>
                 </div>
                 <div className='nav_link_detail'>

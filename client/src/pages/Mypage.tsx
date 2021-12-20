@@ -256,12 +256,12 @@ function Mypage(props:any) {
                             </div>
                             <div className='mypage_input_box'>
                             <div style={{fontSize : '1.8rem'}}>비밀번호 수정</div>
-                            <input type="text" style={{width: '15rem'}} value={userData.password} onChange={userDataHandler('password')} />
+                            <input type="password" style={{width: '15rem'}} value={userData.password} onChange={userDataHandler('password')} />
                             {errorMessage}
                             </div>
                             <div className='mypage_input_box'>
                             <div style={{fontSize : '1.8rem'}}>비밀번호 수정 확인</div>
-                            <input type="text"  style={{width: '15rem'}} value={userData.passwordCheck} onChange={userDataHandler('passwordCheck')} />
+                            <input type="password"  style={{width: '15rem'}} value={userData.passwordCheck} onChange={userDataHandler('passwordCheck')} />
                             {errorMessage}
                             </div>
                             </div>

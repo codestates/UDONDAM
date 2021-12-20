@@ -31,7 +31,7 @@ function ContentPc({ contentPropsData }: any) {
     const isGuest = useSelector((state: RootStateOrAny)=>state.IsGuestReducer.isGuest)
     const isMobile = useSelector((state: RootStateOrAny)=>state.IsMobileReducer.isMobile)
 
-
+    console.log(isGuest , loginUserInfo)
     const [isLoading, setIsLoading] = useState<any>(false)
     const [test1, setTest1] = useState<any>('');
     //게시글 데이터 가져오기
@@ -397,7 +397,10 @@ function ContentPc({ contentPropsData }: any) {
     },[ida])
     useEffect(() => {
         dataParsingHandle()
- 
+        let w:any = document.getElementById('container')
+        if(w !== null){
+            w.setAttribute('id','containerTL')
+        }
     },[])
     useEffect(() => {
         dataParsingHandle()
@@ -470,17 +473,17 @@ function ContentPc({ contentPropsData }: any) {
                         {` ${el.commentCount}`}
                     </span>
 
+            
 
-                    {postDataDetail && postDataDetail.map((el:any) => el.likeCheck ?
-                    
-                        <span className='like-icon-truep' onClick={likeChangeHandle}>
-                            <FontAwesomeIcon icon={faThumbsUp}></FontAwesomeIcon>
-                            {` ${el.likeCount}`}
-                        </span>
-                        : isGuest ? 
+                    {postDataDetail && postDataDetail.map((el:any) =>isGuest ?
                         <span className='like-iconp'>
-                            <FontAwesomeIcon  icon={faThumbsUp}></FontAwesomeIcon>
-                            {` ${el.likeCount}`}
+                        <FontAwesomeIcon  icon={faThumbsUp}></FontAwesomeIcon>
+                        {` ${el.likeCount}`}
+                        </span>
+                        :
+                        el.likeCheck ? <span className='like-icon-truep' onClick={likeChangeHandle}>
+                        <FontAwesomeIcon icon={faThumbsUp}></FontAwesomeIcon>
+                        {` ${el.likeCount}`}
                         </span>
                         :
                         <span className='like-iconp' onClick={likeChangeHandle}>
@@ -506,7 +509,7 @@ function ContentPc({ contentPropsData }: any) {
                     
                 <div className='asp'>
                     <div>
-                        {el.content ===  null || el.content === '삭제 된 댓글 입니다'?
+                        {el.content ===  null || el.content === '삭제 된 댓글 입니다' || el.content ===  '탈퇴 한 회원이 작성한 댓글입니다' ?
                             <div className='comment-boxp'>
                                 <div>
                                     {el.content}
@@ -558,7 +561,25 @@ function ContentPc({ contentPropsData }: any) {
                                         }
                                         </div>
                                         :
-                                        <span>{el.nickname}</span>
+                                        <div className='createAt-box-boxp'>
+                                            <span>{el.nickname}</span>
+                                            {
+                                            isGuest ? null :
+                                            <span>
+                                                <span className='comment-optionp'  onClick={() => commentCommentViewHandle(el.id)}>
+                                                    댓글
+                                                
+                                                </span>
+                                                <span className='comment-option-deletep' onClick={() => CommentDeleteModalHandle(el.id)}>
+                                                삭제
+                                                {changeCommentModal ? null:<CommentDeleteModal CommentDeleteHandle = {CommentDeleteHandle} CommentDeleteModalHandle = {CommentDeleteModalHandle}></CommentDeleteModal>}
+                                                </span>
+                                                <span className='comment-option-deletep'>
+                                                    신고
+                                                </span>
+                                            </span>
+                                        }
+                                        </div>
                                     }
                                     <span className={`comment-createAtp ${isMobile ? 'c4p' : null}`}>
                                         {  createAtDesign(el.createAt) }
@@ -653,7 +674,25 @@ function ContentPc({ contentPropsData }: any) {
                                                     }
                                                     </div>
                                                     :
-                                                    <span>{le.nickname}</span>
+                                                    <div className='createAt-box-boxp'>
+                                            <span >{el.nickname}</span>
+                                            {
+                                            isGuest ? null :
+                                            <span>
+                                                <span className='comment-optionp'  onClick={() => commentCommentViewHandle(el.id)}>
+                                                    댓글
+                                                
+                                                </span>
+                                                <span className='comment-option-deletep' onClick={() => CommentDeleteModalHandle(el.id)}>
+                                                삭제
+                                                {changeCommentModal ? null:<CommentDeleteModal CommentDeleteHandle = {CommentDeleteHandle} CommentDeleteModalHandle = {CommentDeleteModalHandle}></CommentDeleteModal>}
+                                                </span>
+                                                <span className='comment-option-deletep'>
+                                                    신고
+                                                </span>
+                                            </span>
+                                        }
+                                        </div>
                                             }
                                                      
                                                 

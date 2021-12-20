@@ -1,7 +1,10 @@
 .contanier-main-contanierp{
-    flex: 1;
+    
     font-size: 1.3rem;
-    margin-bottom: 30px;
+    margin-bottom: 5%;
+    position: relative;
+    flex: 1;
+
     
 }
 .contanier-mainp{
@@ -14,18 +17,23 @@
     margin: 0 auto;
     padding: 20px;
 
+
     margin-bottom: 30px;
 
+    /* position: sticky;
+    position: -webkit-sticky; */
+
+    
     position: sticky;
-    position: -webkit-sticky;
     top: 0px;
-    display: inline-block;
- 
 }
 .hidden-over{
-    position: fixed;
-    width: 40%;
-    margin-right: 100px;
+
+    width: 80%;
+
+    height: 100%;
+
+    position: absolute;
 }
 
 
@@ -36,6 +44,8 @@
     margin: 10px;
     background-color: rgb(58, 58, 58);
     color: white;
+
+    
 }
 .writer-truep{
     color: tomato;
@@ -85,8 +95,8 @@
     border-radius: 10px;
     padding: 10px;
     color: white;
-    width: 35vw;
- 
+    width: 100%;
+    margin-left: 20px;
     margin-top: 10px;
 }
 .icon-ccomentp{
@@ -95,6 +105,7 @@
 }
 .comment-contanierp{
     margin-top: 30px;
+    /* position: sticky; */
 }
 .asp{
     margin-top: 10px;

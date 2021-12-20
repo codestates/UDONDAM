@@ -4,6 +4,8 @@
 }
 
 .interest_nav_cotainer{
+    margin-top: 5px;
+    margin-bottom: 5px;
     width: 100%;
     display: flex;
     flex-direction: row;

@@ -31,7 +31,7 @@ const IsPostContentReducer = createReducer<isPostContentState, isPostContentActi
   
 
   [ISPOSTCON]: (state, action) => {
-    console.log(action.payload)
+    // console.log(action.payload)
     return Object.assign({},state,{
         isPostContent:action.payload
     })

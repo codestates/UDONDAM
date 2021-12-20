@@ -42,19 +42,22 @@ import { IProps } from '../../pages/Login';
   transform: translate(-50%, -50%);
   background-color: white;
   padding:40px;
-  width: 19em;
+  width: 18em;
   max-width: 90vw;
   //height: 20em;
   border-radius: 10px;
   text-align: center;
   border: solid 1px black;
+  display: flex;
+    flex-direction: column;
+    justify-content: center;
   
   .close-btn{
     position:relative;
-    color:red;
+    color:black;
     bottom:2rem;
-    left:8rem;
-    font-size:1.3rem
+    left:7rem;
+    font-size:1.7rem
   }
   
   /* & .modal_text{
@@ -83,20 +86,25 @@ import { IProps } from '../../pages/Login';
     bottom:1px
   }
 
+  & .searchpassword_input_container{
+
+  }
+
   & .email_check_box{
     display:flex;
     flex-direction:row;
     justify-content: space-between;
     align-content:center; 
-    max-width:85%;
+    /* max-width:85%; */
     margin-left:5%;
+    margin-top: 5px
   }
 
   & .number_check_box{
     display:flex;
     flex-direction:row;
     justify-content: space-between;
-    max-width:85%;
+    /* max-width:85%; */
     margin-left:5%;
     /* align-content:space-between; */
   }
@@ -104,9 +112,13 @@ import { IProps } from '../../pages/Login';
   & .number_check_box_button_box{
     display:flex;
     flex-direction:column;
-
   }
   
+  & button{
+    margin-left:5px;
+    margin-right:5px;
+    margin-bottom:2px;
+  }
   
   `;
 
@@ -164,14 +176,10 @@ function SearchPassword (props:any) {
     const submitHandler = function(){
       //validEmail && validNumber가 true가 되어야 동작
       if(valid.validEmail !== true || valid.validNumber !== true){
-        console.log('통과하지 못했음')
       } else {
-        console.log('통과')
         valueInitialize()
-        console.log(inputValue,valid,isOpen)
       }
     }
-    console.log(inputValue,valid)
     return (
         <>
     
@@ -186,11 +194,13 @@ function SearchPassword (props:any) {
                   <div className='modal_text'>
                   가입한 이메일로 비밀번호를 전송합니다. <br />
                   가입되어 있는 이메일인지 확인합니다</div>
+                <div className='searchpassword_input_container'>
                   <div className='email_check_box' onChange={inputValueHandler('email')}>
-                    
                   <input type="text" placeholder='이메일'/>
-                    <button onClick={emailCheckHandler}>확인</button>
+                  <div className='email_check_box_button_box'>
+                    <button onClick={emailCheckHandler}>가입확인</button>
                   </div> 
+                  </div>
                   <br />
                   <div className='number_check_box'>
                     <input type="text" placeholder='인증번호 입력' onChange={inputValueHandler('number')}/>
@@ -198,6 +208,7 @@ function SearchPassword (props:any) {
                     <button onClick={getNumberHandler}>전송요청</button>
                     <button onClick={numberCheckHandler}>확인</button>
                     </div>
+                  </div>
                   </div>
                   <div className='modal_text long'>이메일인증 완료 후 <br />이메일로 비밀번호를 전송합니다</div>
                    <button onClick={submitHandler}>확인</button>

@@ -4,16 +4,8 @@ import axios from 'axios'
 import { RootStateOrAny, useDispatch, useSelector } from 'react-redux'
 import { emailCheckHandler, passwordCheckHandler, passwordSameCheckHandler, numberCheckHandler } from '../redux/modules/Validation'
 import EmailTimer from '../components/Signup/EmailTimer'
+import LoadingIndicator from '../components/utils/LoadingIndicator'
 import './styles/SignUpStyle.css'
-import { setInterval } from 'timers'
-import { JsxElement } from 'typescript'
-
-//import EmailCheck from '../components/Signup/EmailCheck' //이메일 인증 분리
-
-//이메일 중복확인
-//메일인증 전송 
-//숫자 맞으면 허가
-//다 되면 통과
 
 export interface signupInfoState {
     email: string,
@@ -32,7 +24,6 @@ export interface checkState {
 
 
 function Signup() {
-    //Validation 테스트 아니면 기본 false로 바꾸기
     const dispatch = useDispatch()
     const history = useHistory()
     if (useSelector((state: RootStateOrAny) => state.IsLoginReducer.isLogin) === true) {
@@ -50,9 +41,8 @@ function Signup() {
     const [timerOnOff, setTimerOnOff] = useState<JSX.Element>(
         <>인증요청</>
     )
-    
+    const [isLoading, setIsLoading] = useState<boolean>(false)
 
-    //다 통과되야 회원가입가능(유효성검사와 체크여부)
     const [emailErrorMessage, setEmailErrorMessage] = useState<string>('');
     const [passwordErrorMessage, setPasswordErrorMessage] = useState<string>('');
     const [passwordCheckErrorMessage, setPasswordCheckErrorMessage] = useState<string>('');
@@ -139,17 +129,16 @@ function Signup() {
     };
     const submitHandler = async () => {
         if (Validation.validEmail === false || Validation.validNumber === false || Validation.validPassword === false || Validation.validPasswordCheck === false || passEmail === false) {
-            console.log('다안됐음')
             return;
         } else {
             const body = { email: signupInfo.email, password: signupInfo.password }
             try {
+                setIsLoading(true)
                 const SignupInfoPost = await axios.post(`${process.env.REACT_APP_API_URL}/signup`, body, { withCredentials: true })
-                console.log(SignupInfoPost)
+                setIsLoading(false)
                 history.push('/')
-                console.log('됐음')
             } catch (error) {
-                console.log(error)
+                setIsLoading(false)
             }
         }
 
@@ -157,19 +146,16 @@ function Signup() {
 
     const emailSameCheck = async function () {
         if (Validation.validEmail === false) {
-            console.log('이메일 형식이 잘못되었습니다.')
             setEmailErrorMessage('이메일 형식이 잘못되었습니다.');
         } else {
             try {
                 const emailSameCheck = await axios.post(`${process.env.REACT_APP_API_URL}/emailCheck`, { email: signupInfo.email }, { withCredentials: true })
                 setPassEmail(true);
                 setEmailErrorMessage('사용 할 수 있는 이메일입니다')
-                console.log('체크완료')
             } catch (error: any) {
                 if (error.response.data.message === 'Email already exists') {
                     setPassEmail(false);
                     setEmailErrorMessage('이미 있는 이메일입니다')
-                    console.log('이미 있는 이메일입니다')
                 }
             }
         }
@@ -192,7 +178,6 @@ function Signup() {
             
         } else if (key === 'check') {
             if (signupInfo.mailNumber !== number) {
-                console.log('인증번호가 다릅니다')
                 setNumberErrorMessage('인증번호가 다릅니다')
             } else if (signupInfo.mailNumber === number && signupInfo.mailNumber !== '' && number !== '') {
                 setPassEmail(true)
@@ -200,7 +185,6 @@ function Signup() {
                 setNumberErrorMessage('인증성공')
             } else {
                 setNumberErrorMessage('올바른 번호를 입력해주세요')
-                console.log('기타오류')
             }
         }
     };
@@ -209,11 +193,10 @@ function Signup() {
 
     return (
         <div className='container'>
-            <div className='signup_container grid_container'>
+            {isLoading? <LoadingIndicator /> : <div className='signup_container grid_container'>
                 <div className='signup_title'>
                     회원가입
                 </div>
-                {/* <div className='signup_input_box'> */}
                 <div className='grid_email_input'>
                     <div className='emailAndCheck_box'>
                         <input className='email_input' type="text" placeholder='이메일' onChange={inputHandler('email')} />
@@ -227,7 +210,6 @@ function Signup() {
                     <div className='password_error_box'>
                         <input type="password" placeholder='비밀번호' onChange={inputHandler('password')} />
                         <div className='error_box'>
-                            {/* {passwordErrorMessage !== '' ? passwordErrorMessage : <br/>} */}
                             {passwordErrorMessage}
                         </div>
                     </div>
@@ -257,7 +239,8 @@ function Signup() {
                 <div className='grid_submit'>
                     <button className='gray_button' onClick={submitHandler}>회원가입</button>
                 </div>
-            </div>
+            </div>}
+            
         </div>
     )
 }

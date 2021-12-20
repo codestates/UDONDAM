@@ -82,12 +82,12 @@ function Nav() {
         }
         
     `;
-    console.log(useSelector((state: RootStateOrAny) => state.IsMobileReducer.isMobile))
+    // console.log(useSelector((state: RootStateOrAny) => state.IsMobileReducer.isMobile))
 
     const test = function () {
         //document.querySelector('.nav_link_box')?.classList.add('hide')
-        console.log(document.baseURI)
-        console.log(document.location.href)
+        // console.log(document.baseURI)
+        // console.log(document.location.href)
     }
 
     const navColor = 'rgb(197, 196, 196)';
@@ -136,7 +136,7 @@ function Nav() {
                     }
                 )
                 .then((respone) => {
-                    console.log(respone)
+                    // console.log(respone)
                     AllTagHandleData = respone.data
                 })
     
@@ -216,9 +216,9 @@ function Nav() {
     };
 
     const isGuest = useSelector((state: RootStateOrAny)=>state.IsGuestReducer.isGuest)
-    console.log('isGuest:',isGuest)
+    // console.log('isGuest:',isGuest)
 
-console.log(useSelector((state: RootStateOrAny)=>state.IsGuestReducer.isGuest))
+// console.log(useSelector((state: RootStateOrAny)=>state.IsGuestReducer.isGuest))
 
 
     useEffect(() => {

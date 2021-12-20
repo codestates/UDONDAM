@@ -4,18 +4,27 @@
 }
 
 .container_value_box{
-width: 90%;
-padding-left: 5%;
+width: 100%;
+/* padding-left: 5%; */
 padding-top: 5px;
+display: flex;
+flex-direction: column;
+align-content: center;
 }
 .content_box{
-    width: 100%;
+    width: 90%;
+    margin-left: 5%;
     border: 2.5px solid white;
-    margin: 6px;
+    margin-top: 10px;
+    margin-bottom: 10px;
     border-radius: 9px;
+    
 }
 .interest_post_item{
     margin-left: 5px;
     margin-top: 5px;
     height: 100%;
+    font-size: 1.5rem;
+    overflow-x: hidden;
+    text-overflow: ellipsis;
 }

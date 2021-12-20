@@ -53,10 +53,10 @@ import { IProps } from '../../pages/Mypage';
   
   .close-btn{
     position:relative;
-    color:red;
+    color:black;
     bottom:2rem;
     left:8rem;
-    font-size:1.3rem
+    font-size:1.7rem
   }
   
   & .modal_text{

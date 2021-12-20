@@ -31,7 +31,7 @@ const CommentIdDataReducer = createReducer<commentIdDataState, commentIdDataActi
   
 
   [COMMENTID]: (state, action) => {
-    console.log(action.payload)
+    // console.log(action.payload)
     return Object.assign({},state,{
         commentIdData:action.payload
     })

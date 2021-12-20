@@ -43,26 +43,34 @@ import { UserInfoHandler } from '../../redux/modules/UserInfo';
   transform: translate(-50%, -50%);
   background-color: white;
   padding:40px;
-  width: 19em;
+  width: 18em;
   max-width: 90vw;
   //height: 20em;
   border-radius: 10px;
   text-align: center;
   border: solid 1px black;
+  display: flex;
+    flex-direction: column;
+    justify-content: center;
+    /* align-items: center; */
   
   .close-btn{
     position:relative;
-    color:red;
+    color:black;
     bottom:2rem;
-    left:8rem;
-    font-size:1.3rem
+    left:7rem;
+    font-size:1.7rem
   }
   
   & .modal_text{
     position:relative;
     bottom: 3rem;
     font-size:1.3rem;
-    line-height:7rem
+    height:15rem;
+    /* line-height:7rem */
+    display:flex;
+    flex-direction:column;
+    justify-content: center;
     
   }
   & .modal_title{
@@ -86,6 +94,9 @@ import { UserInfoHandler } from '../../redux/modules/UserInfo';
     height: 18px;
     bottom:1px
   }
+  & button {
+    margin:5px
+  }
   
   
   `;
@@ -108,14 +119,14 @@ function GuestLoginModal (props:any) {
         
       setIsOpen(false)
       if(document.querySelector('.logo_nav')?.classList.contains('hide')===true){
-            console.log('.맨처음 로그인 하이드 작동')
+            // console.log('.맨처음 로그인 하이드 작동')
             document.querySelector('.logo_nav')?.classList.remove('hide')
             document.querySelector('#nav_bar')?.classList.remove('hide')
             document.querySelector('#nav_bar_desktop')?.classList.remove('hide')
             document.querySelector('.logo_nav_place')?.classList.remove('hide')
         }
         const guestLogin = await axios.post(`${process.env.REACT_APP_API_URL}/guest`, {withCredentials: true })
-        console.log(guestLogin)
+        // console.log(guestLogin)
         const guestInfo = guestLogin.data.data
         dispatch(UserInfoHandler({
           userId: 5,
@@ -139,14 +150,14 @@ function GuestLoginModal (props:any) {
         socialType: guestInfo.socialType || null
     })
     const areadata:string = JSON.stringify(['인증해주세요','인증해주세요'])
-    console.log('세션작동:',changeJson)
+    // console.log('세션작동:',changeJson)
     sessionStorage.setItem('user',changeJson)
     sessionStorage.setItem('areaData',areadata)
         closeGuestModal()
         dispatch(IsGuestHandler(true))
       history.push('/Search')
       } catch (error:any) {
-        console.log(error.response)
+        // console.log(error.response)
       }
       
     }

@@ -40,9 +40,9 @@ function Login() {
 
     dispatch(IsGuestHandler(false))
     if (useSelector((state: RootStateOrAny) => state.IsLoginReducer.isLogin) === true) {
-        console.log('로그인 트루')
+        
         if (document.querySelector('.logo_nav')?.classList.contains('hide') === true) {
-            console.log('.맨처음 로그인 하이드 작동')
+            
             document.querySelector('.logo_nav_place')?.classList.add('hide')
             document.querySelector('.logo_nav')?.classList.toggle('hide')
             document.querySelector('#nav_bar')?.classList.toggle('hide')
@@ -80,7 +80,6 @@ function Login() {
             const loginInfoPost = await axios.post(`${process.env.REACT_APP_API_URL}/login`, body, { withCredentials: true })
             setIsLoading(false)
             const userInfo = loginInfoPost.data.data
-            console.log(userInfo.userId)
             const changeJson:string = JSON.stringify({
                 userId: userInfo.userId,
                 email: loginInfo.email,
@@ -113,20 +112,10 @@ function Login() {
         } catch (error: any) {
             setIsLoading(false)
             if (error.response.status === 401) {
-                console.log('이메일이나 비밀번호가 맞지 않습니다')
             }
-            console.log(error)
             return;
         }
-
-
-
     }
-
-    const loginUserInfo = useSelector((state: RootStateOrAny) => state.UserInfoReducer);
-    console.log(loginUserInfo)
-
-
 
     const guestModalHandler = (e: React.MouseEvent<HTMLButtonElement>) => {
         e.preventDefault()
@@ -138,19 +127,9 @@ function Login() {
     }
 
     const socialLoginHandler = (key: string) => async (e: React.MouseEvent<HTMLSpanElement/*이거 바뀜 */>) => {
+        setIsLoading(true)
         if (key === 'kakao') {
           window.location.href = KAKAO
-          //window.location.href = `${process.env.REACT_APP_API_URL}/kakao`
-        //   const userInfo = {}
-        //   dispatch(UserInfoHandler({
-        //     userId: userInfo.userId,
-        //     email: loginInfo.email,
-        //     nickname: userInfo.nickname,
-        //     area: userInfo.area || null,
-        //     area2: userInfo.area2 || null,
-        //     manager: userInfo.manager,
-        //     socialType: userInfo.socialType
-        // }))
         } else if(key === 'google'){
             window.location.href = `${process.env.REACT_APP_API_URL}/google`
         } else if(key === 'naver') {
@@ -187,7 +166,6 @@ function Login() {
     }
 
     const hideLogo = function () {
-        console.log('로그인 하이드 작동')
         if (document.querySelector('.logo_nav')?.classList.contains('hide') === true) {
             document.querySelector('.logo_nav')?.classList.toggle('hide')
             document.querySelector('#nav_bar')?.classList.toggle('hide')

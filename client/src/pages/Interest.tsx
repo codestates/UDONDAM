@@ -23,12 +23,12 @@ function Interest() {
         //클릭별로 바뀜
         if(key === 'my_interest'){
             const mypost = await axios.get(`${process.env.REACT_APP_API_URL}/${key}`,{withCredentials: true})
-            console.log(mypost)
+            // console.log(mypost)
             formChange(mypost.data)
             return mypost
         }else{
             const mypost = await axios.get(`${process.env.REACT_APP_API_URL}/${key}`,{withCredentials: true})
-            console.log(mypost)
+            // console.log(mypost)
             formChange(mypost.data)
             return mypost
         }
@@ -129,7 +129,7 @@ function Interest() {
             const result = yearlist.map((el)=>{
                 return el = [el]
             })
-            console.log(result)
+            // console.log(result)
             
             return setResult(result)
         }

@@ -14,11 +14,11 @@ export default function InterestPost({ post }: any) {
     const isMobile = useSelector((state: RootStateOrAny) => state.IsMobileReducer.isMobile)
     const clickHandler = async (e: React.MouseEvent<HTMLDivElement>) => {
         const postId = e.currentTarget.id;
-        console.log(postId)
+        // console.log(postId)
         try {
             const mypost = await axios.get(`${process.env.REACT_APP_API_URL}/post/${postId}`, { withCredentials: true })
-            console.log(mypost.data)
-            console.log(isMobile)
+            // console.log(mypost.data)
+            // console.log(isMobile)
             if (isMobile) {
                 //모바일인 경우
                 if(mypost.status === 200){
@@ -27,18 +27,18 @@ export default function InterestPost({ post }: any) {
                     state:{ida: postId}
                 })
                 }
-                return console.log('모바일작동')
+                return ; //console.log('모바일작동')
             }
             history.push({
                 pathname: '/Content',
                 state:{ida: postId}
             })
-            return console.log('데스크탑 작동')
+            return ; //console.log('데스크탑 작동')
         } catch (error: any) {
             if (error.response.status === 500) {
-                return console.log('서버이상')
+                return ; //console.log('서버이상')
             }
-            console.log(error.response)
+            // console.log(error.response)
         }
 
         //이거 컨텐트로 보내야 됨

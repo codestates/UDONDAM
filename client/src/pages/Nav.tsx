@@ -136,7 +136,6 @@ function Nav() {
                     }
                 )
                 .then((respone) => {
-                    // console.log(respone)
                     AllTagHandleData = respone.data
                 })
     

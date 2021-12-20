@@ -205,7 +205,7 @@ function Interest() {
     const CreateMyChat = (): JSX.Element => {
         //const mypost = await axios.get(`${process.env.REACT_APP_API_URL}/like`,{withCredentials: true})
         return (
-            <div>준비중입니다</div>
+            <div className='interest_chat'>준비중입니다</div>
         )
 
     };

@@ -28,3 +28,9 @@
 .interest_post_place{
     width: 80%;
 }
+
+.interest_chat{
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+}

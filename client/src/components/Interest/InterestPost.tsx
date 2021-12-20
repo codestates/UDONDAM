@@ -79,7 +79,7 @@ export default function InterestPost({ post }: any) {
                             <div className={`container_value_${key} container_value_box hide`}>{el[0][key].map((value: any) => {
                                 return (//내용물
                                     <div className='content_box'>
-                                        <div  key={value.id} id={value.id} onClick={clickHandler}>
+                                        <div  key={value.id} id={value.id} className='interest_post_item' onClick={clickHandler}>
                                             <div >{value.createAt}</div>
                                             <div className='content_text'>{value.content}</div>
                                         </div><br />

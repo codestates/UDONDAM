@@ -199,8 +199,12 @@ function Signup() {
                 </div>
                 <div className='grid_email_input'>
                     <div className='emailAndCheck_box'>
+                    <div className='email_check_input_box'>
                         <input className='email_input' type="text" placeholder='이메일' onChange={inputHandler('email')} />
+                        </div>
+                        <div className='signup_button_box'>
                         <button className='email_same_check gray_button' onClick={emailSameCheck}>중복확인</button>
+                        </div>
                     </div>
                     <div className='error_box'>
                         {emailErrorMessage}

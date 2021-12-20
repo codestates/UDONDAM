@@ -16,7 +16,7 @@ function Footer() {
         <footer className='grid_footer_container'>
             <div className='grid_footer_about_place'>
                 <div className='grid_footer_about_box'>
-                <div className='grid_footer_about'>
+                <div className='grid_footer_about' style={{marginLeft : '10px'}}>
                     <div className='about_team'>
                         <div className='about_team_text'>Team</div>
                         <div className='about_teamlogo_box'>
@@ -43,7 +43,7 @@ function Footer() {
                 <div className='member_members'>
                     {teamMembers.map((memeber)=>{
                         return(
-                            <div className='grid_footer_member' key={memeber.id}>
+                            <div className='grid_footer_member' style={{marginTop : '2px'}} key={memeber.id}>
                                 <div className='grid_footer_member_name footer_text'>{memeber.name}</div>&nbsp;&nbsp;
                                 <div className='grid_footer_member_git footer_text'>https://github.com/{memeber.git}</div>
                             </div>

@@ -162,10 +162,14 @@ function Interest() {
 
     const InterestNav = styled.div`
         font-size: 1.5rem;
+
         
         .interest_nav_box_${targetPage}{
             border-bottom: solid 2px gray;
            
+        }
+        & .margin_b_8{
+            margin-bottom:8px
         }
     `;
 
@@ -179,15 +183,15 @@ function Interest() {
                 <div className='interest_cotainer' >
             <InterestNav className='interest_nav_cotainer'>
                 <div className='interest_nav_box interest_nav_box_my_post ' onClick={targetHandler('my_post')}>
-                <span className='my_post border_line_my_post' >내 작성글</span>
+                <span className='my_post border_line_my_post margin_b_8' >내 작성글</span>
                 </div>
                 <div className='interest_nav_box interest_nav_box_my_comment ' onClick={targetHandler('my_comment')}>
-                <span className='my_comment border_line_my_comment' >댓글</span>
+                <span className='my_comment border_line_my_comment margin_b_8' >댓글</span>
                 </div>
                 <div className='interest_nav_box interest_nav_box_my_interest' onClick={targetHandler('my_interest')}>
-                <span className='my_interest border_line_my_interest' >따봉</span>
+                <span className='my_interest border_line_my_interest margin_b_8' >따봉</span>
                 </div>
-                <div className='interest_nav_box interest_nav_box_my_chat' onClick={targetHandler('my_chat')}>
+                <div className='interest_nav_box interest_nav_box_my_chat margin_b_8' onClick={targetHandler('my_chat')}>
                 <span className='my_chat border_line_my_chat' >1:1쪽지</span>
                 </div>
             </InterestNav> <br />

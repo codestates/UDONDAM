@@ -7,6 +7,7 @@ import { IsLoginHandler } from '../redux/modules/IsLogin';
 import styled from 'styled-components';
 import axios from 'axios';
 import LoadingIndicator from '../components/utils/LoadingIndicator';
+import { passwordCheckHandler } from '../redux/modules/Validation';
 import './styles/MypageStyle.css'
 import { SmallGrayButton } from '../components/utils/Buttons';
 
@@ -27,21 +28,21 @@ export interface IProps {
     offModal: any
 }
 
-function Mypage(props:any) {
+function Mypage(props: any) {
     const data = props
     const history = useHistory()
     const dispatch = useDispatch()
-    if(useSelector((state: RootStateOrAny) => state.IsGuestReducer.isGuest === true)){
-       
+    if (useSelector((state: RootStateOrAny) => state.IsGuestReducer.isGuest === true)) {
+
         history.push('/Search')
     }
-    
+
     //리덕스 관련
     const userInfo = useSelector((state: RootStateOrAny) => state.UserInfoReducer);
 
-        //스테이트 설정
+    //스테이트 설정
     const [userData, setUserData] = useState<userDataState>({
-        email: userInfo.email|| '',
+        email: userInfo.email || '',
         nickname: userInfo.nickname || '',
         password: '',
         passwordCheck: ''
@@ -57,6 +58,8 @@ function Mypage(props:any) {
         onChange: false
     })
     const [errorMessage, setErrorMessage] = useState<string>('')
+    const [passwordErrorMessage, setPasswordErrorMessage] = useState<string>('');
+    const [passwordCheckErrorMessage, setPasswordCheckErrorMessage] = useState<string>('');
     const [isLoading, setIsLoading] = useState<boolean>(false)
 
     //스테이트 핸들링
@@ -66,15 +69,67 @@ function Mypage(props:any) {
         } else if (key === 'onModal') {
             setOnOff({ ...onOff, [key]: !onOff.onModal })
         } else if (key === 'onChange') {
-            if(userInfo.socialType !== 'basic'){
-                return ;
+            if (userInfo.socialType !== 'basic') {
+                return;
             } else {
-               setOnOff({ ...onOff, [key]: !onOff.onChange }) 
+                setOnOff({ ...onOff, [key]: !onOff.onChange })
             }
         };
     };
     const userDataHandler = (key: string) => (e: React.ChangeEvent<HTMLInputElement>) => {
         setUserData({ ...userData, [key]: e.target.value })
+        const { value } = e.target;
+        //비밀번호 검사
+        if (key === 'password' && value !== '') {
+            const chkNum = value.search(/[0-9]/g);
+            const chkEng = value.search(/[a-zA-Z]/ig);
+            const spe = value.search(/[!@#$%^*+=-]/gi);
+
+            if (!/^[a-zA-Z0-9!@#$%^*+=-]{8,16}$/.test(value) || chkNum < 0 || chkEng < 0 || spe < 0) {
+                if (/(\w)\1\1\1/.test(value)) {
+                    if (value !== userData.passwordCheck && userData.passwordCheck !== '') {
+                        setPasswordCheckErrorMessage('비밀번호가 일치하지 않습니다.');
+                    }
+                    else {
+                        setPasswordCheckErrorMessage('');
+                    }
+                    setPasswordErrorMessage("같은 문자를 4번 이상 사용하실 수 없습니다.");
+                    dispatch(passwordCheckHandler(false));
+                }
+                else {
+                    if (value !== userData.passwordCheck && userData.passwordCheck !== '') {
+                        setPasswordCheckErrorMessage('비밀번호가 일치하지 않습니다.');
+                    }
+                    else {
+                        setPasswordCheckErrorMessage('');
+                    }
+                    setPasswordErrorMessage("8~16자 숫자, 영/특수문자를 사용하세요.");
+                    dispatch(passwordCheckHandler(false));
+                }
+            }
+            else {
+                if (/(\w)\1\1\1/.test(value)) {
+                    if (value !== userData.passwordCheck && userData.passwordCheck !== '') {
+                        setPasswordCheckErrorMessage('비밀번호가 일치하지 않습니다.');
+                    }
+                    else {
+                        setPasswordCheckErrorMessage('');
+                    }
+                    setPasswordErrorMessage("같은 문자를 4번 이상 사용하실 수 없습니다.");
+                    dispatch(passwordCheckHandler(false));
+                }
+                else {
+                    if (value !== userData.passwordCheck && userData.passwordCheck !== '') {
+                        setPasswordCheckErrorMessage('비밀번호가 일치하지 않습니다.');
+                    }
+                    else {
+                        setPasswordCheckErrorMessage('');
+                    }
+                    setPasswordErrorMessage('');
+                    dispatch(passwordCheckHandler(true));
+                }
+            }
+        };
     };
 
     //스테이트 프롭스 전달 관련
@@ -117,7 +172,7 @@ function Mypage(props:any) {
                     socialType: userInfo.socialType
                 }))
                 //세션 관련
-                const changeJson:string = JSON.stringify({
+                const changeJson: string = JSON.stringify({
                     userId: userInfo.userId,
                     email: userInfo.email,
                     nickname: getUserData.data.nickname,
@@ -126,7 +181,7 @@ function Mypage(props:any) {
                     manager: userInfo.manager,
                     socialType: userInfo.socialType
                 })
-                sessionStorage.setItem('user',changeJson)
+                sessionStorage.setItem('user', changeJson)
                 setUserData({
                     email: userInfo.email,
                     nickname: getUserData.data.nickname,
@@ -153,7 +208,7 @@ function Mypage(props:any) {
             socialType: tempData.data.socialType
         }))
         //세션 관련
-        const changeJson:string = JSON.stringify({
+        const changeJson: string = JSON.stringify({
             userId: tempData.data.userId,
             email: tempData.data.email,
             nickname: tempData.data.nickname,
@@ -162,7 +217,7 @@ function Mypage(props:any) {
             manager: tempData.data.manager,
             socialType: tempData.data.socialType
         })
-        sessionStorage.setItem('user',changeJson)
+        sessionStorage.setItem('user', changeJson)
         dispatch(IsLoginHandler(true))
         setUserData({
             email: tempData.data.email,
@@ -170,14 +225,14 @@ function Mypage(props:any) {
             password: '',
             passwordCheck: ''
         });
-        const areadata:string = JSON.stringify([tempData.data.area,tempData.data.area2])
-        sessionStorage.setItem('areaData',areadata)
+        const areadata: string = JSON.stringify([tempData.data.area, tempData.data.area2])
+        sessionStorage.setItem('areaData', areadata)
         return tempData;
     }
-    useEffect(()=>{
+    useEffect(() => {
         getData()
-    },[])
-    
+    }, [])
+
 
     const logoutHandler = async function () {
         try {
@@ -215,7 +270,7 @@ function Mypage(props:any) {
         setOnOff({ ...onOff, ['onChange']: !onOff.onChange })
     }
 
-   
+
     const MypageContainer = styled.div`
     display:flex;
     flex-direction: row;
@@ -223,47 +278,50 @@ function Mypage(props:any) {
     const MypageContainer2 = styled.div`
     `;
 
-    
-    
-//유즈이펙트
+
+
+    //유즈이펙트
     return (
         <div className='container'>
-            {isLoading? <LoadingIndicator />: 
-            <div id='mypage_container'>
+            {isLoading ? <LoadingIndicator /> :
+                <div id='mypage_container'>
                     {onOff.onModal ? <MypageModal closeModal={closeModal} /> : null}
                     <div className='mypage_request_box'>
                         <div className='mypage_request_box_container'>
-                        <div className='mypage_request_button'>
-                        <SmallGrayButton onClick={onOffHandler('onRequest')}>문의하기</SmallGrayButton>
-                        </div>
-                        {onOff.onRequest ?
-                            <div className='mypage_request_button_box'>
-                                <button className='mypage_request_button_detail gray_button'>준비중입니다</button>
-                            </div> : <div className='mypage_request_button_box'>
-                            <button className='mypage_request_button_detail gray_button hide'>준비중입니다</button>
-                            </div> }
+                            <div className='mypage_request_button'>
+                                <SmallGrayButton onClick={onOffHandler('onRequest')}>문의하기</SmallGrayButton>
                             </div>
+                            {onOff.onRequest ?
+                                <div className='mypage_request_button_box'>
+                                    <button className='mypage_request_button_detail gray_button'>준비중입니다</button>
+                                </div> : <div className='mypage_request_button_box'>
+                                    <button className='mypage_request_button_detail gray_button hide'>준비중입니다</button>
+                                </div>}
+                        </div>
                     </div>
                     <div className='change_button_box'>
-                    {!onOff.onChange ? <button className='gray_button' onClick={onOffHandler('onChange')}>회원정보수정</button> : null}
+                        {!onOff.onChange ? <button className='gray_button' onClick={onOffHandler('onChange')}>회원정보수정</button> : null}
                     </div>
                     {onOff.onChange ?
                         <div className='mypage_userinfo_box mypage_userinfo_box_true'>
                             <div className='mypage_userinfo_input'>
-                            <div className='mypage_input_box'>
-                            <div style={{fontSize : '1.8rem'}}>닉네임 변경</div>
-                            <input type="text" style={{width: '15rem'}} value={userData.nickname} onChange={userDataHandler('nickname')} />
-                            </div>
-                            <div className='mypage_input_box'>
-                            <div style={{fontSize : '1.8rem'}}>비밀번호 수정</div>
-                            <input type="password" style={{width: '15rem'}} value={userData.password} onChange={userDataHandler('password')} />
-                            {errorMessage}
-                            </div>
-                            <div className='mypage_input_box'>
-                            <div style={{fontSize : '1.8rem'}}>비밀번호 수정 확인</div>
-                            <input type="password"  style={{width: '15rem'}} value={userData.passwordCheck} onChange={userDataHandler('passwordCheck')} />
-                            {errorMessage}
-                            </div>
+                                <div className='mypage_input_box_container ' /*style={{width:'70%', display:'flex', flexDirection: 'column', marginLeft:'auto'}}*/>
+                                <div className='mypage_input_box'>
+                                    <div style={{ fontSize: '1.8rem' }}>닉네임 변경</div>
+                                    <input type="text" style={{ width: '15rem' }} value={userData.nickname} onChange={userDataHandler('nickname')} />
+                                </div>
+                                <div className='mypage_input_box'>
+                                    <div style={{ fontSize: '1.8rem' }}>비밀번호 수정</div>
+                                    <input type="text" style={{ width: '15rem' }} value={userData.password} onChange={userDataHandler('password')} />
+                                    <div>{passwordErrorMessage}</div>
+                                    
+                                </div>
+                                <div className='mypage_input_box' >
+                                    <div style={{ fontSize: '1.8rem' }}>비밀번호 수정 확인</div>
+                                    <input type="text" style={{ width: '15rem' }} value={userData.passwordCheck} onChange={userDataHandler('passwordCheck')} />
+                                    <div>{passwordCheckErrorMessage}</div>
+                                </div>
+                                </div>
                             </div>
                             <div className='mypage_button_box mypage_button_box_true'>
                                 <button className='gray_button' onClick={changeComplete}>수정확인</button>
@@ -272,25 +330,25 @@ function Mypage(props:any) {
                         </div> :
                         <div className='mypage_userinfo_box mypage_userinfo_box_false'>
                             <div className='mypage_userinfo_input'>
-                            <div className='mypage_input_box'>
-                                <div style={{fontSize : '1.8rem'}}>이메일</div>
-                                <input type="text" style={{width: '15rem'}} value={userData.email} disabled />
-                            </div>
-                            <div className='mypage_input_box'>
-                                <div style={{fontSize : '1.8rem'}}>닉네임</div>
-                                <input type="text" style={{width: '15rem'}} value={userData.nickname} disabled />
-                            </div>
+                                <div className='mypage_input_box'>
+                                    <div style={{ fontSize: '1.8rem' }}>이메일</div>
+                                    <input type="text" style={{ width: '15rem' }} value={userData.email} disabled />
+                                </div>
+                                <div className='mypage_input_box'>
+                                    <div style={{ fontSize: '1.8rem' }}>닉네임</div>
+                                    <input type="text" style={{ width: '15rem' }} value={userData.nickname} disabled />
+                                </div>
                             </div>
                             <div className='mypage_button_box mypage_button_box_false'>
                                 <button className='gray_button' onClick={logoutHandler}>로그아웃</button>
                                 <button className='gray_button' onClick={onOffHandler('onModal')}>회원탈퇴</button>
                             </div>
                         </div>}
-                
 
-        
-            </div>}
-            
+
+
+                </div>}
+
         </div>
     )
 }

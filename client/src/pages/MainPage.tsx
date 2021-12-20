@@ -15,7 +15,6 @@ export interface pageOnOffState {
 
 function MainPage () {
     const test = useSelector((state: RootStateOrAny)=>state.MainPageReducer)
-    console.log(useSelector((state: RootStateOrAny)=>state.MainPageReducer))
 
     const dispatch = useDispatch()
     const [pageOnOff, setPageOnOff] = useState<pageOnOffState>({
@@ -34,7 +33,6 @@ function MainPage () {
     const ContentContainer =styled.div``;
     
     useEffect(()=>{
-        console.log('useEffect작동')
         
     },[triger])
     

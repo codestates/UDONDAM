@@ -1,0 +1,38 @@
+.interest_cotainer{
+    height: 100%;
+    width: 100%;
+}
+
+.interest_nav_cotainer{
+    margin-top: 5px;
+    margin-bottom: 5px;
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+}
+
+.interest_nav_box{
+    width: 25%;
+    /* border-bottom: solid 2px black; */
+    display: flex;
+    flex-direction:row;
+    justify-content:center;
+}
+
+.interest_post_container{
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+.interest_post_place{
+    width: 80%;
+}
+
+.interest_chat{
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+}

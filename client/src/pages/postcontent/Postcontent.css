@@ -1,0 +1,212 @@
+.post-contanier{
+    font-size: 1.4rem;
+    
+    height: 100%;
+}
+.post-contanier-contanier{
+
+    width: 100%;
+    height: 100%;
+}
+.logo-logo-logo{
+    height: 12vw;
+   max-height: 300px;
+   justify-content: center;
+   margin: 0px auto;
+   min-height: 100px;
+   min-width: 100px;
+    margin: 0 auto;
+}
+
+.textarea-input{
+    margin-top: 20px;
+    width: 100%;
+    height: 25vh;
+    resize: none;
+    font-size: 1.3rem;
+    border-radius: 20px;
+    padding: 20px;
+    min-width: 200px;
+    max-width: 1600px;
+    margin-left: 20px;
+    margin-right: 20px;
+}
+.charNum-Red2{
+    margin-top: 10px;
+    color: tomato;
+    display: flex;
+    justify-content: right;
+    margin-right: 10%;
+}
+.charNum2{
+    margin-top: 10px;
+    display: flex;
+    justify-content: right;
+    margin-right: 10%;
+}
+
+.tag-input{
+    display: block;
+    margin: 0px auto;
+    height: 1.4vw;
+    max-height: 1.3vw;
+    min-height: 1.5rem;
+    width: 60%;
+    font-size: 1rem;
+    border-radius: 15px;
+    padding: 5px;
+    padding-left: 20px;
+    margin-top: 20px;
+}
+.tag-button{
+    border-radius: 15px;
+    margin-top: 20px;
+    margin-left: 5px;
+    padding: 10px;
+    font-size: 1.3rem;
+    min-height: 32px;
+    min-width: 66px;
+    max-height: 150px;
+    max-width: 150px;
+    display: inline-block;
+}
+.select-tag{
+    border-radius: 10px;
+    margin-top: 20px;
+    margin-left: 10px;
+    padding: 5px;
+    font-size: 1.2rem;
+ 
+ 
+    color: white;
+    background-color: rgb(88, 88, 88);
+}
+.tag-box{
+    margin-left: 5%;
+    margin-right: 5%;
+
+    
+}
+.compelete-button{
+
+
+    font-size: 1.1rem;
+    color: white;
+    background-color: rgb(58, 58, 58);
+
+}
+.compelete-button-box{
+
+    display: flex;
+    justify-content: right;
+    margin-right: 5%;
+}
+.contanier-area-title-box3{
+    display: flex;
+    justify-content: center;
+  
+}
+.logo-contanier2{
+    width: 100%;
+    text-align: center;
+}
+.po1{
+    padding: 10px;
+    font-size: 1rem;
+}
+.title-text-center{
+    margin: 0 auto;
+    max-width: 60vw;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    display: -webkit-box;
+    -webkit-line-clamp: 1;
+    -webkit-box-orient: vertical;
+}
+.title-text{
+    font-size: 1.3rem;
+    display: flex;
+    justify-content: center;
+}
+.po2{
+    font-size: 1rem;
+
+}
+.error-charnum{
+    display: flex;
+    justify-content: center;
+    font-size: 1.3rem;
+}
+.po3{
+    font-size: 0.9rem;
+}
+.po4{
+
+    min-height: 20px;
+    max-height: 30px;
+
+    font-size: 0.7rem;
+}
+.po5{
+
+    min-height: 1rem;
+    width: 60%;
+    font-size: 0.9rem;
+    border-radius: 15px;
+    padding: 5px;
+
+}
+.po6{
+
+    padding: 3px;
+    font-size: 0.8rem;
+    min-height: 32px;
+    min-width: 66px;
+    
+    display: inline-block;
+}
+.po7{
+    margin: 10px;
+
+    padding: 5px;
+    font-size: 0.9rem;
+
+}
+.po8{
+    font-size: 1rem;
+}
+.tag-box-box-box{
+    
+    
+}
+.tag-box-box-box2{
+    margin-left: 3%;
+    margin-right: 3%;
+    width: 94%;
+
+}
+.pc1{
+    margin-top: 0px;
+}
+.pc2{
+    margin-bottom: 10px;
+}
+
+/* 절취선 */
+
+.post-contanierpc{
+    font-size: 1.4rem;
+    position: fixed;
+    width: 45%;
+}
+.post-contanier-contanierpc{
+
+    flex: 1;
+    display: flex;
+}
+.contanier-area-title-box3pc{
+    display: flex;
+    justify-content: center;
+    position: sticky;
+    top: 0px;
+}

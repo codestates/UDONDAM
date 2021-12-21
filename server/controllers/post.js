@@ -164,7 +164,7 @@ module.exports = {
         });
         return res.status(200).json(resPosts)
         } catch(err) {
-            console.log(err)
+            //console.log(err)
             return res.status(500).json({"message" : "Server Error"})
         }
     },
@@ -352,7 +352,7 @@ module.exports = {
         }
         return res.status(200).json(resPost);
         } catch(err) {
-            console.log(err);
+            //console.log(err);
             res.status(500).json({"message" : "Server Error"})
         }
     },
@@ -380,7 +380,7 @@ module.exports = {
             return res.status(200).json({"message" : "create!"});
             
         } catch(err) {
-            console.log(err);
+            //console.log(err);
             return res.status(500).send("Server Error")
         }
         
@@ -399,7 +399,7 @@ module.exports = {
         }
             return res.status(400).json({"message": "post doesn't exist"})
         } catch(err) {
-            console.log(err);
+            //console.log(err);
             return res.status(500).send("Server Error")
         }
     }

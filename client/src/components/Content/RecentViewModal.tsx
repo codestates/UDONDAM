@@ -124,11 +124,11 @@ function RecentViewModal ({recentSearchHandle,selectTagSearchHandle,setGiftTag,s
 
     const dataParsingHandle = async () => {
          await axios.get(`${process.env.REACT_APP_API_URL}/recent`,{withCredentials: true}).then((respone) => {
-             console.log(respone)
+             //console.log(respone)
             return setRecentDataParsing(respone.data)
          })
     }
-    console.log(recentDataParsing)
+    //console.log(recentDataParsing)
     const recentTagSearchHandle = (data:any) => {
         if(data.notTag === null){
             setGiftTag(data.tag)

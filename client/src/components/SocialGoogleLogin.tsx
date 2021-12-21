@@ -70,7 +70,7 @@ function SocialGoogleLogin(props:any) {
           clientId = {googleClientId}
           buttonText="Google"
           onSuccess={result=>onLoginSuccess(result)}
-          onFailure={result => console.log(result)}
+          onFailure={result => console.log()}
         />
   
       </div>

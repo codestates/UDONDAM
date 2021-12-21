@@ -14,7 +14,7 @@ const NAVERRIDIRECT = process.env.EC2_NAVER_REDIRECT || process.env.NAVER_REDIRE
 
 module.exports = {
     login: async (req, res) => {
-        console.log(NAVERID, NAVERSECRET, NAVERRIDIRECT)
+        //console.log(NAVERID, NAVERSECRET, NAVERRIDIRECT)
         const { email, password } = req.body;
         let userInfo = await user.findOne({
             where: {
@@ -66,7 +66,7 @@ module.exports = {
             return;
         }
         catch (err) {
-            console.log(err);
+            //console.log(err);
             return res.status(401).json({ "message": "Unauthorized"});
         }
     },
@@ -126,7 +126,7 @@ module.exports = {
 
             transporter.sendMail(mailOptions, (err, info) => {
                 if (err) {
-                    console.log(err);
+                    //console.log(err);
                 }
                 // res.send({ data: info });
                 // console.log(info);
@@ -137,7 +137,7 @@ module.exports = {
             });
         }
         catch (err) {
-            console.log(err);
+            //console.log(err);
             res.sendStatus(500);
         }
     },
@@ -149,7 +149,7 @@ module.exports = {
                 email: email
             }
         });
-        console.log('emailCheck:',emailCheck)
+        //console.log('emailCheck:',emailCheck)
         if (emailCheck) {
             res.status(409).json({ "message": "Email already exists"});
             return;
@@ -229,7 +229,7 @@ module.exports = {
     
                 transporter.sendMail(mailOptions, (err, info) => {
                     if (err) {
-                        console.log(err);
+                        //console.log(err);
                     }
                     // res.send({ data: info });
                     // console.log(info);
@@ -251,7 +251,7 @@ module.exports = {
                 });
             }
             catch (err) {
-                console.log(err);
+                //console.log(err);
                 res.sendStatus(500);
             }
         }
@@ -265,7 +265,7 @@ module.exports = {
               `https://accounts.google.com/o/oauth2/v2/auth?scope=https://www.googleapis.com/auth/userinfo.email+https://www.googleapis.com/auth/userinfo.profile&access_type=offline&response_type=code&state=hello&redirect_uri=${process.env.GOOGLE_REDIRECT_URI}&client_id=${process.env.GOOGLE_CLIENT_ID}`
             );
           } catch (err) {
-            console.log(err);
+            //console.log(err);
           }
     },
     googlecallback: async (req, res) => {
@@ -404,7 +404,7 @@ module.exports = {
             }
         );
         const email = userInfo.data.kakao_account.email || `${userInfo.data.kakao_account.profile.nickname}@kakao.com`
-        console.log(email)
+        //console.log(email)
         const kakaoUser = await user.findOrCreate({
             where: {
                 email: email, socialType: 'kakao'

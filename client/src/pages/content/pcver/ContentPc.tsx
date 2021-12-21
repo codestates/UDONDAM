@@ -31,7 +31,7 @@ function ContentPc({ contentPropsData }: any) {
     const isGuest = useSelector((state: RootStateOrAny)=>state.IsGuestReducer.isGuest)
     const isMobile = useSelector((state: RootStateOrAny)=>state.IsMobileReducer.isMobile)
 
-    console.log(isGuest , loginUserInfo)
+    //console.log(isGuest , loginUserInfo)
     const [isLoading, setIsLoading] = useState<any>(false)
     const [test1, setTest1] = useState<any>('');
     //게시글 데이터 가져오기

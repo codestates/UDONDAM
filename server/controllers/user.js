@@ -3,7 +3,7 @@ const {user} = require('../models/index');
 module.exports = {
     userInfo : async (req, res) => { 
         req.userId = req.userId || 1
-        console.log(req.userId)
+        //console.log(req.userId)
         try {
             const userInfo = await user.findOne({
             attributes: [['id','userId'],'email', 'nickname', 'area', 'area2', 'socialType', 'manager'],
@@ -11,7 +11,7 @@ module.exports = {
             })
             return res.status(200).json(userInfo);
         } catch(err) {
-            console.log(err);
+            //console.log(err);
             return res.status(500).json({ "message": "Server Error"});
         }
     },
@@ -49,7 +49,7 @@ module.exports = {
                 return res.status(200).json({"message": "password patched!"})
             }    
         } catch(err) {
-            console.log(err);
+            //console.log(err);
             return res.status(500).json({"message": "Server Error"})
         }
     },
@@ -101,7 +101,7 @@ module.exports = {
             res.status(200).json(userInfo)
         }
         } catch(err) {
-            console.log(err);
+            //console.log(err);
             return res.status(500).json({"message": "Server Error"})
         }
     },
@@ -114,7 +114,7 @@ module.exports = {
         })
             return res.status(200).clearCookie('jwt').json({"message" : 'delete!'})  
         } catch(err) {
-            console.log(err);
+            //console.log(err);
             return res.status(500).json({"message" : "Server Error"});
         }
     },

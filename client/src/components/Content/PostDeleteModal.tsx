@@ -101,7 +101,7 @@ function PostDeleteModal ({postDeleteHandle,PostDeleteModalHandle}: any) {
     const history = useHistory();
     const userInfo = useSelector((state: RootStateOrAny) => state.UserInfoReducer);
 
-    console.log(commentIdData.commentIdData)
+    //console.log(commentIdData.commentIdData)
  
 
     

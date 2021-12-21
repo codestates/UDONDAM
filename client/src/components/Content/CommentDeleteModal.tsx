@@ -118,7 +118,7 @@ function CommentDeleteModal ({CommentDeleteModalHandle,CommentDeleteHandle}: any
     const history = useHistory();
     const userInfo = useSelector((state: RootStateOrAny) => state.UserInfoReducer);
     const isMobile = useSelector((state: RootStateOrAny)=>state.IsMobileReducer.isMobile)
-    console.log(commentIdData.commentIdData)
+    //console.log(commentIdData.commentIdData)
  
 
     

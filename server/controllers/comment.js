@@ -42,7 +42,7 @@ module.exports = {
         }
             return res.send(commentPost)
         } catch(err) {
-            console.log(err);
+            //console.log(err);
             return res.status(500).json({"message": "Server Error"})
         }        
     },
@@ -61,7 +61,7 @@ module.exports = {
                 })
                 return res.status(201).json({"message": "created!"})
         } catch(err) {
-            console.log(err);
+            //console.log(err);
             return res.status(500).json({"message": "Server Error"})
         }
     },
@@ -84,7 +84,7 @@ module.exports = {
             }
             return res.status(200).json({"message": "delete!"});
         } catch(err) {
-            console.log(err);
+            //console.log(err);
             return res.status(500).json({"message": "Server Error"})
         }
     }
